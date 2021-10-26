@@ -1,5 +1,6 @@
 package com.pjt3.promise.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,19 +10,21 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
-@Table(name="CommunityComment")
+@Table(name="Community_Comment")
 public class CommunityComment {
     @Id
     @Column(name="comment_id")
     int commentId;
 
-    //FK
-    @Column(name="commu_id")
-    int commuId;
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name="commu_id")
+    Community community;
 
-    // FK
-    @Column(name="user_email")
-    String userEmail;
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name="user_email")
+    User user;
 
     @Column(name="comment_contents")
     String commentContents;

@@ -5,20 +5,30 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import java.io.Serializable;
+
+
 @Entity
 @Getter
 @Setter
 @Table(name="Alarm_Share")
-public class AlarmShare {
+public class AlarmShare implements Serializable {
+    @Id
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="alarm_id")
+    MediAlarm mediAlarm;
 
     @Id
-    @Column(name="alarm_id")
-    int alarmId;
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name="shared_user_email")
+    User sharedUser;
 
-    @Id
-    @Column(name="shared_user_email")
-    String sharedUserEmail;
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name="share_user_email")
+    User shareUser;
 
-    @Column(name="share_user_email")
-    String shareUserEmail;
 }

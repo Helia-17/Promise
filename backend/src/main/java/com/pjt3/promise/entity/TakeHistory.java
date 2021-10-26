@@ -1,5 +1,6 @@
 package com.pjt3.promise.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,11 +18,15 @@ public class TakeHistory {
     @Column(name="th_id")
     int thId;
 
-    @Column(name="alarm_id")
-    int alarmId;
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name="alarm_id")
+    MediAlarm mediAlarm;
 
-    @Column(name="user_email")
-    String userEmail;
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name="user_email")
+    User user;
 
     @Column(name="th_time")
     Date thTime;

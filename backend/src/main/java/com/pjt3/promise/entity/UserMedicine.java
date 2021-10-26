@@ -1,12 +1,10 @@
 package com.pjt3.promise.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -18,11 +16,15 @@ public class UserMedicine {
     @Column(name="um_id")
     int unId;
 
-    @Column(name="alarm_id")
-    int alarmId;
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name="alarm_id")
+    MediAlarm mediAlarm;
 
-    @Column(name="medi_serial_num")
-    String mediSerailNum;
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name="medi_serial_num")
+    Medicine medicine;
 
     @Column(name="um_name")
     String unName;

@@ -1,5 +1,6 @@
 package com.pjt3.promise.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,15 +15,16 @@ public class Tag {
     @Column(name="tag_id")
     int tagId;
 
-    // FK
-    @Column(name="alarm_id")
-    int alarmId;
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name="alarm_id")
+    MediAlarm mediAlarm;
 
-    // FK
-    @Column(name="user_email")
-    String userEmail;
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name="user_email")
+    User user;
 
     @Column(name="tag_name")
     String tagName;
-
 }

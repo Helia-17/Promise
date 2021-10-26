@@ -1,14 +1,6 @@
 package com.pjt3.promise.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -22,9 +14,9 @@ public class Pet {
     @Column(name="pet_id")
     int petId;
 
-    // FK
-    @Column(name="user_email")
-    String userEmail;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_email")
+    User user;
 
     @Column(name="pet_name")
     String petName;

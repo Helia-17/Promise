@@ -1,16 +1,16 @@
 package com.pjt3.promise.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 @Getter
@@ -36,4 +36,31 @@ public class User {
 
     @Column(name="user_join_type")
     int userJoinType;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
+    Pet pet;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy="sharedUser")
+    List<AlarmShare> alarmShare = new ArrayList<AlarmShare>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy="user")
+    List<Tag> tag = new ArrayList<Tag>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy="user")
+    List<TakeHistory> takeHistorie = new ArrayList<TakeHistory>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy="user")
+    List<MediAlarm> mediAlarm = new ArrayList<MediAlarm>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy="user")
+    List<Community> community = new ArrayList<Community>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy="user")
+    List<CommunityComment> communityComment = new ArrayList<CommunityComment>();
 }

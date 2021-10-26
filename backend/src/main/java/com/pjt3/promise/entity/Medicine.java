@@ -1,12 +1,12 @@
 package com.pjt3.promise.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -63,4 +63,7 @@ public class Medicine {
     @Column(name="medi_class")
     String mediClass;
 
+    @JsonManagedReference
+    @OneToMany(mappedBy="medicine")
+    List<UserMedicine> userMedicine = new ArrayList<UserMedicine>();
 }
