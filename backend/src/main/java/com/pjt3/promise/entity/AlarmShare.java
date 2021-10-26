@@ -20,15 +20,8 @@ public class AlarmShare implements Serializable {
     @JoinColumn(name="alarm_id")
     MediAlarm mediAlarm;
 
-    @Id
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name="shared_user_email")
-    User sharedUser;
-
-    @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name="share_user_email")
-    User shareUser;
-
+    @JoinColumn(name="user_email")
+    User user;
 }

@@ -41,7 +41,7 @@ public class User {
     Pet pet;
 
     @JsonManagedReference
-    @OneToMany(mappedBy="sharedUser")
+    @OneToMany(mappedBy="user")
     List<AlarmShare> alarmShare = new ArrayList<AlarmShare>();
 
     @JsonManagedReference
