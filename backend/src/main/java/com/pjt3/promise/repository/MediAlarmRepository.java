@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MediAlarmRepository extends JpaRepository<MediAlarm, Integer> {
+	MediAlarm findMediAlarmByAlarmId(int alarmId);
 }
