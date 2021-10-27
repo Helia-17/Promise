@@ -14,8 +14,14 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Table(name="Alarm_Share")
-public class AlarmShare implements Serializable {
+public class AlarmShare {
+	
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="as_id")
+    int asId;
+	
+    @JsonBackReference
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="alarm_id")
     MediAlarm mediAlarm;
