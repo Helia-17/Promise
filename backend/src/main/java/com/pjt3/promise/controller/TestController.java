@@ -11,7 +11,7 @@ public class TestController {
 
     @GetMapping()
     public ResponseEntity<String> test(){
-        return ResponseEntity.status(200).body("도커 이미지, 젠킨스 테스트가 정상적으로 작동합니다.");
+        return ResponseEntity.status(200).body("도커 이미지, 젠킨스 테스트가 정상적으로 작동합니다. 22");
     }
 
 }
