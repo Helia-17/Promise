@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CommuCommentRepository extends JpaRepository<CommunityComment, String> {
-    CommunityComment findCommunityByCommentId(int commentId);
+    CommunityComment findCommunityCommentByCommentId(int commentId);
     void deleteByCommentId(int commentId);
 }
