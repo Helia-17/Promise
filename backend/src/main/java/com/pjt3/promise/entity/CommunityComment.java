@@ -13,6 +13,7 @@ import java.util.Date;
 @Table(name="Community_Comment")
 public class CommunityComment {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="comment_id")
     int commentId;
 

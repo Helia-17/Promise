@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Table(name="Tag")
 public class Tag {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="tag_id")
     int tagId;
 
