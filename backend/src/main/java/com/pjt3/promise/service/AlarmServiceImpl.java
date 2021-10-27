@@ -170,4 +170,18 @@ public class AlarmServiceImpl implements AlarmService {
 			return FAIL;
 		}
 	}
+
+	@Override
+	public int deleteAlarm(int alarmId) {
+		try {
+			
+			MediAlarm mediAlarm = mediAlarmRepository.findMediAlarmByAlarmId(alarmId);
+			
+			mediAlarmRepository.delete(mediAlarm);
+			
+			return SUCCESS;
+		} catch (Exception e) {
+			return FAIL;
+		}
+	}
 }

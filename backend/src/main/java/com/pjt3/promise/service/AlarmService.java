@@ -8,4 +8,6 @@ public interface AlarmService {
     int insertAlarm(User user, AlarmPostReq alarmsPostReq);
 
 	int updateAlarm(User user, AlarmPutReq alarmPutReq);
+
+	int deleteAlarm(int alarmId);
 }

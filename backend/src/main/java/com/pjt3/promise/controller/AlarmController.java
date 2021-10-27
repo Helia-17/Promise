@@ -3,6 +3,8 @@ package com.pjt3.promise.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -73,4 +75,24 @@ public class AlarmController {
         }
     }
     
+    
+    @DeleteMapping("/{alarmId}")
+    public ResponseEntity<?> deleteAlarm(@PathVariable int alarmId){
+    	
+    	try {
+
+            int result = 0;
+
+            result = alarmService.deleteAlarm(alarmId);
+
+            if(result == 1) {			
+				return ResponseEntity.status(200).body(BaseResponseBody.of(200, "알람 삭제 성공"));
+			} else {
+				return ResponseEntity.status(500).body(BaseResponseBody.of(500, "알람 삭제 실패"));
+			}
+
+        } catch (NullPointerException e) {
+            return null;           
+        }
+    }
 }
