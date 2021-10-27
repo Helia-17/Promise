@@ -32,9 +32,6 @@ public class AlarmServiceImpl implements AlarmService{
     @Autowired
     UserRepository userRepository;
 
-    @Autowired
-    AlarmShareRepository alarmShareRepository;
-
     @Override
     public int insertAlarm(User user, AlarmPostReq alarmPostReq) {
 
