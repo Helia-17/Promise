@@ -1,5 +1,6 @@
 package com.pjt3.promise.service;
 
+import com.pjt3.promise.entity.AlarmShare;
 import com.pjt3.promise.entity.MediAlarm;
 import com.pjt3.promise.entity.Tag;
 import com.pjt3.promise.entity.User;
@@ -31,6 +32,9 @@ public class AlarmServiceImpl implements AlarmService{
 
     @Autowired
     UserRepository userRepository;
+    
+    @Autowired
+    AlarmShareRepository alarmShareRepository;
 
     @Override
     public int insertAlarm(User user, AlarmPostReq alarmPostReq) {
@@ -57,6 +61,7 @@ public class AlarmServiceImpl implements AlarmService{
 
             // 공유 대상자
             for (String sharedEmail : alarmPostReq.getShareEmail()) {
+            	
                 // 대상자를 찾고
                 User sharedUser = userRepository.findUserByUserEmail(sharedEmail);
 
@@ -66,9 +71,17 @@ public class AlarmServiceImpl implements AlarmService{
 
                 // 약 내역 저장
                 userMedicineSetting(mediAlarm, alarmPostReq.getAlarmMediList());
+                
+                AlarmShare alarmShare = new AlarmShare();
+                alarmShare.setMediAlarm(mediAlarm);
+                alarmShare.setUser(user);
+                
+                alarmShareRepository.save(alarmShare);
+                
             }
 
             return SUCCESS;
+            
         } catch (Exception e) {
             return FAIL;
         }
