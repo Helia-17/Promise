@@ -29,7 +29,7 @@ public class AlarmShareRepositorySupport {
     public List<AlarmShareGetRes> getAlarmInfo(User user) {
     	
     	List<AlarmShareGetRes> alarmShareList = query.select(Projections.bean(AlarmShareGetRes.class,
-    			qAlarmShare.user.userNickname, qAlarmShare.mediAlarm.alarmId))
+    			qAlarmShare.user.userNickname, qAlarmShare.mediAlarm.alarmId, qAlarmShare.asId))
     			.from(qAlarmShare)
     			.where(qAlarmShare.mediAlarm.user.eq(user)).fetch();
     	

@@ -9,4 +9,8 @@ public interface AlarmShareService {
 
 	List<AlarmShareGetRes> getAlarmShareList(User user);
 
+	int acceptAlarmShare(int alarmId);
+
+	int rejectAlarmShare(int alarmId);
+
 }
