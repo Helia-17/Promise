@@ -12,12 +12,14 @@ import com.pjt3.promise.entity.User;
 import com.pjt3.promise.entity.UserMedicine;
 import com.pjt3.promise.repository.AlarmShareRepository;
 import com.pjt3.promise.repository.MediAlarmRepository;
+import com.pjt3.promise.repository.MediAlarmRepositorySupport;
 import com.pjt3.promise.repository.MedicineRepository;
 import com.pjt3.promise.repository.TagRepository;
 import com.pjt3.promise.repository.UserMedicineRepository;
 import com.pjt3.promise.repository.UserRepository;
 import com.pjt3.promise.request.AlarmPostReq;
 import com.pjt3.promise.request.AlarmPutReq;
+import com.pjt3.promise.response.AlarmDetailGetRes;
 
 @Service
 public class AlarmServiceImpl implements AlarmService {
@@ -42,6 +44,9 @@ public class AlarmServiceImpl implements AlarmService {
 
 	@Autowired
 	AlarmShareRepository alarmShareRepository;
+	
+	@Autowired
+	MediAlarmRepositorySupport mediAlarmRepositorySupport;
 
 	@Override
 	public int insertAlarm(User user, AlarmPostReq alarmPostReq) {
@@ -183,5 +188,10 @@ public class AlarmServiceImpl implements AlarmService {
 		} catch (Exception e) {
 			return FAIL;
 		}
+	}
+
+	@Override
+	public AlarmDetailGetRes getAlarmInfo(int alarmId) {
+		return mediAlarmRepositorySupport.getAlarmInfo(alarmId);
 	}
 }
