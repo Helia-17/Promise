@@ -22,6 +22,8 @@ public class QAlarmShare extends EntityPathBase<AlarmShare> {
 
     public static final QAlarmShare alarmShare = new QAlarmShare("alarmShare");
 
+    public final NumberPath<Integer> asId = createNumber("asId", Integer.class);
+
     public final QMediAlarm mediAlarm;
 
     public final QUser user;
