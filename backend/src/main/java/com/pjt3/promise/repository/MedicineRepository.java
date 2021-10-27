@@ -10,4 +10,5 @@ import java.util.List;
 public interface MedicineRepository extends JpaRepository<Medicine, String> {
     List<String> findByMediNameContains(String searchKeyword);
     Medicine findByMediSerialNum(String mediSerialNum);
+    Medicine findMedicineByMediName(String mediName);
 }

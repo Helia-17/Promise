@@ -16,6 +16,7 @@ import java.util.List;
 @Table(name="Community")
 public class Community {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="commu_id")
     int commuId;
 
