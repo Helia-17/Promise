@@ -15,7 +15,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+@CrossOrigin(
+        origins = { "http://localhost:3000", "https://k5a201.p.ssafy.io/" },
+        allowCredentials = "true",
+        allowedHeaders = "*",
+        methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT, RequestMethod.OPTIONS })
 @RequestMapping("/medicines")
 @RestController
 public class MedicineController {
