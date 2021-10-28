@@ -1,7 +1,6 @@
 package com.pjt3.promise.controller;
 
 import com.pjt3.promise.common.response.BaseResponseBody;
-import com.pjt3.promise.entity.Medicine;
 import com.pjt3.promise.entity.User;
 import com.pjt3.promise.response.MediDetailGetRes;
 import com.pjt3.promise.response.MediSearchGetRes;
