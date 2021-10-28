@@ -3,6 +3,7 @@ package com.pjt3.promise.service;
 import com.pjt3.promise.entity.User;
 import com.pjt3.promise.request.UserInfoPutReq;
 import com.pjt3.promise.request.UserInsertPostReq;
+import com.pjt3.promise.request.UserProfilePostReq;
 import com.pjt3.promise.response.UserInfoGetRes;
 
 public interface UserService {
@@ -13,7 +14,5 @@ public interface UserService {
 	UserInfoGetRes getUserInfo(User user);
 	int deleteUser(String userEmail);
 	int update(User user, UserInfoPutReq userUpdateInfo);
-	
-	int updateProfile();
-//	int updateProfile(User user, UserProfilePostReq userProfileInfo);
+	int updateProfile(User user, UserProfilePostReq userProfileInfo);
 }

@@ -10,6 +10,7 @@ import com.pjt3.promise.repository.PetRepository;
 import com.pjt3.promise.repository.UserRepository;
 import com.pjt3.promise.request.UserInfoPutReq;
 import com.pjt3.promise.request.UserInsertPostReq;
+import com.pjt3.promise.request.UserProfilePostReq;
 import com.pjt3.promise.response.UserInfoGetRes;
 
 @Service("userService")
@@ -82,9 +83,16 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int updateProfile() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updateProfile(User user, UserProfilePostReq userProfileInfo) {
+		try {
+			String userProfileUrl = userProfileInfo.getUserProfileUrl();
+			user.setUserProfileUrl(userProfileUrl);
+			userRepository.save(user);
+			return 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
 	}
 
 	@Override

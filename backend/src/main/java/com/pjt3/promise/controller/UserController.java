@@ -20,6 +20,7 @@ import com.pjt3.promise.common.response.BaseResponseBody;
 import com.pjt3.promise.entity.User;
 import com.pjt3.promise.request.UserInfoPutReq;
 import com.pjt3.promise.request.UserInsertPostReq;
+import com.pjt3.promise.request.UserProfilePostReq;
 import com.pjt3.promise.response.UserInfoGetRes;
 import com.pjt3.promise.service.PetService;
 import com.pjt3.promise.service.UserService;
@@ -147,6 +148,24 @@ public class UserController {
 			}
 			else {
 				return ResponseEntity.status(404).body(BaseResponseBody.of(404, "업데이트 과정에서 문제가 발생했습니다."));
+			}
+		} catch (NullPointerException e) {
+			return ResponseEntity.status(400).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
+		}
+	}
+	
+	// 내 프로필 사진 수정
+	@PutMapping("/profile")
+	public ResponseEntity<BaseResponseBody> updateUserProfile (Authentication authentication, @RequestBody UserProfilePostReq userProfileInfo){
+		try {
+			PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
+			User user = userDetails.getUser();
+			
+			if (userService.updateProfile(user, userProfileInfo) == 1) {
+				return ResponseEntity.status(200).body(BaseResponseBody.of(200, "프로필 사진이 수정되었습니다."));
+			}
+			else {
+				return ResponseEntity.status(400).body(BaseResponseBody.of(400, "프로필 사진 업데이트 과정에서 문제가 발생했습니다."));				
 			}
 		} catch (NullPointerException e) {
 			return ResponseEntity.status(400).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
