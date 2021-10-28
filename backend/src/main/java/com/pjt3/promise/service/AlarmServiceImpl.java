@@ -1,5 +1,10 @@
 package com.pjt3.promise.service;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.pjt3.promise.entity.AlarmShare;
 import com.pjt3.promise.entity.MediAlarm;
 import com.pjt3.promise.entity.Tag;
+import com.pjt3.promise.entity.TakeHistory;
 import com.pjt3.promise.entity.User;
 import com.pjt3.promise.entity.UserMedicine;
 import com.pjt3.promise.repository.AlarmShareRepository;
@@ -15,17 +21,22 @@ import com.pjt3.promise.repository.MediAlarmRepository;
 import com.pjt3.promise.repository.MediAlarmRepositorySupport;
 import com.pjt3.promise.repository.MedicineRepository;
 import com.pjt3.promise.repository.TagRepository;
+import com.pjt3.promise.repository.TakeHistoryRepository;
 import com.pjt3.promise.repository.UserMedicineRepository;
 import com.pjt3.promise.repository.UserRepository;
 import com.pjt3.promise.request.AlarmPostReq;
 import com.pjt3.promise.request.AlarmPutReq;
+import com.pjt3.promise.request.TakeHistoryPostReq;
 import com.pjt3.promise.response.AlarmDetailGetRes;
+import com.pjt3.promise.response.AlarmGetRes;
 
 @Service
 public class AlarmServiceImpl implements AlarmService {
 
 	private static final int SUCCESS = 1;
 	private static final int FAIL = -1;
+	
+	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
 	@Autowired
 	MediAlarmRepository mediAlarmRepository;
@@ -47,6 +58,9 @@ public class AlarmServiceImpl implements AlarmService {
 	
 	@Autowired
 	MediAlarmRepositorySupport mediAlarmRepositorySupport;
+	
+	@Autowired
+	TakeHistoryRepository takeHistoryRepository;
 
 	@Override
 	public int insertAlarm(User user, AlarmPostReq alarmPostReq) {
@@ -100,21 +114,28 @@ public class AlarmServiceImpl implements AlarmService {
 	}
 
 	public MediAlarm mediAlarmSetting(User user, AlarmPostReq alarmPostReq) {
+		
 		MediAlarm mediAlarm = new MediAlarm();
 
 		mediAlarm.setUser(user);
 		mediAlarm.setAlarmTitle(alarmPostReq.getAlarmTitle());
-		mediAlarm.setAlarmDayStart(alarmPostReq.getAlarmDayStart());
-		mediAlarm.setAlarmDayEnd(alarmPostReq.getAlarmDayEnd());
-		mediAlarm.setAlarmYN(alarmPostReq.getAlarmYN());
-		if (alarmPostReq.getAlarmYN() == 1) {
-			mediAlarm.setAlarmDays(alarmPostReq.getAlarmDays());
-			mediAlarm.setAlarmTime1(alarmPostReq.getAlarmTime1());
-			mediAlarm.setAlarmTime2(alarmPostReq.getAlarmTime2());
-			mediAlarm.setAlarmTime3(alarmPostReq.getAlarmTime3());
-			mediAlarm.setAlarmTime4(alarmPostReq.getAlarmTime4());
-			mediAlarm.setAlarmTime5(alarmPostReq.getAlarmTime5());
+		try {
+			mediAlarm.setAlarmDayStart(alarmPostReq.getAlarmDayStart());
+			mediAlarm.setAlarmDayEnd(alarmPostReq.getAlarmDayEnd());
+			mediAlarm.setAlarmYN(alarmPostReq.getAlarmYN());
+			if (alarmPostReq.getAlarmYN() == 1) {
+				mediAlarm.setAlarmDays(alarmPostReq.getAlarmDays());
+				mediAlarm.setAlarmTime1(alarmPostReq.getAlarmTime1());
+				mediAlarm.setAlarmTime2(alarmPostReq.getAlarmTime2());
+				mediAlarm.setAlarmTime3(alarmPostReq.getAlarmTime3());
+				mediAlarm.setAlarmTime4(alarmPostReq.getAlarmTime4());
+				mediAlarm.setAlarmTime5(alarmPostReq.getAlarmTime5());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		
+		
 
 		return mediAlarm;
 	}
@@ -193,5 +214,36 @@ public class AlarmServiceImpl implements AlarmService {
 	@Override
 	public AlarmDetailGetRes getAlarmInfo(int alarmId) {
 		return mediAlarmRepositorySupport.getAlarmInfo(alarmId);
+	}
+
+	@Override
+	public int insertTakeHistory(User user, TakeHistoryPostReq takeHistoryPostReq) {
+		try {
+			TakeHistory takeHistory = new TakeHistory();
+			takeHistory.setUser(user);
+			takeHistory.setMediAlarm(mediAlarmRepository.findMediAlarmByAlarmId(takeHistoryPostReq.getAlarmId()));
+			takeHistory.setThYN(takeHistoryPostReq.getThYN());
+			if(takeHistoryPostReq.getThYN() == 1) {
+				takeHistory.setThTime(Timestamp.valueOf(LocalDateTime.now()));
+			}
+			
+			takeHistoryRepository.save(takeHistory);
+			
+			return SUCCESS;
+		} catch (Exception e) {
+			return FAIL;
+		}
+	}
+
+	@Override
+	public List<AlarmGetRes> getProgressAlarmList(User user) {
+		
+		LocalDate now = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String today = now.format(formatter);
+
+		List<AlarmGetRes> list = mediAlarmRepositorySupport.getProgressAlarmList(user, today);
+		return list;
+
 	}
 }
