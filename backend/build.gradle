@@ -66,6 +66,9 @@ dependencies {
 
 	// querydsl
 	implementation 'com.querydsl:querydsl-jpa'
+	
+	// JWT
+	implementation("com.auth0:java-jwt:3.10.3")
 
 
 }
