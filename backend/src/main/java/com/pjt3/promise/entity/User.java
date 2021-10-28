@@ -9,6 +9,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
@@ -30,6 +32,7 @@ public class User {
     @Column(name="user_type")
     int userType;
 
+    @CreationTimestamp
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name="user_join_date")
     Date userJoinDate;

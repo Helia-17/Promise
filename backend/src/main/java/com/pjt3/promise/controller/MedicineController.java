@@ -3,6 +3,7 @@ package com.pjt3.promise.controller;
 import com.pjt3.promise.common.response.BaseResponseBody;
 import com.pjt3.promise.entity.Medicine;
 import com.pjt3.promise.entity.User;
+import com.pjt3.promise.response.MediDetailGetRes;
 import com.pjt3.promise.response.MediSearchGetRes;
 import com.pjt3.promise.service.MedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +67,7 @@ public class MedicineController {
     }
 
     @GetMapping("/detail/{mediSerialNum}")
-    public ResponseEntity<?> getMediSearchDetailList(@PathVariable String mediSerialNum){
+    public ResponseEntity<?> getMediDetailList(@PathVariable String mediSerialNum){
         // Authentication authentication
         try {
 //            User user;
@@ -75,12 +76,9 @@ public class MedicineController {
 //            } catch (NullPointerException e) {
 //                return ResponseEntity.status(400).body(new UserInfoGetRes(400, "만료된 토큰입니다."));
 //            }
-            Medicine medicineDetailGetRes = medicineService.getMediSearchDetailInfo(mediSerialNum);
+        	MediDetailGetRes mediInfo = medicineService.getMediDetailInfo(mediSerialNum);
 
-            Map<String, Medicine> map = new HashMap<String, Medicine>();
-            map.put("medicineDetailGetRes", medicineDetailGetRes);
-
-            return ResponseEntity.status(200).body(map);
+            return ResponseEntity.status(200).body(mediInfo);
         } catch(Exception e) {
             return ResponseEntity.status(500).body(BaseResponseBody.of(500, "Internal Server Error"));
         }
