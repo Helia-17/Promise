@@ -26,9 +26,9 @@ public class QUserMedicine extends EntityPathBase<UserMedicine> {
 
     public final QMedicine medicine;
 
-    public final NumberPath<Integer> unId = createNumber("unId", Integer.class);
+    public final StringPath umName = createString("umName");
 
-    public final StringPath unName = createString("unName");
+    public final NumberPath<Integer> unId = createNumber("unId", Integer.class);
 
     public QUserMedicine(String variable) {
         this(UserMedicine.class, forVariable(variable), INITS);

@@ -28,6 +28,6 @@ public class UserMedicine {
     Medicine medicine;
 
     @Column(name="um_name")
-    String unName;
+    String umName;
 
 }

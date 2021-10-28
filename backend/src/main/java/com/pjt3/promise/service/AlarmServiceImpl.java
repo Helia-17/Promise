@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -147,7 +146,7 @@ public class AlarmServiceImpl implements AlarmService {
 
 			UserMedicine userMedicine = new UserMedicine();
 			userMedicine.setMediAlarm(mediAlarm);
-			userMedicine.setUnName(mediName);
+			userMedicine.setUmName(mediName);
 			userMedicine.setMedicine(medicineRepository.findMedicineByMediName(mediName));
 
 			userMedicineRepository.save(userMedicine);

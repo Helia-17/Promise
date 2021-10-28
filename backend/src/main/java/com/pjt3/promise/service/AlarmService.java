@@ -8,6 +8,7 @@ import com.pjt3.promise.request.AlarmPutReq;
 import com.pjt3.promise.request.TakeHistoryPostReq;
 import com.pjt3.promise.response.AlarmDetailGetRes;
 import com.pjt3.promise.response.AlarmGetRes;
+import com.pjt3.promise.response.MyPillGetRes;
 
 public interface AlarmService {
     int insertAlarm(User user, AlarmPostReq alarmsPostReq);
