@@ -1,18 +1,23 @@
 package com.pjt3.promise.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.config.RepositoryNameSpaceHandler;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pjt3.promise.common.auth.PMUserDetails;
 import com.pjt3.promise.common.response.BaseResponseBody;
 import com.pjt3.promise.entity.User;
 import com.pjt3.promise.request.UserInsertPostReq;
+import com.pjt3.promise.response.UserInfoGetRes;
 import com.pjt3.promise.service.PetService;
 import com.pjt3.promise.service.UserService;
 
@@ -54,6 +59,20 @@ public class UserController {
 			petService.insertPet(insertInfo);
 			
 			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "환영합니다. 회원가입에 성공하셨습니다."));
+		}
+	}
+	
+	// 내 정보 조회
+	@GetMapping()
+	public ResponseEntity<UserInfoGetRes> getUserInfo(Authentication authentication){
+		try {
+			PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
+			User user = userDetails.getUser();
+			UserInfoGetRes userInfo = userService.getUserInfo(user);
+			
+			return ResponseEntity.status(200).body(userInfo);
+		} catch (NullPointerException e) {
+			return ResponseEntity.status(420).body(new UserInfoGetRes(420, "만료된 토큰입니다."));
 		}
 	}
 	

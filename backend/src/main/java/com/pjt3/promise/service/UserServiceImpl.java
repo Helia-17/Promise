@@ -1,5 +1,6 @@
 package com.pjt3.promise.service;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +9,7 @@ import com.pjt3.promise.entity.User;
 import com.pjt3.promise.repository.PetRepository;
 import com.pjt3.promise.repository.UserRepository;
 import com.pjt3.promise.request.UserInsertPostReq;
+import com.pjt3.promise.response.UserInfoGetRes;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -21,7 +23,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User insertUser(UserInsertPostReq userInsertInfo) {
 		User user = new User();
-		Pet pet = new Pet();
 		
 		user.setUserEmail(userInsertInfo.getUserEmail());
 		user.setUserNickname(userInsertInfo.getUserNickname());
@@ -65,6 +66,21 @@ public class UserServiceImpl implements UserService {
 	public int updateProfile() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public UserInfoGetRes getUserInfo(User user) {
+		UserInfoGetRes userInfo = new UserInfoGetRes();
+		Pet pet = petRepository.findPetByUser(user);
+		
+		userInfo.setStatusCode(200);
+		userInfo.setMessage("조회에 성공했습니다.");
+		userInfo.setPetName(pet.getPetName());
+		userInfo.setPetLevel(pet.getPetLevel());
+		
+		BeanUtils.copyProperties(user, userInfo);
+		
+		return userInfo;
 	}
 
 }
