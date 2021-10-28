@@ -1,5 +1,7 @@
 package com.pjt3.promise.service;
 
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +10,7 @@ import com.pjt3.promise.entity.Pet;
 import com.pjt3.promise.entity.User;
 import com.pjt3.promise.repository.PetRepository;
 import com.pjt3.promise.repository.UserRepository;
+import com.pjt3.promise.repository.UserRepositorySupport;
 import com.pjt3.promise.request.UserInfoPutReq;
 import com.pjt3.promise.request.UserInsertPostReq;
 import com.pjt3.promise.request.UserProfilePostReq;
@@ -21,6 +24,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	PetRepository petRepository;
+	
+	@Autowired
+	UserRepositorySupport userRepositorySupport;
 
 	@Override
 	public User insertUser(UserInsertPostReq userInsertInfo) {
@@ -108,6 +114,12 @@ public class UserServiceImpl implements UserService {
 		BeanUtils.copyProperties(user, userInfo);
 		
 		return userInfo;
+	}
+
+	@Override
+	public List<User> getShareUserList(String searchKeyword) {
+		List<User> shareUserList = userRepositorySupport.getShareUserList(searchKeyword);
+		return shareUserList;
 	}
 
 }

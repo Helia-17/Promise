@@ -1,5 +1,8 @@
 package com.pjt3.promise.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pjt3.promise.common.auth.PMUserDetails;
@@ -21,6 +25,7 @@ import com.pjt3.promise.entity.User;
 import com.pjt3.promise.request.UserInfoPutReq;
 import com.pjt3.promise.request.UserInsertPostReq;
 import com.pjt3.promise.request.UserProfilePostReq;
+import com.pjt3.promise.response.ShareUserGetRes;
 import com.pjt3.promise.response.UserInfoGetRes;
 import com.pjt3.promise.service.PetService;
 import com.pjt3.promise.service.UserService;
@@ -170,6 +175,34 @@ public class UserController {
 		} catch (NullPointerException e) {
 			return ResponseEntity.status(400).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
 		}
+	}
+	
+	// 사용자 찾기 (알람 입력 시 - 공유할 사용자 이메일 검색)
+	@GetMapping("/sharing")
+	public ResponseEntity<List<ShareUserGetRes>> getShareUserList (Authentication authentication, @RequestParam String searchKeyword){
+		
+		try {
+			PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
+			User user = userDetails.getUser();
+			
+			List<ShareUserGetRes> shareUserGetResList = new ArrayList<>();
+			List<User> shareUserList = userService.getShareUserList(searchKeyword);
+			
+			if (shareUserList.size() == 0) {
+				return ResponseEntity.status(400).body(null);
+			}
+			
+			for (User shareUser : shareUserList) {
+				ShareUserGetRes userGetRes = new ShareUserGetRes(shareUser.getUserEmail(), shareUser.getUserNickname());
+				shareUserGetResList.add(userGetRes);
+			}
+			
+			return ResponseEntity.status(200).body(shareUserGetResList);
+			
+		} catch (NullPointerException e) {
+			return ResponseEntity.status(420).body(null);
+		}
+		
 	}
 }
 

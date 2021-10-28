@@ -1,5 +1,7 @@
 package com.pjt3.promise.service;
 
+import java.util.List;
+
 import com.pjt3.promise.entity.User;
 import com.pjt3.promise.request.UserInfoPutReq;
 import com.pjt3.promise.request.UserInsertPostReq;
@@ -15,4 +17,5 @@ public interface UserService {
 	int deleteUser(String userEmail);
 	int update(User user, UserInfoPutReq userUpdateInfo);
 	int updateProfile(User user, UserProfilePostReq userProfileInfo);
+	List<User> getShareUserList(String searchKeyword);
 }
