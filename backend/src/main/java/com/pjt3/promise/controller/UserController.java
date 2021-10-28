@@ -1,12 +1,12 @@
 package com.pjt3.promise.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.config.RepositoryNameSpaceHandler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,4 +76,67 @@ public class UserController {
 		}
 	}
 	
+	// 닉네임 중복 체크 (회원가입 시)
+	@GetMapping("/nickname/{userNickname}")
+	public ResponseEntity<BaseResponseBody> checkDuplicatedNickname(@PathVariable String userNickname){
+		User user = userService.getUserByUserNickname(userNickname);
+		if (user != null) {
+			return ResponseEntity.status(409).body(BaseResponseBody.of(409, "다른 회원이 사용중인 닉네임입니다."));
+		}
+		else {
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "사용할 수 있는 닉네임입니다."));	
+		}
+	}
+	
+	// 닉네임 중복 체크 (가입 후 회원정보 수정 시)
+	@GetMapping("/me/nickname/{userNickname}")
+	public ResponseEntity<BaseResponseBody> checkDuplicatedNicknameUpdate (Authentication authentication, @PathVariable String userNickname){
+		try {
+			User user = userService.getUserByUserNickname(userNickname);
+			PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
+			String nickName = userDetails.getUser().getUserNickname();
+			if (user != null) {
+				if(!nickName.equals(userNickname)) {
+					return ResponseEntity.status(409).body(BaseResponseBody.of(409, "다른 회원이 사용중인 닉네임입니다."));	
+				}
+				else {				
+					return ResponseEntity.status(200).body(BaseResponseBody.of(200, "현재 회원님이 사용중인 닉네임입니다. (사용할 수 있는 닉네임입니다.)"));	
+				}
+			}
+			else {
+				return ResponseEntity.status(200).body(BaseResponseBody.of(200, "사용할 수 있는 닉네임입니다."));	
+			}
+		} catch (NullPointerException e) {
+			return ResponseEntity.status(400).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
+		}
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
