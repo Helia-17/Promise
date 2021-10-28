@@ -18,6 +18,7 @@ import com.pjt3.promise.entity.User;
 import com.pjt3.promise.repository.UserRepository;
 import com.pjt3.promise.request.AlarmPostReq;
 import com.pjt3.promise.request.AlarmPutReq;
+import com.pjt3.promise.request.TakeHistoryPostReq;
 import com.pjt3.promise.response.AlarmDetailGetRes;
 import com.pjt3.promise.service.AlarmService;
 
@@ -114,5 +115,28 @@ public class AlarmController {
         } catch (Exception e) {
         	return ResponseEntity.status(404).body(BaseResponseBody.of(500, "Internal Server Error"));
         }
+    }
+    
+    @PostMapping("/check")
+    public ResponseEntity<?> insertTakeHistory(@RequestBody TakeHistoryPostReq takeHistoryPostReq){
+    	try {
+    		
+    		int result = 0;
+    		User user = userRepository.findUserByUserEmail(userEmail);
+    		
+    		result = alarmService.insertTakeHistory(user, takeHistoryPostReq);
+    		
+    		if(result == 1) {			
+				return ResponseEntity.status(200).body(BaseResponseBody.of(200, "복용 이력 등록 성공"));
+			} else {
+				return ResponseEntity.status(500).body(BaseResponseBody.of(500, "Internal Server Error"));
+			}
+    		
+    	} catch (NullPointerException e) {
+    		return null;
+    	} catch (Exception e) {
+    		return ResponseEntity.status(404).body(BaseResponseBody.of(500, "Internal Server Error"));
+		}
+
     }
 }

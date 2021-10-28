@@ -1,5 +1,7 @@
 package com.pjt3.promise.service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.pjt3.promise.entity.AlarmShare;
 import com.pjt3.promise.entity.MediAlarm;
 import com.pjt3.promise.entity.Tag;
+import com.pjt3.promise.entity.TakeHistory;
 import com.pjt3.promise.entity.User;
 import com.pjt3.promise.entity.UserMedicine;
 import com.pjt3.promise.repository.AlarmShareRepository;
@@ -15,10 +18,12 @@ import com.pjt3.promise.repository.MediAlarmRepository;
 import com.pjt3.promise.repository.MediAlarmRepositorySupport;
 import com.pjt3.promise.repository.MedicineRepository;
 import com.pjt3.promise.repository.TagRepository;
+import com.pjt3.promise.repository.TakeHistoryRepository;
 import com.pjt3.promise.repository.UserMedicineRepository;
 import com.pjt3.promise.repository.UserRepository;
 import com.pjt3.promise.request.AlarmPostReq;
 import com.pjt3.promise.request.AlarmPutReq;
+import com.pjt3.promise.request.TakeHistoryPostReq;
 import com.pjt3.promise.response.AlarmDetailGetRes;
 
 @Service
@@ -47,6 +52,9 @@ public class AlarmServiceImpl implements AlarmService {
 	
 	@Autowired
 	MediAlarmRepositorySupport mediAlarmRepositorySupport;
+	
+	@Autowired
+	TakeHistoryRepository takeHistoryRepository;
 
 	@Override
 	public int insertAlarm(User user, AlarmPostReq alarmPostReq) {
@@ -193,5 +201,24 @@ public class AlarmServiceImpl implements AlarmService {
 	@Override
 	public AlarmDetailGetRes getAlarmInfo(int alarmId) {
 		return mediAlarmRepositorySupport.getAlarmInfo(alarmId);
+	}
+
+	@Override
+	public int insertTakeHistory(User user, TakeHistoryPostReq takeHistoryPostReq) {
+		try {
+			TakeHistory takeHistory = new TakeHistory();
+			takeHistory.setUser(user);
+			takeHistory.setMediAlarm(mediAlarmRepository.findMediAlarmByAlarmId(takeHistoryPostReq.getAlarmId()));
+			takeHistory.setThYN(takeHistoryPostReq.getThYN());
+			if(takeHistoryPostReq.getThYN() == 1) {
+				takeHistory.setThTime(Timestamp.valueOf(LocalDateTime.now()));
+			}
+			
+			takeHistoryRepository.save(takeHistory);
+			
+			return SUCCESS;
+		} catch (Exception e) {
+			return FAIL;
+		}
 	}
 }

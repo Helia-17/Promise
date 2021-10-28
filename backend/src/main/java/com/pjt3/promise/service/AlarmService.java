@@ -3,6 +3,7 @@ package com.pjt3.promise.service;
 import com.pjt3.promise.entity.User;
 import com.pjt3.promise.request.AlarmPostReq;
 import com.pjt3.promise.request.AlarmPutReq;
+import com.pjt3.promise.request.TakeHistoryPostReq;
 import com.pjt3.promise.response.AlarmDetailGetRes;
 
 public interface AlarmService {
@@ -13,4 +14,6 @@ public interface AlarmService {
 	int deleteAlarm(int alarmId);
 
 	AlarmDetailGetRes getAlarmInfo(int alarmId);
+
+	int insertTakeHistory(User user, TakeHistoryPostReq takeHistoryPostReq);
 }
