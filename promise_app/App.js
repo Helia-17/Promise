@@ -1,23 +1,17 @@
 import React from 'react';
 import { Button, View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator  } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Search from './src/pages/Search';
+import Info from './src/pages/Info';
 
 function HomeScreen({navigation}) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
-      <Button title="go Sub1" onPress={()=>navigation.navigate('Sub1')}/>
-    </View>
-  );
-}
-
-function Sub1Screen() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Sub 1 Screen</Text>
+      <Button title="go Info" onPress={()=>navigation.navigate('Info', {name:'타이레놀', company:'(주)한국얀센'})}/>
     </View>
   );
 }
@@ -49,22 +43,26 @@ function MypageScreen() {
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-function StackScreen(){
+function StackScreen({navigation}){
   return(
-    <Stack.Navigator screenOptions={{
-      headerShown : false, 
+    <Stack.Navigator 
+    screenOptions={{
+      headerRight: ()=>(<Icon.Button onPress={()=>navigation.navigate('Search', {navigation:`${navigation}`})} name="magnify" color="black" backgroundColor='white' />),
     }}>
       <Stack.Screen name="Homes" component={HomeScreen} />
-      <Stack.Screen name="Sub1" component={Sub1Screen}/>
+      <Stack.Screen name="Search" component={Search} options={{ title: '검색', headerRight: null }}/>
+      <Stack.Screen name="Info" component={Info} options={{ title: '약 정보' }}/>
     </Stack.Navigator>
   );
 }
 
 function MyTabs() {
   return (
-    <Tab.Navigator screenOptions={({route})=>({
-      tabBarActiveTintColor: 'black', 
-      headerRight: ()=>(<Icon.Button onPress={()=>alert('Search!')} name="magnify" color="black" backgroundColor='white' />),
+    <Tab.Navigator 
+    screenOptions={({route})=>({
+      tabBarActiveTintColor: 'black',
+      headerShown : false, 
+      tabBarHideOnKeyboard: true,
       tabBarIcon: ({ color, size }) => {
         const icons = {
           Home: 'home',
@@ -76,10 +74,10 @@ function MyTabs() {
           <Icon name={icons[route.name]} color={color} size={size} />
         )},
     })}>
-      <Tab.Screen name="Home" component={StackScreen} options={{tabBarLabel:'Home', title: 'HOME'}}/>
-      <Tab.Screen name="Pharmacy" component={PharmacyScreen} options={{ title: 'PHARMACY' }} />
-      <Tab.Screen name="Calendar" component={CalendarScreen} options={{ title: 'CALENDAR' }}/>
-      <Tab.Screen name="Mypage" component={MypageScreen} options={{ title: 'MYPAGE' }}/>
+      <Tab.Screen name="Home" component={StackScreen} options={{tabBarLabel:'홈'}}/>
+      <Tab.Screen name="Pharmacy" component={PharmacyScreen} options={{ title: '약국' }} />
+      <Tab.Screen name="Calendar" component={CalendarScreen} options={{ title: '일정' }}/>
+      <Tab.Screen name="Mypage" component={MypageScreen} options={{ title: '내 정보' }}/>
     </Tab.Navigator>
   );
 }
