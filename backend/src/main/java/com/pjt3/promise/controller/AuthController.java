@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pjt3.promise.repository.UserRepository;
+import com.pjt3.promise.request.TokenPostReq;
 import com.pjt3.promise.request.UserLoginPostReq;
+import com.pjt3.promise.response.TokenPostRes;
 import com.pjt3.promise.response.UserLoginPostRes;
 import com.pjt3.promise.service.AuthService;
 import com.pjt3.promise.service.UserService;
@@ -37,6 +39,11 @@ public class AuthController {
 	@PostMapping("/login")
 	public ResponseEntity<UserLoginPostRes> login(@RequestBody UserLoginPostReq loginInfo){
 		return ResponseEntity.status(200).body(authService.login(loginInfo));
+	}
+	
+	@PostMapping("/reissue")
+	public ResponseEntity<TokenPostRes> reissue(@RequestBody TokenPostReq refreshToken){
+		return ResponseEntity.status(200).body(authService.reissue(refreshToken));
 	}
 	
 }
