@@ -68,7 +68,7 @@ public class AlarmShareController {
 	        if(result == 1) {			
 				return ResponseEntity.status(200).body(BaseResponseBody.of(200, "알람 수락 성공"));
 			} else {
-				return ResponseEntity.status(500).body(BaseResponseBody.of(500, "Internal Server Error"));
+				return ResponseEntity.status(500).body(BaseResponseBody.of(500, "알람 수락 실패"));
 			}
 			
 		} catch (NullPointerException e) {
@@ -89,7 +89,7 @@ public class AlarmShareController {
 	        if(result == 1) {			
 				return ResponseEntity.status(200).body(BaseResponseBody.of(200, "알람 거절 성공"));
 			} else {
-				return ResponseEntity.status(500).body(BaseResponseBody.of(500, "Internal Server Error"));
+				return ResponseEntity.status(500).body(BaseResponseBody.of(500, "알람 거절 실패"));
 			}
 			
 		} catch (NullPointerException e) {

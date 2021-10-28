@@ -26,6 +26,7 @@ import com.pjt3.promise.request.TakeHistoryPostReq;
 import com.pjt3.promise.response.AlarmDetailGetRes;
 import com.pjt3.promise.response.AlarmGetRes;
 import com.pjt3.promise.service.AlarmService;
+import com.pjt3.promise.service.PetService;
 
 @CrossOrigin(
         origins = { "http://localhost:3000", "https://k5a201.p.ssafy.io/" },
@@ -43,6 +44,9 @@ public class AlarmController {
 
     @Autowired
     UserRepository userRepository;
+    
+    @Autowired
+    PetService petService;
 
     
     @PostMapping()
@@ -56,11 +60,13 @@ public class AlarmController {
             if(result == 1) {			
 				return ResponseEntity.status(200).body(BaseResponseBody.of(200, "알람 입력 성공"));
 			} else {
-				return ResponseEntity.status(500).body(BaseResponseBody.of(500, "Internal Server Error"));
+				return ResponseEntity.status(500).body(BaseResponseBody.of(500, "알람 입력 실패"));
 			}
 
         } catch (NullPointerException e) {
             return null;           
+        } catch (Exception e) {
+        	return ResponseEntity.status(404).body(BaseResponseBody.of(500, "Internal Server Error"));
         }
     }
     
@@ -77,11 +83,13 @@ public class AlarmController {
             if(result == 1) {			
 				return ResponseEntity.status(200).body(BaseResponseBody.of(200, "알람 수정 성공"));
 			} else {
-				return ResponseEntity.status(500).body(BaseResponseBody.of(500, "Internal Server Error"));
+				return ResponseEntity.status(500).body(BaseResponseBody.of(500, "알람 수정 실패"));
 			}
 
         } catch (NullPointerException e) {
             return null;           
+        } catch (Exception e) {
+        	return ResponseEntity.status(404).body(BaseResponseBody.of(500, "Internal Server Error"));
         }
     }
     
@@ -98,11 +106,13 @@ public class AlarmController {
             if(result == 1) {			
 				return ResponseEntity.status(200).body(BaseResponseBody.of(200, "알람 삭제 성공"));
 			} else {
-				return ResponseEntity.status(500).body(BaseResponseBody.of(500, "Internal Server Error"));
+				return ResponseEntity.status(500).body(BaseResponseBody.of(500, "알람 삭제 실패"));
 			}
 
         } catch (NullPointerException e) {
             return null;           
+        } catch (Exception e) {
+        	return ResponseEntity.status(404).body(BaseResponseBody.of(500, "Internal Server Error"));
         }
     }
     
@@ -135,10 +145,15 @@ public class AlarmController {
     		
     		result = alarmService.insertTakeHistory(user, takeHistoryPostReq);
     		
-    		if(result == 1) {			
-				return ResponseEntity.status(200).body(BaseResponseBody.of(200, "복용 이력 등록 성공"));
+    		if(result == 1) {
+    			int result2 = petService.increasePetExp(1, user);
+        		if(result2 == 1) {
+        			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "복용 이력 등록 성공/경험치 등록 성공"));
+        		} else {
+        			return ResponseEntity.status(500).body(BaseResponseBody.of(500, "복용 이력 등록 성공/경험치 등록 성공"));
+        		}
 			} else {
-				return ResponseEntity.status(500).body(BaseResponseBody.of(500, "Internal Server Error"));
+				return ResponseEntity.status(500).body(BaseResponseBody.of(500, "복용 이력 등록 실패"));
 			}
     		
     	} catch (NullPointerException e) {

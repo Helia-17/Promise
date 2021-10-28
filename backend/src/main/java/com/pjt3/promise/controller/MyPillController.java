@@ -51,7 +51,7 @@ public class MyPillController {
 			return null;
 		} catch (Exception e) {
 			return ResponseEntity.status(404).body(BaseResponseBody.of(500, "Internal Server Error"));
-		}
+		} 
 
 	}
 	
