@@ -7,5 +7,5 @@ import com.pjt3.promise.entity.AlarmShare;
 
 @Repository
 public interface AlarmShareRepository extends JpaRepository<AlarmShare, Integer>{
-
+	void deleteByMediAlarmAlarmId(int alarmId);
 }

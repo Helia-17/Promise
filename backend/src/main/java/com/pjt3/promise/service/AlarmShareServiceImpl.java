@@ -2,6 +2,8 @@ package com.pjt3.promise.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,18 +33,21 @@ public class AlarmShareServiceImpl implements AlarmShareService {
 		return alarmShareRepositorySupport.getAlarmInfo(user);
 	}
 
+	@Transactional
 	@Override
-	public int acceptAlarmShare(int asId) {
+	public int acceptAlarmShare(int alarmId) {
 		try {
 
-			alarmShareRepository.deleteById(asId);
+			alarmShareRepository.deleteByMediAlarmAlarmId(alarmId);
 			return SUCCESS;
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			return FAIL;
 		}
 	}
-
+	
+	@Transactional
 	@Override
 	public int rejectAlarmShare(int alarmId) {
 		try {
