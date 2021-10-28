@@ -29,7 +29,9 @@ public class CommunityController {
 //                return ResponseEntity.status(400).body(new UserInfoGetRes(400, "만료된 토큰입니다."));
 //            }
 
-            communityService.insertCommunityPost(commuPostInsertReq.getCommuTitle(), commuPostInsertReq.getCommuContents());
+        	String userEmail = "tjalsdud9@gmail.com";
+            communityService.insertCommunityPost(commuPostInsertReq.getCommuTitle(), commuPostInsertReq.getCommuContents(), userEmail);
+            // communityService.insertCommunityPost(commuPostInsertReq.getCommuTitle(), commuPostInsertReq.getCommuContents(), user);
 
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "글 등록 성공"));
         } catch (NullPointerException e) {
@@ -58,6 +60,7 @@ public class CommunityController {
         }
     }
 
+    
     @DeleteMapping("/{commuId}")
     public ResponseEntity<?> deleteCommunityPost(@PathVariable int commuId){
         // Authentication authentication
@@ -91,8 +94,8 @@ public class CommunityController {
 //            }
 
             String userEmail = "tjalsdud9@gmail.com";
-
             communityService.insertCommuComment(commuCommentInsertReq.getCommuId(), commuCommentInsertReq.getCommentContents(), userEmail);
+            // communityService.insertCommuComment(commuCommentInsertReq.getCommuId(), commuCommentInsertReq.getCommentContents(), user);
 
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "댓글 등록 성공"));
         } catch (NullPointerException e) {

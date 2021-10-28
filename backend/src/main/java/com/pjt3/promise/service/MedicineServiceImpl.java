@@ -3,6 +3,7 @@ package com.pjt3.promise.service;
 import com.pjt3.promise.entity.Medicine;
 import com.pjt3.promise.repository.MedicineRepository;
 import com.pjt3.promise.repository.MedicineRepositorySupport;
+import com.pjt3.promise.response.MediDetailGetRes;
 import com.pjt3.promise.response.MediSearchGetRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class MedicineServiceImpl implements MedicineService{
 
     @Override
     public List<String> getMediAutoListInfo(String searchKeyword) {
-        List<String> mediList = medicineRepository.findByMediNameContains(searchKeyword);
+        List<String> mediList = medicineRepositorySupport.getMediAutoListInfo(searchKeyword);
         return mediList;
     }
 
@@ -30,9 +31,9 @@ public class MedicineServiceImpl implements MedicineService{
     }
 
     @Override
-    public Medicine getMediSearchDetailInfo(String mediSerialNum) {
-        Medicine medicineDetail = medicineRepository.findByMediSerialNum(mediSerialNum);
-        return medicineDetail;
+    public MediDetailGetRes getMediDetailInfo(String mediSerialNum) {
+    	MediDetailGetRes mediInfo = medicineRepositorySupport.getMediDetailInfo(mediSerialNum);
+        return mediInfo;
     }
 
 }

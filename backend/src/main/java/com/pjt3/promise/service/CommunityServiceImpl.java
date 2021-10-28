@@ -7,6 +7,7 @@ import com.pjt3.promise.repository.CommunityRepository;
 import com.pjt3.promise.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CommunityServiceImpl implements CommunityService{
@@ -21,11 +22,12 @@ public class CommunityServiceImpl implements CommunityService{
     CommuCommentRepository commuCommentRepository;
 
     @Override
-    public int insertCommunityPost(String commuTitle, String commuContents) {
+    public int insertCommunityPost(String commuTitle, String commuContents, String userEmail) {
         try {
             Community community = new Community();
             community.setCommuTitle(commuTitle);
             community.setCommuContents(commuContents);
+            community.setUser(userRepository.findUserByUserEmail(userEmail));
             communityRepository.save(community);
             return 1;
         } catch(Exception e) {
@@ -46,6 +48,7 @@ public class CommunityServiceImpl implements CommunityService{
         }
     }
 
+    @Transactional
     @Override
     public int deleteCommunityPost(int commuId) {
         try {
@@ -62,7 +65,6 @@ public class CommunityServiceImpl implements CommunityService{
             CommunityComment commuComment = new CommunityComment();
             commuComment.setCommentContents(commentContents);
             commuComment.setCommunity(communityRepository.findCommunityByCommuId(commuId));
-            // 사용자 처리를 어떻게 할 것인가?
             commuComment.setUser(userRepository.findUserByUserEmail(userEmail));
             commuCommentRepository.save(commuComment);
             return 1;
@@ -74,7 +76,7 @@ public class CommunityServiceImpl implements CommunityService{
     @Override
     public int updateCommuComment(int commentId, String commentContents) {
         try {
-            CommunityComment commuComment = commuCommentRepository.findCommunityByCommentId(commentId);
+            CommunityComment commuComment = commuCommentRepository.findCommunityCommentByCommentId(commentId);
             commuComment.setCommentContents(commentContents);
             commuCommentRepository.save(commuComment);
             return 1;
@@ -83,6 +85,7 @@ public class CommunityServiceImpl implements CommunityService{
         }
     }
 
+    @Transactional
     @Override
     public int deleteCommuComment(int commentId) {
         try {

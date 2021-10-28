@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.util.Date;
 
 @Entity
@@ -30,6 +33,7 @@ public class CommunityComment {
     @Column(name="comment_contents")
     String commentContents;
 
+    @CreationTimestamp
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name="comment_date")
     Date commentDate;
