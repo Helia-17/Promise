@@ -31,6 +31,9 @@ public class User {
 
     @Column(name="user_type")
     int userType;
+    
+    @Column(name="refresh_token")
+    String refreshToken;
 
     @CreationTimestamp
     @Temporal(value = TemporalType.TIMESTAMP)
