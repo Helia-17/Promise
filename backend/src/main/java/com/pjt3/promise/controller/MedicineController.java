@@ -29,11 +29,8 @@ public class MedicineController {
         try {
 //            LBUserDetails userDetails = (LBUserDetails) authentication.getDetails();
 //            User user;
-//            try {
-//                user = userDetails.getUser();
-//            } catch (NullPointerException e) {
-//                return ResponseEntity.status(400).body(new UserInfoGetRes(400, "만료된 토큰입니다."));
-//            }
+//            user = userDetails.getUser();
+        	
             List<String> mediList = medicineService.getMediAutoListInfo(searchKeyword);
 
             Map<String, List> map = new HashMap<String, List>();
@@ -49,12 +46,10 @@ public class MedicineController {
     public ResponseEntity<?> getMediSearchList(@RequestParam String searchKeyword){
         // Authentication authentication
         try {
-//            User user;
-//            try {
-//                user = userDetails.getUser();
-//            } catch (NullPointerException e) {
-//                return ResponseEntity.status(400).body(new UserInfoGetRes(400, "만료된 토큰입니다."));
-//            }
+//          LBUserDetails userDetails = (LBUserDetails) authentication.getDetails();
+//          User user;
+//          user = userDetails.getUser();
+        	
             List<MediSearchGetRes> mediList = medicineService.getMediSearchListInfo(searchKeyword);
 
             Map<String, List> map = new HashMap<String, List>();
@@ -70,12 +65,10 @@ public class MedicineController {
     public ResponseEntity<?> getMediDetailList(@PathVariable String mediSerialNum){
         // Authentication authentication
         try {
-//            User user;
-//            try {
-//                user = userDetails.getUser();
-//            } catch (NullPointerException e) {
-//                return ResponseEntity.status(400).body(new UserInfoGetRes(400, "만료된 토큰입니다."));
-//            }
+//          LBUserDetails userDetails = (LBUserDetails) authentication.getDetails();
+//          User user;
+//          user = userDetails.getUser();
+        	
         	MediDetailGetRes mediInfo = medicineService.getMediDetailInfo(mediSerialNum);
 
             return ResponseEntity.status(200).body(mediInfo);

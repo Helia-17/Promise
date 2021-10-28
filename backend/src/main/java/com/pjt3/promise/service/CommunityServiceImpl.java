@@ -2,6 +2,7 @@ package com.pjt3.promise.service;
 
 import com.pjt3.promise.entity.Community;
 import com.pjt3.promise.entity.CommunityComment;
+import com.pjt3.promise.entity.User;
 import com.pjt3.promise.repository.CommuCommentRepository;
 import com.pjt3.promise.repository.CommunityRepository;
 import com.pjt3.promise.repository.UserRepository;
@@ -22,12 +23,12 @@ public class CommunityServiceImpl implements CommunityService{
     CommuCommentRepository commuCommentRepository;
 
     @Override
-    public int insertCommunityPost(String commuTitle, String commuContents, String userEmail) {
+    public int insertCommunityPost(String commuTitle, String commuContents, User user) {
         try {
             Community community = new Community();
             community.setCommuTitle(commuTitle);
             community.setCommuContents(commuContents);
-            community.setUser(userRepository.findUserByUserEmail(userEmail));
+            community.setUser(user);
             communityRepository.save(community);
             return 1;
         } catch(Exception e) {
@@ -60,12 +61,12 @@ public class CommunityServiceImpl implements CommunityService{
     }
 
     @Override
-    public int insertCommuComment(int commuId, String commentContents, String userEmail) {
+    public int insertCommuComment(int commuId, String commentContents, User user) {
         try {
             CommunityComment commuComment = new CommunityComment();
             commuComment.setCommentContents(commentContents);
             commuComment.setCommunity(communityRepository.findCommunityByCommuId(commuId));
-            commuComment.setUser(userRepository.findUserByUserEmail(userEmail));
+            commuComment.setUser(user);
             commuCommentRepository.save(commuComment);
             return 1;
         } catch(Exception e) {

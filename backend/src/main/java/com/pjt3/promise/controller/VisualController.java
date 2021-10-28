@@ -26,13 +26,10 @@ public class VisualController {
 	 public ResponseEntity<?> getUsersTagInfo(){
         // Authentication authentication
         try {
-//	            LBUserDetails userDetails = (LBUserDetails) authentication.getDetails();
-//	            User user;
-//	            try {
-//	                user = userDetails.getUser();
-//	            } catch (NullPointerException e) {
-//	                return ResponseEntity.status(400).body(new UserInfoGetRes(400, "만료된 토큰입니다."));
-//	            }
+//          LBUserDetails userDetails = (LBUserDetails) authentication.getDetails();
+//          User user;
+//          user = userDetails.getUser();
+        	
             List<UsersTagGetRes> UsersTagList = visualService.getUsersTagListInfo();
 
             Map<String, List> map = new HashMap<String, List>();
