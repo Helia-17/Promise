@@ -8,6 +8,7 @@ import com.pjt3.promise.entity.Pet;
 import com.pjt3.promise.entity.User;
 import com.pjt3.promise.repository.PetRepository;
 import com.pjt3.promise.repository.UserRepository;
+import com.pjt3.promise.request.UserInfoPutReq;
 import com.pjt3.promise.request.UserInsertPostReq;
 import com.pjt3.promise.response.UserInfoGetRes;
 
@@ -56,9 +57,28 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int update() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int update(User user, UserInfoPutReq userUpdateInfo) {
+		try {
+			String userNickname = userUpdateInfo.getUserNickname();
+			String petName = userUpdateInfo.getPetName();
+			Pet pet = petRepository.findPetByUser(user);
+			
+			if (userRepository.findUserByUserNickname(userNickname) != null &&
+					user.getUserNickname().equals(userNickname)) {
+						return 2;
+					}
+
+			pet.setPetName(petName);
+			
+			userUpdateInfo.setUserNickname(userNickname);
+			BeanUtils.copyProperties(userUpdateInfo, user);
+			userRepository.save(user);
+			return 1;
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
 	}
 
 	@Override
