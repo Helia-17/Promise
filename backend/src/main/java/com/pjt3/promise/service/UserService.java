@@ -1,11 +1,10 @@
 package com.pjt3.promise.service;
 
 import com.pjt3.promise.entity.User;
+import com.pjt3.promise.request.UserInsertPostReq;
 
 public interface UserService {
-	User insertUser();
-//	User insertUser(UserRegisterPostReq userRegisterInfo);
-	
+	User insertUser(UserInsertPostReq userInsertInfo);	
 	User getUserByUserEmail(String userEmail);
 	User getUserByUserNickname(String userNickname);
 	User getUserByRefreshToken(String refreshToken);
