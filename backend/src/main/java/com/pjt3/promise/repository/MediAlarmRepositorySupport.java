@@ -1,5 +1,6 @@
 package com.pjt3.promise.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,11 @@ import org.springframework.stereotype.Repository;
 import com.pjt3.promise.entity.QMediAlarm;
 import com.pjt3.promise.entity.QTag;
 import com.pjt3.promise.entity.QUserMedicine;
+import com.pjt3.promise.entity.User;
 import com.pjt3.promise.response.AlarmDetailGetRes;
+import com.pjt3.promise.response.AlarmGetRes;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 @Repository
@@ -44,6 +48,17 @@ public class MediAlarmRepositorySupport {
     	return alarmDetailGetRes;
 
     }
+
+	public List<AlarmGetRes> getProgressAlarmList(User user, String today) {
+
+		List<AlarmGetRes> alarmList = query.select(Projections.bean(AlarmGetRes.class,
+    			qMediAlarm.alarmId, qMediAlarm.alarmTitle,
+    			qMediAlarm.alarmDayStart, qMediAlarm.alarmDayEnd))
+    			.from(qMediAlarm)
+    			.where(qMediAlarm.user.eq(user), qMediAlarm.alarmYN.eq(1),
+    					qMediAlarm.alarmDayStart.loe(today), qMediAlarm.alarmDayEnd.goe(today)).fetch();
+		return alarmList;
+	}
     
     
 }

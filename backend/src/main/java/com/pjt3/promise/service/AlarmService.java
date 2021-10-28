@@ -1,10 +1,13 @@
 package com.pjt3.promise.service;
 
+import java.util.List;
+
 import com.pjt3.promise.entity.User;
 import com.pjt3.promise.request.AlarmPostReq;
 import com.pjt3.promise.request.AlarmPutReq;
 import com.pjt3.promise.request.TakeHistoryPostReq;
 import com.pjt3.promise.response.AlarmDetailGetRes;
+import com.pjt3.promise.response.AlarmGetRes;
 
 public interface AlarmService {
     int insertAlarm(User user, AlarmPostReq alarmsPostReq);
@@ -16,4 +19,6 @@ public interface AlarmService {
 	AlarmDetailGetRes getAlarmInfo(int alarmId);
 
 	int insertTakeHistory(User user, TakeHistoryPostReq takeHistoryPostReq);
+
+	List<AlarmGetRes> getProgressAlarmList(User user);
 }
