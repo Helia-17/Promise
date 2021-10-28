@@ -3,7 +3,6 @@ package com.pjt3.promise.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pjt3.promise.common.util.RedisUtil;
 import com.pjt3.promise.entity.Pet;
 import com.pjt3.promise.entity.User;
 import com.pjt3.promise.repository.PetRepository;

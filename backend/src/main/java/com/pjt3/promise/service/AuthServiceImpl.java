@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import com.pjt3.promise.common.auth.JwtAuthenticationFilter;
 import com.pjt3.promise.common.util.JwtTokenUtil;
-import com.pjt3.promise.common.util.RedisUtil;
 import com.pjt3.promise.entity.User;
 import com.pjt3.promise.repository.UserRepository;
 import com.pjt3.promise.request.TokenPostReq;
