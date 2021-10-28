@@ -59,6 +59,17 @@ public class MediAlarmRepositorySupport {
     					qMediAlarm.alarmDayStart.loe(today), qMediAlarm.alarmDayEnd.goe(today)).fetch();
 		return alarmList;
 	}
+
+	public List<AlarmGetRes> getPastAlarmList(String today, String startDay, User user) {
+		List<AlarmGetRes> alarmList = query.select(Projections.bean(AlarmGetRes.class,
+    			qMediAlarm.alarmId, qMediAlarm.alarmTitle,
+    			qMediAlarm.alarmDayStart, qMediAlarm.alarmDayEnd))
+    			.from(qMediAlarm)
+    			.where(qMediAlarm.user.eq(user), qMediAlarm.alarmYN.eq(1),
+    					qMediAlarm.alarmDayEnd.lt(today), qMediAlarm.alarmDayEnd.goe(startDay)).fetch();
+		return alarmList;
+	}
+
     
     
 }

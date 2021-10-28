@@ -56,7 +56,7 @@ public class AlarmController {
             if(result == 1) {			
 				return ResponseEntity.status(200).body(BaseResponseBody.of(200, "알람 입력 성공"));
 			} else {
-				return ResponseEntity.status(500).body(BaseResponseBody.of(500, "알람 입력 실패"));
+				return ResponseEntity.status(500).body(BaseResponseBody.of(500, "Internal Server Error"));
 			}
 
         } catch (NullPointerException e) {
@@ -157,6 +157,24 @@ public class AlarmController {
     		User user = userRepository.findUserByUserEmail(userEmail);
     		
     		List<AlarmGetRes> alarmList = alarmService.getProgressAlarmList(user);
+	        Map<String, List> map = new HashMap<String, List>();
+			map.put("alarmList", alarmList);
+			return ResponseEntity.status(200).body(map);
+			
+    	} catch (NullPointerException e) {
+    		return null;
+    	} catch (Exception e) {
+    		return ResponseEntity.status(404).body(BaseResponseBody.of(500, "Internal Server Error"));
+		}
+    }
+    
+    @GetMapping("/{periodType}")
+    public ResponseEntity<?> getPastAlarmList(@PathVariable int periodType){
+    	try {
+    		
+    		User user = userRepository.findUserByUserEmail(userEmail);
+
+    		List<AlarmGetRes> alarmList = alarmService.getPastAlarmList(periodType, user);
 	        Map<String, List> map = new HashMap<String, List>();
 			map.put("alarmList", alarmList);
 			return ResponseEntity.status(200).body(map);

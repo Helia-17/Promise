@@ -5,7 +5,9 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -242,8 +244,38 @@ public class AlarmServiceImpl implements AlarmService {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String today = now.format(formatter);
 
-		List<AlarmGetRes> list = mediAlarmRepositorySupport.getProgressAlarmList(user, today);
-		return list;
+		List<AlarmGetRes> alarmList = mediAlarmRepositorySupport.getProgressAlarmList(user, today);
+		return alarmList;
 
+	}
+
+	@Override
+	public List<AlarmGetRes> getPastAlarmList(int periodType, User user) {
+		
+		List<AlarmGetRes> alarmList = null;
+		
+ 		Calendar c = Calendar.getInstance();
+ 		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+		String today = formatter.format(c.getTime());
+		String startDay = "";
+		if(periodType == 1) { // 이번주
+	 		c.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
+	 		startDay = formatter.format(c.getTime());
+	 		
+		} else if (periodType == 2) { // 이번달
+			c.set(Calendar.DAY_OF_MONTH,1);
+			startDay = formatter.format(c.getTime());
+
+		} else if (periodType == 3) { // 최근 3개월
+			c.add(Calendar.MONTH, -2);
+			c.set(Calendar.DAY_OF_MONTH,1);
+			startDay = formatter.format(c.getTime());
+			System.out.println(startDay);
+		}
+ 		alarmList = mediAlarmRepositorySupport.getPastAlarmList(today, startDay, user);
+
+		return alarmList;
 	}
 }

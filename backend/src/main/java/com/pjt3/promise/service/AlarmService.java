@@ -21,4 +21,6 @@ public interface AlarmService {
 	int insertTakeHistory(User user, TakeHistoryPostReq takeHistoryPostReq);
 
 	List<AlarmGetRes> getProgressAlarmList(User user);
+
+	List<AlarmGetRes> getPastAlarmList(int periodType, User user);
 }
