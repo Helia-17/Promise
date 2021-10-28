@@ -1,5 +1,9 @@
 package com.pjt3.promise.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,7 +22,9 @@ import com.pjt3.promise.entity.User;
 import com.pjt3.promise.repository.UserRepository;
 import com.pjt3.promise.request.AlarmPostReq;
 import com.pjt3.promise.request.AlarmPutReq;
+import com.pjt3.promise.request.TakeHistoryPostReq;
 import com.pjt3.promise.response.AlarmDetailGetRes;
+import com.pjt3.promise.response.AlarmGetRes;
 import com.pjt3.promise.service.AlarmService;
 
 @CrossOrigin(
@@ -38,6 +44,7 @@ public class AlarmController {
     @Autowired
     UserRepository userRepository;
 
+    
     @PostMapping()
     public ResponseEntity<?> insertAlarm(@RequestBody AlarmPostReq alarmPostReq){
         try {
@@ -56,6 +63,7 @@ public class AlarmController {
             return null;           
         }
     }
+    
     
     @PutMapping()
     public ResponseEntity<?> updateAlarm(@RequestBody AlarmPutReq alarmPutReq){
@@ -98,6 +106,7 @@ public class AlarmController {
         }
     }
     
+    
     @GetMapping("/detail/{alarmId}")
     public ResponseEntity<?> getAlarmInfo(@PathVariable int alarmId){
     	
@@ -115,4 +124,48 @@ public class AlarmController {
         	return ResponseEntity.status(404).body(BaseResponseBody.of(500, "Internal Server Error"));
         }
     }
+    
+    
+    @PostMapping("/check")
+    public ResponseEntity<?> insertTakeHistory(@RequestBody TakeHistoryPostReq takeHistoryPostReq){
+    	try {
+    		
+    		int result = 0;
+    		User user = userRepository.findUserByUserEmail(userEmail);
+    		
+    		result = alarmService.insertTakeHistory(user, takeHistoryPostReq);
+    		
+    		if(result == 1) {			
+				return ResponseEntity.status(200).body(BaseResponseBody.of(200, "복용 이력 등록 성공"));
+			} else {
+				return ResponseEntity.status(500).body(BaseResponseBody.of(500, "Internal Server Error"));
+			}
+    		
+    	} catch (NullPointerException e) {
+    		return null;
+    	} catch (Exception e) {
+    		return ResponseEntity.status(404).body(BaseResponseBody.of(500, "Internal Server Error"));
+		}
+
+    }
+    
+    
+    @GetMapping()
+    public ResponseEntity<?> getProgressAlarmList(){
+    	try {
+    		
+    		User user = userRepository.findUserByUserEmail(userEmail);
+    		
+    		List<AlarmGetRes> alarmList = alarmService.getProgressAlarmList(user);
+	        Map<String, List> map = new HashMap<String, List>();
+			map.put("alarmList", alarmList);
+			return ResponseEntity.status(200).body(map);
+			
+    	} catch (NullPointerException e) {
+    		return null;
+    	} catch (Exception e) {
+    		return ResponseEntity.status(404).body(BaseResponseBody.of(500, "Internal Server Error"));
+		}
+    }
+    
 }

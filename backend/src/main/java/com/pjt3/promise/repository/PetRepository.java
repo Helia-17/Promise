@@ -10,4 +10,7 @@ import com.pjt3.promise.entity.User;
 public interface PetRepository extends JpaRepository<Pet, String>{
 	Pet findPetByUser(User user);
 	Pet findPetByPetId(int petId);
+	
+	Pet findByUserUserEmail(String userEmail);
+
 }

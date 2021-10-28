@@ -59,11 +59,11 @@ public class AlarmShareController {
 	}
 	
 	@DeleteMapping("/accept")
-	public ResponseEntity<?> acceptAlarmShare(@RequestParam int asId){
+	public ResponseEntity<?> acceptAlarmShare(@RequestParam int alarmId){
 		try {	
 	        
 			int result = 0;
-	        result = alarmShareService.acceptAlarmShare(asId);
+	        result = alarmShareService.acceptAlarmShare(alarmId);
 			
 	        if(result == 1) {			
 				return ResponseEntity.status(200).body(BaseResponseBody.of(200, "알람 수락 성공"));
