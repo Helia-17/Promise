@@ -52,8 +52,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public int deleteUser(String userEmail) {
-		// TODO Auto-generated method stub
-		return 0;
+		return userRepository.deleteUserByUserEmail(userEmail);
 	}
 
 	@Override

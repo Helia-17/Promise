@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -110,6 +111,24 @@ public class UserController {
 			return ResponseEntity.status(400).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
 		}
 	}
+	
+	// 회원 탈퇴
+	@DeleteMapping()
+	public ResponseEntity<BaseResponseBody> deleteUser (Authentication authentication){
+		try {
+			PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
+			String userEmail = userDetails.getUsername();
+			
+			if (userService.deleteUser(userEmail) == 1) {
+				return ResponseEntity.status(200).body(BaseResponseBody.of(200, "회원탈퇴에 성공하셨습니다."));
+			}
+			else {
+				return ResponseEntity.status(404).body(BaseResponseBody.of(404, "회원탈퇴중에 문제가 발생하였습니다."));			
+			}
+		} catch (NullPointerException e) {
+			return ResponseEntity.status(400).body(BaseResponseBody.of(400, "만료된 토큰입니다."));
+		}
+	} 
 }
 
 
