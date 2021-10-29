@@ -48,9 +48,9 @@ public class MyPillController {
 			return ResponseEntity.status(200).body(map);
 
 		} catch (NullPointerException e) {
-			return ResponseEntity.status(400).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
+			return ResponseEntity.status(420).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
 		} catch (Exception e) {
-			return ResponseEntity.status(404).body(BaseResponseBody.of(500, "Internal Server Error"));
+			return ResponseEntity.status(500).body(BaseResponseBody.of(500, "Internal Server Error"));
 		} 
 
 	}
@@ -68,9 +68,9 @@ public class MyPillController {
 			return ResponseEntity.status(200).body(myPillHistoryGetRes);
 
 		} catch (NullPointerException e) {
-			return ResponseEntity.status(400).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
+			return ResponseEntity.status(420).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
 		} catch (Exception e) {
-			return ResponseEntity.status(404).body(BaseResponseBody.of(500, "Internal Server Error"));
+			return ResponseEntity.status(500).body(BaseResponseBody.of(500, "Internal Server Error"));
 		}
 
 	}
