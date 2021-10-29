@@ -14,6 +14,7 @@ import com.pjt3.promise.repository.UserRepositorySupport;
 import com.pjt3.promise.request.UserInfoPutReq;
 import com.pjt3.promise.request.UserInsertPostReq;
 import com.pjt3.promise.request.UserProfilePostReq;
+import com.pjt3.promise.response.ShareUserGetRes;
 import com.pjt3.promise.response.UserInfoGetRes;
 
 @Service("userService")
@@ -117,8 +118,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> getShareUserList(String searchKeyword) {
-		List<User> shareUserList = userRepositorySupport.getShareUserList(searchKeyword);
+	public List<ShareUserGetRes> getShareUserList(String searchKeyword) {
+		List<ShareUserGetRes> shareUserList = userRepositorySupport.getShareUserList(searchKeyword);
 		return shareUserList;
 	}
 

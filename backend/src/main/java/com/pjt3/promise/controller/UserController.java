@@ -185,16 +185,10 @@ public class UserController {
 			PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
 			User user = userDetails.getUser();
 			
-			List<ShareUserGetRes> shareUserGetResList = new ArrayList<>();
-			List<User> shareUserList = userService.getShareUserList(searchKeyword);
+			List<ShareUserGetRes> shareUserGetResList = userService.getShareUserList(searchKeyword);
 			
-			if (shareUserList.size() == 0) {
+			if (shareUserGetResList.size() == 0) {
 				return ResponseEntity.status(400).body(null);
-			}
-			
-			for (User shareUser : shareUserList) {
-				ShareUserGetRes userGetRes = new ShareUserGetRes(shareUser.getUserEmail(), shareUser.getUserNickname());
-				shareUserGetResList.add(userGetRes);
 			}
 			
 			return ResponseEntity.status(200).body(shareUserGetResList);
@@ -205,32 +199,3 @@ public class UserController {
 		
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
