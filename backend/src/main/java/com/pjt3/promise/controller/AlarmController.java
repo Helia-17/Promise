@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pjt3.promise.common.auth.PMUserDetails;
 import com.pjt3.promise.common.response.BaseResponseBody;
 import com.pjt3.promise.entity.User;
 import com.pjt3.promise.repository.UserRepository;
@@ -37,24 +39,21 @@ import com.pjt3.promise.service.PetService;
 @RestController
 public class AlarmController {
 
-    static String userEmail = "test1@naver.com";
-
     @Autowired
     AlarmService alarmService;
-
-    @Autowired
-    UserRepository userRepository;
     
     @Autowired
     PetService petService;
 
     
     @PostMapping()
-    public ResponseEntity<?> insertAlarm(@RequestBody AlarmPostReq alarmPostReq){
+    public ResponseEntity<?> insertAlarm(Authentication authentication, @RequestBody AlarmPostReq alarmPostReq){
         try {
+        	
+        	PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
+			User user = userDetails.getUser();
 
             int result = 0;
-            User user = userRepository.findUserByUserEmail(userEmail);
             result = alarmService.insertAlarm(user, alarmPostReq);
 
             if(result == 1) {			
@@ -64,7 +63,7 @@ public class AlarmController {
 			}
 
         } catch (NullPointerException e) {
-            return null;           
+        	return ResponseEntity.status(400).body(BaseResponseBody.of(420, "만료된 토큰입니다."));   
         } catch (Exception e) {
         	return ResponseEntity.status(404).body(BaseResponseBody.of(500, "Internal Server Error"));
         }
@@ -72,12 +71,14 @@ public class AlarmController {
     
     
     @PutMapping()
-    public ResponseEntity<?> updateAlarm(@RequestBody AlarmPutReq alarmPutReq){
+    public ResponseEntity<?> updateAlarm(Authentication authentication, @RequestBody AlarmPutReq alarmPutReq){
     	
     	try {
+        	
+        	PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
+			User user = userDetails.getUser();
 
             int result = 0;
-            User user = userRepository.findUserByUserEmail(userEmail);
             result = alarmService.updateAlarm(user, alarmPutReq);
 
             if(result == 1) {			
@@ -87,7 +88,7 @@ public class AlarmController {
 			}
 
         } catch (NullPointerException e) {
-            return null;           
+        	return ResponseEntity.status(400).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
         } catch (Exception e) {
         	return ResponseEntity.status(404).body(BaseResponseBody.of(500, "Internal Server Error"));
         }
@@ -95,12 +96,14 @@ public class AlarmController {
     
     
     @DeleteMapping("/{alarmId}")
-    public ResponseEntity<?> deleteAlarm(@PathVariable int alarmId){
+    public ResponseEntity<?> deleteAlarm(Authentication authentication, @PathVariable int alarmId){
     	
     	try {
 
+        	PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
+			User user = userDetails.getUser();
+    		
             int result = 0;
-
             result = alarmService.deleteAlarm(alarmId);
 
             if(result == 1) {			
@@ -110,7 +113,7 @@ public class AlarmController {
 			}
 
         } catch (NullPointerException e) {
-            return null;           
+        	return ResponseEntity.status(400).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
         } catch (Exception e) {
         	return ResponseEntity.status(404).body(BaseResponseBody.of(500, "Internal Server Error"));
         }
@@ -118,18 +121,23 @@ public class AlarmController {
     
     
     @GetMapping("/detail/{alarmId}")
-    public ResponseEntity<?> getAlarmInfo(@PathVariable int alarmId){
+    public ResponseEntity<?> getAlarmInfo(Authentication authentication, @PathVariable int alarmId){
     	
     	try {
+    		
+        	PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
+			User user = userDetails.getUser();
 
             AlarmDetailGetRes alarmDetailGetRes = alarmService.getAlarmInfo(alarmId);
+            
             if(alarmDetailGetRes == null) {
             	return ResponseEntity.status(404).body(BaseResponseBody.of(404, "알람 정보가 존재하지 않습니다."));
             }
+            
             return ResponseEntity.status(200).body(alarmDetailGetRes);
 
         } catch (NullPointerException e) {
-            return null;           
+        	return ResponseEntity.status(400).body(BaseResponseBody.of(420, "만료된 토큰입니다."));   
         } catch (Exception e) {
         	return ResponseEntity.status(404).body(BaseResponseBody.of(500, "Internal Server Error"));
         }
@@ -137,27 +145,30 @@ public class AlarmController {
     
     
     @PostMapping("/check")
-    public ResponseEntity<?> insertTakeHistory(@RequestBody TakeHistoryPostReq takeHistoryPostReq){
+    public ResponseEntity<?> insertTakeHistory(Authentication authentication, @RequestBody TakeHistoryPostReq takeHistoryPostReq){
     	try {
     		
-    		int result = 0;
-    		User user = userRepository.findUserByUserEmail(userEmail);
+        	PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
+			User user = userDetails.getUser();
     		
+    		int result = 0;
     		result = alarmService.insertTakeHistory(user, takeHistoryPostReq);
     		
     		if(result == 1) {
+    			
     			int result2 = petService.increasePetExp(1, user);
         		if(result2 == 1) {
         			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "복용 이력 등록 성공/경험치 등록 성공"));
         		} else {
         			return ResponseEntity.status(500).body(BaseResponseBody.of(500, "복용 이력 등록 성공/경험치 등록 성공"));
         		}
+        		
 			} else {
 				return ResponseEntity.status(500).body(BaseResponseBody.of(500, "복용 이력 등록 실패"));
 			}
     		
     	} catch (NullPointerException e) {
-    		return null;
+    		return ResponseEntity.status(400).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
     	} catch (Exception e) {
     		return ResponseEntity.status(404).body(BaseResponseBody.of(500, "Internal Server Error"));
 		}
@@ -166,36 +177,42 @@ public class AlarmController {
     
     
     @GetMapping()
-    public ResponseEntity<?> getProgressAlarmList(){
+    public ResponseEntity<?> getProgressAlarmList(Authentication authentication){
     	try {
     		
-    		User user = userRepository.findUserByUserEmail(userEmail);
+        	PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
+			User user = userDetails.getUser();
     		
     		List<AlarmGetRes> alarmList = alarmService.getProgressAlarmList(user);
+    		
 	        Map<String, List> map = new HashMap<String, List>();
 			map.put("alarmList", alarmList);
+			
 			return ResponseEntity.status(200).body(map);
 			
     	} catch (NullPointerException e) {
-    		return null;
+    		return ResponseEntity.status(400).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
     	} catch (Exception e) {
     		return ResponseEntity.status(404).body(BaseResponseBody.of(500, "Internal Server Error"));
 		}
     }
     
     @GetMapping("/{periodType}")
-    public ResponseEntity<?> getPastAlarmList(@PathVariable int periodType){
+    public ResponseEntity<?> getPastAlarmList(Authentication authentication, @PathVariable int periodType){
     	try {
     		
-    		User user = userRepository.findUserByUserEmail(userEmail);
+        	PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
+			User user = userDetails.getUser();
 
     		List<AlarmGetRes> alarmList = alarmService.getPastAlarmList(periodType, user);
+    		
 	        Map<String, List> map = new HashMap<String, List>();
 			map.put("alarmList", alarmList);
+			
 			return ResponseEntity.status(200).body(map);
 			
     	} catch (NullPointerException e) {
-    		return null;
+    		return ResponseEntity.status(400).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
     	} catch (Exception e) {
     		return ResponseEntity.status(404).body(BaseResponseBody.of(500, "Internal Server Error"));
 		}
