@@ -1,13 +1,18 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import Test from './pages/test'
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import combineReducers from './modules/reducers'
+import Container from './pages/container'
 
 const App = () => {
   return (
-    <View style={{ flex:1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>MAIN</Text>
-      <Test />
-    </View>
+    <Provider store={createStore(combineReducers)}>
+      <View style={{ flex:1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>MAIN</Text>
+        <Container />
+      </View>
+    </Provider>
   );
 };
 

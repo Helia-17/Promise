@@ -1,7 +1,7 @@
 // 첫 번째 인자로 이전의 상태를 전달받고, 두 번째 인자로는 액션을 전달받는다.
 // 전달 받은 액션의 type을 통해 새로운 상태를 반환하는것이 리듀서의 역할
 
-import types from '../actions/types';
+import types from './types';
 
 /* 초기 상태 선언 */
 const initialState = {
@@ -26,23 +26,12 @@ const initialState = {
       level: null,
       exp: null
     },
-    changeNickname: null,
+    changeNickname: '아아아아악',
     changePetname: null,
     medicineList: null,
     alarmList: null,
     alarmHistory: null,
   };
-
-export default (state = count, action) => {
-  switch (action.type) {
-    case types.COUNT_UP:
-      return state + action.payload;
-    case types.COUNT_DOWN:
-      return state - action.payload;
-    default:
-      return state;
-  }
-};
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -88,42 +77,42 @@ const reducer = (state = initialState, action) => {
             exp: null
           }
         };
-      case GET_MY_INFO:
+      case types.GET_MY_INFO:
         return {
           ...state,
           userInfo: action.data
         };
-      case GET_PET_INFO:
+      case types.GET_PET_INFO:
         return {
           ...state,
           pet: action.data
         };
-      case CHANGE_NICKNAME:
+      case types.CHANGE_NICKNAME:
         return {
           ...state,
           changeNickname: action.data,
         };
-      case CHANGE_PETNAME:
+      case types.CHANGE_PETNAME:
         return {
           ...state,
           changePetname: action.data,
         };
-      case GET_MEDICINE_LIST:
+      case types.GET_MEDICINE_LIST:
         return {
           ...state,
           medicineList: action.data,
         };
-      case GET_ALARM_LIST:
+      case types.GET_ALARM_LIST:
         return {
           ...state,
           alarmList: action.data,
         };
-      case GET_ALARM_HISTORY:
+      case types.GET_ALARM_HISTORY:
         return {
           ...state,
           alarmHistory: action.data,
         };
-      case REFRESH_INFO:
+      case types.REFRESH_INFO:
         // const refreshedUserToken = localStorage.getItem("userToken");
         // const refreshedJwt = require('jsonwebtoken');
         // const refreshedDecodedToken = refreshedJwt.decode(refreshedUserToken)
