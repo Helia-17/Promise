@@ -6,20 +6,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Search from './src/pages/Search';
 import Info from './src/pages/Info';
+import Pharmacy from './src/pages/Pharmacy';
 
 function HomeScreen({navigation}) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
       <Button title="go Info" onPress={()=>navigation.navigate('Info', {name:'타이레놀', company:'(주)한국얀센'})}/>
-    </View>
-  );
-}
-
-function PharmacyScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Pharmacy Screen</Text>
     </View>
   );
 }
@@ -75,7 +68,7 @@ function MyTabs() {
         )},
     })}>
       <Tab.Screen name="Home" component={StackScreen} options={{tabBarLabel:'홈'}}/>
-      <Tab.Screen name="Pharmacy" component={PharmacyScreen} options={{ title: '약국' }} />
+      <Tab.Screen name="Pharmacy" component={Pharmacy} options={{ title: '약국' }} />
       <Tab.Screen name="Calendar" component={CalendarScreen} options={{ title: '일정' }}/>
       <Tab.Screen name="Mypage" component={MypageScreen} options={{ title: '내 정보' }}/>
     </Tab.Navigator>
