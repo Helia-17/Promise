@@ -1,112 +1,86 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
-// import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { Button, View, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator  } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Search from './src/pages/Search';
+import Info from './src/pages/Info';
+import Pharmacy from './src/pages/Pharmacy';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-const Section = ({children, title}) => {
-  const isDarkMode = useColorScheme() === 'dark';
+function HomeScreen({navigation}) {
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Home Screen</Text>
+      <Button title="go Info" onPress={()=>navigation.navigate('Info', {name:'타이레놀', company:'(주)한국얀센'})}/>
     </View>
   );
-};
+}
 
-const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
+function CalendarScreen() {
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Calendar Screen</Text>
+    </View>
   );
-};
+}
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+function MypageScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>My page Screen</Text>
+    </View>
+  );
+}
+
+const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+function StackScreen({navigation}){
+  return(
+    <Stack.Navigator 
+    screenOptions={{
+      headerRight: ()=>(<Icon.Button onPress={()=>navigation.navigate('Search', {navigation:`${navigation}`})} name="magnify" color="black" backgroundColor='white' />),
+    }}>
+      <Stack.Screen name="Homes" component={HomeScreen} />
+      <Stack.Screen name="Search" component={Search} options={{ title: '검색', headerRight: null }}/>
+      <Stack.Screen name="Info" component={Info} options={{ title: '약 정보' }}/>
+    </Stack.Navigator>
+  );
+}
+
+function MyTabs() {
+  return (
+    <Tab.Navigator 
+    screenOptions={({route})=>({
+      tabBarActiveTintColor: 'black',
+      headerShown : false, 
+      tabBarHideOnKeyboard: true,
+      tabBarIcon: ({ color, size }) => {
+        const icons = {
+          Home: 'home',
+          Pharmacy : 'map-marker',
+          Calendar: 'calendar-blank',
+          Mypage: 'account'
+        }
+        return(
+          <Icon name={icons[route.name]} color={color} size={size} />
+        )},
+    })}>
+      <Tab.Screen name="Home" component={StackScreen} options={{tabBarLabel:'홈'}}/>
+      <Tab.Screen name="Pharmacy" component={Pharmacy} options={{ title: '약국' }} />
+      <Tab.Screen name="Calendar" component={CalendarScreen} options={{ title: '일정' }}/>
+      <Tab.Screen name="Mypage" component={MypageScreen} options={{ title: '내 정보' }}/>
+    </Tab.Navigator>
+  );
+}
+
+function App() {
+  return (
+    <NavigationContainer>
+      <MyTabs />
+    </NavigationContainer>
+  );
+}
 
 export default App;
