@@ -32,6 +32,8 @@ public class QUser extends EntityPathBase<User> {
 
     public final QPet pet;
 
+    public final StringPath refreshToken = createString("refreshToken");
+
     public final ListPath<Tag, QTag> tag = this.<Tag, QTag>createList("tag", Tag.class, QTag.class, PathInits.DIRECT2);
 
     public final ListPath<TakeHistory, QTakeHistory> takeHistorie = this.<TakeHistory, QTakeHistory>createList("takeHistorie", TakeHistory.class, QTakeHistory.class, PathInits.DIRECT2);
