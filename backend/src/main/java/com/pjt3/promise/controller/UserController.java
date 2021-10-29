@@ -116,7 +116,7 @@ public class UserController {
 				return ResponseEntity.status(200).body(BaseResponseBody.of(200, "사용할 수 있는 닉네임입니다."));	
 			}
 		} catch (NullPointerException e) {
-			return ResponseEntity.status(400).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
+			return ResponseEntity.status(420).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
 		}
 	}
 	
@@ -134,7 +134,7 @@ public class UserController {
 				return ResponseEntity.status(404).body(BaseResponseBody.of(404, "회원탈퇴중에 문제가 발생하였습니다."));			
 			}
 		} catch (NullPointerException e) {
-			return ResponseEntity.status(400).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
+			return ResponseEntity.status(420).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
 		}
 	}
 	
@@ -155,7 +155,7 @@ public class UserController {
 				return ResponseEntity.status(404).body(BaseResponseBody.of(404, "업데이트 과정에서 문제가 발생했습니다."));
 			}
 		} catch (NullPointerException e) {
-			return ResponseEntity.status(400).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
+			return ResponseEntity.status(420).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
 		}
 	}
 	
@@ -173,7 +173,7 @@ public class UserController {
 				return ResponseEntity.status(400).body(BaseResponseBody.of(400, "프로필 사진 업데이트 과정에서 문제가 발생했습니다."));				
 			}
 		} catch (NullPointerException e) {
-			return ResponseEntity.status(400).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
+			return ResponseEntity.status(420).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
 		}
 	}
 	
