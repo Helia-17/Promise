@@ -162,9 +162,8 @@ public class AlarmServiceImpl implements AlarmService {
 		try {
 			mediAlarm = mediAlarmRepository.findMediAlarmByAlarmId(alarmPutReq.getAlarmId());
 			
-			mediAlarmRepository.delete(mediAlarm);
-			
-			mediAlarm = new MediAlarm();
+			tagRepository.deleteByMediAlarmAlarmId(alarmPutReq.getAlarmId());
+			userMedicineRepository.deleteByMediAlarmAlarmId(alarmPutReq.getAlarmId());
 			
 			mediAlarm.setUser(user);
 			mediAlarm.setAlarmTitle(alarmPutReq.getAlarmTitle());
