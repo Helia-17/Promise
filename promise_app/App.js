@@ -4,6 +4,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator  } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import combineReducers from './src/modules/reducers'
 import Search from './src/pages/Search';
 import Info from './src/pages/Info';
 import Pharmacy from './src/pages/Pharmacy';
@@ -77,9 +80,11 @@ function MyTabs() {
 
 function App() {
   return (
-    <NavigationContainer>
-      <MyTabs />
-    </NavigationContainer>
+    <Provider store={createStore(combineReducers)}>
+      <NavigationContainer>
+        <MyTabs />
+      </NavigationContainer>
+    </Provider>
   );
 }
 
