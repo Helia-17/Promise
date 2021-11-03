@@ -1,6 +1,5 @@
 package com.pjt3.promise.service;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +24,3 @@ public class PharmacyServiceImpl implements PharmacyService {
 	}
 
 }
-
-/*
- * 내 주변 약국 조회
- * 
- *  1. 지도 페이지 접속
- *  2. 현재 위치를 받아냄
- *  3. 현재 위치 위,경도로 city, gu를 얻어서 POST/pharmacies 호출
- */
