@@ -24,7 +24,7 @@ public class PharmacyRepositorySupport {
 	
 	LocalTime nowTime = LocalTime.now();
 	
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHss");
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmm");
 	
 	public List<Pharmacy> getPharmacyList(double lat, double lon){
 		
