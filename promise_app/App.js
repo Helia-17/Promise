@@ -13,13 +13,12 @@ import Info from './src/pages/Info';
 import Pharmacy from './src/pages/Pharmacy';
 import Alarm from './src/pages/Alarm';
 import Timeline from './src/pages/Timeline';
-import Calendar from './src/pages/Calendar';
+import CalendarPage from './src/pages/Calendar';
 
-function HomeScreen({navigation}) {
+function HomeScreen() {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
-      <Button title="go Info" onPress={()=>navigation.navigate('Info', {name:'타이레놀', company:'(주)한국얀센'})}/>
     </View>
   );
 }
@@ -39,8 +38,8 @@ const TopTab = createMaterialTopTabNavigator();
 function MyTopTab(){
   return(
     <TopTab.Navigator screenOptions={{tabBarActiveTintColor:'black', tabBarIndicatorStyle:{backgroundColor:'black'}, tabBarLabelStyle:{fontSize:15}}}>
-      <TopTab.Screen name='Calendar' component={Calendar}  options={{title:'달력'}}/>
-      <TopTab.Screen name='Alarm' component={Alarm} options={{title:'알람'}}/>
+      <TopTab.Screen name='Calendar' component={CalendarPage}  options={{title:'달력'}}/>
+      <TopTab.Screen name='Alarm' component={Alarm} options={{title:'알람'}} />
       <TopTab.Screen name='Timeline' component={Timeline} options={{title:'이력'}}/>
     </TopTab.Navigator>
   )
