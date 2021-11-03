@@ -67,10 +67,10 @@ public class Pharmacy {
     String sunCloseTime;
 
     @Column(name="pharm_lat")
-    String pharmLat;
+    Double pharmLat;
 
     @Column(name="pharm_long")
-    String pharmLong;
+    Double pharmLong;
 
     @Column(name="pharm_addr_city")
     String pharmAddrCity;

@@ -11,6 +11,6 @@ public class PharmacyGetRes {
 	String pharmName;
 	String pharmTel;
 	String pharmAddr;
-	String pharmLat;
-	String pharmLong;
+	Double pharmLat;
+	Double pharmLong;
 }

@@ -30,15 +30,15 @@ public class PharmacyController {
 	@Autowired
 	PharmacyService pharmacyService;
 	
-	@GetMapping()
-	public ResponseEntity<List<PharmacyGetRes>> getPharmacyList(Authentication authentication, @RequestParam String pharmAddrCity, String pharmAddrGu){
+	@GetMapping("")
+	public ResponseEntity<List<PharmacyGetRes>> getPharmacyListByLatLon(Authentication authentication, @RequestParam double lat, double lon){
 		try {
 			PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
 			User user = userDetails.getUser();
-			List<PharmacyGetRes> pharmacyList = pharmacyService.getPharmacyList(pharmAddrCity, pharmAddrGu);
+			List<PharmacyGetRes> pharmacyList = pharmacyService.getPharmacyListByLatLong(lat, lon);
 			
 			if (pharmacyList.size() == 0) {
-				return ResponseEntity.status(400).body(null);
+				return ResponseEntity.status(400).body(pharmacyList);
 			}
 			
 			return ResponseEntity.status(200).body(pharmacyList);

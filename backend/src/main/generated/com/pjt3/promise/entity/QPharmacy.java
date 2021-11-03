@@ -35,9 +35,9 @@ public class QPharmacy extends EntityPathBase<Pharmacy> {
 
     public final NumberPath<Integer> pharmId = createNumber("pharmId", Integer.class);
 
-    public final StringPath pharmLat = createString("pharmLat");
+    public final NumberPath<Double> pharmLat = createNumber("pharmLat", Double.class);
 
-    public final StringPath pharmLong = createString("pharmLong");
+    public final NumberPath<Double> pharmLong = createNumber("pharmLong", Double.class);
 
     public final StringPath pharmName = createString("pharmName");
 
