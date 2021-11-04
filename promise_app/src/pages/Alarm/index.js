@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import MediInfo from '../../components/atoms/MediInfo';
 
 const Alarm = (props) => {
-    console.log(props.route.params.day);
+    // console.log(props.route.params.day);
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
             <ScrollView style={{ width:'100%', margin:10}} contentContainerStyle={{alignItems: 'center'}}>

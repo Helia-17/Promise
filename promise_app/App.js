@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createStore } from 'redux';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import combineReducers from './src/modules/reducers'
 import Search from './src/pages/Search';
@@ -36,7 +37,7 @@ const Stack = createNativeStackNavigator();
 const TopTab = createMaterialTopTabNavigator();
 
 function MyTopTab(){
-  return(
+  return (
     <TopTab.Navigator screenOptions={{tabBarActiveTintColor:'black', tabBarIndicatorStyle:{backgroundColor:'black'}, tabBarLabelStyle:{fontSize:15}}}>
       <TopTab.Screen name='Calendar' component={CalendarPage}  options={{title:'달력'}}/>
       <TopTab.Screen name='Alarm' component={Alarm} options={{title:'알람'}} />
@@ -45,15 +46,33 @@ function MyTopTab(){
   )
 }
 
+function TopTabStackScreen(){
+  return(
+    <Stack.Navigator>
+      <Stack.Screen name="CalendarTab" component={MyTopTab} options={{ title: '일정' }}/>
+    </Stack.Navigator>
+  );
+}
+
+// function MyTopTab(){
+//   return(
+//     <TopTab.Navigator screenOptions={{tabBarActiveTintColor:'black', tabBarIndicatorStyle:{backgroundColor:'black'}, tabBarLabelStyle:{fontSize:15}}}>
+//       <TopTab.Screen name='Calendar' component={CalendarPage}  options={{title:'달력'}}/>
+//       <TopTab.Screen name='Alarm' component={Alarm} options={{title:'알람'}} />
+//       <TopTab.Screen name='Timeline' component={Timeline} options={{title:'이력'}}/>
+//     </TopTab.Navigator>
+//   )
+// }
+
 function StackScreen({navigation}){
   return(
     <Stack.Navigator 
     screenOptions={{
       headerRight: ()=>(<Icon.Button onPress={()=>navigation.navigate('Search', {navigation:`${navigation}`})} name="magnify" color="black" backgroundColor='white' />),
     }}>
-      <Stack.Screen name="Homes" component={HomeScreen} />
+      <Stack.Screen name="Homes" component={HomeScreen} options={{title: ''}}/>
       <Stack.Screen name="Search" component={Search} options={{ title: '검색', headerRight: null }}/>
-      <Stack.Screen name="Info" component={Info} options={{ title: '약 정보' }}/>
+      <Stack.Screen name="Info" component={Info} options={{ title: '약 정보' }} />
     </Stack.Navigator>
   );
 }
@@ -78,7 +97,8 @@ function MyTabs() {
     })}>
       <Tab.Screen name="Home" component={StackScreen} options={{tabBarLabel:'홈'}}/>
       <Tab.Screen name="Pharmacy" component={Pharmacy} options={{ title: '약국' }} />
-      <Tab.Screen name="CalendarPage" component={MyTopTab} options={{ title: '일정' }}/>
+      <Tab.Screen name="CalendarPage" component={TopTabStackScreen} options={{ title: '일정' }} />
+      {/* <Tab.Screen name="CalendarPage" component={MyTopTab} options={{ title: '일정' }}/> */}
       <Tab.Screen name="Mypage" component={MypageScreen} options={{ title: '내 정보' }}/>
     </Tab.Navigator>
   );
@@ -86,11 +106,11 @@ function MyTabs() {
 
 function App() {
   return (
-    <Provider store={createStore(combineReducers)}>
+    <SafeAreaProvider store={createStore(combineReducers)}>
       <NavigationContainer>
         <MyTabs />
       </NavigationContainer>
-    </Provider>
+    </SafeAreaProvider>
   );
 }
 
