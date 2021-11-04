@@ -3,6 +3,7 @@ import { View, Platform, PermissionsAndroid, ScrollView } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import Geolocation from 'react-native-geolocation-service';
 import PhamacyInfo from '../../components/PhamacyInfo';
+import {GOOGLE_GEO_API} from '../../utils/oauth';
 
 const Pharmacy = () => {
     const [location, setLocation] = useState({latitude:37.2777764, longitude:127.0170466, error:null});
@@ -26,17 +27,14 @@ const Pharmacy = () => {
 
     async function findAddress(){
         const res = await fetch(
-            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.latitude},${location.longitude}&key=AIzaSyBhj3tc6-OLHV0mJqqPfRGp4xWVX0J29mc&language=ko`,
+            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.latitude},${location.longitude}&key=${GOOGLE_GEO_API}&language=ko`,
           );
         const resJson = await res.json();
         const addressArr = resJson.results[0].formatted_address.split(' ');
-        if(addressArr[1]==="서울특별시"){
-            setSi(addressArr[1]);
-            setGun(addressArr[2]);
-        }else{
-            setSi(addressArr[2]);
-            setGun(addressArr[3]);
-        }
+        setSi(addressArr[1]);
+        setGun(addressArr[2]);
+
+        console.log(resJson.results[0].formatted_address.split(' '));
     }
 
     useLayoutEffect(()=>{
