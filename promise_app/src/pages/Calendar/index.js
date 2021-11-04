@@ -19,7 +19,7 @@ const CalendarPage = ({navigation}) => {
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9', justifyContent:'center' }}>
             <View style={{width:'90%', alignItems:'flex-end'}}>
-                <Icon.Button onPress={()=>navigation.navigate('Alarm')} name="plus" color="black" backgroundColor='#F9F9F9' />
+                <Icon.Button onPress={()=>navigation.navigate('Add')} name="plus" color="black" backgroundColor='#F9F9F9' />
             </View>
             <Calendar
                 style={{borderRadius:5, width:330}}

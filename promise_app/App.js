@@ -15,6 +15,7 @@ import Pharmacy from './src/pages/Pharmacy';
 import Alarm from './src/pages/Alarm';
 import Timeline from './src/pages/Timeline';
 import CalendarPage from './src/pages/Calendar';
+import AlarmAdd from './src/pages/AlarmAdd';
 
 function HomeScreen() {
   return (
@@ -39,7 +40,7 @@ const TopTab = createMaterialTopTabNavigator();
 function MyTopTab(){
   return (
     <TopTab.Navigator screenOptions={{tabBarActiveTintColor:'black', tabBarIndicatorStyle:{backgroundColor:'black'}, tabBarLabelStyle:{fontSize:15}}}>
-      <TopTab.Screen name='Calendar' component={CalendarPage}  options={{title:'달력'}}/>
+      <TopTab.Screen name='CalendarScreen' component={CalendarScreen}  options={{title:'달력'}}/>
       <TopTab.Screen name='Alarm' component={Alarm} options={{title:'알람'}} />
       <TopTab.Screen name='Timeline' component={Timeline} options={{title:'이력'}}/>
     </TopTab.Navigator>
@@ -54,15 +55,17 @@ function TopTabStackScreen(){
   );
 }
 
-// function MyTopTab(){
-//   return(
-//     <TopTab.Navigator screenOptions={{tabBarActiveTintColor:'black', tabBarIndicatorStyle:{backgroundColor:'black'}, tabBarLabelStyle:{fontSize:15}}}>
-//       <TopTab.Screen name='Calendar' component={CalendarPage}  options={{title:'달력'}}/>
-//       <TopTab.Screen name='Alarm' component={Alarm} options={{title:'알람'}} />
-//       <TopTab.Screen name='Timeline' component={Timeline} options={{title:'이력'}}/>
-//     </TopTab.Navigator>
-//   )
-// }
+function CalendarScreen(){
+  return (
+    <Stack.Navigator 
+    screenOptions={{
+      headerShown : false
+    }}>
+      <Stack.Screen name="Calendar" component={CalendarPage} />
+      <Stack.Screen name="Add" component={AlarmAdd} />
+    </Stack.Navigator>
+  )
+}
 
 function StackScreen({navigation}){
   return(
