@@ -145,7 +145,6 @@
 				2128B5AE67DE5A59A2A3D7A7 /* Pods-promise_app-promise_appTests.debug.xcconfig */,
 				67A8821AD7B9FE078520BA32 /* Pods-promise_app-promise_appTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -485,6 +484,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 324NMPYTBC;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = promise_app/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -511,6 +511,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 324NMPYTBC;
 				INFOPLIST_FILE = promise_app/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

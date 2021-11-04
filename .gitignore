@@ -4,7 +4,8 @@
 # Backend DB Info
 application-db.properties
 
-
+# Backend JWT Info
+application-jwt.properties
 
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,reactnative,node,androidstudio,windows,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,reactnative,node,androidstudio,windows,macos
