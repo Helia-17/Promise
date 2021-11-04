@@ -2,6 +2,7 @@ import React, {useState, useLayoutEffect} from 'react';
 import { View, ScrollView, Platform } from 'react-native';
 import MediInfo from '../../components/atoms/MediInfo';
 import RNPickerSelect from 'react-native-picker-select';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 const Timeline = () => {
     const [value, setValue] = useState('week');
@@ -18,7 +19,13 @@ const Timeline = () => {
                         {label:'이번 주', value:'week'},
                         {label:'이번 달', value:'month'},
                         {label:'최근 3개월', value:'3month'}
-                    ]}/>
+                    ]}
+                    placeholder={{label:'범위를 선택해주세요.'}}
+                    style={{inputAndroid:{color:'black'}}}
+                    Icon={()=>{
+                        return <Icon color='black' name='down' size={15} style={{margin:18}}/>
+                    }}
+                    />
                 </View>
             );
         }
