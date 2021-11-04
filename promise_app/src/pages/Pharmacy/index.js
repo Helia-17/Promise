@@ -31,8 +31,7 @@ const Pharmacy = () => {
                         console.log(posistion.coords.latitude, posistion.coords.longitude);
                     },
                     (error)=>{
-                        setLocation({error:error.message});
-                        console.log(error);
+                        console.log(error.code, error.message);
                     },
                     {
                         enableHighAccuracy: true,
@@ -45,7 +44,7 @@ const Pharmacy = () => {
     },[]);
 
     return (
-        <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
+        <View style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
             {region?(
             <MapView style={{ position: 'absolute', top:0, left:0, right:0, bottom:0, height:'70%' }} showsUserLocation={true} initialRegion={region} >
                 <Marker coordinate={{latitude:37.277873, longitude:127.017078}} title='00약국'/>

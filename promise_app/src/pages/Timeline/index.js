@@ -29,6 +29,15 @@ const Timeline = () => {
                 </View>
             );
         }
+        
+        // iOS 구현부
+        // if (platform==='ios'){
+        //     result = result.concat(
+        //         <View>
+
+        //         </View>
+        //     );
+        // }
 
         return result;
     }
