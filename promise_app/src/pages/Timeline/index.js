@@ -1,14 +1,15 @@
-import React, {useState} from 'react';
-import { View, ScrollView } from 'react-native';
+import React, {useState, useLayoutEffect} from 'react';
+import { View, ScrollView, Platform } from 'react-native';
 import MediInfo from '../../components/atoms/MediInfo';
 import RNPickerSelect from 'react-native-picker-select';
 
 const Timeline = () => {
     const [value, setValue] = useState('week');
-
-    return (
-        <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
-            <View style={{width:'100%', alignItems: 'flex-end'}}>
+    const [platform, setPlatform] = useState();
+    function findPlatform(){
+        let result = [];
+        if (platform==='android'){
+            result = result.concat(
                 <View style={{width:'40%', backgroundColor:'white', borderRadius:20, height:50, margin:10}}>
                     <RNPickerSelect 
                     value={value}
@@ -19,6 +20,23 @@ const Timeline = () => {
                         {label:'최근 3개월', value:'3month'}
                     ]}/>
                 </View>
+            );
+        }
+
+        return result;
+    }
+    useLayoutEffect(()=>{
+        if (Platform.OS === 'android'){
+            setPlatform('android');
+        }
+        if (Platform.OS === 'ios'){
+            setPlatform('ios');
+        }
+    });
+    return (
+        <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
+            <View style={{width:'100%', alignItems: 'flex-end'}}>
+                {findPlatform()}
             </View>
             <ScrollView style={{ width:'100%', margin:10}} contentContainerStyle={{alignItems: 'center'}}>
                 <MediInfo name='비타민C' date='2021.10.15 15:22' />
