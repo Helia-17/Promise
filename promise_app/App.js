@@ -73,7 +73,7 @@ function StackScreen({navigation}){
     screenOptions={{
       headerRight: ()=>(<Icon.Button onPress={()=>navigation.navigate('Search', {navigation:`${navigation}`})} name="magnify" color="black" backgroundColor='white' />),
     }}>
-      <Stack.Screen name="Homes" component={HomeScreen} options={{title: ''}}/>
+      <Stack.Screen name="Homes" component={HomeScreen} options={{title: '홈'}}/>
       <Stack.Screen name="Search" component={Search} options={{ title: '검색', headerRight: null }}/>
       <Stack.Screen name="Info" component={Info} options={{ title: '약 정보' }} />
     </Stack.Navigator>
