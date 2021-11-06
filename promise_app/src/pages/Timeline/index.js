@@ -1,5 +1,5 @@
 import React, {useState, useLayoutEffect} from 'react';
-import { View, ScrollView, Platform } from 'react-native';
+import { View, ScrollView, Platform, StyleSheet } from 'react-native';
 import MediInfo from '../../components/atoms/MediInfo';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -30,14 +30,25 @@ const Timeline = () => {
             );
         }
         
-        // iOS 구현부
-        // if (platform==='ios'){
-        //     result = result.concat(
-        //         <View>
-
-        //         </View>
-        //     );
-        // }
+        if (platform==='ios'){
+            result = result.concat(
+                <View style={styles.pickerView}>
+                    <RNPickerSelect 
+                    value={value}
+                    onValueChange={(value)=>setValue(value)} 
+                    items={[
+                        {label:'이번 주', value:'week'},
+                        {label:'이번 달', value:'month'},
+                        {label:'최근 3개월', value:'3month'}
+                    ]}
+                    placeholder={{label:'범위를 선택해주세요.'}}
+                    Icon={()=>{
+                        return <Icon color='black' name='down' size={15} />
+                    }}
+                    />
+                </View>
+            );
+        }
 
         return result;
     }
@@ -51,7 +62,7 @@ const Timeline = () => {
     });
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
-            <View style={{width:'100%', alignItems: 'flex-end'}}>
+            <View style={styles.pickerLayout}>
                 {findPlatform()}
             </View>
             <ScrollView style={{ width:'100%', margin:10}} contentContainerStyle={{alignItems: 'center'}}>
@@ -65,4 +76,30 @@ const Timeline = () => {
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    pickerLayout: {
+        width: '90%',
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+        // borderBottomWidth: 0.2,
+        // borderBottomColor: '#bfbfbf',
+    },
+    pickerView: {
+        width: '35%',
+        justifyContent:'center',
+        backgroundColor: 'white',
+        borderWidth: 0.2,
+        borderColor: '#bfbfbf',
+        borderRadius: 5,
+        height: 40,
+        margin: 15,
+        marginBottom: 0,
+        marginRight: 0,
+        paddingLeft: 10,
+        paddingRight:10,
+    },
+    
+})
+
 export default Timeline;
