@@ -16,12 +16,18 @@ import Alarm from './src/pages/Alarm';
 import Timeline from './src/pages/Timeline';
 import CalendarPage from './src/pages/Calendar';
 import AlarmAdd from './src/pages/AlarmAdd';
+import CommunityPage from './src/pages/Community';
+import HomePage from './src/pages/Home';
 
 function HomeScreen() {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-    </View>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown : false
+      }}>
+      <Stack.Screen name='Home' component={HomePage}/>
+      <Stack.Screen name='Community' component={CommunityPage} />
+    </Stack.Navigator>
   );
 }
 
