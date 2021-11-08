@@ -1,6 +1,5 @@
 import React from 'react';
 import { View } from 'react-native';
-import Icon from 'react-native-vector-icons/Entypo';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import RoundBtn from '../../components/atoms/RoundBtn';
 
