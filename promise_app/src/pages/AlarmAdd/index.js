@@ -24,7 +24,7 @@ const AlarmAdd = ({navigation}) => {
     const [selectTime, setSelectTime] = useState('');
 
     const addList = (pillName) =>{
-        if(pillName.id){
+        if(pillName){
             setPillList([
                 ...pillList,
                 {id:pillId, name:pillName},
