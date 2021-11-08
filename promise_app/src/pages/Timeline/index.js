@@ -11,7 +11,7 @@ const Timeline = () => {
         let result = [];
         if (platform==='android'){
             result = result.concat(
-                <View style={{width:'40%', backgroundColor:'white', borderRadius:20, height:50, margin:10}}>
+                <View style={{width:'42%', backgroundColor:'white', borderRadius:20, height:35, margin:10, marginRight:0, justifyContent: 'center'}}>
                     <RNPickerSelect 
                     value={value}
                     onValueChange={(value)=>setValue(value)} 
@@ -51,7 +51,7 @@ const Timeline = () => {
     });
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
-            <View style={{width:'100%', alignItems: 'flex-end'}}>
+            <View style={{width:'90%', alignItems: 'flex-end'}}>
                 {findPlatform()}
             </View>
             <ScrollView style={{ width:'100%', margin:10}} contentContainerStyle={{alignItems: 'center'}}>
