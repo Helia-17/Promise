@@ -24,4 +24,6 @@ public interface AlarmService {
 	List<AlarmGetRes> getProgressAlarmList(User user);
 
 	List<AlarmGetRes> getPastAlarmList(int periodType, User user);
+
+	List<String> getOCRMediList(String text);
 }
