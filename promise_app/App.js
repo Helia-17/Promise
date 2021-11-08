@@ -1,5 +1,6 @@
-import React from 'react';
-import { Button, View, Text } from 'react-native';
+import React, {useEffect} from 'react';
+import SplashScreen from 'react-native-splash-screen';
+import { StatusBar, View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator  } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -16,19 +17,12 @@ import Alarm from './src/pages/Alarm';
 import Timeline from './src/pages/Timeline';
 import CalendarPage from './src/pages/Calendar';
 import AlarmAdd from './src/pages/AlarmAdd';
+import Mypage from './src/pages/Mypage';
 
 function HomeScreen() {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
-    </View>
-  );
-}
-
-function MypageScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>My page Screen</Text>
     </View>
   );
 }
@@ -60,7 +54,8 @@ function CalendarScreen(){
     <Stack.Navigator 
     screenOptions={{
       headerShown : false
-    }}>
+    }}
+    >
       <Stack.Screen name="Calendar" component={CalendarPage} />
       <Stack.Screen name="Add" component={AlarmAdd} />
     </Stack.Navigator>
@@ -102,14 +97,21 @@ function MyTabs() {
       <Tab.Screen name="Pharmacy" component={Pharmacy} options={{ title: '약국' }} />
       <Tab.Screen name="CalendarPage" component={TopTabStackScreen} options={{ title: '일정' }} />
       {/* <Tab.Screen name="CalendarPage" component={MyTopTab} options={{ title: '일정' }}/> */}
-      <Tab.Screen name="Mypage" component={MypageScreen} options={{ title: '내 정보' }}/>
+      <Tab.Screen name="Mypage" component={Mypage} options={{ title: '내 정보' }}/>
     </Tab.Navigator>
   );
 }
 
 function App() {
+
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
+
   return (
+    
     <SafeAreaProvider store={createStore(combineReducers)}>
+      <StatusBar barStyle="dark-content" hidden={false} backgroundColor='white' translucent={true}/>
       <NavigationContainer>
         <MyTabs />
       </NavigationContainer>
