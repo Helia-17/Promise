@@ -96,7 +96,6 @@ function MyTabs() {
       <Tab.Screen name="Home" component={StackScreen} options={{tabBarLabel:'홈'}}/>
       <Tab.Screen name="Pharmacy" component={Pharmacy} options={{ title: '약국' }} />
       <Tab.Screen name="CalendarPage" component={TopTabStackScreen} options={{ title: '일정' }} />
-      {/* <Tab.Screen name="CalendarPage" component={MyTopTab} options={{ title: '일정' }}/> */}
       <Tab.Screen name="Mypage" component={Mypage} options={{ title: '내 정보' }}/>
     </Tab.Navigator>
   );
@@ -108,13 +107,21 @@ function App() {
     SplashScreen.hide();
   }, []);
 
+  const isLogin = true;
+
   return (
     
     <SafeAreaProvider store={createStore(combineReducers)}>
       <StatusBar barStyle="dark-content" hidden={false} backgroundColor='white' translucent={true}/>
-      <NavigationContainer>
-        <MyTabs />
-      </NavigationContainer>
+      {isLogin?(
+        <NavigationContainer>
+          <MyTabs />
+        </NavigationContainer>
+      ):(
+        <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
+          <Text>마 로그인먼저 해라</Text>
+        </View>
+      )}
     </SafeAreaProvider>
   );
 }
