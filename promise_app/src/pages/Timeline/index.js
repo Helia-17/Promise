@@ -11,7 +11,7 @@ const Timeline = () => {
         let result = [];
         if (platform==='android'){
             result = result.concat(
-                <View style={{width:'40%', backgroundColor:'white', borderRadius:20, height:50, margin:10}}>
+                <View style={{width:'42%', backgroundColor:'white', borderRadius:20, height:35, margin:10, marginRight:0, justifyContent: 'center'}}>
                     <RNPickerSelect 
                     value={value}
                     onValueChange={(value)=>setValue(value)} 
@@ -82,8 +82,6 @@ const styles = StyleSheet.create({
         width: '90%',
         alignItems: 'flex-end',
         justifyContent: 'center',
-        // borderBottomWidth: 0.2,
-        // borderBottomColor: '#bfbfbf',
     },
     pickerView: {
         width: '35%',
