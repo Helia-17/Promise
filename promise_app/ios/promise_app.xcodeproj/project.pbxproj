@@ -504,7 +504,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.promise.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.prequre.promise;
 				PRODUCT_NAME = promise_app;
 				SWIFT_OBJC_BRIDGING_HEADER = "promise_app-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -531,7 +531,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.promise.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.prequre.promise;
 				PRODUCT_NAME = promise_app;
 				SWIFT_OBJC_BRIDGING_HEADER = "promise_app-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
