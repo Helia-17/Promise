@@ -15,14 +15,14 @@ const FindUser = (props) => {
             findList.map(item=>{
                 if(selectUser.id===item.id){
                     result = result.concat(
-                        <TouchableOpacity style={{flexDirection: "row", alignItems: 'center', width:'90%', margin:10, marginTop:0, justifyContent: 'space-around', height:40, borderRadius: 5, borderColor:'#B8CE9C', borderWidth:0.2}} onPress={()=>setSelectUser({id:item.id, name:item.name})}>
+                        <TouchableOpacity style={{flexDirection: "row", alignItems: 'center', width:'90%', margin:10, marginTop:0, justifyContent: 'space-around', height:40, borderRadius: 5, borderColor:'black', borderWidth:0.5}} onPress={()=>setSelectUser({id:item.id, name:item.name})}>
                             <Text style={{color:'black', width:'65%', textAlign:'center'}}>{item.id}</Text>
                             <Text style={{color:'black', width:'35%', textAlign:'center'}}>{item.name}</Text>
                         </TouchableOpacity>
                     )
                 }else{
                     result = result.concat(
-                        <TouchableOpacity style={{flexDirection: "row", alignItems: 'center', width:'90%', margin:10, marginTop:0, justifyContent: 'space-around', height:40, borderRadius: 5, borderColor:'black', borderWidth:0.2}} onPress={()=>setSelectUser({id:item.id, name:item.name})}>
+                        <TouchableOpacity style={{flexDirection: "row", alignItems: 'center', width:'90%', margin:10, marginTop:0, justifyContent: 'space-around', height:40, borderRadius: 5, borderColor:'rgba(0,0,0,0.3)', borderWidth:0.5}} onPress={()=>setSelectUser({id:item.id, name:item.name})}>
                             <Text style={{color:'black', width:'65%', textAlign:'center'}}>{item.id}</Text>
                             <Text style={{color:'black', width:'35%', textAlign:'center'}}>{item.name}</Text>
                         </TouchableOpacity>
@@ -44,11 +44,11 @@ const FindUser = (props) => {
     }, []);
 
     return(
-        <View style={{justifyContent: 'center', alignItems: 'center', flex:1}}>
+        <View style={{justifyContent: 'center', alignItems: 'center', flex:1, backgroundColor:'rgba(0,0,0,0.5)'}}>
             <View style={{position: 'absolute', width: '80%', height: '50%', backgroundColor: 'white', borderRadius: 20, elevation:2}} >
                 <View style={{flexDirection: "row", margin:20, alignItems: 'center', justifyContent:'space-between'}}>
                     <Text style={{fontSize:20, color: 'black', fontWeight: 'bold', marginLeft:10}}>사용자 찾기</Text>
-                    <Icon.Button name='close' size={17} color='black' backgroundColor='white' onPress={()=>setModalVisible(false)}/>
+                    <Icon.Button name='close' size={17} color='black' backgroundColor='white' onPress={()=>props.selected(selectUser)}/>
                 </View>
                 <View style={{margin:20, width:'100%', marginTop:5}}>
                     <View style={{width:'85%', height:40, margin: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: '#EEEEEE', borderRadius: 20}}>
