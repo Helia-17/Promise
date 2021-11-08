@@ -5,6 +5,7 @@ import MediInfo from '../../components/atoms/MediInfo';
 import Moment from 'moment';
 
 const Alarm = (props) => {
+
     if(props.route.params){
         console.log(props.route.params.day);
     }else{
