@@ -5,7 +5,9 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import com.pjt3.promise.repository.AlarmShareRepository;
 import com.pjt3.promise.repository.MediAlarmRepository;
 import com.pjt3.promise.repository.MediAlarmRepositorySupport;
 import com.pjt3.promise.repository.MedicineRepository;
+import com.pjt3.promise.repository.MedicineRepositorySupport;
 import com.pjt3.promise.repository.TagRepository;
 import com.pjt3.promise.repository.TakeHistoryRepository;
 import com.pjt3.promise.repository.UserMedicineRepository;
@@ -36,7 +39,7 @@ public class AlarmServiceImpl implements AlarmService {
 
 	private static final int SUCCESS = 1;
 	private static final int FAIL = -1;
-	
+
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
 	@Autowired
@@ -56,12 +59,15 @@ public class AlarmServiceImpl implements AlarmService {
 
 	@Autowired
 	AlarmShareRepository alarmShareRepository;
-	
+
 	@Autowired
 	MediAlarmRepositorySupport mediAlarmRepositorySupport;
-	
+
 	@Autowired
 	TakeHistoryRepository takeHistoryRepository;
+
+	@Autowired
+	MedicineRepositorySupport medicineRepositorySupport;
 
 	@Override
 	public int insertAlarm(User user, AlarmPostReq alarmPostReq) {
@@ -115,7 +121,7 @@ public class AlarmServiceImpl implements AlarmService {
 	}
 
 	public MediAlarm mediAlarmSetting(User user, AlarmPostReq alarmPostReq) {
-		
+
 		MediAlarm mediAlarm = new MediAlarm();
 
 		mediAlarm.setUser(user);
@@ -135,8 +141,6 @@ public class AlarmServiceImpl implements AlarmService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
 
 		return mediAlarm;
 	}
@@ -156,15 +160,15 @@ public class AlarmServiceImpl implements AlarmService {
 
 	@Override
 	public int updateAlarm(User user, AlarmPutReq alarmPutReq) {
-		
+
 		MediAlarm mediAlarm = null;
-		
+
 		try {
 			mediAlarm = mediAlarmRepository.findMediAlarmByAlarmId(alarmPutReq.getAlarmId());
-			
+
 			tagRepository.deleteByMediAlarmAlarmId(alarmPutReq.getAlarmId());
 			userMedicineRepository.deleteByMediAlarmAlarmId(alarmPutReq.getAlarmId());
-			
+
 			mediAlarm.setUser(user);
 			mediAlarm.setAlarmTitle(alarmPutReq.getAlarmTitle());
 			mediAlarm.setAlarmDayStart(alarmPutReq.getAlarmDayStart());
@@ -179,9 +183,9 @@ public class AlarmServiceImpl implements AlarmService {
 				mediAlarm.setAlarmTime5(alarmPutReq.getAlarmTime5());
 			}
 			mediAlarmRepository.save(mediAlarm);
-			
+
 			userMedicineSetting(mediAlarm, alarmPutReq.getAlarmMediList());
-			
+
 			for (String tagName : alarmPutReq.getTagList()) {
 				Tag tag = new Tag();
 				tag.setMediAlarm(mediAlarm);
@@ -189,9 +193,9 @@ public class AlarmServiceImpl implements AlarmService {
 				tag.setTagName(tagName);
 				tagRepository.save(tag);
 			}
-			
+
 			return SUCCESS;
-			
+
 		} catch (Exception e) {
 			return FAIL;
 		}
@@ -200,11 +204,11 @@ public class AlarmServiceImpl implements AlarmService {
 	@Override
 	public int deleteAlarm(int alarmId) {
 		try {
-			
+
 			MediAlarm mediAlarm = mediAlarmRepository.findMediAlarmByAlarmId(alarmId);
-			
+
 			mediAlarmRepository.delete(mediAlarm);
-			
+
 			return SUCCESS;
 		} catch (Exception e) {
 			return FAIL;
@@ -223,12 +227,12 @@ public class AlarmServiceImpl implements AlarmService {
 			takeHistory.setUser(user);
 			takeHistory.setMediAlarm(mediAlarmRepository.findMediAlarmByAlarmId(takeHistoryPostReq.getAlarmId()));
 			takeHistory.setThYN(takeHistoryPostReq.getThYN());
-			if(takeHistoryPostReq.getThYN() == 1) {
+			if (takeHistoryPostReq.getThYN() == 1) {
 				takeHistory.setThTime(Timestamp.valueOf(LocalDateTime.now()));
 			}
-			
+
 			takeHistoryRepository.save(takeHistory);
-			
+
 			return SUCCESS;
 		} catch (Exception e) {
 			return FAIL;
@@ -237,7 +241,7 @@ public class AlarmServiceImpl implements AlarmService {
 
 	@Override
 	public List<AlarmGetRes> getProgressAlarmList(User user) {
-		
+
 		LocalDate now = LocalDate.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String today = now.format(formatter);
@@ -249,31 +253,54 @@ public class AlarmServiceImpl implements AlarmService {
 
 	@Override
 	public List<AlarmGetRes> getPastAlarmList(int periodType, User user) {
-		
+
 		List<AlarmGetRes> alarmList = null;
-		
- 		Calendar c = Calendar.getInstance();
- 		
+
+		Calendar c = Calendar.getInstance();
+
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
 		String today = formatter.format(c.getTime());
 		String startDay = "";
-		if(periodType == 1) { // 이번주
-	 		c.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
-	 		startDay = formatter.format(c.getTime());
-	 		
+		if (periodType == 1) { // 이번주
+			c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+			startDay = formatter.format(c.getTime());
+
 		} else if (periodType == 2) { // 이번달
-			c.set(Calendar.DAY_OF_MONTH,1);
+			c.set(Calendar.DAY_OF_MONTH, 1);
 			startDay = formatter.format(c.getTime());
 
 		} else if (periodType == 3) { // 최근 3개월
 			c.add(Calendar.MONTH, -2);
-			c.set(Calendar.DAY_OF_MONTH,1);
+			c.set(Calendar.DAY_OF_MONTH, 1);
 			startDay = formatter.format(c.getTime());
 			System.out.println(startDay);
 		}
- 		alarmList = mediAlarmRepositorySupport.getPastAlarmList(today, startDay, user);
+		alarmList = mediAlarmRepositorySupport.getPastAlarmList(today, startDay, user);
 
 		return alarmList;
+	}
+
+	@Override
+	public List<String> getOCRMediList(String text) {
+		String[] textList = text.split(" ");
+		HashSet<String> findMediList = new HashSet<String>();
+		for (String str : textList) {
+			str = str.replaceAll(" ", "");
+
+			// 예외 조건 확인 후 추가 필요
+			if (str == null || str.equals("") || str.equals(" ")) continue;
+			if (str.length() == 0 || str.length() == 1) continue;
+			if ((!str.equals("자모") && !str.equals("뇌선") && !str.equals("얄액") && !str.equals("쿨정")) && str.length() == 2) continue;
+			if (str.length() == 3 && str.equals("서방정")) continue;
+
+			List<String> mediList = medicineRepositorySupport.getMediAutoListInfo(str);
+			for (String medi : mediList) {
+				findMediList.add(medi);
+			}
+
+		}
+
+		return new ArrayList<String>(findMediList);
 	}
 }

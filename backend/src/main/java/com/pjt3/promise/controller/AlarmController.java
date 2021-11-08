@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pjt3.promise.common.auth.PMUserDetails;
 import com.pjt3.promise.common.response.BaseResponseBody;
 import com.pjt3.promise.entity.User;
-import com.pjt3.promise.repository.UserRepository;
+import com.pjt3.promise.request.AlarmOCRPostReq;
 import com.pjt3.promise.request.AlarmPostReq;
 import com.pjt3.promise.request.AlarmPutReq;
 import com.pjt3.promise.request.TakeHistoryPostReq;
@@ -218,4 +218,25 @@ public class AlarmController {
 		}
     }
     
+    
+    @PostMapping("/ocr")
+    public ResponseEntity<?> getOCRMediList(Authentication authentication, @RequestBody AlarmOCRPostReq alarmOCRPostReq){
+    	try {
+    		
+        	PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
+			User user = userDetails.getUser();
+			
+			List<String> mediList = alarmService.getOCRMediList(alarmOCRPostReq.getText());
+    		
+	        Map<String, List> map = new HashMap<String, List>();
+			map.put("mediList", mediList);
+			
+			return ResponseEntity.status(200).body(map);
+			
+    	} catch (NullPointerException e) {
+    		return ResponseEntity.status(420).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
+    	} catch (Exception e) {
+    		return ResponseEntity.status(500).body(BaseResponseBody.of(500, "Internal Server Error"));
+		}
+    }
 }

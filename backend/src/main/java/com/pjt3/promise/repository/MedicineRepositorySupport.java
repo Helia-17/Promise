@@ -38,4 +38,5 @@ public class MedicineRepositorySupport {
                 .from(qMedicine).where(qMedicine.mediSerialNum.eq(mediSerialNum)).fetchOne();
         return mediInfo;
     }
+    
 }
