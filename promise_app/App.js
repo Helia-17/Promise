@@ -18,6 +18,7 @@ import Timeline from './src/pages/Timeline';
 import CalendarPage from './src/pages/Calendar';
 import AlarmAdd from './src/pages/AlarmAdd';
 import CommunityPage from './src/pages/Community';
+import PostCreatePage from './src/pages/PostCreate';
 import HomePage from './src/pages/Home';
 import Mypage from './src/pages/Mypage';
 
@@ -29,6 +30,7 @@ function HomeScreen() {
       }}>
       <Stack.Screen name='Home' component={HomePage}/>
       <Stack.Screen name='Community' component={CommunityPage} />
+      <Stack.Screen name='PostCreate' component={PostCreatePage} />
     </Stack.Navigator>
   );
 }

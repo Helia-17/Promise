@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { View, ScrollView, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-// import RoundButton from '../../components/atoms/RoundButton'; 
+import RoundBtn from '../../components/atoms/RoundBtn'; 
 
 const CommunityPage = ({navigation}) => {
     
@@ -13,9 +13,19 @@ const CommunityPage = ({navigation}) => {
                     <TouchableOpacity style={{backgroundColor:'#A3BED7', color:'black', alignItems: 'center', borderRadius: 12, height:50, justifyContent: 'center'}} onPress={()=>alert('등록이얌')}>
                         <Text style={{color:'black', fontSize:20, fontWeight:'bold'}}>등록하기</Text >
                     </TouchableOpacity>
-                    {/* <RoundButton/> */}
                 </View>
+
             </ScrollView>
+            <View style={{width:'100%', alignItems:'flex-end', position: 'absolute', left: 0, right: 0, bottom: 0}}>
+                <RoundBtn 
+                    func={()=>navigation.navigate('PostCreate')}
+                    text={<Icon name="plus" 
+                    style={{
+                    color: "white",
+                    fontSize: 30,
+                    }} />}>
+                </RoundBtn>
+            </View>
         </View>
     );
 };
