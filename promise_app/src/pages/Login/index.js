@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {View, Text, Image, TouchableOpacity, Platform} from 'react-native';
-import {GoogleSignin, GoogleSigninButton, statusCodes} from '@react-native-community/google-signin';
+import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
+import appleAuth, { AppleButton } from '@invertase/react-native-apple-authentication';
+import jwtDecode from 'jwt-decode';
 import Logo from '../../assets/Promise_Logo.png';
 
 GoogleSignin.configure({
@@ -16,7 +18,7 @@ const Login = () => {
     const [userProfile, setUserProfile] = useState('');
     const [userInfo, setUserInfo] = useState('');
 
-    const signIn = async() => {
+    const GoogleLogin = async() => {
       try {
           console.log("signIn")
           await GoogleSignin.hasPlayServices()
@@ -47,6 +49,27 @@ const Login = () => {
       }
     }
     
+    async function onAppleButtonPress() {
+      // performs login request
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+      });
+      // get current authentication state for user
+      // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
+      const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
+      // use credentialState response to ensure the user is authenticated
+      if (credentialState === appleAuth.State.AUTHORIZED) {
+        // user is authenticated
+        const decodedToken = jwtDecode(appleAuthRequestResponse.identityToken);
+        const userEmail = decodedToken.email;
+        console.log('Login Successed :: ');
+        console.log('Response Info ::', appleAuthRequestResponse);
+        console.log('decodedToken ::', decodedToken);
+        console.log('decodedToken.userEmail :: ', userEmail);
+
+      }
+    }
     // // 코드 상에서 사용되지는 않지만 이후 사용 가능성 있음
     // isSignedIn = async () => {
     //   const isSignedIn = await GoogleSignin.isSignedIn();
@@ -85,7 +108,7 @@ const Login = () => {
             {Platform.OS==='android'?(
               <View style={{alignItems: 'center'}}>
                 <GoogleSigninButton
-                onPress = {signIn}
+                onPress = {GoogleLogin}
                 size = {GoogleSigninButton.Size.Wide}
                 color = {GoogleSigninButton.Color.Dark}
                 style = {{width: 300, height: 48, marginTop: 10}}
@@ -93,9 +116,23 @@ const Login = () => {
                 <TouchableOpacity style={{height:48, justifyContent: 'center'}}>
                   <Text style={{textDecorationLine: 'underline'}}>이메일로 회원가입하기</Text>
                 </TouchableOpacity>
-            </View>
+              </View>
             ):(
               // OS일 경우 넣어주십셔
+              <View style={{alignItems: 'center'}}>
+                <GoogleSigninButton
+                onPress = {GoogleLogin}
+                size = {GoogleSigninButton.Size.Wide}
+                color = {GoogleSigninButton.Color.Dark}
+                style = {{width: 300, height: 48, marginTop: 10}}
+                />
+                <TouchableOpacity onPress={() => onAppleButtonPress()}>
+                  <Text>애플로그인</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={{height:48, justifyContent: 'center'}}>
+                  <Text style={{textDecorationLine: 'underline'}}>이메일로 회원가입하기</Text>
+                </TouchableOpacity>
+              </View>
             )}
             {/* <Text>userEmail : {userEmail}</Text>
             <Text>userProfile :</Text>
