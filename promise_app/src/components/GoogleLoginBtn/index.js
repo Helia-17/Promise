@@ -1,9 +1,14 @@
 import React from 'react';
 import {View} from 'react-native';
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
-import GOOGLE_LOGIN_ID from '../../utils/oauth';
+import {GOOGLE_WEB_ID, GOOGLE_ANDROID_ID, GOOGLE_IOS_ID} from '../../utils/oauth';
 
-GoogleSignin.configure({GOOGLE_LOGIN_ID});
+GoogleSignin.configure({
+    webClientId: GOOGLE_WEB_ID,
+    androidClientId: GOOGLE_ANDROID_ID,
+    iosClientId: GOOGLE_IOS_ID,
+    offlineAccess: true,
+});
 
 const GoogleLoginBtn = (props) => {
 
