@@ -18,6 +18,7 @@ import Timeline from './src/pages/Timeline';
 import CalendarPage from './src/pages/Calendar';
 import AlarmAdd from './src/pages/AlarmAdd';
 import Mypage from './src/pages/Mypage';
+import Login from './src/pages/Login';
 
 function HomeScreen() {
   return (
@@ -107,7 +108,7 @@ function App() {
     SplashScreen.hide();
   }, []);
 
-  const isLogin = true;
+  const isLogin = false;
 
   return (
     
@@ -118,8 +119,8 @@ function App() {
           <MyTabs />
         </NavigationContainer>
       ):(
-        <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
-          <Text>마 로그인먼저 해라</Text>
+        <View style={{flex:1, backgroundColor:'#FFF6E9'}}>
+          <Login/>
         </View>
       )}
     </SafeAreaProvider>
