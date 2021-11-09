@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TouchableOpacity, StyleSheet, Text, Image} from 'react-native';
+import {View, Platform, TouchableOpacity, StyleSheet, Text, Image} from 'react-native';
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
 import { GOOGLE_WEB_ID, GOOGLE_ANDROID_ID, GOOGLE_IOS_ID } from '../../utils/oauth';
 
@@ -53,14 +53,25 @@ const GoogleLoginBtn = (props) => {
 
     return (
         <View>
-            <TouchableOpacity onPress={() => GoogleLogin()}>
-                <View style={styles.GoogleButton}>
-                    <Image source={require('../../assets/Icon_Google.png')} style={ styles.GoogleIcon}/> 
-                    <Text style={styles.GoogleButtonText}>
-                        Google로 계속하기
-                    </Text>
+            {Platform.OS==='android'?(
+                <View>
+                    <GoogleSigninButton
+                    onPress = {GoogleLogin}
+                    size = {GoogleSigninButton.Size.Wide}
+                    color = {GoogleSigninButton.Color.Light}
+                    style = {{width: 300, height: 48, marginTop: 10}}
+                    />
                 </View>
-            </TouchableOpacity>
+            ):(
+                <View>
+                    <TouchableOpacity onPress={() => GoogleLogin()} style={styles.GoogleButton}>
+                        <Image source={require('../../assets/Icon_Google.png')} style={ styles.GoogleIcon}/> 
+                        <Text style={styles.GoogleButtonText}>
+                            Google로 계속하기
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            )}
         </View>
     )
 }
@@ -73,7 +84,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 7,
+        borderRadius: 5,
         borderStyle: 'solid',
         borderColor: '#888',
         borderWidth: 0.2,
@@ -81,10 +92,6 @@ const styles = StyleSheet.create({
     GoogleIcon: {
         position: 'absolute',
         left: 20,
-        width: 18,
-        height: 18,
-    },
-    GoogleIcon2: {
         width: 18,
         height: 18,
     },
