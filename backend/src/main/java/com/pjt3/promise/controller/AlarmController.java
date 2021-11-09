@@ -56,8 +56,12 @@ public class AlarmController {
             int result = 0;
             result = alarmService.insertAlarm(user, alarmPostReq);
 
-            if(result == 1) {			
-				return ResponseEntity.status(200).body(BaseResponseBody.of(200, "알람 입력 성공"));
+			
+            if(result != -1) {
+                Map<String, Integer> map = new HashMap<String, Integer>();
+    			map.put("alarmId", result);
+				return ResponseEntity.status(200).body(map);
+				
 			} else {
 				return ResponseEntity.status(500).body(BaseResponseBody.of(500, "알람 입력 실패"));
 			}
