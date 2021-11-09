@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import appleAuth, { AppleButton } from '@invertase/react-native-apple-authentication';
 import jwtDecode from 'jwt-decode';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 const AppleLoginBtn = (props) => {
     
@@ -28,12 +29,39 @@ const AppleLoginBtn = (props) => {
     }
 
     return (
-        <View style={{}}>
-            <TouchableOpacity onPress={() => onAppleButtonPress()}>
-                <Text>애플로그인</Text>
-            </TouchableOpacity>
-        </View>
+      <View>
+        <TouchableOpacity onPress={() => onAppleButtonPress()}>
+          <View style={styles.appleButton}>
+            <Icon name="apple1" size={18} color="white" style={styles.appleIcon}/> 
+            <Text style={styles.appleButtonText}>
+              Apple로 계속하기
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     )
 }
+
+
+const styles = StyleSheet.create({
+  appleButton: {
+    width: 300,
+    height: 48,
+    marginTop: 10,
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 7,
+  },
+  appleIcon: {
+    position: 'absolute',
+    left: 20,
+  },
+  appleButtonText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: 'white',
+  }
+});
 
 export default AppleLoginBtn;
