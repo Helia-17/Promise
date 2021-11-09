@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.pjt3.promise.entity.Pet;
@@ -27,6 +28,9 @@ public class UserServiceImpl implements UserService {
 	PetRepository petRepository;
 	
 	@Autowired
+	PasswordEncoder passwordEncoder;
+	
+	@Autowired
 	UserRepositorySupport userRepositorySupport;
 
 	@Override
@@ -34,6 +38,7 @@ public class UserServiceImpl implements UserService {
 		User user = new User();
 		
 		user.setUserEmail(userInsertInfo.getUserEmail());
+		user.setUserPassword(passwordEncoder.encode(userInsertInfo.getUserPassword()));
 		user.setUserNickname(userInsertInfo.getUserNickname());
 		user.setUserProfileUrl(userInsertInfo.getUserProfileUrl());
 		user.setUserJoinType(userInsertInfo.getUserJoinType());
