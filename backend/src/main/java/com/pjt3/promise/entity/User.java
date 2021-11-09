@@ -22,6 +22,9 @@ public class User {
     @Id
     @Column(name="user_email")
     String userEmail;
+    
+    @Column(name="user_password")
+    String userPassword;
 
     @Column(name="user_nickname")
     String userNickname;
