@@ -7,6 +7,10 @@ import com.pjt3.promise.request.CommuCommentInsertReq;
 import com.pjt3.promise.request.CommuCommentUpdateReq;
 import com.pjt3.promise.request.CommuPostInsertReq;
 import com.pjt3.promise.request.CommuPostUpdateReq;
+import com.pjt3.promise.request.CommunitySearchPostReq;
+import com.pjt3.promise.response.CommuCommentGetRes;
+import com.pjt3.promise.response.CommunityListGetRes;
+import com.pjt3.promise.response.MyPillHistoryGetRes;
 import com.pjt3.promise.service.CommunityService;
 import com.pjt3.promise.service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -149,4 +153,63 @@ public class CommunityController {
             return ResponseEntity.status(500).body(BaseResponseBody.of(500, "Internal Server Error"));
         }
     }
+    
+    @GetMapping("/list")
+	public ResponseEntity<?> getCommunityList(Authentication authentication, @RequestParam int pageNum) {
+		CommunityListGetRes communityListGetRes = new CommunityListGetRes();
+		try {
+
+			PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
+			User user = userDetails.getUser();
+
+			communityListGetRes = communityService.getCommunityList(pageNum);
+
+			return ResponseEntity.status(200).body(communityListGetRes);
+
+		} catch (NullPointerException e) {
+			return ResponseEntity.status(420).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
+		} catch (Exception e) {
+			return ResponseEntity.status(500).body(BaseResponseBody.of(500, "Internal Server Error"));
+		}
+	}
+    
+    @GetMapping("/detail")
+	public ResponseEntity<?> getCommuCommentDetail(Authentication authentication, @RequestParam int commuId) {
+		CommuCommentGetRes commuCommentGetRes = new CommuCommentGetRes();
+		try {
+
+			PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
+			User user = userDetails.getUser();
+
+			commuCommentGetRes = communityService.getCommuCommentDetail(commuId);
+
+			return ResponseEntity.status(200).body(commuCommentGetRes);
+
+		} catch (NullPointerException e) {
+			return ResponseEntity.status(420).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
+		} catch (Exception e) {
+			return ResponseEntity.status(500).body(BaseResponseBody.of(500, "Internal Server Error"));
+		}
+
+	}
+    
+    @PostMapping("/search")
+	public ResponseEntity<?> getCommunityList(Authentication authentication, @RequestBody CommunitySearchPostReq CommunitySearchPostReq) {
+		CommunityListGetRes communityListGetRes = new CommunityListGetRes();
+		try {
+
+			PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
+			User user = userDetails.getUser();
+
+			communityListGetRes = communityService.getCommunitySearchList(CommunitySearchPostReq.getPageNum(), CommunitySearchPostReq.getSearchKeyword());
+
+			return ResponseEntity.status(200).body(communityListGetRes);
+
+		} catch (NullPointerException e) {
+			return ResponseEntity.status(420).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
+		} catch (Exception e) {
+			return ResponseEntity.status(500).body(BaseResponseBody.of(500, "Internal Server Error"));
+		}
+	}
 }
+
