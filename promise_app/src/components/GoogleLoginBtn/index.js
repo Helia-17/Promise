@@ -84,10 +84,6 @@ const styles = StyleSheet.create({
         width: 18,
         height: 18,
     },
-    GoogleIcon2: {
-        width: 18,
-        height: 18,
-    },
     GoogleButtonText: {
         fontSize: 18,
         fontWeight: '600',
