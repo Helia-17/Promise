@@ -9,6 +9,5 @@ public class UserInsertPostReq {
 	String userNickname;
 	String userProfileUrl;
 	String petName;
-	int petType;
 	int userJoinType;
 }

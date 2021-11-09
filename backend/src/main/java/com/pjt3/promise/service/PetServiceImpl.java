@@ -55,7 +55,6 @@ public class PetServiceImpl implements PetService{
 		
 		pet.setUser(user);
 		pet.setPetName(userInsertInfo.getPetName());
-		pet.setPetType(userInsertInfo.getPetType());
 		pet.setPetLevel(1);
 		
 		return petRepository.save(pet);
