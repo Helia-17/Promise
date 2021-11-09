@@ -30,8 +30,6 @@ public class QPet extends EntityPathBase<Pet> {
 
     public final StringPath petName = createString("petName");
 
-    public final NumberPath<Integer> petType = createNumber("petType", Integer.class);
-
     public final QUser user;
 
     public QPet(String variable) {
