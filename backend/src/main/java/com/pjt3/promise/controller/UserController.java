@@ -92,7 +92,7 @@ public class UserController {
 		if (user != null) {
 			return ResponseEntity.status(409).body(BaseResponseBody.of(409, "이미 가입된 Email입니다."));
 		} else {
-			return ResponseEntity.status(409).body(BaseResponseBody.of(200, "사용할 수 있는 Email입니다."));			
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "사용할 수 있는 Email입니다."));			
 		}
 	}
 	
