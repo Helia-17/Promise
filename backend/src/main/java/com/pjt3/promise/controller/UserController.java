@@ -85,6 +85,17 @@ public class UserController {
 		}
 	}
 	
+	// 이메일 중복 체크
+	@GetMapping("/email/{userEmail}")
+	public ResponseEntity<BaseResponseBody> checkDuplicatedEmail(@PathVariable String userEmail){
+		User user = userService.getUserByUserEmail(userEmail);
+		if (user != null) {
+			return ResponseEntity.status(409).body(BaseResponseBody.of(409, "이미 가입된 Email입니다."));
+		} else {
+			return ResponseEntity.status(409).body(BaseResponseBody.of(200, "사용할 수 있는 Email입니다."));			
+		}
+	}
+	
 	// 닉네임 중복 체크 (회원가입 시)
 	@GetMapping("/nickname/{userNickname}")
 	public ResponseEntity<BaseResponseBody> checkDuplicatedNickname(@PathVariable String userNickname){
