@@ -17,32 +17,15 @@ import Alarm from './src/pages/Alarm';
 import Timeline from './src/pages/Timeline';
 import CalendarPage from './src/pages/Calendar';
 import AlarmAdd from './src/pages/AlarmAdd';
-import CommunityPage from './src/pages/Community';
-import PostCreatePage from './src/pages/PostCreate';
-import PostDetailPage from './src/pages/PostDetail';
-import HomePage from './src/pages/Home';
 import Mypage from './src/pages/Mypage';
 import Login from './src/pages/Login';
 
 function HomeScreen() {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown : false
-      }}>
-      <Stack.Screen name='Home' component={HomePage}/>
-    </Stack.Navigator>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Home Screen</Text>
+    </View>
   );
-}
-
-function CommunityScreen(){
-  return (
-    <Stack.Navigator >
-      <Stack.Screen name='커뮤니티' component={CommunityPage} />
-      <Stack.Screen name='글쓰기' component={PostCreatePage} />
-      <Stack.Screen name='게시물' component={PostDetailPage} />
-    </Stack.Navigator>
-  )
 }
 
 const Tab = createBottomTabNavigator();
@@ -105,8 +88,7 @@ function MyTabs() {
           Home: 'home',
           Pharmacy : 'map-marker',
           CalendarPage: 'calendar-blank',
-          Mypage: 'account',
-          CommunityScreen: 'account-group'
+          Mypage: 'account'
         }
         return(
           <Icon name={icons[route.name]} color={color} size={size} />
@@ -115,8 +97,6 @@ function MyTabs() {
       <Tab.Screen name="Home" component={StackScreen} options={{tabBarLabel:'홈'}}/>
       <Tab.Screen name="Pharmacy" component={Pharmacy} options={{ title: '약국' }} />
       <Tab.Screen name="CalendarPage" component={TopTabStackScreen} options={{ title: '일정' }} />
-      {/* <Tab.Screen name="CalendarPage" component={MyTopTab} options={{ title: '일정' }}/> */}
-      <Tab.Screen name='CommunityScreen' component={CommunityScreen} options={{ title: '커뮤니티' }}/>
       <Tab.Screen name="Mypage" component={Mypage} options={{ title: '내 정보' }}/>
     </Tab.Navigator>
   );
