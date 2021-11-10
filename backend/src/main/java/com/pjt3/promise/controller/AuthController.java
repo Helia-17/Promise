@@ -40,6 +40,11 @@ public class AuthController {
 	public ResponseEntity<UserLoginPostRes> login(@RequestBody UserLoginPostReq loginInfo){
 		return ResponseEntity.status(200).body(authService.login(loginInfo));
 	}
+
+	@PostMapping("/social")
+	public ResponseEntity<UserLoginPostRes> socail(@RequestBody UserLoginPostReq loginInfo){
+		return ResponseEntity.status(200).body(authService.social(loginInfo));
+	}
 	
 	@PostMapping("/reissue")
 	public ResponseEntity<TokenPostRes> reissue(@RequestBody TokenPostReq refreshToken){
