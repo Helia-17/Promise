@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, ScrollView, Text, TouchableOpacity, StyleSheet, TextInput, KeyboardAvoidingView } from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity, StyleSheet, TextInput, KeyboardAvoidingView, NativeModules } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RoundBtn from '../../components/atoms/RoundBtn'; 
 import SearchBar from '../../components/community/SearchBar';
@@ -7,6 +7,8 @@ import PostList from '../../components/community/PostList';
 import CommentList from '../../components/community/CommentList';
 import InputCommentText from '../../components/InputCommentText';
 import InputScrollView from 'react-native-input-scroll-view';
+
+// const { StatusBarManager } = NativeModules
 
 const PostDetailPage = ({navigation}) => {
     const [comment, onChangeComment] = useState('');
@@ -29,6 +31,14 @@ const PostDetailPage = ({navigation}) => {
           ]
         }
 
+    // useEffect(()=>{
+    //   Platform.OS == 'ios' ? StatusBarManager.getHeight((statusBarFrameData) => {
+    //       setStatusBarHeight(statusBarFrameData.height)
+    //     }) : null
+    // }, []);
+  
+    // const [statusBarHeight, setStatusBarHeight] = useState(0);
+
     return (
         <View  style={{ flex:1, backgroundColor:'white' }}>
             <View style={{width:'100%', margin:10}}>
@@ -46,7 +56,8 @@ const PostDetailPage = ({navigation}) => {
             {/* <InputScrollView style={{ width:'100%', backgroundColor:'#F4F4F4'}}>
             </InputScrollView> */}
                 <CommentList/>
-            <KeyboardAvoidingView>
+            {/* <KeyboardAvoidingView behavior={"padding"} keyboardVerticalOffset={44+statusBarHeight}> */}
+            <KeyboardAvoidingView >
                 <InputCommentText name='댓글' result={(data)=>onChangeComment(data)} />
             </KeyboardAvoidingView>
             {/* <View style={{ flex:1, width:'100%', alignItems:'center', left: 0, right: 0, bottom: 0}}>
