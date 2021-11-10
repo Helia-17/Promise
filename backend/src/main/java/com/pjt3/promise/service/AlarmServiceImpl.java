@@ -113,7 +113,7 @@ public class AlarmServiceImpl implements AlarmService {
 
 			}
 
-			return SUCCESS;
+			return mediAlarm.getAlarmId();
 
 		} catch (Exception e) {
 			return FAIL;

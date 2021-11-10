@@ -42,6 +42,7 @@
 		6B4DD1F8ADD6EBD24E9A9537 /* libPods-promise_app.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-promise_app.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B89B7E527341B95000B557E /* promise_app-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "promise_app-Bridging-Header.h"; sourceTree = "<group>"; };
 		6B89B7E627341B95000B557E /* SwiftBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftBridge.swift; sourceTree = "<group>"; };
+		6BBD2373273A0EEF003A7EA9 /* promise_app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = promise_app.entitlements; path = promise_app/promise_app.entitlements; sourceTree = "<group>"; };
 		7F7C58043DCB6EC188341781 /* Pods-promise_app.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-promise_app.debug.xcconfig"; path = "Target Support Files/Pods-promise_app/Pods-promise_app.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = promise_app/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A59F3639E92D81436777F915 /* Pods-promise_app.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-promise_app.release.xcconfig"; path = "Target Support Files/Pods-promise_app/Pods-promise_app.release.xcconfig"; sourceTree = "<group>"; };
@@ -89,6 +90,7 @@
 		13B07FAE1A68108700A75B9A /* promise_app */ = {
 			isa = PBXGroup;
 			children = (
+				6BBD2373273A0EEF003A7EA9 /* promise_app.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -491,6 +493,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = promise_app/promise_app.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 324NMPYTBC;
 				ENABLE_BITCODE = NO;
@@ -519,6 +522,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = promise_app/promise_app.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 324NMPYTBC;
 				INFOPLIST_FILE = promise_app/Info.plist;

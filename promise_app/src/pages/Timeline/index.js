@@ -2,6 +2,7 @@ import React, {useState, useLayoutEffect} from 'react';
 import { View, ScrollView, Platform, StyleSheet } from 'react-native';
 import MediInfo from '../../components/atoms/MediInfo';
 import RNPickerSelect from 'react-native-picker-select';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 const Timeline = () => {
     const [value, setValue] = useState('week');

@@ -24,7 +24,7 @@ const AlarmAdd = ({navigation}) => {
     const [selectTime, setSelectTime] = useState('');
 
     const addList = (pillName) =>{
-        if(pillName.id){
+        if(pillName){
             setPillList([
                 ...pillList,
                 {id:pillId, name:pillName},
@@ -117,7 +117,7 @@ const AlarmAdd = ({navigation}) => {
                         <ShareUser result={(data)=>setModalVisible(data)}/>
                         {myUserList()}
                         <Modal animationType={'fade'} transparent={true} visible={modalVisible}>
-                            <FindUser selected = {(data)=>addUser(data)}/>
+                            <FindUser selected = {(data)=>addUser(data)} visible={(data)=>setModalVisible(data)}/>
                         </Modal>
                     </View>
                 ):null}
