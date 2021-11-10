@@ -1,6 +1,7 @@
 package com.pjt3.promise.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.pjt3.promise.common.auth.JwtAuthenticationFilter;
@@ -21,11 +22,15 @@ public class AuthServiceImpl implements AuthService {
 	@Autowired
 	UserRepository userRepository;
 	
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	
 	JwtAuthenticationFilter jwtAuthenticationFilter;
 
 	@Override
 	public UserLoginPostRes login(UserLoginPostReq loginInfo) {
 		String userEmail = loginInfo.getUserEmail();
+		String userPassword = loginInfo.getUserPassword();
 		
 		try {
 			User user = userService.getUserByUserEmail(userEmail);
@@ -33,10 +38,15 @@ public class AuthServiceImpl implements AuthService {
 			String accessToken = JwtTokenUtil.getToken(userEmail);
 			String refreshToken = JwtTokenUtil.getRefreshToken();
 			
-			user.setRefreshToken(refreshToken);
-			userRepository.save(user);
+			if (passwordEncoder.matches(userPassword, user.getUserPassword())) {
+				user.setRefreshToken(refreshToken);
+				userRepository.save(user);
+				
+				return new UserLoginPostRes(200, "로그인에 성공하였습니다.", accessToken, refreshToken);				
+			} else {
+				return new UserLoginPostRes(401, "잘못된 비밀번호 입니다.", null, null);
+			}
 			
-			return new UserLoginPostRes(200, "로그인에 성공하였습니다.", accessToken, refreshToken);
 			
 		} catch (NullPointerException e) {
 			return new UserLoginPostRes(404, "존재하지 않는 계정입니다.", null, null);
