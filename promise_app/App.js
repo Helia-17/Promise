@@ -128,7 +128,7 @@ function App() {
     SplashScreen.hide();
   }, []);
 
-  const isLogin = false;
+  const isLogin = true;
 
   return (
     

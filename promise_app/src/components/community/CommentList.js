@@ -46,43 +46,43 @@ export default function Comments() {
   const navigation = useNavigation(); 
 
   return (
-    // <FlatList
-    //   data={comments}
-    //   renderItem={({item, i}) => (
-    //     <TouchableHighlight onPress={()=>navigation.navigate('게시물')} underlayColor="white">
-    //     <View style={styles.container} key={i}>
-    //         <View>
-    //             <Text style={styles.itemNameText}>{item.username}</Text>
-    //             <Text style={styles.itemTitleText}>{item.title}</Text>
-    //         </View>
-    //         <View>
-    //             <Text style={styles.itemDateText}>
-    //             {item.date}
-    //             </Text>
-    //         </View>
-    //     </View>
-    //     </TouchableHighlight>
-    //   )}
-    // />
-    <ScrollView styles={{height: '100%'}}>
-      {comments.map(function(item, i){
-          return (
-            <TouchableHighlight onPress={()=>navigation.navigate('게시물')} underlayColor="white">
-              <View style={styles.container} key={i}>
-                  <View>
-                      <Text style={styles.itemNameText}>{item.username}</Text>
-                      <Text style={styles.itemTitleText}>{item.title}</Text>
-                  </View>
-                  <View>
-                      <Text style={styles.itemDateText}>
-                      {item.date}
-                      </Text>
-                  </View>
-              </View>
-          </TouchableHighlight>
-          );
-      })}
-    </ScrollView>
+    <FlatList
+      data={comments}
+      renderItem={({item, i}) => (
+        <TouchableHighlight onPress={()=>navigation.navigate('게시물')} underlayColor="white">
+        <View style={styles.container} key={i}>
+            <View>
+                <Text style={styles.itemNameText}>{item.username}</Text>
+                <Text style={styles.itemTitleText}>{item.title}</Text>
+            </View>
+            <View>
+                <Text style={styles.itemDateText}>
+                {item.date}
+                </Text>
+            </View>
+        </View>
+        </TouchableHighlight>
+      )}
+    />
+    // <ScrollView styles={{height: '100%'}}>
+    //   {comments.map(function(item, i){
+    //       return (
+    //         <TouchableHighlight key={i} onPress={()=>navigation.navigate('게시물')} underlayColor="white">
+    //           <View style={styles.container} >
+    //               <View>
+    //                   <Text style={styles.itemNameText}>{item.username}</Text>
+    //                   <Text style={styles.itemTitleText}>{item.title}</Text>
+    //               </View>
+    //               <View>
+    //                   <Text style={styles.itemDateText}>
+    //                   {item.date}
+    //                   </Text>
+    //               </View>
+    //           </View>
+    //       </TouchableHighlight>
+    //       );
+    //   })}
+    // </ScrollView>
   );
 }
 

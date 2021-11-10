@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, ScrollView, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity, StyleSheet, TextInput, KeyboardAvoidingView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RoundBtn from '../../components/atoms/RoundBtn'; 
 import SearchBar from '../../components/community/SearchBar';
@@ -43,10 +43,12 @@ const PostDetailPage = ({navigation}) => {
                 </View>
                 </View>
             </View>
-                <CommentList/>
             {/* <InputScrollView style={{ width:'100%', backgroundColor:'#F4F4F4'}}>
             </InputScrollView> */}
+                <CommentList/>
+            <KeyboardAvoidingView>
                 <InputCommentText name='댓글' result={(data)=>onChangeComment(data)} />
+            </KeyboardAvoidingView>
             {/* <View style={{ flex:1, width:'100%', alignItems:'center', left: 0, right: 0, bottom: 0}}>
             </View> */}
         </View>
