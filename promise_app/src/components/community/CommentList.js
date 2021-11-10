@@ -3,55 +3,25 @@ import {View, Text, StyleSheet, FlatList, TouchableHighlight } from 'react-nativ
 import { Divider } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
-export default function PostList() {
-  const data = [
-    {
-      username: 'manon',
-      title: '타이레놀 1개 vs 2개',
-      date: '2021.10.18 04:34',
-    },
-    {
-        username: '가빈리',
-        title: '타이레놀 vs 게보린',
-        date: '2021.10.18 04:34',
-    },
-    {
-        username: 'JY',
-        title: '진통제 뭐드시나요',
-        date: '2021.10.18 04:34',
-    },
-    {
-        username: 'JY',
-        title: '진통제 뭐드시나요',
-        date: '2021.10.18 04:34',
-    },
-    {
-        username: 'JY',
-        title: '진통제 뭐드시나요',
-        date: '2021.10.18 04:34',
-    },
-    {
-        username: 'JY',
-        title: '진통제 뭐드시나요',
-        date: '2021.10.18 04:34',
-    },
-    {
-        username: 'JY',
-        title: '진통제 뭐드시나요',
-        date: '2021.10.18 04:34',
-    },
-    {
-        username: 'JY',
-        title: '진통제 뭐드시나요',
-        date: '2021.10.18 04:34',
-    },
-  ]; //길이가 긴 Array 라고 가정
+export default function Comments() {
+    const comments = [
+        {
+          username: '호셉',
+          title: '타이레놀 2개 킹정합니다.',
+          date: '2021.10.18 04:34'
+        },
+        {
+          username: 'JY',
+          title: '타이레놀 2개 킹정합니다.',
+          date: '2021.10.18 04:34'
+        },
+    ]
 
   const navigation = useNavigation(); 
 
   return (
     <FlatList
-      data={data}
+      data={comments}
       renderItem={({item, i}) => (
         <TouchableHighlight onPress={()=>navigation.navigate('게시물')} underlayColor="white">
         <View style={styles.container} key={i}>
@@ -80,7 +50,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 0,
     paddingVertical: 12,
     paddingHorizontal: 14,
-    height: 120,
+    height: 80,
     shadowColor: '#f1f2f3',
     shadowOffset: {
       width: 0,
@@ -101,7 +71,7 @@ const styles = StyleSheet.create({
   itemTitleText: {
     fontSize: 16,
     fontWeight: '400',
-    paddingVertical: 25,
+    paddingVertical: 10,
   },
   itemDateText: {
     paddingTop: 6,

@@ -12,7 +12,7 @@ const CommunityPage = ({navigation}) => {
 
     const sendPost = () => {
         alert('작성로직')
-        navigation.navigate('Community')
+        navigation.navigate('커뮤니티')
     }
     
     return (
