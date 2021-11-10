@@ -12,6 +12,7 @@
   "dependencies": {
     "@invertase/react-native-apple-authentication": "2.1.5",
     "@mui/material": "^5.0.5",
+    "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/datetimepicker": "^3.5.2",
     "@react-native-community/google-signin": "^5.0.0",
     "@react-native-picker/picker": "^2.1.0",
