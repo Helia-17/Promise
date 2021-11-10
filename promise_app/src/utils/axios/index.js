@@ -37,7 +37,7 @@ export const userAPI = {
         }).then((response) =>{
             setToken(response.data.accessToken);
             AsyncStorage.setItem('isLogin', 'true');
-        }).catch((error) =>{
+        }).catch((error) => {
             if (error.response.status === 404){
                 return error.response.status;
             }

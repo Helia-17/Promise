@@ -34,7 +34,7 @@ const Login = (props) => {
       }
       setType(data.type);
       const res = await userAPI.social(data.email, pw, data.type);
-      if(res===404){
+      if (res === 404) {
         setNickModal(true);
       }else{
         props.res(true);
