@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, TextInput, ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {userAPI} from '../../utils/axios';
 
 const SignInModal = (props) => {
     const [pwColor, setPwColor] = useState('#000000');
@@ -20,8 +21,13 @@ const SignInModal = (props) => {
         }
     }
 
-    const checkId = ()=>{
-        setIdColor('#A6DB9E');
+    const checkId = async ()=>{
+        const result = await userAPI.emailCheck(id);
+        if(result===200) {
+            setIdColor('#A6DB9E');
+        }else if(result===409){
+            setIdColor('#FFABAB');
+        }
     }
 
     const sendData = ()=>{
@@ -29,14 +35,16 @@ const SignInModal = (props) => {
             props.user({id:id, pw:pw});
             props.now(false);
             props.next(true);
-        }else if(id.length===0){
+        }else if(id.length<2){
             alert('이메일을 입력해주세요.');
         }
         else if(idColor === '#000000'){
             alert('이메일 중복확인을 해주세요.');
         }else if(idColor === '#FFABAB'){
             alert('중복된 이메일입니다. 다시 확인해주세요.');
-        }else{
+        }else if(pw.length<1){
+            alert('비밀번호를 입력해주세요.');
+        }else{    
             alert('비밀번호를 확인해주세요.');
         }
     }

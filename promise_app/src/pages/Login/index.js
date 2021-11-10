@@ -8,8 +8,9 @@ import NicknameModal from '../../components/NicknameModal';
 import PetModal from '../../components/PetModal';
 import LoginBtn from '../../components/atoms/LoginBtn';
 import LoginModal from '../../components/LoginModal';
+import {userAPI, myinfo} from '../../utils/axios';
 
-const Login = () => {
+const Login = (props) => {
   const [userModal, setUserModal] = useState(false);
   const [nickModal, setNickModal] = useState(false);
   const [petModal, setPetModal] = useState(false);
@@ -23,25 +24,53 @@ const Login = () => {
   const [profile, setProfile] = useState(null);
   const [nick, setNick] = useState('');
   const [petName, setPetName] = useState('');
+  const [type, setType] = useState();
 
-  const SocialSignin = (data) => {
+  const SocialSignin = async (data) => {
     if (data.email){
       setId(data.email);
-      if(data.profile){ setProfile(data.profile);}
-      setNickModal(true);
+      if(data.profile){ 
+        setProfile(data.profile);
+      }
+      setType(data.type);
+      const res = await userAPI.social(data.email, pw, data.type);
+      if(res===404){
+        setNickModal(true);
+      }else{
+        props.res(true);
+      }
     }
-  }
+  };
 
   const handleUser = (user) => {
     setId(user.id);
     setPw(user.pw);
-  }
+    setType(0);
+  };
 
-  const resultData = () =>{
-    alert(`id : ${id},
-    pw : ${pw},
-    nick: ${nick},
-    petName: ${petName}`);
+  const resultData = async() =>{
+    try{
+      await userAPI.join(id, pw, nick, profile, petName, type);
+      if(type===0){
+        await userAPI.login(id, pw, type)
+        .then((res) =>{
+          props.res(true);
+        });
+      }else if(type===1 || type===2){
+        await userAPI.social(id, pw, type)
+        .then((res) =>{
+          props.res(true);
+        });
+      }
+      
+    }catch(e){
+      console.log(e);
+    }
+  };
+
+  const NomalLogin = async (data) =>{
+    await userAPI.login(data.id, data.pw, 0);
+    props.res(true);
   }
 
   return (
@@ -72,7 +101,7 @@ const Login = () => {
         </View>
       )}
       <Modal animationType={'fade'} transparent={true} visible={loginModal}>
-        <LoginModal user={(data)=>alert('로그인중')} next={(data)=>setLoginModal(data)} exit={(data)=>setLoginModal(data)}/>
+        <LoginModal user={(data)=>NomalLogin(data)} next={(data)=>setLoginModal(data)} exit={(data)=>setLoginModal(data)}/>
       </Modal>
       <Modal animationType={'fade'} transparent={true} visible={userModal}>
         <SignInModal user={(data)=>handleUser(data)} now={(data)=>setUserModal(data)} next={(data)=>setNickModal(data)} exit={(data)=>setUserModal(data)}/>
