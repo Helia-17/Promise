@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import { View, ScrollView, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RoundBtn from '../../components/atoms/RoundBtn'; 
 import SearchBar from '../../components/community/SearchBar';
 import PostList from '../../components/community/PostList';
 import CommentList from '../../components/community/CommentList';
 import InputCommentText from '../../components/InputCommentText';
+import InputScrollView from 'react-native-input-scroll-view';
 
 const PostDetailPage = ({navigation}) => {
     const [comment, onChangeComment] = useState('');
@@ -29,7 +30,7 @@ const PostDetailPage = ({navigation}) => {
         }
 
     return (
-        <View  style={{ flex: 2, alignItems: 'center', backgroundColor:'white' }}>
+        <View  style={{ flex:1, backgroundColor:'white' }}>
             <View style={{width:'100%', margin:10}}>
                 <View style={styles.container}>
                 <View>
@@ -42,12 +43,12 @@ const PostDetailPage = ({navigation}) => {
                 </View>
                 </View>
             </View>
-            <View style={{ flex:5, width:'100%', backgroundColor:'#F4F4F4'}}>
                 <CommentList/>
-            </View>
-            <View style={{ flex:1, width:'100%', alignItems:'center', left: 0, right: 0, bottom: 0}}>
-              <InputCommentText name='댓글' result={(data)=>onChangeComment(data)} />
-            </View>
+            {/* <InputScrollView style={{ width:'100%', backgroundColor:'#F4F4F4'}}>
+            </InputScrollView> */}
+                <InputCommentText name='댓글' result={(data)=>onChangeComment(data)} />
+            {/* <View style={{ flex:1, width:'100%', alignItems:'center', left: 0, right: 0, bottom: 0}}>
+            </View> */}
         </View>
     );
 };
