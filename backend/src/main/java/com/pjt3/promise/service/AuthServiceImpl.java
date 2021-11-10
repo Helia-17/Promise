@@ -46,8 +46,11 @@ public class AuthServiceImpl implements AuthService {
 				if (userJoinType == 1) {
 					return new UserLoginPostRes(402, "Google 계정으로 가입된 계정입니다. Google로 계속하기를 시도해주세요.", null, null);		
 				}
-				else {
+				else if (userJoinType == 2) {
 					return new UserLoginPostRes(403, "Apple 계정으로 가입된 계정입니다. Apple로 계속하기를 시도해주세요.", null, null);								
+				}
+				else {
+					return new UserLoginPostRes(401, "잘못된 비밀번호 입니다.", null, null);
 				}
 			} else {				
 				if (passwordEncoder.matches(userPassword, user.getUserPassword())) {
