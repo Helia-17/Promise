@@ -34,7 +34,7 @@ const Login = (props) => {
       }
       setType(data.type);
       const res = await userAPI.social(data.email, pw, data.type);
-      if(res===404){
+      if (res === 404) {
         setNickModal(true);
       }else if(res===402){
         alert('Google 계정으로 가입된 계정입니다. Google로 계속하기를 시도해주세요.');
@@ -106,10 +106,14 @@ const Login = (props) => {
       ):(
         <View style={{alignItems: 'center'}}>
           <GoogleLoginBtn data={(data)=>SocialSignin(data)}/>
-          <AppleLoginBtn data={(data)=>SocialSignin(data)}/>
-            <TouchableOpacity style={{height:48, justifyContent: 'center'}}>
+          <AppleLoginBtn data={(data) => SocialSignin(data)} />
+          <View style={{flexDirection: 'row', justifyContent: 'space-between', width: 290}}>
+            <LoginBtn title='일반 로그인' func={()=>setLoginModal(true)}/>
+            <LoginBtn title='일반 회원가입' func={()=>setUserModal(true)}/>
+          </View>  
+          {/* <TouchableOpacity style={{height:48, justifyContent: 'center'}}>
             <Text style={{textDecorationLine: 'underline'}} onPress={()=>setUserModal(true)}>이메일로 회원가입하기</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       )}
       <Modal animationType={'fade'} transparent={true} visible={loginModal}>

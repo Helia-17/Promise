@@ -7,5 +7,6 @@ import com.pjt3.promise.response.UserLoginPostRes;
 
 public interface AuthService {
 	UserLoginPostRes login(UserLoginPostReq loginInfo);
+	UserLoginPostRes social(UserLoginPostReq loginInfo);
 	TokenPostRes reissue(TokenPostReq refreshToken);
 }

@@ -22,9 +22,6 @@ public class Pet {
     @Column(name="pet_name")
     String petName;
 
-    @Column(name="pet_type")
-    int petType;
-
     @Column(name="pet_level")
     int petLevel;
 
