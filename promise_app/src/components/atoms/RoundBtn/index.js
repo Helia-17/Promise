@@ -18,7 +18,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: 70,
         height: 70,
-        marginBottom: 10,
+        marginBottom: 20,
+        marginRight: 20,
         borderRadius: 35,
 
 

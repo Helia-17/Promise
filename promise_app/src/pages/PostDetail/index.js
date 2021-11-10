@@ -29,7 +29,7 @@ const PostDetailPage = ({navigation}) => {
         }
 
     return (
-        <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'white' }}>
+        <View  style={{ flex: 2, alignItems: 'center', backgroundColor:'white' }}>
             <View style={{width:'100%', margin:10}}>
                 <View style={styles.container}>
                 <View>
@@ -42,10 +42,10 @@ const PostDetailPage = ({navigation}) => {
                 </View>
                 </View>
             </View>
-            <View style={{ flex:3, width:'100%', backgroundColor:'#F4F4F4'}}>
+            <View style={{ flex:5, width:'100%', backgroundColor:'#F4F4F4'}}>
                 <CommentList/>
             </View>
-            <View style={{width:'100%', alignItems:'center', position: 'absolute', left: 0, right: 0, bottom: 0}}>
+            <View style={{ flex:1, width:'100%', alignItems:'center', left: 0, right: 0, bottom: 0}}>
               <InputCommentText name='댓글' result={(data)=>onChangeComment(data)} />
             </View>
         </View>
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
       color: '#333333'
     },
     itemNameText: {
-      fontSize: 16,
+      fontSize: 18,
       fontWeight: '600',
       paddingTop: 5,
     },
@@ -80,13 +80,13 @@ const styles = StyleSheet.create({
       paddingVertical: 5,
     },
     itemContentText: {
-      fontSize: 14,
+      fontSize: 16,
       fontWeight: '400',
       paddingTop: 30,
     },
     itemDateText: {
       textAlign: 'left',
-      fontSize: 10,
+      fontSize: 12,
       fontWeight: '500',
     },
   });

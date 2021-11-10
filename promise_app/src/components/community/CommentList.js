@@ -15,6 +15,21 @@ export default function Comments() {
           title: '타이레놀 2개 킹정합니다.',
           date: '2021.10.18 04:34'
         },
+        {
+          username: 'JY',
+          title: '타이레놀 2개 킹정합니다.',
+          date: '2021.10.18 04:34'
+        },
+        {
+          username: 'JY',
+          title: '타이레놀 2개 킹정합니다.',
+          date: '2021.10.18 04:34'
+        },
+        {
+          username: 'JY',
+          title: '타이레놀 2개 킹정합니다.',
+          date: '2021.10.18 04:34'
+        },
     ]
 
   const navigation = useNavigation(); 
