@@ -12,7 +12,7 @@ const Search = (props) => {
             {/* description */}
             <SearchResult query='타이레놀'/>
             {/* result */}
-            <ScrollView  style={{ width:'100%', marginLeft:'10%', marginBottom:'5%' }} >
+            <ScrollView  style={{ width:'100%', marginLeft:'10%', marginBottom:'5%', marginTop:'3%' }} >
                 <SearchList name="타이레놀" company="(주)한국얀센" navigation={props.navigation}/>
                 <SearchList name="타이레놀" company="(주)한국얀센" navigation={props.navigation}/>
                 <SearchList name="타이레놀" company="(주)한국얀센" navigation={props.navigation}/>

@@ -48,7 +48,7 @@ const FindUser = (props) => {
             <View style={{position: 'absolute', width: '80%', height: '50%', backgroundColor: 'white', borderRadius: 20, elevation:2}} >
                 <View style={{flexDirection: "row", margin:20, alignItems: 'center', justifyContent:'space-between'}}>
                     <Text style={{fontSize:20, color: 'black', fontWeight: 'bold', marginLeft:10}}>사용자 찾기</Text>
-                    <Icon.Button name='close' size={17} color='black' backgroundColor='white' onPress={()=>props.selected(selectUser)}/>
+                    <Icon.Button name='close' size={17} color='black' backgroundColor='white' onPress={()=>props.visible(false)}/>
                 </View>
                 <View style={{margin:20, width:'100%', marginTop:5}}>
                     <View style={{width:'85%', height:40, margin: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: '#EEEEEE', borderRadius: 20}}>

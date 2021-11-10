@@ -22,6 +22,7 @@ import PostCreatePage from './src/pages/PostCreate';
 import PostDetailPage from './src/pages/PostDetail';
 import HomePage from './src/pages/Home';
 import Mypage from './src/pages/Mypage';
+import Login from './src/pages/Login';
 
 function HomeScreen() {
   return (
@@ -127,13 +128,21 @@ function App() {
     SplashScreen.hide();
   }, []);
 
+  const isLogin = false;
+
   return (
     
     <SafeAreaProvider store={createStore(combineReducers)}>
       <StatusBar barStyle="dark-content" hidden={false} backgroundColor='white' translucent={true}/>
-      <NavigationContainer>
-        <MyTabs />
-      </NavigationContainer>
+      {isLogin?(
+        <NavigationContainer>
+          <MyTabs />
+        </NavigationContainer>
+      ):(
+        <View style={{flex:1, backgroundColor:'#FFF6E9'}}>
+          <Login/>
+        </View>
+      )}
     </SafeAreaProvider>
   );
 }
