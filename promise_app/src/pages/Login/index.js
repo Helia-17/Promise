@@ -61,10 +61,14 @@ const Login = () => {
       ):(
         <View style={{alignItems: 'center'}}>
           <GoogleLoginBtn data={(data)=>SocialSignin(data)}/>
-          <AppleLoginBtn data={(data)=>SocialSignin(data)}/>
-            <TouchableOpacity style={{height:48, justifyContent: 'center'}}>
+          <AppleLoginBtn data={(data) => SocialSignin(data)} />
+          <View style={{flexDirection: 'row', justifyContent: 'space-between', width: 290}}>
+            <LoginBtn title='일반 로그인' func={()=>setLoginModal(true)}/>
+            <LoginBtn title='일반 회원가입' func={()=>setUserModal(true)}/>
+          </View>  
+          {/* <TouchableOpacity style={{height:48, justifyContent: 'center'}}>
             <Text style={{textDecorationLine: 'underline'}} onPress={()=>setUserModal(true)}>이메일로 회원가입하기</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       )}
       <Modal animationType={'fade'} transparent={true} visible={loginModal}>
