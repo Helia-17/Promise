@@ -29,6 +29,7 @@ export const userAPI = {
             AsyncStorage.setItem('isLogin', 'true');
         }).catch((error) =>{
             console.log(error.response);
+            return error.response.status;
         })
     },
     social:async(userEmail, userPassword, userLoginType) =>{
@@ -38,9 +39,7 @@ export const userAPI = {
             setToken(response.data.accessToken);
             AsyncStorage.setItem('isLogin', 'true');
         }).catch((error) =>{
-            if (error.response.status === 404){
-                return error.response.status;
-            }
+            return error.response.status;
         })
     },
     join: async(userEmail, userPassword, userNickname, userProfileUrl, petName, userJoinType)=>{

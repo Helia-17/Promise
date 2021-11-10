@@ -36,6 +36,12 @@ const Login = (props) => {
       const res = await userAPI.social(data.email, pw, data.type);
       if(res===404){
         setNickModal(true);
+      }else if(res===402){
+        alert('Google 계정으로 가입된 계정입니다. Google로 계속하기를 시도해주세요.');
+      }else if(res===403){
+        alert('Apple 계정으로 가입된 계정입니다. Apple로 계속하기를 시도해주세요.');
+      }else if(res===405){
+        alert('일반 계정으로 가입된 계정입니다. 일반 로그인을 시도해주세요.');
       }else{
         props.res(true);
       }
@@ -69,8 +75,18 @@ const Login = (props) => {
   };
 
   const NomalLogin = async (data) =>{
-    await userAPI.login(data.id, data.pw, 0);
-    props.res(true);
+    const res = await userAPI.login(data.id, data.pw, 0);
+    if(res===404){
+      alert('존재하지 않는 계정입니다.');
+    }else if(res===402){
+      alert('Google 계정으로 가입된 계정입니다. Google로 계속하기를 시도해주세요.');
+    }else if(res===403){
+      alert('Apple 계정으로 가입된 계정입니다. Apple로 계속하기를 시도해주세요.');
+    }else if(res===401){
+      alert('잘못된 비밀번호입니다.');
+    }else{
+      props.res(true);
+    }
   }
 
   return (
