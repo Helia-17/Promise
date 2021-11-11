@@ -32,6 +32,8 @@ const DateSelect = (props) => {
                 </TouchableOpacity>
                 <DateTimePickerModal
                     isVisible={isStartVisible}
+                    cancelTextIOS={"취소"}
+                    confirmTextIOS={"확인"}
                     mode="date"
                     onConfirm={ConfirmStart}
                     onCancel={()=>setIsStartVisible(false)}
@@ -42,6 +44,8 @@ const DateSelect = (props) => {
                 </TouchableOpacity>
                 <DateTimePickerModal
                     isVisible={isEndVisible}
+                    cancelTextIOS={"취소"}
+                    confirmTextIOS={"확인"}
                     mode="date"
                     onConfirm={ConfirmEnd}
                     onCancel={()=>setIsEndVisible(false)}
