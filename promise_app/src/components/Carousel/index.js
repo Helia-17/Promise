@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {FlatList, View, Text} from 'react-native';
 import styled from 'styled-components/native';
-import Page from './Page';
 import ChartPage from '../../pages/ChartPage';
 
 const Container = styled.View`
