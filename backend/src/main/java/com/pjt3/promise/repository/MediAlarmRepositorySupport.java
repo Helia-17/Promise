@@ -3,7 +3,6 @@ package com.pjt3.promise.repository;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.pjt3.promise.entity.QMediAlarm;
@@ -16,8 +15,6 @@ import com.pjt3.promise.response.AlarmGetRes;
 import com.pjt3.promise.response.MediGetRes;
 import com.pjt3.promise.response.MyAlarmHistory;
 import com.pjt3.promise.response.MyPillGetRes;
-import com.pjt3.promise.response.MyPillHistoryGetRes;
-import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -38,8 +35,8 @@ public class MediAlarmRepositorySupport {
     public AlarmDetailGetRes getAlarmInfo(int alarmId) {
 
     	AlarmDetailGetRes alarmDetailGetRes = query.select(Projections.bean(AlarmDetailGetRes.class,
-    			qMediAlarm.alarmId, qMediAlarm.alarmTitle, qMediAlarm.alarmYN, qMediAlarm.alarmDays,
-    			qMediAlarm.alarmTime1, qMediAlarm.alarmTime2, qMediAlarm.alarmTime3, qMediAlarm.alarmTime4, qMediAlarm.alarmTime5,
+    			qMediAlarm.alarmId, qMediAlarm.alarmTitle, qMediAlarm.alarmYN,
+    			qMediAlarm.alarmTime,
     			qMediAlarm.alarmDayStart, qMediAlarm.alarmDayEnd))
     			.from(qMediAlarm).where(qMediAlarm.alarmId.eq(alarmId)).fetchOne();
     	if(alarmDetailGetRes != null) {
