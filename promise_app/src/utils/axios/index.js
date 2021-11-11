@@ -2,6 +2,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 let request = axios.create({
+    // baseURL: 'http://localhost:8080/api'
     baseURL:'https://k5a201.p.ssafy.io/api'
 });
 
@@ -37,6 +38,7 @@ export const userAPI = {
             userEmail, userPassword, userLoginType
         }).then((response) =>{
             setToken(response.data.accessToken);
+            console.log(response.data.accessToken);
             AsyncStorage.setItem('isLogin', 'true');
         }).catch((error) =>{
             return error.response.status;
@@ -66,5 +68,25 @@ export const userAPI = {
         }).catch((error) =>{
             return error.response.status;
         });
-    }
+    },
+}
+
+export const getPharmacyAPI = async (lat, lon) => {
+    return await request.get('/pharmacies', {
+        headers:{
+            'Authorization': await AsyncStorage.getItem('token')
+        },
+        params: {
+            lat: lat,
+            lon: lon
+        }
+    })
+    .then((response) => {
+        console.log("then : ",response.data);
+        return response.data;
+    })
+    .catch((error) => {
+        console.log("error : ",request.defaults.headers.common['Authorization']);
+        console.log("error.response : ", error.response);
+    });
 }
