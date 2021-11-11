@@ -23,6 +23,8 @@ import PostDetailPage from './src/pages/PostDetail';
 import HomePage from './src/pages/Home';
 import Mypage from './src/pages/Mypage';
 import Login from './src/pages/Login';
+import MyPillNowPill from './src/pages/MyPillNowPill';
+import MyPillHistory from './src/pages/MyPillHistory';
 
 function HomeScreen() {
   return (
@@ -45,9 +47,35 @@ function CommunityScreen(){
   )
 }
 
+function MyPageScreen(){
+  return (
+    <Stack.Navigator >
+      <Stack.Screen name='마이페이지' component={Mypage} />
+      <Stack.Screen name='마이필' component={MyPillScreen} />
+    </Stack.Navigator>
+  )
+}
+
+function MyPillScreen(){
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="MyPillTab" component={MyPillTab} options={{ headerShown : false }}/>
+    </Stack.Navigator>
+  )
+}
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const TopTab = createMaterialTopTabNavigator();
+
+function MyPillTab(){
+  return (
+    <TopTab.Navigator screenOptions={{tabBarActiveTintColor:'black', tabBarIndicatorStyle:{backgroundColor:'black'}, tabBarLabelStyle:{fontSize:15}}}>
+      <TopTab.Screen name='NowPill' component={MyPillNowPill} options={{title:'복용중인 약'}} />
+      <TopTab.Screen name='PillHistory' component={MyPillHistory} options={{title:'최근 복용 이력'}}/>
+    </TopTab.Navigator>
+  )
+}
 
 function MyTopTab(){
   return (
@@ -117,7 +145,7 @@ function MyTabs() {
       <Tab.Screen name="CalendarPage" component={TopTabStackScreen} options={{ title: '일정' }} />
       {/* <Tab.Screen name="CalendarPage" component={MyTopTab} options={{ title: '일정' }}/> */}
       <Tab.Screen name='CommunityScreen' component={CommunityScreen} options={{ title: '커뮤니티' }}/>
-      <Tab.Screen name="Mypage" component={Mypage} options={{ title: '내 정보' }}/>
+      <Tab.Screen name="Mypage" component={MyPageScreen} options={{ title: '내 정보' }}/>
     </Tab.Navigator>
   );
 }

@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { View, ScrollView, Text, TouchableOpacity, StyleSheet, AppRegistry, processColor } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import RoundBtn from '../../components/atoms/RoundBtn'; 
 import SearchBar from '../../components/community/SearchBar';
 import PostList from '../../components/community/PostList';
 import {LineChart, PieChart} from 'react-native-charts-wrapper';
