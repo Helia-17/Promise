@@ -84,11 +84,9 @@ export const getPharmacyAPI = async (lat, lon, week, curTime) => {
         }
     })
     .then((response) => {
-        console.log("then : ",response.data);
         return response.data;
     })
     .catch((error) => {
-        console.log("error : ",request.defaults.headers.common['Authorization']);
         console.log("error.response : ", error.response);
     });
 }
