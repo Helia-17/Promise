@@ -24,7 +24,7 @@ const AppleLoginBtn = (props) => {
         console.log('Response Info ::', appleAuthRequestResponse);
         console.log('decodedToken ::', decodedToken);
         console.log('decodedToken.userEmail :: ', userEmail);
-        props.data({email:userEmail});
+        props.data({email:userEmail, type:2});
       }
     }
 

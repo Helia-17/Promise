@@ -8,8 +8,9 @@ import NicknameModal from '../../components/NicknameModal';
 import PetModal from '../../components/PetModal';
 import LoginBtn from '../../components/atoms/LoginBtn';
 import LoginModal from '../../components/LoginModal';
+import {userAPI, myinfo} from '../../utils/axios';
 
-const Login = () => {
+const Login = (props) => {
   const [userModal, setUserModal] = useState(false);
   const [nickModal, setNickModal] = useState(false);
   const [petModal, setPetModal] = useState(false);
@@ -23,25 +24,69 @@ const Login = () => {
   const [profile, setProfile] = useState(null);
   const [nick, setNick] = useState('');
   const [petName, setPetName] = useState('');
+  const [type, setType] = useState();
 
-  const SocialSignin = (data) => {
+  const SocialSignin = async (data) => {
     if (data.email){
       setId(data.email);
-      if(data.profile){ setProfile(data.profile);}
-      setNickModal(true);
+      if(data.profile){ 
+        setProfile(data.profile);
+      }
+      setType(data.type);
+      const res = await userAPI.social(data.email, pw, data.type);
+      if (res === 404) {
+        setNickModal(true);
+      }else if(res===402){
+        alert('Google 계정으로 가입된 계정입니다. Google로 계속하기를 시도해주세요.');
+      }else if(res===403){
+        alert('Apple 계정으로 가입된 계정입니다. Apple로 계속하기를 시도해주세요.');
+      }else if(res===405){
+        alert('일반 계정으로 가입된 계정입니다. 일반 로그인을 시도해주세요.');
+      }else{
+        props.res(true);
+      }
     }
-  }
+  };
 
   const handleUser = (user) => {
     setId(user.id);
     setPw(user.pw);
-  }
+    setType(0);
+  };
 
-  const resultData = () =>{
-    alert(`id : ${id},
-    pw : ${pw},
-    nick: ${nick},
-    petName: ${petName}`);
+  const resultData = async() =>{
+    try{
+      await userAPI.join(id, pw, nick, profile, petName, type);
+      if(type===0){
+        await userAPI.login(id, pw, type)
+        .then((res) =>{
+          props.res(true);
+        });
+      }else if(type===1 || type===2){
+        await userAPI.social(id, pw, type)
+        .then((res) =>{
+          props.res(true);
+        });
+      }
+      
+    }catch(e){
+      console.log(e);
+    }
+  };
+
+  const NomalLogin = async (data) =>{
+    const res = await userAPI.login(data.id, data.pw, 0);
+    if(res===404){
+      alert('존재하지 않는 계정입니다.');
+    }else if(res===402){
+      alert('Google 계정으로 가입된 계정입니다. Google로 계속하기를 시도해주세요.');
+    }else if(res===403){
+      alert('Apple 계정으로 가입된 계정입니다. Apple로 계속하기를 시도해주세요.');
+    }else if(res===401){
+      alert('잘못된 비밀번호입니다.');
+    }else{
+      props.res(true);
+    }
   }
 
   return (
@@ -61,14 +106,18 @@ const Login = () => {
       ):(
         <View style={{alignItems: 'center'}}>
           <GoogleLoginBtn data={(data)=>SocialSignin(data)}/>
-          <AppleLoginBtn data={(data)=>SocialSignin(data)}/>
-            <TouchableOpacity style={{height:48, justifyContent: 'center'}}>
+          <AppleLoginBtn data={(data) => SocialSignin(data)} />
+          <View style={{flexDirection: 'row', justifyContent: 'space-between', width: 290}}>
+            <LoginBtn title='일반 로그인' func={()=>setLoginModal(true)}/>
+            <LoginBtn title='일반 회원가입' func={()=>setUserModal(true)}/>
+          </View>  
+          {/* <TouchableOpacity style={{height:48, justifyContent: 'center'}}>
             <Text style={{textDecorationLine: 'underline'}} onPress={()=>setUserModal(true)}>이메일로 회원가입하기</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       )}
       <Modal animationType={'fade'} transparent={true} visible={loginModal}>
-        <LoginModal user={(data)=>alert('로그인중')} next={(data)=>setLoginModal(data)} exit={(data)=>setLoginModal(data)}/>
+        <LoginModal user={(data)=>NomalLogin(data)} next={(data)=>setLoginModal(data)} exit={(data)=>setLoginModal(data)}/>
       </Modal>
       <Modal animationType={'fade'} transparent={true} visible={userModal}>
         <SignInModal user={(data)=>handleUser(data)} now={(data)=>setUserModal(data)} next={(data)=>setNickModal(data)} exit={(data)=>setUserModal(data)}/>
