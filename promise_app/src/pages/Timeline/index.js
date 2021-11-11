@@ -12,16 +12,16 @@ const Timeline = () => {
         if (platform==='android'){
             result = result.concat(
                 <View style={{width:'42%', backgroundColor:'white', borderRadius:20, height:35, margin:10, marginRight:0, justifyContent: 'center'}}>
-                    <RNPickerSelect 
-                    value={value}
-                    onValueChange={(value)=>setValue(value)} 
-                    items={[
-                        {label:'이번 주', value:'week'},
-                        {label:'이번 달', value:'month'},
-                        {label:'최근 3개월', value:'3month'}
-                    ]}
-                    placeholder={{label:'범위를 선택해주세요.'}}
-                    style={{inputAndroid:{color:'black'}}}
+                    <RNPickerSelect
+                        value={value}
+                        onValueChange={(value)=>setValue(value)} 
+                        items={[
+                            {label:'이번 주', value:'week'},
+                            {label:'이번 달', value:'month'},
+                            {label:'최근 3개월', value:'3month'}
+                        ]}
+                        placeholder={{label:'범위를 선택해주세요.'}}
+                        style={{inputAndroid:{color:'black'}}}
                     />
                 </View>
             );
@@ -30,18 +30,19 @@ const Timeline = () => {
         if (platform==='ios'){
             result = result.concat(
                 <View style={styles.pickerView}>
-                    <RNPickerSelect 
-                    value={value}
-                    onValueChange={(value)=>setValue(value)} 
-                    items={[
-                        {label:'이번 주', value:'week'},
-                        {label:'이번 달', value:'month'},
-                        {label:'최근 3개월', value:'3month'}
-                    ]}
-                    placeholder={{label:'범위를 선택해주세요.'}}
-                    Icon={()=>{
-                        return <Icon color='black' name='down' size={15} />
-                    }}
+                    <RNPickerSelect
+                        doneText={"확인"}
+                        value={value}
+                        onValueChange={(value)=>setValue(value)} 
+                        items={[
+                            {label:'이번 주', value:'week'},
+                            {label:'이번 달', value:'month'},
+                            {label:'최근 3개월', value:'3month'}
+                        ]}
+                        placeholder={{label:'범위를 선택해주세요.'}}
+                        Icon={()=>{
+                            return <Icon color='black' name='down' size={15} />
+                        }}
                     />
                 </View>
             );
