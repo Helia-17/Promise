@@ -71,14 +71,16 @@ export const userAPI = {
     },
 }
 
-export const getPharmacyAPI = async (lat, lon) => {
+export const getPharmacyAPI = async (lat, lon, week, curTime) => {
     return await request.get('/pharmacies', {
         headers:{
             'Authorization': await AsyncStorage.getItem('token')
         },
         params: {
             lat: lat,
-            lon: lon
+            lon: lon,
+            week: week,
+            curTime: curTime
         }
     })
     .then((response) => {

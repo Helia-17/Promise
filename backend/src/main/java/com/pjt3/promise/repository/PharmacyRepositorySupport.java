@@ -31,11 +31,6 @@ public class PharmacyRepositorySupport {
 		
 		List<Pharmacy> pharmacyList = new ArrayList<>();
 		
-//		int week = nowDate.getDayOfWeek().getValue();
-//		String curTime = nowTime.format(formatter);
-		System.out.println("week : " + week);
-		System.out.println("curTime : " + curTime);
-		
 		// 월
 		if (week == 1) {
 			pharmacyList = pharmacyRepository.findByLatLongMon(lat, lon, curTime);
