@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {FlatList, View, Text} from 'react-native';
 import styled from 'styled-components/native';
 import ChartPage from '../../pages/ChartPage';
+import PetPage from '../../pages/Pet';
 
 const Container = styled.View`
   height: 100%;
@@ -39,7 +40,7 @@ export default function Carousel({pages, pageWidth, gap, offset}) {
         </IndicatorWrapper>
       </View>
       <View style={{backgroundColor:'#FDECB0', width: pageWidth, marginHorizontal: gap / 2}}>
-        <Text style={{ height: '90%'}}>펫 위치</Text>
+        <PetPage style={{ height: '90%'}} />
         <IndicatorWrapper style={{ height: '10%'}}>
           {Array.from({length: 2}, (_, i) => i).map((i) => (
             <Indicator key={`indicator_${i}`} focused={i === page} />
