@@ -24,21 +24,11 @@ public class QMediAlarm extends EntityPathBase<MediAlarm> {
 
     public final StringPath alarmDayEnd = createString("alarmDayEnd");
 
-    public final StringPath alarmDays = createString("alarmDays");
-
     public final StringPath alarmDayStart = createString("alarmDayStart");
 
     public final NumberPath<Integer> alarmId = createNumber("alarmId", Integer.class);
 
-    public final StringPath alarmTime1 = createString("alarmTime1");
-
-    public final StringPath alarmTime2 = createString("alarmTime2");
-
-    public final StringPath alarmTime3 = createString("alarmTime3");
-
-    public final StringPath alarmTime4 = createString("alarmTime4");
-
-    public final StringPath alarmTime5 = createString("alarmTime5");
+    public final StringPath alarmTime = createString("alarmTime");
 
     public final StringPath alarmTitle = createString("alarmTitle");
 
