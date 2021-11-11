@@ -145,7 +145,7 @@ function App() {
 
   const [isLogin, setIsLogin] = useState(false);
 
-  return (  
+  return (
     <SafeAreaProvider store={createStore(combineReducers)}>
       <StatusBar barStyle="dark-content" hidden={false} backgroundColor='white' translucent={true}/>
       {isLogin?(

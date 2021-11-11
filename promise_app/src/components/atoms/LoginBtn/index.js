@@ -19,10 +19,10 @@ const LoginBtn = (props) => {
 
 const styles = StyleSheet.create({
     iOS:{
-        elevation: 3,
-        backgroundColor: '#F9F9F9',
-        height: 40,
-        width: 140,
+        borderRadius: 7,
+        backgroundColor: '#E3E3E3',
+        height: 48,
+        width: 145,
         marginTop: 10,
         alignItems: 'center',
         justifyContent: 'center',
