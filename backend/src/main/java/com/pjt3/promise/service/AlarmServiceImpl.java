@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -274,6 +275,8 @@ public class AlarmServiceImpl implements AlarmService {
 
 	@Override
 	public List<AlarmOCRRes> getOCRMediList(String text) {
+		String pattern1 = "^[0-9]*$";
+		String pattern2 = "^[a-zA-Z]*$";
 		String[] textList = text.split(" ");
 		HashSet<AlarmOCRRes> findMediList = new HashSet<AlarmOCRRes>();
 		for (String str : textList) {
@@ -283,7 +286,9 @@ public class AlarmServiceImpl implements AlarmService {
 			if (str == null || str.equals("") || str.equals(" ")) continue;
 			if (str.length() == 0 || str.length() == 1) continue;
 			if ((!str.equals("자모") && !str.equals("뇌선") && !str.equals("얄액") && !str.equals("쿨정")) && str.length() == 2) continue;
+			if (Pattern.matches(pattern1, str) || Pattern.matches(pattern2, str)) continue;
 			if (str.length() == 3 && str.equals("서방정")) continue;
+			
 
 			List<AlarmOCRRes> mediList = medicineRepositorySupport.getOCRMediListInfo(str);
 			for (AlarmOCRRes medi : mediList) {
