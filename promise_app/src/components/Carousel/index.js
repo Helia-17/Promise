@@ -19,6 +19,7 @@ const Indicator = styled.View`
 `;
 
 const IndicatorWrapper = styled.View`
+  position: absolute;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -32,20 +33,20 @@ export default function Carousel({pages, pageWidth, gap, offset}) {
     return (
     <>
       <View style={{ width: pageWidth, marginHorizontal: gap / 2}}>
-        <ChartPage style={{ height: '90%'}}/>
-        <IndicatorWrapper style={{ height: '10%'}}>
+        <ChartPage />
+        {/* <IndicatorWrapper style={{ height: '10%'}}>
           {Array.from({length: 2}, (_, i) => i).map((i) => (
             <Indicator key={`indicator_${i}`} focused={i === page} />
           ))}
-        </IndicatorWrapper>
+        </IndicatorWrapper> */}
       </View>
       <View style={{backgroundColor:'#FDECB0', width: pageWidth, marginHorizontal: gap / 2}}>
         <PetPage style={{ height: '90%'}} />
-        <IndicatorWrapper style={{ height: '10%'}}>
+        {/* <IndicatorWrapper style={{ height: '10%'}}>
           {Array.from({length: 2}, (_, i) => i).map((i) => (
             <Indicator key={`indicator_${i}`} focused={i === page} />
           ))}
-        </IndicatorWrapper>
+        </IndicatorWrapper> */}
       </View>
     </>
     );
@@ -61,6 +62,7 @@ export default function Carousel({pages, pageWidth, gap, offset}) {
   return (
     <Container>
       <FlatList
+        style={{ height: '90%'}}
         automaticallyAdjustContentInsets={false}
         contentContainerStyle={{
           paddingHorizontal: offset + gap / 2,
@@ -76,6 +78,13 @@ export default function Carousel({pages, pageWidth, gap, offset}) {
         snapToAlignment="start"
         showsHorizontalScrollIndicator={false}
       />
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', height: '10%'}}>
+        <IndicatorWrapper>
+            {Array.from({length: 2}, (_, i) => i).map((i) => (
+              <Indicator key={`indicator_${i}`} focused={i === page} />
+            ))}
+        </IndicatorWrapper>
+      </View>
     </Container>
   );
 }
