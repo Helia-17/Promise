@@ -90,7 +90,7 @@ const Login = (props) => {
   }
 
   return (
-    <View style={{flex:1, alignItems: 'center', justifyContent: 'space-around'}}>
+    <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
       <View style={{justifyContent: 'center'}}>
         <Image source={Logo} style={{height: '50%'}} resizeMode='contain'/>
         <Text style={{fontSize: 25, color:'black', fontWeight:'bold', marginTop:'5%'}}>더 건강한 나를 위한 약속</Text>
