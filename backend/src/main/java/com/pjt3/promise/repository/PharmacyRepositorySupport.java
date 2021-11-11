@@ -2,6 +2,7 @@ package com.pjt3.promise.repository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +21,9 @@ public class PharmacyRepositorySupport {
 	
 	QPharmacy qPharmacy = QPharmacy.pharmacy;
 
-	LocalDate nowDate = LocalDate.now();
+	LocalDate nowDate = LocalDate.now(ZoneId.of("Asia/Seoul"));
 	
-	LocalTime nowTime = LocalTime.now();
+	LocalTime nowTime = LocalTime.now(ZoneId.of("Asia/Seoul"));
 	
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmm");
 	
@@ -32,6 +33,7 @@ public class PharmacyRepositorySupport {
 		
 		int week = nowDate.getDayOfWeek().getValue();
 		String curTime = nowTime.format(formatter);
+		System.out.println("week : " + week);
 		System.out.println("curTime : " + curTime);
 		
 		// 월
