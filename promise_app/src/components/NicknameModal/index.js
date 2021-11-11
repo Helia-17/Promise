@@ -1,14 +1,20 @@
 import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, TextInput, ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {userAPI} from '../../utils/axios';
 
 const NicknameModal = (props) => {
     const [nickColor, setNickColor] = useState('#000000');
 
     const [nick, setNick] = useState('');
 
-    const checkNick = ()=>{
-        setNickColor('#A6DB9E');
+    const checkNick = async ()=>{
+        const result = await userAPI.nickCheck(nick);
+        if(result===200) {
+            setNickColor('#A6DB9E');
+        }else if(result===409){
+            setNickColor('#FFABAB');
+        }
     }
 
     const sendData = () =>{

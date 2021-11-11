@@ -13,7 +13,7 @@ const LoginModal = (props) => {
         }else if(!id){
             alert('이메일을 입력해주세요.');
         }
-        else if(!pw){
+        else if(pw.length<1){
             alert('비밀번호를 입력해주세요.');
         }
     }

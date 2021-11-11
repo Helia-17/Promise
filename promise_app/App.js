@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import { StatusBar, View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -7,6 +7,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createStore } from 'redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import combineReducers from './src/modules/reducers'
@@ -124,14 +125,27 @@ function MyTabs() {
 
 function App() {
 
+  async function IsLogin (){
+    AsyncStorage.getItem('isLogin')
+    .then((result) =>{
+      if(result==='true'){
+        setIsLogin(true);
+      }else{
+        setIsLogin(false);
+      }
+    });
+  };
+
+  const [reload, setReload] = useState(0);
+
   useEffect(() => {
     SplashScreen.hide();
-  }, []);
+    IsLogin();
+  }, [reload]);
 
-  const isLogin = true;
+  const [isLogin, setIsLogin] = useState(false);
 
-  return (
-    
+  return (  
     <SafeAreaProvider store={createStore(combineReducers)}>
       <StatusBar barStyle="dark-content" hidden={false} backgroundColor='white' translucent={true}/>
       {isLogin?(
@@ -139,8 +153,8 @@ function App() {
           <MyTabs />
         </NavigationContainer>
       ):(
-        <View style={{flex:1, backgroundColor:'#FFF6E9'}}>
-          <Login/>
+        <View style={{flex:1, backgroundColor:'#F9F9F9'}}>
+          <Login res={(data)=>setReload(reload+1)}/>
         </View>
       )}
     </SafeAreaProvider>
