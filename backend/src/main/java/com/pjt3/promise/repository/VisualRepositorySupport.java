@@ -25,6 +25,7 @@ public class VisualRepositorySupport {
 	public List<UsersTagGetRes> getUsersTagListInfo() {
 		NumberPath<Long> tagValue = Expressions.numberPath(Long.class, "tagCount");
 		
+		int tagTotalCnt = Integer.parseInt(String.valueOf(query.select(qTag.tagName.count()).from(qTag).fetchOne()));
 		List<Tuple> usersTagTupleList = query.select(qTag.tagName, qTag.tagName.count().as(tagValue)).from(qTag).groupBy(qTag.tagName).orderBy(tagValue.desc()).limit(10).fetch();
 
 		List<UsersTagGetRes> usersTagList = new ArrayList<>();
@@ -33,7 +34,7 @@ public class VisualRepositorySupport {
 			UsersTagGetRes usersTag = new UsersTagGetRes();
 			usersTag.setTagName(usersTupleTag.get(0, String.class));
 			try {
-				usersTag.setTagValue(Integer.parseInt(String.valueOf(usersTupleTag.get(1, Integer.class))));
+				usersTag.setTagValue(((double)Integer.parseInt(String.valueOf(usersTupleTag.get(1, Integer.class)))/tagTotalCnt)*100);
 			} catch(Exception e) {
 				e.printStackTrace();
 			}

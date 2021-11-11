@@ -22,6 +22,8 @@ const TimeSelect = (props) => {
                 </TouchableOpacity>
             </View>
             <DateTimePickerModal
+                cancelTextIOS={"취소"}
+                confirmTextIOS={"확인"}
                 isVisible={isTimeVisible}
                 mode="time"
                 onConfirm={ConfirmTime}

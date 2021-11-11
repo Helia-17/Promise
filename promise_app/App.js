@@ -173,7 +173,10 @@ function App() {
 
   const [isLogin, setIsLogin] = useState(false);
 
-  return (  
+  // AsyncStorage.setItem('isLogin', 'false');
+  // AsyncStorage.removeItem('token');
+
+  return (
     <SafeAreaProvider store={createStore(combineReducers)}>
       <StatusBar barStyle="dark-content" hidden={false} backgroundColor='white' translucent={true}/>
       {isLogin?(
