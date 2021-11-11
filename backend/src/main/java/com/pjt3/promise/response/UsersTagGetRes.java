@@ -5,5 +5,6 @@ import lombok.Data;
 @Data
 public class UsersTagGetRes {
 	String tagName;
-	int tagValue;
+//	int tagValue;
+	double tagValue;
 }
