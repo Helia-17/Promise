@@ -5,16 +5,7 @@ import Carousel from '../../components/Carousel';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const screenWidth = Math.round(Dimensions.get('window').width);
-const PAGES = [
-  {
-    num: 1,
-    color: '#86E3CE',
-  },
-  {
-    num: 2,
-    color: '#D0E6A5',
-  },
-];
+const PAGES = [1];
 
 const HomePage = ({navigation}) => {
     return (

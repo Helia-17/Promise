@@ -9,12 +9,12 @@ import {LineChart, PieChart} from 'react-native-charts-wrapper';
 const ChartPage = ({navigation}) => {
     
     return (
-      <View style={{flex: 1, height: '100%', paddingHorizontal: 15, paddingVertical: 30}}>
+      <View style={{flex: 1, height: '100%', paddingHorizontal: 20, paddingTop: 30}}>
 
         <Text style={styles.titleText}>건강한 나를 위한 '약속'</Text>
         <Text style={styles.contentText}>오늘의 약속</Text>
         <View style={styles.todayAlarm}>
-        <Text>약속창</Text>
+          <Text>약속창</Text>
         </View>
 
 
@@ -80,46 +80,45 @@ const ChartPage = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 5,
     marginVertical: 5,
     paddingHorizontal: 10,
     paddingVertical: 10,
     justifyContent: 'center',
     backgroundColor: 'white',
-    maxHeight: 400
+    maxHeight: 400,
+    elevation: 2,
   },
   chart: {
     flex: 1
   },
   todayAlarm: {
+    height: 100,
     paddingVertical: 12,
     paddingHorizontal: 14,
-    margin: 10,
+    marginVertical: 8,
     backgroundColor: '#FFFFFF',
     borderRadius: 3,
-    // ios shadow
-    shadowColor: 'rgba(183, 183, 183, 0.2)',
-    shadowOffset: {
-      width: 5,
-      height: -5,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 18.95,
-    // android shadow
-    elevation: 1,
-    zIndex: 1,
+    // ---* ios shadow *---
+    // shadowColor: 'rgba(183, 183, 183, 0.8)',
+    // shadowOffset: {
+    //   width: 5,
+    //   height: -5,
+    // },
+    // shadowOpacity: 1,
+    // shadowRadius: 18.95,
+    elevation: 2,
     color: '#333333'
   },
   titleText: {
     fontSize: 24,
     lineHeight: 24,
     fontWeight: '500',
-    paddingVertical: 5,
+    paddingVertical: 8,
   },
   contentText: {
     fontSize: 18,
     fontWeight: '500',
-    paddingTop: 30,
+    paddingTop: 20,
   },
 });
 

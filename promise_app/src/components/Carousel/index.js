@@ -9,20 +9,19 @@ const Container = styled.View`
   align-items: center;
 `;
 
-// const Indicator = styled.View<{focused}>`
 const Indicator = styled.View`
-  margin: 0px 4px;
-//   background-color: ${(props) => (props.focused ? '#262626' : '#dfdfdf')};
-  background-color: #dfdfdf;
-  width: 6px;
-  height: 6px;
-  border-radius: 3px;
+  margin: 0px 6px;
+  background-color: ${(props) => (props.focused ? '#262626' : '#C4C4C4')};
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
 `;
 
 const IndicatorWrapper = styled.View`
   flex-direction: row;
   align-items: center;
-  margin-top: 16px;
+  justify-content: center;
+  padding: 10px;
 `;
 
 export default function Carousel({pages, pageWidth, gap, offset}) {
@@ -31,14 +30,22 @@ export default function Carousel({pages, pageWidth, gap, offset}) {
   function renderItem({item}) {
     return (
     <>
-      <View style={{backgroundColor:'#FDECB0', width: pageWidth, marginHorizontal: gap / 2}}>
-        <ChartPage />
+      <View style={{ width: pageWidth, marginHorizontal: gap / 2}}>
+        <ChartPage style={{ height: '90%'}}/>
+        <IndicatorWrapper style={{ height: '10%'}}>
+          {Array.from({length: 2}, (_, i) => i).map((i) => (
+            <Indicator key={`indicator_${i}`} focused={i === page} />
+          ))}
+        </IndicatorWrapper>
       </View>
       <View style={{backgroundColor:'#FDECB0', width: pageWidth, marginHorizontal: gap / 2}}>
-        <Text>펫 위치</Text>
+        <Text style={{ height: '90%'}}>펫 위치</Text>
+        <IndicatorWrapper style={{ height: '10%'}}>
+          {Array.from({length: 2}, (_, i) => i).map((i) => (
+            <Indicator key={`indicator_${i}`} focused={i === page} />
+          ))}
+        </IndicatorWrapper>
       </View>
-      {/* <Page item={item} style={{width: pageWidth, marginHorizontal: gap / 2}} />
-      <Page item={item} style={{width: pageWidth, marginHorizontal: gap / 2}} /> */}
     </>
     );
   }
@@ -68,11 +75,6 @@ export default function Carousel({pages, pageWidth, gap, offset}) {
         snapToAlignment="start"
         showsHorizontalScrollIndicator={false}
       />
-      <IndicatorWrapper>
-        {Array.from({length: pages.length}, (_, i) => i).map((i) => (
-          <Indicator key={`indicator_${i}`} focused={i === page} />
-        ))}
-      </IndicatorWrapper>
     </Container>
   );
 }
