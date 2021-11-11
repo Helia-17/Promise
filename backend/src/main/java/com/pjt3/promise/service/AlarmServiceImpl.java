@@ -33,6 +33,7 @@ import com.pjt3.promise.request.AlarmPutReq;
 import com.pjt3.promise.request.TakeHistoryPostReq;
 import com.pjt3.promise.response.AlarmDetailGetRes;
 import com.pjt3.promise.response.AlarmGetRes;
+import com.pjt3.promise.response.AlarmOCRRes;
 
 @Service
 public class AlarmServiceImpl implements AlarmService {
@@ -272,9 +273,9 @@ public class AlarmServiceImpl implements AlarmService {
 	}
 
 	@Override
-	public List<String> getOCRMediList(String text) {
+	public List<AlarmOCRRes> getOCRMediList(String text) {
 		String[] textList = text.split(" ");
-		HashSet<String> findMediList = new HashSet<String>();
+		HashSet<AlarmOCRRes> findMediList = new HashSet<AlarmOCRRes>();
 		for (String str : textList) {
 			str = str.replaceAll(" ", "");
 
@@ -284,13 +285,13 @@ public class AlarmServiceImpl implements AlarmService {
 			if ((!str.equals("자모") && !str.equals("뇌선") && !str.equals("얄액") && !str.equals("쿨정")) && str.length() == 2) continue;
 			if (str.length() == 3 && str.equals("서방정")) continue;
 
-			List<String> mediList = medicineRepositorySupport.getMediAutoListInfo(str);
-			for (String medi : mediList) {
+			List<AlarmOCRRes> mediList = medicineRepositorySupport.getOCRMediListInfo(str);
+			for (AlarmOCRRes medi : mediList) {
 				findMediList.add(medi);
 			}
 
 		}
 
-		return new ArrayList<String>(findMediList);
+		return new ArrayList<AlarmOCRRes>(findMediList);
 	}
 }
