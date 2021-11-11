@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import { StatusBar, View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -7,6 +7,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createStore } from 'redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import combineReducers from './src/modules/reducers'
@@ -17,15 +18,32 @@ import Alarm from './src/pages/Alarm';
 import Timeline from './src/pages/Timeline';
 import CalendarPage from './src/pages/Calendar';
 import AlarmAdd from './src/pages/AlarmAdd';
+import CommunityPage from './src/pages/Community';
+import PostCreatePage from './src/pages/PostCreate';
+import PostDetailPage from './src/pages/PostDetail';
+import HomePage from './src/pages/Home';
 import Mypage from './src/pages/Mypage';
 import Login from './src/pages/Login';
 
 function HomeScreen() {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-    </View>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown : false
+      }}>
+      <Stack.Screen name='Home' component={HomePage}/>
+    </Stack.Navigator>
   );
+}
+
+function CommunityScreen(){
+  return (
+    <Stack.Navigator >
+      <Stack.Screen name='커뮤니티' component={CommunityPage} />
+      <Stack.Screen name='글쓰기' component={PostCreatePage} />
+      <Stack.Screen name='게시물' component={PostDetailPage} />
+    </Stack.Navigator>
+  )
 }
 
 const Tab = createBottomTabNavigator();
@@ -88,7 +106,8 @@ function MyTabs() {
           Home: 'home',
           Pharmacy : 'map-marker',
           CalendarPage: 'calendar-blank',
-          Mypage: 'account'
+          Mypage: 'account',
+          CommunityScreen: 'account-group'
         }
         return(
           <Icon name={icons[route.name]} color={color} size={size} />
@@ -97,6 +116,8 @@ function MyTabs() {
       <Tab.Screen name="Home" component={StackScreen} options={{tabBarLabel:'홈'}}/>
       <Tab.Screen name="Pharmacy" component={Pharmacy} options={{ title: '약국' }} />
       <Tab.Screen name="CalendarPage" component={TopTabStackScreen} options={{ title: '일정' }} />
+      {/* <Tab.Screen name="CalendarPage" component={MyTopTab} options={{ title: '일정' }}/> */}
+      <Tab.Screen name='CommunityScreen' component={CommunityScreen} options={{ title: '커뮤니티' }}/>
       <Tab.Screen name="Mypage" component={Mypage} options={{ title: '내 정보' }}/>
     </Tab.Navigator>
   );
@@ -104,14 +125,27 @@ function MyTabs() {
 
 function App() {
 
+  async function IsLogin (){
+    AsyncStorage.getItem('isLogin')
+    .then((result) =>{
+      if(result==='true'){
+        setIsLogin(true);
+      }else{
+        setIsLogin(false);
+      }
+    });
+  };
+
+  const [reload, setReload] = useState(0);
+
   useEffect(() => {
     SplashScreen.hide();
-  }, []);
+    IsLogin();
+  }, [reload]);
 
-  const isLogin = false;
+  const [isLogin, setIsLogin] = useState(false);
 
-  return (
-    
+  return (  
     <SafeAreaProvider store={createStore(combineReducers)}>
       <StatusBar barStyle="dark-content" hidden={false} backgroundColor='white' translucent={true}/>
       {isLogin?(
@@ -119,8 +153,8 @@ function App() {
           <MyTabs />
         </NavigationContainer>
       ):(
-        <View style={{flex:1, backgroundColor:'#FFF6E9'}}>
-          <Login/>
+        <View style={{flex:1, backgroundColor:'#F9F9F9'}}>
+          <Login res={(data)=>setReload(reload+1)}/>
         </View>
       )}
     </SafeAreaProvider>

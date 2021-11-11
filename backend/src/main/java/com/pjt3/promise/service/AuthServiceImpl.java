@@ -31,20 +31,36 @@ public class AuthServiceImpl implements AuthService {
 	public UserLoginPostRes login(UserLoginPostReq loginInfo) {
 		String userEmail = loginInfo.getUserEmail();
 		String userPassword = loginInfo.getUserPassword();
+		int userLoginType = loginInfo.getUserLoginType();
 		
 		try {
+			// 회원 가입 되어 있는 유저
 			User user = userService.getUserByUserEmail(userEmail);
+			int userJoinType = user.getUserJoinType();
 			
 			String accessToken = JwtTokenUtil.getToken(userEmail);
 			String refreshToken = JwtTokenUtil.getRefreshToken();
 			
-			if (passwordEncoder.matches(userPassword, user.getUserPassword())) {
-				user.setRefreshToken(refreshToken);
-				userRepository.save(user);
-				
-				return new UserLoginPostRes(200, "로그인에 성공하였습니다.", accessToken, refreshToken);				
-			} else {
-				return new UserLoginPostRes(401, "잘못된 비밀번호 입니다.", null, null);
+			// 보내온 userJoinType이 다르면 DB의 userJoinType을 알려주고 로그인 reject
+			if (userPassword == "" || userLoginType != userJoinType) {
+				if (userJoinType == 1) {
+					return new UserLoginPostRes(402, "Google 계정으로 가입된 계정입니다. Google로 계속하기를 시도해주세요.", null, null);		
+				}
+				else if (userJoinType == 2) {
+					return new UserLoginPostRes(403, "Apple 계정으로 가입된 계정입니다. Apple로 계속하기를 시도해주세요.", null, null);								
+				}
+				else {
+					return new UserLoginPostRes(401, "잘못된 비밀번호 입니다.", null, null);
+				}
+			} else {				
+				if (passwordEncoder.matches(userPassword, user.getUserPassword())) {
+					user.setRefreshToken(refreshToken);
+					userRepository.save(user);
+					
+					return new UserLoginPostRes(200, "로그인에 성공하였습니다.", accessToken, refreshToken);				
+				} else {
+					return new UserLoginPostRes(401, "잘못된 비밀번호 입니다.", null, null);
+				}
 			}
 			
 			
@@ -53,6 +69,47 @@ public class AuthServiceImpl implements AuthService {
 		}
 		
 	}
+
+	@Override
+	public UserLoginPostRes social(UserLoginPostReq loginInfo) {
+		String userEmail = loginInfo.getUserEmail();
+		String userPassword = loginInfo.getUserPassword();
+		int userLoginType = loginInfo.getUserLoginType();
+		
+		try {
+			User user = userService.getUserByUserEmail(userEmail);
+			int userJoinType = user.getUserJoinType();
+			
+			String accessToken = JwtTokenUtil.getToken(userEmail);
+			String refreshToken = JwtTokenUtil.getRefreshToken();
+			
+			if (userLoginType != userJoinType) {
+				if (userJoinType == 1) {
+					return new UserLoginPostRes(402, "Google 계정으로 가입된 계정입니다. Google로 계속하기를 시도해주세요.", null, null);		
+				}
+				else if(userJoinType == 2){
+					return new UserLoginPostRes(403, "Apple 계정으로 가입된 계정입니다. Apple로 계속하기를 시도해주세요.", null, null);								
+				}
+				else {
+					return new UserLoginPostRes(405, "일반 계정으로 가입된 계정입니다. 일반 로그인을 시도해주세요.", null, null);								
+				}
+			} else {				
+				if (passwordEncoder.matches(userPassword, user.getUserPassword())) {
+					user.setRefreshToken(refreshToken);
+					userRepository.save(user);
+					
+					return new UserLoginPostRes(200, "로그인에 성공하였습니다.", accessToken, refreshToken);				
+				} else {
+					return new UserLoginPostRes(401, "잘못된 비밀번호 입니다.", null, null);
+				}
+			}
+			
+			
+		} catch (NullPointerException e) {
+			return new UserLoginPostRes(404, "존재하지 않는 계정입니다.", null, null);
+		}
+	}
+	
 
 	@Override
 	public TokenPostRes reissue(TokenPostReq refreshToken) {
@@ -76,6 +133,7 @@ public class AuthServiceImpl implements AuthService {
 		TokenPostRes tokenPostRes = new TokenPostRes(421, "만료된 토큰. 재 로그인 필요", null, null);
 		return tokenPostRes;
 	}
+
 	
 	
 

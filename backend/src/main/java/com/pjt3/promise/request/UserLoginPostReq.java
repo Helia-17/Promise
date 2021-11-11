@@ -6,4 +6,5 @@ import lombok.Data;
 public class UserLoginPostReq {
 	String userEmail;
 	String userPassword;
+	int userLoginType;
 }
