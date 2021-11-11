@@ -32,6 +32,7 @@ public class PharmacyRepositorySupport {
 		
 		int week = nowDate.getDayOfWeek().getValue();
 		String curTime = nowTime.format(formatter);
+		System.out.println("curTime : " + curTime);
 		
 		// 월
 		if (week == 1) {
