@@ -27,8 +27,29 @@ const Pharmacy = () => {
 
     const getPharmacyList = async (data) => {
         var now = new Date();
+        var week = now.getDay();
+        var hours = '';
+        var minutes = '';
+
+        if (now.getHours().toString() < 10) {
+            hours = '0' + now.getHours().toString();
+        } else {
+            hours = now.getHours().toString();
+        }
+
+        if (now.getMinutes().toString() < 10) {
+            minutes = '0' + now.getMinutes().toString();
+        } else {
+            minutes = now.getMinutes().toString();
+        }
+        
+        var curTime = hours + minutes;
+        
         console.log("현재 : ", now);
-        const res = await getPharmacyAPI(data.lat, data.lon);
+        console.log("현재 week : ", week);
+        console.log("현재 curTime : ", curTime);
+        
+        const res = await getPharmacyAPI(data.lat, data.lon, week, curTime);
         console.log("res: ", res);
     }
 

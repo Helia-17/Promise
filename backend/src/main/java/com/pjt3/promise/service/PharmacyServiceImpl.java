@@ -22,11 +22,11 @@ public class PharmacyServiceImpl implements PharmacyService {
 	
 
 	@Override
-	public List<PharmacyGetRes> getPharmacyListByLatLong(double lat, double lon) {
+	public List<PharmacyGetRes> getPharmacyListByLatLong(double lat, double lon, int week, String curTime) {
 		List<PharmacyGetRes> pharmacyListGetRes = new ArrayList<>();
 		List<Pharmacy> pharmacyList = new ArrayList<>();
 		
-		pharmacyList = pharmacyRepositorySupport.getPharmacyList(lat, lon);
+		pharmacyList = pharmacyRepositorySupport.getPharmacyList(lat, lon, week, curTime);
 		
 		for (Pharmacy pharmacy : pharmacyList) {
 			PharmacyGetRes pharmacyGetRes = new PharmacyGetRes();

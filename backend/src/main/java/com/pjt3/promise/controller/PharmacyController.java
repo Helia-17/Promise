@@ -31,11 +31,11 @@ public class PharmacyController {
 	PharmacyService pharmacyService;
 	
 	@GetMapping("")
-	public ResponseEntity<List<PharmacyGetRes>> getPharmacyListByLatLon(Authentication authentication, @RequestParam double lat, double lon){
+	public ResponseEntity<List<PharmacyGetRes>> getPharmacyListByLatLon(Authentication authentication, @RequestParam double lat, double lon, int week, String curTime){
 		try {
 			PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
 			User user = userDetails.getUser();
-			List<PharmacyGetRes> pharmacyList = pharmacyService.getPharmacyListByLatLong(lat, lon);
+			List<PharmacyGetRes> pharmacyList = pharmacyService.getPharmacyListByLatLong(lat, lon, week, curTime);
 			
 			if (pharmacyList.size() == 0) {
 				return ResponseEntity.status(400).body(pharmacyList);
