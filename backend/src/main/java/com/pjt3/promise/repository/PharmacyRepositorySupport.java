@@ -27,12 +27,12 @@ public class PharmacyRepositorySupport {
 	
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmm");
 	
-	public List<Pharmacy> getPharmacyList(double lat, double lon){
+	public List<Pharmacy> getPharmacyList(double lat, double lon, int week, String curTime){
 		
 		List<Pharmacy> pharmacyList = new ArrayList<>();
 		
-		int week = nowDate.getDayOfWeek().getValue();
-		String curTime = nowTime.format(formatter);
+//		int week = nowDate.getDayOfWeek().getValue();
+//		String curTime = nowTime.format(formatter);
 		System.out.println("week : " + week);
 		System.out.println("curTime : " + curTime);
 		
