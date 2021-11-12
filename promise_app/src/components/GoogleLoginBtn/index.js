@@ -14,7 +14,6 @@ const GoogleLoginBtn = (props) => {
 
     const GoogleLogin = async() => {
       try {
-          console.log("signIn")
           await GoogleSignin.hasPlayServices()
           const userInfoDetail = await GoogleSignin.signIn();
           props.data({email: userInfoDetail.user.email, profile: userInfoDetail.user.photo, type:1})
@@ -22,17 +21,13 @@ const GoogleLoginBtn = (props) => {
       } catch (error) {
           console.log(error)
           if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-          // user cancelled the login flow
-          console.log("user cancelled the login flow")
+            console.log("user cancelled the login flow")
           } else if (error.code === statusCodes.IN_PROGRESS) {
-          // operation (e.g. sign in) is in progress already
-          console.log("operation (e.g. sign in) is in progress already")
+            console.log("operation (e.g. sign in) is in progress already")
           } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-          // play services not available or outdated
-          console.log("play services not available or outdated")
+            console.log("play services not available or outdated")
           } else {
-          // some other error happened
-          console.log("some other error happened")
+            console.log("some other error happened")
           }
       }
     }

@@ -144,6 +144,8 @@ function App() {
   }, [reload]);
 
   const [isLogin, setIsLogin] = useState(false);
+//   AsyncStorage.setItem('isLogin', 'false');
+// AsyncStorage.removeItem('token');
 
   return (  
     <SafeAreaProvider store={createStore(combineReducers)}>

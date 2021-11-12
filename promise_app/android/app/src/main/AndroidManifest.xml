@@ -4,6 +4,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     
     <application
       android:name=".MainApplication"
@@ -25,6 +27,26 @@
       <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyB33LclaRIw4aaQWkrr4ocI9uX0sPyBmcs"/> 
       <!-- You will also only need to add this uses-libray tag --> 
       <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+      
+      <meta-data  android:name="com.dieam.reactnativepushnotification.notification_channel_name"
+                  android:value="com.alarmtest"/>
+      <meta-data  android:name="com.dieam.reactnativepushnotification.notification_channel_description"
+                  android:value="com.alarmtest"/>
+      <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher" />
+      <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationBootEventReceiver">
+          <intent-filter>
+              <action android:name="android.intent.action.BOOT_COMPLETED" />
+          </intent-filter>
+      </receiver>
+      <service android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationRegistrationService"/>
+      <service
+          android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationListenerService"
+          android:exported="false" >
+          <intent-filter>
+              <action android:name="com.google.firebase.MESSAGING_EVENT" />
+          </intent-filter>
+      </service>
+
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"

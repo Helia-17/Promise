@@ -1,8 +1,9 @@
-import React, {useState, useLayoutEffect, useEffect} from 'react';
+import React, {useState, useLayoutEffect} from 'react';
 import { View, Platform, PermissionsAndroid, ScrollView } from 'react-native';
 import MapView, {  Marker } from "react-native-maps";
 import Geolocation from 'react-native-geolocation-service';
 import PhamacyInfo from '../../components/PhamacyInfo';
+import {getPharmacyAPI} from '../../utils/axios';
 
 const Pharmacy = () => {
     const [region, setRegion] = useState();
@@ -21,6 +22,10 @@ const Pharmacy = () => {
         }
     }
 
+    const myPharmacy = async(lat, lon)=>{
+        await getPharmacyAPI(lat, lon);
+    }
+
     useLayoutEffect(()=>{
         requestPermission().then(result=>{
             console.log({result});
@@ -29,6 +34,7 @@ const Pharmacy = () => {
                     (posistion)=>{
                         setRegion({latitude:posistion.coords.latitude, longitude:posistion.coords.longitude,latitudeDelta: 0.005, longitudeDelta: 0.005});
                         console.log(posistion.coords.latitude, posistion.coords.longitude);
+                        myPharmacy(posistion.coords.latitude, posistion.coords.longitude);
                     },
                     (error)=>{
                         console.log(error.code, error.message);
