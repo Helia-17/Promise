@@ -258,4 +258,21 @@ export const getPharmacyAPI = async (lat, lon, week, curTime) => {
     .catch(error => {
       console.log('error.response : ', error.response);
     });
-};
+}
+
+export const getCommunityAPI = async (lat, lon, week, curTime) => {
+    return await request.get('/communities/list', {
+        // headers:{
+        //     'Authorization': await AsyncStorage.getItem('token')
+        // },
+        params: {
+            pageNum: 1
+        }
+    })
+    .then((response) => {
+        return response.data;
+    })
+    .catch((error) => {
+        console.log("error.response : ", error.response);
+    });
+}
