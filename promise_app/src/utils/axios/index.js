@@ -35,6 +35,52 @@ export const shareUser = async searchKeyword => {
     });
 };
 
+export const getPeriod = async (periodType) => {
+  return await request.get(`/alarms/${periodType}`, {
+      headers: {
+        Authorization: await AsyncStorage.getItem('token'),
+      }
+    })
+    .then(response => {
+      console.log(response.data.alarmList);
+      return response.data.alarmList;
+    });
+};
+
+export const getAlarmlist = async (nowDate)=>{
+  return await request.get('/alarms', {
+      headers: {
+        Authorization: await AsyncStorage.getItem('token'),
+      },
+      params: {
+        nowDate: nowDate,
+      },
+    })
+    .then(response => {
+      return response.data.alarmList;
+    })
+    .catch(e => {
+      console.log(e.response);
+    });
+}
+
+export const getCalendar = async(nowMonth)=>{
+  return await request.get('/alarms/calendar', {
+    headers: {
+      Authorization: await AsyncStorage.getItem('token'),
+    },
+    params: {
+      nowMonth: nowMonth,
+    },
+  })
+  .then(response => {
+    return response.data.alarmList;
+  })
+  .catch(e => {
+    console.log(e.response);
+  });
+}
+
 export const ocrList = async text => {
   return await request
     .post(
@@ -141,7 +187,6 @@ export const userAPI = {
       })
       .then(response => {
         setToken(response.data.accessToken);
-        console.log(response.data.accessToken);
         AsyncStorage.setItem('isLogin', 'true');
       })
       .catch(error => {
