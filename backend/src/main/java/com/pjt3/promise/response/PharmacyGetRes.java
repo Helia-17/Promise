@@ -13,4 +13,5 @@ public class PharmacyGetRes {
 	String pharmAddr;
 	Double pharmLat;
 	Double pharmLong;
+	int distance;
 }

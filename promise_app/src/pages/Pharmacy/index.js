@@ -1,4 +1,4 @@
-import React, {useState, useLayoutEffect, useEffect} from 'react';
+import React, {useState, useLayoutEffect} from 'react';
 import { View, Platform, PermissionsAndroid, ScrollView } from 'react-native';
 import MapView, {  Marker } from "react-native-maps";
 import Geolocation from 'react-native-geolocation-service';
@@ -6,6 +6,8 @@ import PhamacyInfo from '../../components/PhamacyInfo';
 import { getPharmacyAPI } from '../../utils/axios';
 
 const Pharmacy = () => {
+    const [pharmacyList, setPharmacyList] = useState([]);
+
     const [region, setRegion] = useState();
     const [latitude, setLatitude] = useState();
     const [longitude, setLongitude] = useState();
@@ -43,6 +45,7 @@ const Pharmacy = () => {
             minutes = now.getMinutes().toString();
         }
         
+        // var curTime = '1130';
         var curTime = hours + minutes;
         
         console.log("현재 : ", now);
@@ -50,7 +53,12 @@ const Pharmacy = () => {
         console.log("현재 curTime : ", curTime);
         
         const res = await getPharmacyAPI(data.lat, data.lon, week, curTime);
-        console.log("res: ", res);
+        if (res === 400) {
+            setPharmacyList([]);
+        } else {
+            setPharmacyList(res);
+            console.log("res : ", res);
+        }
     }
 
     useLayoutEffect(()=>{
@@ -59,7 +67,7 @@ const Pharmacy = () => {
             if (result === 'granted'){
                 Geolocation.getCurrentPosition(
                     (posistion)=>{
-                        setRegion({ latitude: posistion.coords.latitude, longitude: posistion.coords.longitude, latitudeDelta: 0.005, longitudeDelta: 0.005 });
+                        setRegion({ latitude: posistion.coords.latitude, longitude: posistion.coords.longitude, latitudeDelta: 0.015, longitudeDelta: 0.015 });
                         setLatitude(posistion.coords.latitude);
                         setLongitude(posistion.coords.longitude);
                         getPharmacyList({ lat:posistion.coords.latitude, lon:posistion.coords.longitude });
@@ -77,18 +85,41 @@ const Pharmacy = () => {
         });
     },[]);
     
+    const pharmList = ()=>{
+        let result = [];
+        if(pharmacyList){
+            pharmacyList.map(item=>{
+                result = result.concat(
+                    <PhamacyInfo name={item.pharmName} location={item.pharmAddr} tel={item.pharmTel} />
+                )
+            })
+        }
+        return result;
+    }
+
+    const pharmLatLong = () => {
+        let result = [];
+        if(pharmacyList){
+            pharmacyList.map(item=>{
+                result = result.concat(
+                    <Marker coordinate={{ latitude: item.pharmLat, longitude: item.pharmLong }} title={ item.pharmName }/>
+                )
+                console.log("Plist : ", item.pharmLat, item.pharmLong);
+            })
+        }
+        return result;
+    }
+
     return (
         <View style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
             {region?(
             <MapView style={{ position: 'absolute', top:0, left:0, right:0, bottom:0, height:'70%' }} showsUserLocation={true} initialRegion={region} >
-                <Marker coordinate={{latitude:latitude, longitude:longitude}} title='00약국'/>
+                {pharmLatLong()}
             </MapView>
             ):null}
             <View style={{position: 'absolute',bottom:0, height:'30%', width:'100%', alignItems:'center'}}>
                 <ScrollView style={{width: '90%', margin:5}}>
-                    <PhamacyInfo name='00약국' location='경기도 수원시 장안구 00동 00-00' tel='031-111-1111'/>
-                    <PhamacyInfo name='00약국' location='경기도 수원시 장안구 00동 00-00' tel='031-111-1111'/>
-                    <PhamacyInfo name='00약국' location='경기도 수원시 장안구 00동 00-00' tel='031-111-1111'/>
+                    {pharmList()}
                 </ScrollView>
             </View>
         </View>
