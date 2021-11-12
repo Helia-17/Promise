@@ -133,7 +133,9 @@ public class AlarmServiceImpl implements AlarmService {
 			mediAlarm.setAlarmDayEnd(alarmPostReq.getAlarmDayEnd());
 			mediAlarm.setAlarmYN(alarmPostReq.getAlarmYN());
 			if (alarmPostReq.getAlarmYN() == 1) {
-				mediAlarm.setAlarmTime(alarmPostReq.getAlarmTime());
+				mediAlarm.setAlarmTime1(alarmPostReq.getAlarmTime1());
+				mediAlarm.setAlarmTime2(alarmPostReq.getAlarmTime2());
+				mediAlarm.setAlarmTime3(alarmPostReq.getAlarmTime3());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -172,7 +174,9 @@ public class AlarmServiceImpl implements AlarmService {
 			mediAlarm.setAlarmDayEnd(alarmPutReq.getAlarmDayEnd());
 			mediAlarm.setAlarmYN(alarmPutReq.getAlarmYN());
 			if (alarmPutReq.getAlarmYN() == 1) {
-				mediAlarm.setAlarmTime(alarmPutReq.getAlarmTime());
+				mediAlarm.setAlarmTime1(alarmPutReq.getAlarmTime1());
+				mediAlarm.setAlarmTime2(alarmPutReq.getAlarmTime2());
+				mediAlarm.setAlarmTime3(alarmPutReq.getAlarmTime3());
 			}
 			mediAlarmRepository.save(mediAlarm);
 
