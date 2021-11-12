@@ -53,14 +53,14 @@ public class MediAlarmRepositorySupport {
 
     }
 
-	public List<AlarmGetRes> getProgressAlarmList(User user, String today) {
+	public List<AlarmGetRes> getDateAlarmList(User user, String nowDate) {
 
 		List<AlarmGetRes> alarmList = query.select(Projections.bean(AlarmGetRes.class,
     			qMediAlarm.alarmId, qMediAlarm.alarmTitle,
     			qMediAlarm.alarmDayStart, qMediAlarm.alarmDayEnd))
     			.from(qMediAlarm)
     			.where(qMediAlarm.user.eq(user), qMediAlarm.alarmYN.eq(1),
-    					qMediAlarm.alarmDayStart.loe(today), qMediAlarm.alarmDayEnd.goe(today))
+    					qMediAlarm.alarmDayStart.loe(nowDate), qMediAlarm.alarmDayEnd.goe(nowDate))
     			.orderBy(qMediAlarm.alarmId.desc())
     			.fetch();
 		return alarmList;

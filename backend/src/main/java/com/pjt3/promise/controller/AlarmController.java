@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pjt3.promise.common.auth.PMUserDetails;
@@ -182,13 +183,13 @@ public class AlarmController {
     
     
     @GetMapping()
-    public ResponseEntity<?> getProgressAlarmList(Authentication authentication){
+    public ResponseEntity<?> getDateAlarmList(Authentication authentication, @RequestParam String nowDate){
     	try {
     		
         	PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
 			User user = userDetails.getUser();
     		
-    		List<AlarmGetRes> alarmList = alarmService.getProgressAlarmList(user);
+    		List<AlarmGetRes> alarmList = alarmService.getDateAlarmList(user, nowDate);
     		
 	        Map<String, List> map = new HashMap<String, List>();
 			map.put("alarmList", alarmList);

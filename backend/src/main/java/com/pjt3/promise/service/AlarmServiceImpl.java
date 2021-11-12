@@ -236,13 +236,13 @@ public class AlarmServiceImpl implements AlarmService {
 	}
 
 	@Override
-	public List<AlarmGetRes> getProgressAlarmList(User user) {
+	public List<AlarmGetRes> getDateAlarmList(User user, String nowDate) {
 
-		LocalDate now = LocalDate.now();
+		LocalDate now = LocalDate.parse(nowDate);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		String today = now.format(formatter);
+		String findDate = now.format(formatter);
 
-		List<AlarmGetRes> alarmList = mediAlarmRepositorySupport.getProgressAlarmList(user, today);
+		List<AlarmGetRes> alarmList = mediAlarmRepositorySupport.getDateAlarmList(user, findDate);
 		return alarmList;
 
 	}
