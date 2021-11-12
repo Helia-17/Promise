@@ -27,6 +27,7 @@ import com.pjt3.promise.request.AlarmPutReq;
 import com.pjt3.promise.request.TakeHistoryPostReq;
 import com.pjt3.promise.response.AlarmDetailGetRes;
 import com.pjt3.promise.response.AlarmGetRes;
+import com.pjt3.promise.response.AlarmOCRRes;
 import com.pjt3.promise.service.AlarmService;
 import com.pjt3.promise.service.PetService;
 
@@ -229,13 +230,17 @@ public class AlarmController {
     		
         	PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
 			User user = userDetails.getUser();
-			
-			List<String> mediList = alarmService.getOCRMediList(alarmOCRPostReq.getText());
+			try {				
+				List<AlarmOCRRes> mediList = alarmService.getOCRMediList(alarmOCRPostReq.getText());
+		        Map<String, List> map = new HashMap<String, List>();
+				map.put("mediList", mediList);
+				return ResponseEntity.status(200).body(map);
+				
+			} catch (NullPointerException e) {
+				return ResponseEntity.status(404).body(BaseResponseBody.of(404, "입력 text null 오류"));
+			}
     		
-	        Map<String, List> map = new HashMap<String, List>();
-			map.put("mediList", mediList);
-			
-			return ResponseEntity.status(200).body(map);
+
 			
     	} catch (NullPointerException e) {
     		return ResponseEntity.status(420).body(BaseResponseBody.of(420, "만료된 토큰입니다."));

@@ -8,7 +8,7 @@ import com.pjt3.promise.request.AlarmPutReq;
 import com.pjt3.promise.request.TakeHistoryPostReq;
 import com.pjt3.promise.response.AlarmDetailGetRes;
 import com.pjt3.promise.response.AlarmGetRes;
-import com.pjt3.promise.response.MyPillGetRes;
+import com.pjt3.promise.response.AlarmOCRRes;
 
 public interface AlarmService {
     int insertAlarm(User user, AlarmPostReq alarmsPostReq);
@@ -25,5 +25,5 @@ public interface AlarmService {
 
 	List<AlarmGetRes> getPastAlarmList(int periodType, User user);
 
-	List<String> getOCRMediList(String text);
+	List<AlarmOCRRes> getOCRMediList(String text);
 }

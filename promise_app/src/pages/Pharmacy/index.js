@@ -3,9 +3,13 @@ import { View, Platform, PermissionsAndroid, ScrollView } from 'react-native';
 import MapView, {  Marker } from "react-native-maps";
 import Geolocation from 'react-native-geolocation-service';
 import PhamacyInfo from '../../components/PhamacyInfo';
+import { getPharmacyAPI } from '../../utils/axios';
 
 const Pharmacy = () => {
     const [region, setRegion] = useState();
+    const [latitude, setLatitude] = useState();
+    const [longitude, setLongitude] = useState();
+
     async function requestPermission(){
         try{
             if (Platform.OS === 'android'){
@@ -21,14 +25,44 @@ const Pharmacy = () => {
         }
     }
 
+    const getPharmacyList = async (data) => {
+        var now = new Date();
+        var week = now.getDay();
+        var hours = '';
+        var minutes = '';
+
+        if (now.getHours().toString() < 10) {
+            hours = '0' + now.getHours().toString();
+        } else {
+            hours = now.getHours().toString();
+        }
+
+        if (now.getMinutes().toString() < 10) {
+            minutes = '0' + now.getMinutes().toString();
+        } else {
+            minutes = now.getMinutes().toString();
+        }
+        
+        var curTime = hours + minutes;
+        
+        console.log("현재 : ", now);
+        console.log("현재 week : ", week);
+        console.log("현재 curTime : ", curTime);
+        
+        const res = await getPharmacyAPI(data.lat, data.lon, week, curTime);
+        console.log("res: ", res);
+    }
+
     useLayoutEffect(()=>{
         requestPermission().then(result=>{
             console.log({result});
             if (result === 'granted'){
                 Geolocation.getCurrentPosition(
                     (posistion)=>{
-                        setRegion({latitude:posistion.coords.latitude, longitude:posistion.coords.longitude,latitudeDelta: 0.005, longitudeDelta: 0.005});
-                        console.log(posistion.coords.latitude, posistion.coords.longitude);
+                        setRegion({ latitude: posistion.coords.latitude, longitude: posistion.coords.longitude, latitudeDelta: 0.005, longitudeDelta: 0.005 });
+                        setLatitude(posistion.coords.latitude);
+                        setLongitude(posistion.coords.longitude);
+                        getPharmacyList({ lat:posistion.coords.latitude, lon:posistion.coords.longitude });
                     },
                     (error)=>{
                         console.log(error.code, error.message);
@@ -47,7 +81,7 @@ const Pharmacy = () => {
         <View style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
             {region?(
             <MapView style={{ position: 'absolute', top:0, left:0, right:0, bottom:0, height:'70%' }} showsUserLocation={true} initialRegion={region} >
-                <Marker coordinate={{latitude:37.277873, longitude:127.017078}} title='00약국'/>
+                <Marker coordinate={{latitude:latitude, longitude:longitude}} title='00약국'/>
             </MapView>
             ):null}
             <View style={{position: 'absolute',bottom:0, height:'30%', width:'100%', alignItems:'center'}}>
