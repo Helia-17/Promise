@@ -57,6 +57,28 @@ function MyPageScreen(){
   )
 }
 
+const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+const TopTab = createMaterialTopTabNavigator();
+
+function NowPillScreen(){
+  return(
+  <Stack.Navigator>
+    <Stack.Screen name="MyPillNowPill" component={MyPillNowPill} options={{ headerShown : false }}/>
+    <Stack.Screen name="Search" component={Search} options={{ headerShown : false }}/>
+  </Stack.Navigator>
+  )
+}
+
+function MyPillTab(){
+  return (
+    <TopTab.Navigator screenOptions={{tabBarActiveTintColor:'black', tabBarIndicatorStyle:{backgroundColor:'black'}, tabBarLabelStyle:{fontSize:15}}}>
+      <TopTab.Screen name='NowPill' component={NowPillScreen} options={{title:'복용중인 약'}} />
+      <TopTab.Screen name='PillHistory' component={MyPillHistory} options={{title:'최근 복용 이력'}}/>
+    </TopTab.Navigator>
+  )
+}
+
 function MyPillScreen(){
   return (
     <Stack.Navigator>
@@ -65,18 +87,6 @@ function MyPillScreen(){
   )
 }
 
-const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
-const TopTab = createMaterialTopTabNavigator();
-
-function MyPillTab(){
-  return (
-    <TopTab.Navigator screenOptions={{tabBarActiveTintColor:'black', tabBarIndicatorStyle:{backgroundColor:'black'}, tabBarLabelStyle:{fontSize:15}}}>
-      <TopTab.Screen name='NowPill' component={MyPillNowPill} options={{title:'복용중인 약'}} />
-      <TopTab.Screen name='PillHistory' component={MyPillHistory} options={{title:'최근 복용 이력'}}/>
-    </TopTab.Navigator>
-  )
-}
 
 function MyTopTab(){
   return (
@@ -171,7 +181,7 @@ function App() {
     IsLogin();
   }, [reload]);
 
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
 
   // AsyncStorage.setItem('isLogin', 'false');
   // AsyncStorage.removeItem('token');
