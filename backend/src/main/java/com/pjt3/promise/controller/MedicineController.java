@@ -4,6 +4,7 @@ import com.pjt3.promise.common.auth.PMUserDetails;
 import com.pjt3.promise.common.response.BaseResponseBody;
 import com.pjt3.promise.entity.User;
 import com.pjt3.promise.response.MediDetailGetRes;
+import com.pjt3.promise.response.MediGetRes;
 import com.pjt3.promise.response.MediSearchGetRes;
 import com.pjt3.promise.service.MedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +34,12 @@ public class MedicineController {
         	PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
             User user = userDetails.getUser();
         	
-            List<String> mediList = medicineService.getMediAutoListInfo(searchKeyword);
+            List<MediGetRes> mediList = medicineService.getMediAutoListInfo(searchKeyword);
 
-            Map<String, List> map = new HashMap<String, List>();
-            map.put("mediList", mediList);
+//            Map<String, List> map = new HashMap<String, List>();
+//            map.put("mediList", mediList);
 
-            return ResponseEntity.status(200).body(map);
+            return ResponseEntity.status(200).body(mediList);
         } catch (NullPointerException e) {
         	return ResponseEntity.status(420).body(BaseResponseBody.of(420, "만료된 토큰입니다."));   
         } catch(Exception e) {
