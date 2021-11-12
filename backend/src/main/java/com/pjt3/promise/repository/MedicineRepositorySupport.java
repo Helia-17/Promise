@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.pjt3.promise.entity.QMedicine;
 import com.pjt3.promise.response.AlarmOCRRes;
 import com.pjt3.promise.response.MediDetailGetRes;
+import com.pjt3.promise.response.MediGetRes;
 import com.pjt3.promise.response.MediSearchGetRes;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -20,8 +21,11 @@ public class MedicineRepositorySupport {
 
     QMedicine qMedicine = QMedicine.medicine;
     
-    public List<String> getMediAutoListInfo(String searchKeyword) {
-        List<String> mediList = query.select(qMedicine.mediName)
+    public List<MediGetRes> getMediAutoListInfo(String searchKeyword) {
+//        List<String> mediList = query.select(qMedicine.mediName)
+//                .from(qMedicine).where(qMedicine.mediName.contains(searchKeyword))
+//                .fetch();
+    	List<MediGetRes> mediList = query.select(Projections.bean(MediGetRes.class, qMedicine.mediSerialNum, qMedicine.mediName))
                 .from(qMedicine).where(qMedicine.mediName.contains(searchKeyword))
                 .fetch();
         return mediList;
