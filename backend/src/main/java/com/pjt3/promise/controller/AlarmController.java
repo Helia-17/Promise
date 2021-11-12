@@ -26,6 +26,7 @@ import com.pjt3.promise.request.AlarmOCRPostReq;
 import com.pjt3.promise.request.AlarmPostReq;
 import com.pjt3.promise.request.AlarmPutReq;
 import com.pjt3.promise.request.TakeHistoryPostReq;
+import com.pjt3.promise.response.AlarmCalendarGetRes;
 import com.pjt3.promise.response.AlarmDetailGetRes;
 import com.pjt3.promise.response.AlarmGetRes;
 import com.pjt3.promise.response.AlarmOCRRes;
@@ -242,6 +243,27 @@ public class AlarmController {
 			}
     		
 
+			
+    	} catch (NullPointerException e) {
+    		return ResponseEntity.status(420).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
+    	} catch (Exception e) {
+    		return ResponseEntity.status(500).body(BaseResponseBody.of(500, "Internal Server Error"));
+		}
+    }
+    
+    @GetMapping("/calendar")
+    public ResponseEntity<?> getMonthAlarmList(Authentication authentication, @RequestParam String nowMonth){
+    	try {
+    		
+        	PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
+			User user = userDetails.getUser();
+    		
+    		List<AlarmCalendarGetRes> alarmList = alarmService.getMonthAlarmList(user, nowMonth);
+    		
+	        Map<String, List> map = new HashMap<String, List>();
+			map.put("alarmList", alarmList);
+			
+			return ResponseEntity.status(200).body(map);
 			
     	} catch (NullPointerException e) {
     		return ResponseEntity.status(420).body(BaseResponseBody.of(420, "만료된 토큰입니다."));

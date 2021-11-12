@@ -10,6 +10,7 @@ import com.pjt3.promise.entity.QTag;
 import com.pjt3.promise.entity.QTakeHistory;
 import com.pjt3.promise.entity.QUserMedicine;
 import com.pjt3.promise.entity.User;
+import com.pjt3.promise.response.AlarmCalendarGetRes;
 import com.pjt3.promise.response.AlarmDetailGetRes;
 import com.pjt3.promise.response.AlarmGetRes;
 import com.pjt3.promise.response.MediGetRes;
@@ -128,6 +129,20 @@ public class MediAlarmRepositorySupport {
     			.from(qTakeHistory)
     			.where(qTakeHistory.user.eq(user),qTakeHistory.thYN.eq(1)).fetchCount();
 		return (int) total;
+	}
+
+	public List<AlarmCalendarGetRes> getMonthAlarmList(User user, String firstDay, String lastDay) {
+		List<AlarmCalendarGetRes> calendarAlarmList = query.select(Projections.bean(AlarmCalendarGetRes.class,
+    			qMediAlarm.alarmId, qMediAlarm.alarmDayStart, qMediAlarm.alarmDayEnd))
+    			.from(qMediAlarm)
+    			.where(qMediAlarm.user.eq(user),
+    					(qMediAlarm.alarmDayStart.goe(firstDay).and(qMediAlarm.alarmDayStart.loe(lastDay)))
+    					.or(qMediAlarm.alarmDayStart.loe(firstDay)
+    							.and((qMediAlarm.alarmDayEnd.goe(lastDay)
+    									.or(((qMediAlarm.alarmDayEnd.goe(firstDay).and(qMediAlarm.alarmDayEnd.loe(lastDay)))))))))
+    			.orderBy(qMediAlarm.alarmId.desc())
+    			.fetch();
+		return calendarAlarmList;
 	}
 
     
