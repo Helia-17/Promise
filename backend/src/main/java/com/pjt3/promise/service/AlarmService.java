@@ -6,6 +6,7 @@ import com.pjt3.promise.entity.User;
 import com.pjt3.promise.request.AlarmPostReq;
 import com.pjt3.promise.request.AlarmPutReq;
 import com.pjt3.promise.request.TakeHistoryPostReq;
+import com.pjt3.promise.response.AlarmCalendarGetRes;
 import com.pjt3.promise.response.AlarmDetailGetRes;
 import com.pjt3.promise.response.AlarmGetRes;
 import com.pjt3.promise.response.AlarmOCRRes;
@@ -21,9 +22,11 @@ public interface AlarmService {
 
 	int insertTakeHistory(User user, TakeHistoryPostReq takeHistoryPostReq);
 
-	List<AlarmGetRes> getProgressAlarmList(User user);
+	List<AlarmGetRes> getDateAlarmList(User user, String nowDate);
 
 	List<AlarmGetRes> getPastAlarmList(int periodType, User user);
 
 	List<AlarmOCRRes> getOCRMediList(String text);
+
+	List<AlarmCalendarGetRes> getMonthAlarmList(User user, String nowMonth);
 }
