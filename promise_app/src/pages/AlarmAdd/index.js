@@ -1,49 +1,57 @@
 import React, {useState, useEffect} from 'react';
-import {View, ScrollView, Text, Modal, TouchableOpacity} from 'react-native';
+import { View, ScrollView, Text, Modal, TouchableOpacity, TextInput} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import TimeSelect from '../../components/TimeSelect';
 import DateSelect from '../../components/DateSelect';
 import FindUser from '../../components/FindUser';
-import InputText from '../../components/InputText';
 import Toggle from '../../components/Toggle';
 import AlarmList from '../../components/atoms/AlarmList';
 import AddPill from '../../components/AddPill';
 import ShareUser from '../../components/ShareUser';
+import OCRModal from '../../components/OCRModal';
+import Moment from 'moment';
+import PillModal from '../../components/PillModal';
+import Notifications from '../../utils/Notifications';
+import {enrollAlarm} from '../../utils/axios';
 
 const AlarmAdd = ({navigation}) => {
   const [title, onChangeTitle] = useState('');
   const [isOn, setIsOn] = useState(false);
   const [pillList, setPillList] = useState([]);
   const [userList, setUserList] = useState([]);
+  const [ocrPillData, setOcrPillData] = useState([]);
   const [tag, setTag] = useState('');
-  const [pillId, setPillId] = useState(0);
   const [isChange, setIsChange] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [ocrModal, setOcrModal] = useState(false);
+  const [addModal, setAddModal] = useState(false);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [selectTime, setSelectTime] = useState('');
+  const [selectTime1, setSelectTime1] = useState(null);
+  const [selectTime2, setSelectTime2] = useState(null);
+  const [selectTime3, setSelectTime3] = useState(null);
 
-  const addList = pillName => {
-    if (pillName) {
-      setPillList([...pillList, {id: pillId, name: pillName}]);
-      setPillId(pillId + 1);
-    } else {
-      alert('약 정보를 입력해주세요.');
+  const addList = data => {
+    if (data) {
+      setPillList([...pillList, {id: data.mediSerialNum, name: data.mediName}]);
     }
     setIsChange(true);
   };
 
   const addUser = selectUser => {
-    if (selectUser.id) {
+    if (selectUser.userEmail) {
       let flag = false;
       for (let i = 0; i < userList.length; i++) {
-        if (userList[i].id == selectUser.id) {
+        if (userList[i].id == selectUser.userEmail) {
           flag = true;
           break;
         }
       }
       if (flag === false) {
-        setUserList([...userList, {id: selectUser.id, name: selectUser.name}]);
+        setUserList([
+          ...userList,
+          {id: selectUser.userEmail, name: selectUser.userNickname},
+        ]);
       } else {
         alert('이미 추가한 사용자입니다.');
       }
@@ -92,6 +100,113 @@ const AlarmAdd = ({navigation}) => {
     setIsChange(true);
   };
 
+  const addOCRList = data => {
+    if (data) {
+      setPillList(pillList.concat(data));
+    }
+    setIsChange(true);
+  };
+
+  function myMediList() {
+    let result = [];
+    if (pillList) {
+      pillList.map(item => {
+        result = result.concat(item.name);
+      });
+    }
+    return result;
+  }
+
+  function myShareList() {
+    let result = [];
+    if (userList) {
+      userList.map(item => {
+        result = result.concat(item.name);
+      });
+    }
+    return result;
+  }
+
+  function myTagList() {
+    let result = [];
+    if (tag) {
+      result = tag.split('#');
+    }
+    return result;
+  }
+
+  function myStartDate() {
+    if (startDate) {
+      return startDate;
+    } else {
+      return Moment().format('YYYY-MM-DD');
+    }
+  }
+
+  function myendDate() {
+    if (endDate) {
+      return endDate;
+    } else {
+      return Moment().format('YYYY-MM-DD');
+    }
+  }
+
+  const addalarm = async () => {
+    let alarmYN = 0;
+    if (isOn === true) {
+      alarmYN = 1;
+    }
+    const result = await enrollAlarm( title, alarmYN, selectTime1, selectTime2, selectTime3, myStartDate(), myendDate(), myMediList(), myTagList(), myShareList());
+    setNotification(result);
+    navigation.goBack();
+  };
+
+  const setNotification = async(alarmId)=>{
+    Moment.locale('kr');
+    let nowTime = Moment().toDate();
+    let cur = Moment(myStartDate()).toDate();
+    let end = Moment(myendDate()).toDate();
+    let hour = [];
+    let minute = [];
+    if(selectTime1){
+      hour.push(selectTime1.substring(0,2));
+      minute.push(selectTime1.substring(2,4));
+    }
+    if(selectTime2){
+      hour.push(selectTime2.substring(0,2));
+      minute.push(selectTime2.substring(2,4));
+    }
+    if(selectTime3){
+      hour.push(selectTime3.substring(0,2));
+      minute.push(selectTime3.substring(2,4));
+    }
+    let listSize = hour.length;
+
+    end.setHours(Number(hour[listSize-1]));
+    end.setMinutes(Number(minute[listSize-1]));
+    end.setSeconds(0);
+
+    cur.setSeconds(0);
+    let medi = myMediList().join(', ');
+    let id = 1;
+    let registerId = '';
+    while (cur<=end){
+      for(let idx = 0; idx<listSize; idx++){
+        cur.setHours(Number(hour[idx]));
+        cur.setMinutes(Number(minute[idx]));
+
+        if (cur<nowTime){
+          continue;
+        }
+
+        registerId = `${alarmId}${id}`;
+        Notifications.scheduledLocalNotifications(alarmId, registerId, cur, title, medi);
+        id ++;
+      }
+      cur = Moment(cur).add(1, 'd').toDate();
+    }
+  }
+
   return (
     <View style={{flex: 1, alignItems: 'center', backgroundColor: 'white'}}>
       <View style={{width: '90%', alignItems: 'flex-start', marginTop: 10}}>
@@ -106,20 +221,114 @@ const AlarmAdd = ({navigation}) => {
       <ScrollView
         style={{width: '100%', margin: 10}}
         contentContainerStyle={{alignItems: 'center', margin: 10}}>
-        <InputText name="복용명" result={data => onChangeTitle(data)} />
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            width: '90%',
+            justifyContent: 'center',
+            height: 50
+          }}>
+          <Text
+            style={{
+              fontSize: 15,
+              color: 'black',
+              fontWeight: 'bold',
+              width: '20%'
+            }}>
+            복용명
+          </Text>
+          <View
+            style={{
+              width: '78%',
+              backgroundColor: '#E9E9E9',
+              height: 40,
+              borderRadius: 20,
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+            <TextInput
+              onChangeText={onChangeTitle}
+              value={title}
+              style={{
+                width: '80%',
+                color: 'black',
+                backgroundColor: '#E9E9E9',
+                borderRadius: 20,
+                textAlign: 'center'
+              }}
+            />
+          </View>
+        </View>
         <DateSelect
           selectedStart={data => setStartDate(data)}
           selectedEnd={data => setEndDate(data)}
         />
-        <AddPill add={data => addList(data)} />
+        <AddPill
+          add={data => setAddModal(data)}
+          ocradd={data => setOcrModal(data)}
+          ocrdata={data => setOcrPillData(data)}
+        />
+        <Modal animationType={'fade'} transparent={true} visible={addModal}>
+          <PillModal
+            visible={data => setAddModal(data)}
+            selected={data => addList(data)}
+          />
+        </Modal>
+        <Modal animationType={'fade'} transparent={true} visible={ocrModal}>
+          <OCRModal
+            data={ocrPillData}
+            selected={data => addOCRList(data)}
+            visible={data => setOcrModal(data)}
+          />
+        </Modal>
         {myPillList()}
-        <InputText name="태그" result={data => setTag(data)} />
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            width: '90%',
+            justifyContent: 'center',
+            height: 50
+          }}>
+          <Text
+            style={{
+              fontSize: 15,
+              color: 'black',
+              fontWeight: 'bold',
+              width: '20%'
+            }}>
+            태그
+          </Text>
+          <View
+            style={{
+              width: '78%',
+              backgroundColor: '#E9E9E9',
+              height: 40,
+              borderRadius: 20,
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+            <TextInput
+              placeholder="나만의 태그를 #태그로 입력해주세요."
+              onChangeText={setTag}
+              value={tag}
+              style={{
+                width: '80%',
+                color: 'black',
+                backgroundColor: '#E9E9E9',
+                borderRadius: 20,
+                textAlign: 'center'
+              }}
+            />
+          </View>
+        </View>
         <Toggle result={data => setIsOn(data)} />
         {isOn ? (
           <View>
-            <TimeSelect
-              selected={data => setSelectTime(data)}
-            />
+            <TimeSelect selected={data => setSelectTime1(data)} data="1" />
+            <TimeSelect selected={data => setSelectTime2(data)} data="2" />
+            <TimeSelect selected={data => setSelectTime3(data)} data="3" />
             <ShareUser result={data => setModalVisible(data)} />
             {myUserList()}
             <Modal
@@ -141,11 +350,10 @@ const AlarmAdd = ({navigation}) => {
               alignItems: 'center',
               borderRadius: 12,
               height: 50,
-              justifyContent: 'center',
+              justifyContent: 'center'
             }}
-            onPress={() => alert('등록이얌')}>
-            <Text style={{color: 'black', fontSize: 20, fontWeight: 'bold'}}>
-              등록하기
+            onPress={() => addalarm()}>
+            <Text style={{color: 'black', fontSize: 20, fontWeight: 'bold'}}>등록하기
             </Text>
           </TouchableOpacity>
         </View>

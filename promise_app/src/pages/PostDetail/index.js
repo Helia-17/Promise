@@ -16,9 +16,7 @@ import SearchBar from '../../components/community/SearchBar';
 import PostList from '../../components/community/PostList';
 import CommentList from '../../components/community/CommentList';
 import InputCommentText from '../../components/InputCommentText';
-import InputScrollView from 'react-native-input-scroll-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 // const { StatusBarManager } = NativeModules
 
@@ -66,15 +64,10 @@ const PostDetailPage = ({navigation}) => {
               </View>
             </View>
           </View>
-          {/* <InputScrollView style={{ width:'100%', backgroundColor:'#F4F4F4'}}>
-                </InputScrollView> */}
           <CommentList />
-          {/* <KeyboardAvoidingView behavior={"padding"} keyboardVerticalOffset={44+statusBarHeight}> */}
           <KeyboardAvoidingView>
             <InputCommentText name="댓글" result={data => onChangeComment(data)} />
           </KeyboardAvoidingView>
-          {/* <View style={{ flex:1, width:'100%', alignItems:'center', left: 0, right: 0, bottom: 0}}>
-                </View> */}
         </View>
       ) : (
         <View>
@@ -89,8 +82,8 @@ const PostDetailPage = ({navigation}) => {
             </View>
             
           </View>
-          <InputCommentText name="댓글" result={data => onChangeComment(data)} />  
-          <CommentList />
+            <InputCommentText name="댓글" result={data => onChangeComment(data)} />  
+            <CommentList />
         </View>
       )}
       

@@ -7,11 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.pjt3.promise.entity.Pharmacy;
+import com.pjt3.promise.entity.PharmacyDistanceInterface;
 
 @Repository
 public interface PharmacyRepository extends JpaRepository<Pharmacy, String> {
 	
-	@Query(nativeQuery = true, value = "SELECT *,\n" + 
+	@Query(nativeQuery = true, value = "SELECT pharm_id AS pharmId, pharm_name AS pharmName,\n" +
+			"pharm_addr AS pharmAddr, pharm_tel AS pharmTel, pharm_lat AS pharmLat, pharm_long AS pharmLong,\n"+
 			"	(6371*acos(cos(radians(?1))*cos(radians(pharm_lat))*cos(radians(pharm_long)\n" + 
 			"	-radians(?2))+sin(radians(?1))*sin(radians(pharm_lat))))\n" + 
 			"	AS distance\n" + 
@@ -20,9 +22,10 @@ public interface PharmacyRepository extends JpaRepository<Pharmacy, String> {
 			"HAVING distance <= 2\n" + 
 			"ORDER BY distance \n" + 
 			"LIMIT 0,20;")
-	List<Pharmacy> findByLatLongMon(double latitude, double longitude, String curTime);
+	List<PharmacyDistanceInterface> findByLatLongMon(double latitude, double longitude, String curTime);
 	
-	@Query(nativeQuery = true, value = "SELECT *,\n" + 
+	@Query(nativeQuery = true, value ="SELECT pharm_id AS pharmId, pharm_name AS pharmName,\n" +
+			"pharm_addr AS pharmAddr, pharm_tel AS pharmTel, pharm_lat AS pharmLat, pharm_long AS pharmLong,\n"+
 			"	(6371*acos(cos(radians(?1))*cos(radians(pharm_lat))*cos(radians(pharm_long)\n" + 
 			"	-radians(?2))+sin(radians(?1))*sin(radians(pharm_lat))))\n" + 
 			"	AS distance\n" + 
@@ -31,9 +34,10 @@ public interface PharmacyRepository extends JpaRepository<Pharmacy, String> {
 			"HAVING distance <= 2\n" + 
 			"ORDER BY distance \n" + 
 			"LIMIT 0,20;")
-	List<Pharmacy> findByLatLongTue(double latitude, double longitude, String curTime);
+	List<PharmacyDistanceInterface> findByLatLongTue(double latitude, double longitude, String curTime);
 	
-	@Query(nativeQuery = true, value = "SELECT *,\n" + 
+	@Query(nativeQuery = true, value = "SELECT pharm_id AS pharmId, pharm_name AS pharmName,\n" +
+			"pharm_addr AS pharmAddr, pharm_tel AS pharmTel, pharm_lat AS pharmLat, pharm_long AS pharmLong,\n"+
 			"	(6371*acos(cos(radians(?1))*cos(radians(pharm_lat))*cos(radians(pharm_long)\n" + 
 			"	-radians(?2))+sin(radians(?1))*sin(radians(pharm_lat))))\n" + 
 			"	AS distance\n" + 
@@ -42,9 +46,10 @@ public interface PharmacyRepository extends JpaRepository<Pharmacy, String> {
 			"HAVING distance <= 2\n" + 
 			"ORDER BY distance \n" + 
 			"LIMIT 0,20;")
-	List<Pharmacy> findByLatLongWed(double latitude, double longitude, String curTime);
+	List<PharmacyDistanceInterface> findByLatLongWed(double latitude, double longitude, String curTime);
 	
-	@Query(nativeQuery = true, value = "SELECT *,\n" + 
+	@Query(nativeQuery = true, value = "SELECT pharm_id AS pharmId, pharm_name AS pharmName,\n" +
+			"pharm_addr AS pharmAddr, pharm_tel AS pharmTel, pharm_lat AS pharmLat, pharm_long AS pharmLong,\n"+
 			"	(6371*acos(cos(radians(?1))*cos(radians(pharm_lat))*cos(radians(pharm_long)\n" + 
 			"	-radians(?2))+sin(radians(?1))*sin(radians(pharm_lat))))\n" + 
 			"	AS distance\n" + 
@@ -53,9 +58,10 @@ public interface PharmacyRepository extends JpaRepository<Pharmacy, String> {
 			"HAVING distance <= 2\n" + 
 			"ORDER BY distance \n" + 
 			"LIMIT 0,20;")
-	List<Pharmacy> findByLatLongThu(double latitude, double longitude, String curTime);
+	List<PharmacyDistanceInterface> findByLatLongThu(double latitude, double longitude, String curTime);
 	
-	@Query(nativeQuery = true, value = "SELECT *,\n" + 
+	@Query(nativeQuery = true, value = "SELECT pharm_id AS pharmId, pharm_name AS pharmName,\n" +
+			"pharm_addr AS pharmAddr, pharm_tel AS pharmTel, pharm_lat AS pharmLat, pharm_long AS pharmLong,\n"+
 			"	(6371*acos(cos(radians(?1))*cos(radians(pharm_lat))*cos(radians(pharm_long)\n" + 
 			"	-radians(?2))+sin(radians(?1))*sin(radians(pharm_lat))))\n" + 
 			"	AS distance\n" + 
@@ -64,9 +70,10 @@ public interface PharmacyRepository extends JpaRepository<Pharmacy, String> {
 			"HAVING distance <= 2\n" + 
 			"ORDER BY distance \n" + 
 			"LIMIT 0,20;")
-	List<Pharmacy> findByLatLongFri(double latitude, double longitude, String curTime);
+	List<PharmacyDistanceInterface> findByLatLongFri(double latitude, double longitude, String curTime);
 	
-	@Query(nativeQuery = true, value = "SELECT *,\n" + 
+	@Query(nativeQuery = true, value = "SELECT pharm_id AS pharmId, pharm_name AS pharmName,\n" +
+			"pharm_addr AS pharmAddr, pharm_tel AS pharmTel, pharm_lat AS pharmLat, pharm_long AS pharmLong,\n"+
 			"	(6371*acos(cos(radians(?1))*cos(radians(pharm_lat))*cos(radians(pharm_long)\n" + 
 			"	-radians(?2))+sin(radians(?1))*sin(radians(pharm_lat))))\n" + 
 			"	AS distance\n" + 
@@ -75,9 +82,10 @@ public interface PharmacyRepository extends JpaRepository<Pharmacy, String> {
 			"HAVING distance <= 2\n" + 
 			"ORDER BY distance \n" + 
 			"LIMIT 0,20;")
-	List<Pharmacy> findByLatLongSat(double latitude, double longitude, String curTime);
+	List<PharmacyDistanceInterface> findByLatLongSat(double latitude, double longitude, String curTime);
 	
-	@Query(nativeQuery = true, value = "SELECT *,\n" + 
+	@Query(nativeQuery = true, value = "SELECT pharm_id AS pharmId, pharm_name AS pharmName,\n" +
+			"pharm_addr AS pharmAddr, pharm_tel AS pharmTel, pharm_lat AS pharmLat, pharm_long AS pharmLong,\n"+
 			"	(6371*acos(cos(radians(?1))*cos(radians(pharm_lat))*cos(radians(pharm_long)\n" + 
 			"	-radians(?2))+sin(radians(?1))*sin(radians(pharm_lat))))\n" + 
 			"	AS distance\n" + 
@@ -86,6 +94,6 @@ public interface PharmacyRepository extends JpaRepository<Pharmacy, String> {
 			"HAVING distance <= 2\n" + 
 			"ORDER BY distance \n" + 
 			"LIMIT 0,20;")
-	List<Pharmacy> findByLatLongSun(double latitude, double longitude, String curTime);
+	List<PharmacyDistanceInterface> findByLatLongSun(double latitude, double longitude, String curTime);
 
 }

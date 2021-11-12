@@ -36,7 +36,7 @@ public class MediAlarmRepositorySupport {
 
     	AlarmDetailGetRes alarmDetailGetRes = query.select(Projections.bean(AlarmDetailGetRes.class,
     			qMediAlarm.alarmId, qMediAlarm.alarmTitle, qMediAlarm.alarmYN,
-    			qMediAlarm.alarmTime,
+    			qMediAlarm.alarmTime1,qMediAlarm.alarmTime2,qMediAlarm.alarmTime3,
     			qMediAlarm.alarmDayStart, qMediAlarm.alarmDayEnd))
     			.from(qMediAlarm).where(qMediAlarm.alarmId.eq(alarmId)).fetchOne();
     	if(alarmDetailGetRes != null) {

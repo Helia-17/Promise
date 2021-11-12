@@ -11,7 +11,9 @@ public class AlarmPutReq {
 	private int alarmId;
     private String alarmTitle;
     private int alarmYN;
-    private String alarmTime;
+    private String alarmTime1;
+    private String alarmTime2;
+    private String alarmTime3;
     private String alarmDayStart;
     private String alarmDayEnd;
     private List<String> alarmMediList;
