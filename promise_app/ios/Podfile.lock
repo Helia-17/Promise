@@ -287,6 +287,8 @@ PODS:
     - glog
   - react-native-geolocation-service (5.3.0-beta.3):
     - React
+  - react-native-image-picker (4.2.0):
+    - React-Core
   - react-native-maps (0.29.3):
     - React-Core
   - react-native-pager-view (5.4.8):
@@ -422,6 +424,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-geolocation-service (from `../node_modules/react-native-geolocation-service`)
+  - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -505,6 +508,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   react-native-geolocation-service:
     :path: "../node_modules/react-native-geolocation-service"
+  react-native-image-picker:
+    :path: "../node_modules/react-native-image-picker"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
   react-native-pager-view:
@@ -590,6 +595,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 8c0517dee5e8c70cd6c3066f20213ff7ce54f176
   React-logger: bfddd3418dc1d45b77b822958f3e31422e2c179b
   react-native-geolocation-service: 32e50a2e4e4518b51b829fdfe137562a672d95d2
+  react-native-image-picker: 4c785f9e04f9b34c9f57a291891f4dd3a59146bc
   react-native-maps: 41d01d8e0afcebe32bec9eea3bd945adc1b18f7a
   react-native-pager-view: de4561910a6f61c01e6fd91165bd033a47418865
   react-native-safe-area-context: 5cf05f49df9d17261e40e518481f2e334c6cd4b5
@@ -616,6 +622,6 @@ SPEC CHECKSUMS:
   Yoga: 2b4a01651f42a32f82e6cef3830a3ba48088237f
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: ac02ce6904f5848ed91e9bf2de99e153b14fa444
+PODFILE CHECKSUM: 83e90550db0afe550d42fd884cf304777cf8f500
 
 COCOAPODS: 1.11.2
