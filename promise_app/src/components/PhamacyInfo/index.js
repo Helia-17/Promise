@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const PhamacyInfo = (props) => {
+    console.log(props);
     return (
         <View style={{flexDirection: "row", width:'100%', backgroundColor:'white', marginTop:10, marginBottom:10, borderRadius:3, elevation:1}}>
             <View style={{margin:10}}>

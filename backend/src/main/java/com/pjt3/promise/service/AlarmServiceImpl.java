@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,7 @@ import com.pjt3.promise.request.AlarmPutReq;
 import com.pjt3.promise.request.TakeHistoryPostReq;
 import com.pjt3.promise.response.AlarmDetailGetRes;
 import com.pjt3.promise.response.AlarmGetRes;
+import com.pjt3.promise.response.AlarmOCRRes;
 
 @Service
 public class AlarmServiceImpl implements AlarmService {
@@ -131,12 +133,7 @@ public class AlarmServiceImpl implements AlarmService {
 			mediAlarm.setAlarmDayEnd(alarmPostReq.getAlarmDayEnd());
 			mediAlarm.setAlarmYN(alarmPostReq.getAlarmYN());
 			if (alarmPostReq.getAlarmYN() == 1) {
-				mediAlarm.setAlarmDays(alarmPostReq.getAlarmDays());
-				mediAlarm.setAlarmTime1(alarmPostReq.getAlarmTime1());
-				mediAlarm.setAlarmTime2(alarmPostReq.getAlarmTime2());
-				mediAlarm.setAlarmTime3(alarmPostReq.getAlarmTime3());
-				mediAlarm.setAlarmTime4(alarmPostReq.getAlarmTime4());
-				mediAlarm.setAlarmTime5(alarmPostReq.getAlarmTime5());
+				mediAlarm.setAlarmTime(alarmPostReq.getAlarmTime());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -175,12 +172,7 @@ public class AlarmServiceImpl implements AlarmService {
 			mediAlarm.setAlarmDayEnd(alarmPutReq.getAlarmDayEnd());
 			mediAlarm.setAlarmYN(alarmPutReq.getAlarmYN());
 			if (alarmPutReq.getAlarmYN() == 1) {
-				mediAlarm.setAlarmDays(alarmPutReq.getAlarmDays());
-				mediAlarm.setAlarmTime1(alarmPutReq.getAlarmTime1());
-				mediAlarm.setAlarmTime2(alarmPutReq.getAlarmTime2());
-				mediAlarm.setAlarmTime3(alarmPutReq.getAlarmTime3());
-				mediAlarm.setAlarmTime4(alarmPutReq.getAlarmTime4());
-				mediAlarm.setAlarmTime5(alarmPutReq.getAlarmTime5());
+				mediAlarm.setAlarmTime(alarmPutReq.getAlarmTime());
 			}
 			mediAlarmRepository.save(mediAlarm);
 
@@ -282,9 +274,11 @@ public class AlarmServiceImpl implements AlarmService {
 	}
 
 	@Override
-	public List<String> getOCRMediList(String text) {
+	public List<AlarmOCRRes> getOCRMediList(String text) {
+		String pattern1 = "^[0-9]*$";
+		String pattern2 = "^[a-zA-Z]*$";
 		String[] textList = text.split(" ");
-		HashSet<String> findMediList = new HashSet<String>();
+		HashSet<AlarmOCRRes> findMediList = new HashSet<AlarmOCRRes>();
 		for (String str : textList) {
 			str = str.replaceAll(" ", "");
 
@@ -292,15 +286,17 @@ public class AlarmServiceImpl implements AlarmService {
 			if (str == null || str.equals("") || str.equals(" ")) continue;
 			if (str.length() == 0 || str.length() == 1) continue;
 			if ((!str.equals("자모") && !str.equals("뇌선") && !str.equals("얄액") && !str.equals("쿨정")) && str.length() == 2) continue;
+			if (Pattern.matches(pattern1, str) || Pattern.matches(pattern2, str)) continue;
 			if (str.length() == 3 && str.equals("서방정")) continue;
+			
 
-			List<String> mediList = medicineRepositorySupport.getMediAutoListInfo(str);
-			for (String medi : mediList) {
+			List<AlarmOCRRes> mediList = medicineRepositorySupport.getOCRMediListInfo(str);
+			for (AlarmOCRRes medi : mediList) {
 				findMediList.add(medi);
 			}
 
 		}
 
-		return new ArrayList<String>(findMediList);
+		return new ArrayList<AlarmOCRRes>(findMediList);
 	}
 }

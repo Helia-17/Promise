@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, ScrollView, Text, Modal, TouchableOpacity, TextInput } from 'react-native';
+import {View, ScrollView, Text, Modal, TouchableOpacity, TextInput} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import TimeSelect from '../../components/TimeSelect';
 import DateSelect from '../../components/DateSelect';
@@ -65,18 +65,19 @@ const AlarmAdd = ({navigation}) => {
         }else{
             alert('선택한 사용자가 없습니다.');
         }
-        setModalVisible(false);
-        setIsChange(true);
-    };
+      }
+    setModalVisible(false);
+    setIsChange(true);
+  };
 
-    const removeList = (id)=>{
-        setPillList(pillList.filter(pill => pill.id !== id));
-        setIsChange(true);
-    };
+  const removeList = id => {
+    setPillList(pillList.filter(pill => pill.id !== id));
+    setIsChange(true);
+  };
 
-    useEffect(()=>{
-        setIsChange(false);
-    }, [isChange])
+  useEffect(() => {
+    setIsChange(false);
+  }, [isChange]);
 
     const myPillList = ()=>{
         let result = [];
@@ -88,7 +89,7 @@ const AlarmAdd = ({navigation}) => {
             })
         }
         return result;
-    }
+  };
 
     const myUserList = () =>{
         let result = [];
@@ -102,10 +103,10 @@ const AlarmAdd = ({navigation}) => {
         return result;
     }
 
-    const removeUserList = (id)=>{
-        setUserList(userList.filter(user => user.id !== id));
-        setIsChange(true);
-    };
+  const removeUserList = id => {
+    setUserList(userList.filter(user => user.id !== id));
+    setIsChange(true);
+  };
 
     const addOCRList = (data) =>{
         if(data){
@@ -205,6 +206,6 @@ const AlarmAdd = ({navigation}) => {
                 </View>
             </ScrollView>
         </View>
-    );
-};
+  );
+                }
 export default AlarmAdd;
