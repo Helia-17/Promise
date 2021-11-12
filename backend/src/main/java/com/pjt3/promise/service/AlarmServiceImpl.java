@@ -323,8 +323,6 @@ public class AlarmServiceImpl implements AlarmService {
 		c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
 		
 		String lastDay = formatter.format(c.getTime());
-		System.out.println(firstDay + " :: " + lastDay);
-		
 
 		List<AlarmCalendarGetRes> calendarAlarmList =  mediAlarmRepositorySupport.getMonthAlarmList(user, firstDay, lastDay);
 
