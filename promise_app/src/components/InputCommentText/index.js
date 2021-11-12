@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, Text,  TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { View, Text,  TextInput, TouchableOpacity, KeyboardAvoidingView, StyleSheet, ScrollView } from 'react-native';
 import InputScrollView from 'react-native-input-scroll-view';
 
 const InputCommentText = (props) => {
@@ -10,13 +10,56 @@ const InputCommentText = (props) => {
     }
     return(
         // <InputScrollView>
-        <View style={{width:'100%', backgroundColor:'#E9E9E9', bottom: 0, height: 50, alignItems: 'center', justifyContent:'center', flexDirection: 'row'}}>
-            <TextInput onChangeText={handleText} maxLength={40} placeholder={props.name} value={text} style={{padding: 10, height: 50, width:'85%',color:'black', backgroundColor: '#E9E9E9'}}/>
-            <TouchableOpacity style={{padding: 10, height: 50, width:'15%',color:'black', backgroundColor: '#A3BED7', alignItems: 'center', justifyContent:'center', fontWeight: '700'}}>
-                <Text>등록</Text>
+        <View style={styles.commentContainer}>
+            <TextInput onChangeText={handleText} maxLength={40} placeholder={props.name} value={text} style={styles.commentInput}/>
+            <TouchableOpacity style={styles.commentInsert}>
+                <Text style={{color:'white'}}>등록</Text>
             </TouchableOpacity>
         </View >
         // </InputScrollView>
     );
 };
+
+
+
+const styles = StyleSheet.create({
+    commentContainer: {
+        width: '100%',
+        flexDirection: 'row',
+        marginTop: "auto",
+        backgroundColor: '#F9F9F9',
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 5,
+    },
+    // commentContainer: {
+    //     width: '100%',
+    //     backgroundColor: '#E9E9E9',
+    //     bottom: 0,
+    //     height: 50,
+    //     alignItems: 'center',
+    //     justifyContent: 'center',
+    //     flexDirection: 'row'
+    // },
+    commentInput: {
+        borderTopLeftRadius: 5,
+        borderBottomLeftRadius: 5,
+        padding: 15,
+        height: 50,
+        width: '85%',
+        color: 'black',
+        backgroundColor: '#E9E9E9',
+    },
+    commentInsert: {
+        borderTopRightRadius: 5,
+        borderBottomRightRadius: 5,
+        padding: 10,
+        height: 50,
+        width: '15%',
+        backgroundColor: '#A8BDD5',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontWeight: '700'
+    }
+})
 export default InputCommentText;
