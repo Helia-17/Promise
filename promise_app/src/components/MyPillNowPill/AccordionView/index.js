@@ -191,10 +191,6 @@ const styles = StyleSheet.create({
     borderColor: '#e3e3e3',
     borderTopWidth: 1,
   },
-  content: {
-    fontSize: 16,
-    fontWeight: '600'
-  },
   header: {
     backgroundColor:'white',
     marginVertical: 10,
