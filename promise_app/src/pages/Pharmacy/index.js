@@ -45,8 +45,8 @@ const Pharmacy = () => {
             minutes = now.getMinutes().toString();
         }
         
-        var curTime = '1130';
-        // var curTime = hours + minutes;
+        // var curTime = '1130';
+        var curTime = hours + minutes;
         
         console.log("현재 : ", now);
         console.log("현재 week : ", week);
