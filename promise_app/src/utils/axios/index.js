@@ -172,6 +172,7 @@ export const userAPI = {
       .then(response => {
         setToken(response.data.accessToken);
         AsyncStorage.setItem('isLogin', 'true');
+        console.log(response.data)
       })
       .catch(error => {
         console.log(error.response);
