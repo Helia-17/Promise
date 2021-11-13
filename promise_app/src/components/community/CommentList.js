@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, FlatList, TouchableHighlight, ScrollView } from 'react-native';
 import { Divider } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
+import CommentBtn from '../atoms/CommentBtn';
 
 export default function Comments() {
     const comments = [
@@ -49,18 +50,19 @@ export default function Comments() {
     <FlatList
       data={comments}
       renderItem={({item, i}) => (
-        <TouchableHighlight onPress={()=>navigation.navigate('게시물')} underlayColor="white">
-        <View style={styles.container} key={i}>
-            <View>
-                <Text style={styles.itemNameText}>{item.username}</Text>
-                <Text style={styles.itemTitleText}>{item.title}</Text>
-            </View>
-            <View>
-                <Text style={styles.itemDateText}>
-                {item.date}
-                </Text>
-            </View>
-        </View>
+        <TouchableHighlight underlayColor="white">
+          <View style={styles.container} key={i}>
+              <View>
+                  <Text style={styles.itemNameText}>{item.username}</Text>
+                  <Text style={styles.itemTitleText}>{item.title}</Text>
+              </View>
+              <View style={styles.subcontainer}>
+                    <Text style={styles.itemDateText}>
+                    {item.date}
+                    </Text>
+                  <CommentBtn backgroundColor='#FF6464' value='삭제' />
+              </View>
+          </View>
         </TouchableHighlight>
       )}
     />
@@ -108,6 +110,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#F4F4F4',
     borderBottomColor: '#D1D1D1',
     borderBottomWidth: 1,
+  },
+  subcontainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    shadowColor: '#f1f2f3',
   },
   itemNameText: {
     fontSize: 16,

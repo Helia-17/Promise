@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RoundBtn from '../../components/atoms/RoundBtn';
+import SmallBtn from '../../components/atoms/SmallBtn';
 import SearchBar from '../../components/community/SearchBar';
 import PostList from '../../components/community/PostList';
 import CommentList from '../../components/community/CommentList';
@@ -65,6 +66,10 @@ const PostDetailPage = ({navigation}) => {
                 <Text style={styles.itemContentText}>{item.content}</Text>
               </View>
             </View>
+          </View>
+          <View style={{marginVertical:15, marginHorizontal: 10, flexDirection: 'row', justifyContent:'flex-end', alignItems: 'center'}}>
+            <SmallBtn backgroundColor='#F1E7C4' value='수정' func={()=>navigation.navigate('글수정', {item: item})}/>
+            <SmallBtn backgroundColor='#FF6464' value='삭제' />
           </View>
           {/* <InputScrollView style={{ width:'100%', backgroundColor:'#F4F4F4'}}>
                 </InputScrollView> */}

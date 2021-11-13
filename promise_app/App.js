@@ -21,6 +21,7 @@ import AlarmAdd from './src/pages/AlarmAdd';
 import CommunityPage from './src/pages/Community';
 import PostCreatePage from './src/pages/PostCreate';
 import PostDetailPage from './src/pages/PostDetail';
+import PostUpdatePage from './src/pages/PostUpdate';
 import HomePage from './src/pages/Home';
 import Mypage from './src/pages/Mypage';
 import Login from './src/pages/Login';
@@ -44,6 +45,7 @@ function CommunityScreen(){
       <Stack.Screen name='커뮤니티' component={CommunityPage} />
       <Stack.Screen name='글쓰기' component={PostCreatePage} />
       <Stack.Screen name='게시물' component={PostDetailPage} />
+      <Stack.Screen name='글수정' component={PostUpdatePage} />
     </Stack.Navigator>
   )
 }

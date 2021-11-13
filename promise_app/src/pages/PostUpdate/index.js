@@ -6,26 +6,26 @@ import InputText from '../../components/InputText';
 import InputLongText from '../../components/InputLongText';
 import InputTitleText from '../../components/InputTitleText';
 
-const PostCreatePage = ({navigation}) => {
+const PostUpdatePage = ({navigation, route}) => {
     const [title, onChangeTitle] = useState('');
     const [content, onChangeContent] = useState('');
 
     const sendPost = () => {
-        alert('작성로직')
+        alert('수정로직')
         navigation.navigate('커뮤니티')
     }
-    
+
     return (
         <>
             <View  style={styles.titleView}>
                 <View style={{width:'90%'}}>
-                    <InputTitleText name='제목' text='' result={(data)=>onChangeTitle(data)} />
+                    <InputTitleText name='제목' text={route.params.item.title} result={(data)=>onChangeTitle(data)} />
                 </View>
             </View>
             <View  style={styles.mainView}>
                 <ScrollView style={{ width:'90%' }} contentContainerStyle={{alignItems: 'center', justifyContent: 'flex-start'}}>
                     <View style={{width:'100%', margin:10}}>
-                        <InputLongText name='내용' text='' result={(data)=>onChangeContent(data)} />
+                        <InputLongText name='내용' text={route.params.item.content} result={(data)=>onChangeContent(data)} />
                     </View>
                 </ScrollView>
                 <View style={{width:'90%', margin:10, alignItmes:'flex-end'}}>
@@ -55,4 +55,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default PostCreatePage;
+export default PostUpdatePage;
