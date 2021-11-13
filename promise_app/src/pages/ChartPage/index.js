@@ -19,7 +19,7 @@ const ChartPage = ({navigation}) => {
 
         <Text style={styles.contentText}>약속 NOW</Text>
         <View style={styles.container}>
-          <PieChart 
+          {/* <PieChart 
             style={styles.chart}
             chartDescription={{text: ''}}
             entryLabelColor={processColor('black')} // tag name text color
@@ -70,7 +70,7 @@ const ChartPage = ({navigation}) => {
                 },
               },
             ],}}
-          />
+          /> */}
         </View>
       </View>
     );
