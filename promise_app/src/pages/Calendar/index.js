@@ -1,9 +1,16 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { View } from 'react-native';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import RoundBtn from '../../components/atoms/RoundBtn';
+import {getCalendar} from '../../utils/axios';
+import Moment from 'moment';
 
 const CalendarPage = ({navigation}) => {
+    const [selectedMonth, setSelectedMonth] = useState(Moment().format('YYYY-MM'));
+    const [resultList, setResultList] = useState([]);
+    const nowDate = Moment().format('YYYY-MM-DD');
+    const [markList, setMarkList] = useState({});
+
     LocaleConfig.locales['ko']={
         monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
         monthNamesShort: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
@@ -13,16 +20,61 @@ const CalendarPage = ({navigation}) => {
     };
     LocaleConfig.defaultLocale = 'ko';
     
-    const markTest = {key:'mark1', color:'#FF4D75'}
-    const beforeTest = {key:'before', color:'#C4C4C4'}
-    const beforeTest2 = {key:'before2', color:'#C4C4C4'}
+    const beforeColor = '#FF4D75';
+    const futureColor = '#C4C4C4';
+
+    const getList = async(nowMonth)=>{
+        let result = [];
+        if(nowMonth.dateString){
+            result = await getCalendar(Moment(nowMonth.dateString).format('YYYY-MM'));
+            setResultList(result);
+            setSelectedMonth(Moment(nowMonth.dateString).format('YYYY-MM-DD'));
+        }else{
+            result = await getCalendar(Moment(selectedMonth).format('YYYY-MM'));
+            setResultList(result);
+        }
+        getMark(result, nowMonth.dateString);
+        
+    };
+
+    const getMark = (res, selected)=>{
+        const start = Moment(selected).startOf('month').format('YYYY-MM-DD');
+        const end = Moment(selected).endOf('month').add(1, 'days').format('YYYY-MM-DD');
+
+        let result = {};
+        let now = start;
+        if(res){
+            while(Moment(now).isBefore(end)){
+                let today = [];
+                res.map(item=>{
+                    if(today.length<4 && Moment(now).isBetween(Moment(item.alarmDayStart).subtract(1, 'days').format('YYYY-MM-DD'), Moment(item.alarmDayEnd).add(1, 'days').format('YYYY-MM-DD'))){
+                        if(Moment(now).isBefore(nowDate)){
+                            today.push({key:item.alarmId, color:futureColor});
+                        }else{
+                            today.push({key:item.alarmId, color:beforeColor});
+                        }
+                    }
+                });
+                if(today.length>0){
+                    result[now]={dots:today};
+                }
+                now = Moment(now).add(1, 'days').format('YYYY-MM-DD');
+            }
+            setMarkList(result);
+        }
+    }
+
+    useEffect(() => {
+        getList(selectedMonth);
+    }, []);
+
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9', justifyContent:'center' }}>
             <Calendar
                 style={{borderRadius:5, width:330}}
                 theme={{todayTextColor:'#83BDFF', arrowColor:'black'}}
                 markingType={'multi-dot'}
-                markedDates={{'2021-11-18':{dots:[markTest]},'2021-11-02':{dots:[beforeTest, beforeTest2]}}}
+                markedDates={markList}
                 monthFormat={'yyyy년 MM월'}
                 onDayPress={(day)=>navigation.navigate('Alarm', {day:day.dateString})}
                 disableMonthChange={true}
@@ -31,6 +83,7 @@ const CalendarPage = ({navigation}) => {
                 showWeekNumbers={false}
                 onPressArrowLeft={substractMonth => substractMonth()}
                 onPressArrowRight={addMonth => addMonth()}
+                onMonthChange={(month)=>getList(month)}
             />
             <View style={{width:'100%', alignItems:'flex-end', height:60, justifyContent: 'flex-end'}}>
                 <RoundBtn text='+' func={()=>navigation.navigate('Add')}/>
