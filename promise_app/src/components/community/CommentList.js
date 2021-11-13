@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, FlatList, TouchableHighlight, ScrollView } from 'react-native';
+import {View, Text, StyleSheet, FlatList, TouchableHighlight, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Divider } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import CommentBtn from '../atoms/CommentBtn';
@@ -30,17 +30,49 @@ export default function Comments() {
           username: 'JY',
           title: '타이레놀 2개 킹정합니다.',
           date: '2021.10.18 04:34'
-        },
-        {
-          username: 'JY',
-          title: '타이레놀 2개 킹정합니다.',
-          date: '2021.10.18 04:34'
-        },
-        {
-          username: 'JY',
-          title: '타이레놀 2개 킹정합니다.',
-          date: '2021.10.18 04:34'
-        },
+      },
+      {
+        username: '호셉',
+        title: '타이레놀 2개 킹정합니다.',
+        date: '2021.10.18 04:34'
+      },
+      {
+        username: 'JY',
+        title: '타이레놀 2개 킹정합니다.',
+        date: '2021.10.18 04:34'
+      },
+      {
+        username: '호셉',
+        title: '타이레놀 2개 킹정합니다.',
+        date: '2021.10.18 04:34'
+      },
+      {
+        username: 'JY',
+        title: '타이레놀 2개 킹정합니다.',
+        date: '2021.10.18 04:34'
+      },
+      {
+        username: '호셉',
+        title: '타이레놀 2개 킹정합니다.',
+        date: '2021.10.18 04:34'
+      },
+      {
+        username: 'JY',
+        title: '타이레놀 2개 킹정합니다.',
+        date: '2021.10.18 04:34'
+      },
+      {
+        username: '호셉',
+        title: '타이레놀 2개 킹정합니다.',
+        date: '2021.10.18 04:34'
+      },
+      {
+        username: 'JY',
+        title: '타이레놀 2개 킹정합니다.',
+        date: '2021.10.18 04:34'
+      },
+
+        
 
     ]
 

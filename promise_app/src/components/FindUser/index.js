@@ -1,30 +1,30 @@
 import React, {useState, useEffect} from 'react';
 import { View, Text, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {shareUser} from '../../utils/axios';
 
 const FindUser = (props) => {
     
     const [search, onChangeSearch] = useState('');
     const [selectUser, setSelectUser] = useState([]);
-
-    const findList = [{id:'tjalsdud99@gmail.com', name:'마농'}, {id:'hureari@naver.com', name:'앨리'}];
+    const [findList, setFindList] = useState([]);
 
     const findUserList = () =>{
         let result = [];
         if(findList){
             findList.map(item=>{
-                if(selectUser.id===item.id){
+                if(selectUser.userEmail===item.userEmail){
                     result = result.concat(
-                        <TouchableOpacity style={{flexDirection: "row", alignItems: 'center', width:'90%', margin:10, marginTop:0, justifyContent: 'space-around', height:40, borderRadius: 5, borderColor:'black', borderWidth:0.5}} onPress={()=>setSelectUser({id:item.id, name:item.name})}>
-                            <Text style={{color:'black', width:'65%', textAlign:'center'}}>{item.id}</Text>
-                            <Text style={{color:'black', width:'35%', textAlign:'center'}}>{item.name}</Text>
+                        <TouchableOpacity style={{flexDirection: "row", alignItems: 'center', width:'90%', margin:10, marginTop:0, justifyContent: 'space-around', height:40, borderRadius: 5, borderColor:'black', borderWidth:0.5}} onPress={()=>setSelectUser({userEmail:item.userEmail, userNickname:item.userNickname})}>
+                            <Text style={{color:'black', width:'57%', textAlign:'center'}}>{item.userEmail}</Text>
+                            <Text style={{color:'black', width:'43%', textAlign:'center'}}>{item.userNickname}</Text>
                         </TouchableOpacity>
                     )
                 }else{
                     result = result.concat(
-                        <TouchableOpacity style={{flexDirection: "row", alignItems: 'center', width:'90%', margin:10, marginTop:0, justifyContent: 'space-around', height:40, borderRadius: 5, borderColor:'rgba(0,0,0,0.3)', borderWidth:0.5}} onPress={()=>setSelectUser({id:item.id, name:item.name})}>
-                            <Text style={{color:'black', width:'65%', textAlign:'center'}}>{item.id}</Text>
-                            <Text style={{color:'black', width:'35%', textAlign:'center'}}>{item.name}</Text>
+                        <TouchableOpacity style={{flexDirection: "row", alignItems: 'center', width:'90%', margin:10, marginTop:0, justifyContent: 'space-around', height:40, borderRadius: 5, borderColor:'rgba(0,0,0,0.3)', borderWidth:0.5}} onPress={()=>setSelectUser({userEmail:item.userEmail, userNickname:item.userNickname})}>
+                            <Text style={{color:'black', width:'57%', textAlign:'center'}}>{item.userEmail}</Text>
+                            <Text style={{color:'black', width:'43%', textAlign:'center'}}>{item.userNickname}</Text>
                         </TouchableOpacity>
                     )
                 }
@@ -33,9 +33,10 @@ const FindUser = (props) => {
         return result;
     }
 
-    const findUser = (search)=>{
+    const findUser = async (search)=>{
         setSelectUser('');
-        alert(`${search}로 검색한 결과!!`);
+        const result = await shareUser(search);
+        setFindList(result);
     }
 
     useEffect(()=>{

@@ -1,4 +1,4 @@
-import React, {useState, useLayoutEffect, useEffect} from 'react';
+import React, {useState, useLayoutEffect} from 'react';
 import { View, Platform, PermissionsAndroid, ScrollView } from 'react-native';
 import MapView, {  Marker } from "react-native-maps";
 import Geolocation from 'react-native-geolocation-service';

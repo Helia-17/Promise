@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.pjt3.promise.entity.Pharmacy;
+import com.pjt3.promise.entity.PharmacyDistanceInterface;
 import com.pjt3.promise.entity.QPharmacy;
 
 @Repository
@@ -27,9 +28,9 @@ public class PharmacyRepositorySupport {
 	
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmm");
 	
-	public List<Pharmacy> getPharmacyList(double lat, double lon, int week, String curTime){
+	public List<PharmacyDistanceInterface> getPharmacyList(double lat, double lon, int week, String curTime){
 		
-		List<Pharmacy> pharmacyList = new ArrayList<>();
+		List<PharmacyDistanceInterface> pharmacyList = new ArrayList<>();
 		
 		// 월
 		if (week == 1) {
