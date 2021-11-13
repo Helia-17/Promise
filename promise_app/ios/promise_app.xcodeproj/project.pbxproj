@@ -14,6 +14,7 @@
 		22FFEE5A6D7A12A1E31ED81F /* libPods-promise_app-promise_appTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5FDEC7B304BB8DE4051EDCB /* libPods-promise_app-promise_appTests.a */; };
 		47FE4061816E090DB722D4CC /* libPods-promise_app.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B4DD1F8ADD6EBD24E9A9537 /* libPods-promise_app.a */; };
 		6B89B7E727341B95000B557E /* SwiftBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B89B7E627341B95000B557E /* SwiftBridge.swift */; };
+		6B97ED76273F953400C9F9DB /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B97ED75273F953400C9F9DB /* AuthenticationServices.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +43,7 @@
 		6B4DD1F8ADD6EBD24E9A9537 /* libPods-promise_app.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-promise_app.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B89B7E527341B95000B557E /* promise_app-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "promise_app-Bridging-Header.h"; sourceTree = "<group>"; };
 		6B89B7E627341B95000B557E /* SwiftBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftBridge.swift; sourceTree = "<group>"; };
+		6B97ED75273F953400C9F9DB /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		6BBD2373273A0EEF003A7EA9 /* promise_app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = promise_app.entitlements; path = promise_app/promise_app.entitlements; sourceTree = "<group>"; };
 		7F7C58043DCB6EC188341781 /* Pods-promise_app.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-promise_app.debug.xcconfig"; path = "Target Support Files/Pods-promise_app/Pods-promise_app.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = promise_app/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B97ED76273F953400C9F9DB /* AuthenticationServices.framework in Frameworks */,
 				47FE4061816E090DB722D4CC /* libPods-promise_app.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -106,6 +109,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6B97ED75273F953400C9F9DB /* AuthenticationServices.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				6B4DD1F8ADD6EBD24E9A9537 /* libPods-promise_app.a */,
 				B5FDEC7B304BB8DE4051EDCB /* libPods-promise_app-promise_appTests.a */,
@@ -223,6 +227,7 @@
 			developmentRegion = kor;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				kor,
 				ko,
 				en,
 				Base,
@@ -496,6 +501,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = promise_app/promise_app.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 324NMPYTBC;
 				ENABLE_BITCODE = NO;
@@ -512,6 +519,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.promise.app;
 				PRODUCT_NAME = "약속";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "promise_app-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -526,6 +534,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = promise_app/promise_app.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 324NMPYTBC;
 				INFOPLIST_FILE = promise_app/Info.plist;
@@ -541,6 +551,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.promise.app;
 				PRODUCT_NAME = "약속";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "promise_app-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
