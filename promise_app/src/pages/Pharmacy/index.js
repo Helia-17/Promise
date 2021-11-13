@@ -1,5 +1,5 @@
 import React, {useState, useLayoutEffect} from 'react';
-import { View, Platform, PermissionsAndroid, ScrollView } from 'react-native';
+import { View, Platform, PermissionsAndroid, ScrollView, Text } from 'react-native';
 import MapView, {  Marker } from "react-native-maps";
 import Geolocation from 'react-native-geolocation-service';
 import PhamacyInfo from '../../components/PhamacyInfo';
@@ -57,7 +57,6 @@ const Pharmacy = () => {
             setPharmacyList([]);
         } else {
             setPharmacyList(res);
-            console.log("res : ", res);
         }
     }
 
@@ -88,11 +87,26 @@ const Pharmacy = () => {
     const pharmList = ()=>{
         let result = [];
         if(pharmacyList){
-            pharmacyList.map(item=>{
+            pharmacyList.map(item => {
+                var distance = item.distance;
+
+                if (distance >= 1000) {
+                    distance = ((distance * 0.001).toFixed(2)).toString();
+                    distance = distance.replace(/0$/, "") + 'km';
+                } else {
+                    distance = distance.toString() + 'm';
+                }
+
                 result = result.concat(
-                    <PhamacyInfo name={item.pharmName} location={item.pharmAddr} tel={item.pharmTel} />
+                    <PhamacyInfo name={item.pharmName} location={item.pharmAddr} tel={item.pharmTel} dist={distance} />
                 )
             })
+        } else {
+            result = result.concat(
+                <View style={{ flex: 1, alignItems: 'center', justifyContent:'center' }}>
+                    <Text style={{fontSize:25, color:'gray'}}>현재 위치 주변에 연 약국이 없습니다</Text>
+                </View>
+            )
         }
         return result;
     }
@@ -104,7 +118,6 @@ const Pharmacy = () => {
                 result = result.concat(
                     <Marker coordinate={{ latitude: item.pharmLat, longitude: item.pharmLong }} title={ item.pharmName }/>
                 )
-                console.log("Plist : ", item.pharmLat, item.pharmLong);
             })
         }
         return result;
@@ -118,7 +131,7 @@ const Pharmacy = () => {
             </MapView>
             ):null}
             <View style={{position: 'absolute',bottom:0, height:'30%', width:'100%', alignItems:'center'}}>
-                <ScrollView style={{width: '90%', margin:5}}>
+                <ScrollView style={{width: '95%', margin:5}}>
                     {pharmList()}
                 </ScrollView>
             </View>
