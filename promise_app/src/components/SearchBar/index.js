@@ -18,7 +18,6 @@ const SearchBar = (props) => {
             )
         } else {
             const res = await getMediListAPI(text);
-            // console.log("Search res : ", res);
             props.data(res);
             props.searchText(text);
         }

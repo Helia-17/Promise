@@ -1,23 +1,81 @@
-import React from 'react';
-import { View, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, ScrollView, Text } from 'react-native';
 import InfoText from '../../components/atoms/InfoText';
 import InfoWarinings from '../../components/InfoWarinings';
 import PillInfo from '../../components/PillInfo';
+import { getMediDetailAPI } from '../../utils/axios';
 
-const Info = ({route}) => {
+const Info = ({ route }) => {
+    
+    const [mediDetail, setMediDetail] = useState([]);
+    
+    const getMediDetail = async () => {
+        const res = await getMediDetailAPI(route.params.serialNum);
+        setMediDetail(res);
+    }
+
+    useEffect(() => {
+        getMediDetail();
+    }, []);
+    
+    console.log(mediDetail.mediIngredient);
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
             <ScrollView>
-                <PillInfo name={route.params.name} company={route.params.company}/>
-                <InfoWarinings/>
-                <InfoText title='성분' desc='아세트아미노펜, 카르나우바납,전분 글리콘산나트륨,
-    스테아르산마그네슘,옥수수전분,전호화전분,
-    분말셀룰로오스,오파드라이흰색(YS-1-7027)'/>
-                <InfoText title='효능' desc='두통, 생리통, 치통에 효과적인 해열 진통제'/>
-                <InfoText title='복용 방법' desc='식전식후 구분없이 공복에도 사용 가능'/>
-                <InfoText title='보관 방법' desc='밀폐용기, 실온(1~30℃)보관'/>
+                <PillInfo
+                    name={mediDetail.mediName}
+                    company={mediDetail.mediCompany}
+                    imgUrl={mediDetail.mediImgUrl}
+                />
+                <InfoWarinings
+                    ageCare={mediDetail.mediAgeCare}
+                    pregnancyCare={mediDetail.mediPregnancyCare}
+                    elderlyCare={mediDetail.mediElderlyCare}
+                />
+                {mediDetail.mediIngredient ? (
+                    <InfoText title='성분' desc={mediDetail.mediIngredient}/>
+                ): (null)}
+                {mediDetail.mediEfficacy ? (
+                    <InfoText title='효능' desc={mediDetail.mediEfficacy}/>
+                ): (null)}
+                {mediDetail.mediTakeWay ? (
+                    <InfoText title='복용 방법' desc={mediDetail.mediTakeWay}/>
+                ): (null)}
+                {mediDetail.mediStoreWay ? (
+                    <InfoText title='보관 방법' desc={mediDetail.mediStoreWay} />
+                ): (null)}
+                {mediDetail.mediPrecautionsBefore ? (
+                    <InfoText title='복용 전 주의 사항' desc={mediDetail.mediPrecautionsBefore} />
+                ): (null)}
+                {mediDetail.mediPrecautionsAfter ? (
+                    <InfoText title='복용 후 주의 사항' desc={mediDetail.mediPrecautionsAfter} />
+                ): (null)}
+                {mediDetail.mediNotWith ? (
+                    <InfoText title='함께 먹지 말아야 하는 것들' desc={mediDetail.mediNotWith} />
+                ): (null)}
+                {mediDetail.mediAllergy ? (
+                    <InfoText title='발생가능성 있는 증상들' desc={mediDetail.mediAllergy}/>
+                ) : (null)}
+                {mediDetail.mediIngredient == '' && 
+                    mediDetail.mediEfficacy == '' &&
+                    mediDetail.mediTakeWay == '' &&
+                    mediDetail.mediStoreWay == '' &&
+                    mediDetail.mediPrecautionsBefore == '' &&
+                    mediDetail.mediPrecautionsAfter == '' &&
+                    mediDetail.mediNotWith == '' &&
+                    mediDetail.mediAllergy == ''
+                ? (
+                        <Text>약에 대한 정보가 없습니다.</Text>
+                ) : (
+                    null
+                )
+                }
+                <Text></Text>
+                <Text></Text>
+                <Text></Text>
             </ScrollView>
         </View>
     );
 };
 export default Info;
+
