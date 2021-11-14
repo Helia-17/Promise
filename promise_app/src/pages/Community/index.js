@@ -4,8 +4,17 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RoundBtn from '../../components/atoms/RoundBtn'; 
 import SearchBar from '../../components/community/SearchBar';
 import PostList from '../../components/community/PostList';
+import { getCommunityAPI } from '../../utils/axios';
 
 const CommunityPage = ({navigation}) => {
+
+    const getCommunity = async () => {
+        //   setPage(1);
+        //   console.log('페이지1로설정', page)
+         await getCommunityAPI(1);
+        }
+        
+    getCommunity()
     
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>

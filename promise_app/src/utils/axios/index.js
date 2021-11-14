@@ -273,16 +273,17 @@ export const getPharmacyAPI = async (lat, lon, week, curTime) => {
     });
 }
 
-export const getCommunityAPI = async (lat, lon, week, curTime) => {
+export const getCommunityAPI = async (pageNum) => {
     return await request.get('/communities/list', {
-        // headers:{
-        //     'Authorization': await AsyncStorage.getItem('token')
-        // },
+        headers:{
+            'Authorization': await AsyncStorage.getItem('token')
+        },
         params: {
-            pageNum: 1
+            pageNum: pageNum
         }
     })
     .then((response) => {
+        console.log(response.data)
         return response.data;
     })
     .catch((error) => {
