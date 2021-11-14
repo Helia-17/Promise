@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const PhamacyInfo = (props) => {
+
     return (
         <View style={style.pharmInfoContainer}>
             <View style={style.pharmInfoTitle}>
