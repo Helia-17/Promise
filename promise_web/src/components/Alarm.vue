@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="containers">
     <div class="container-content">
       <div class="title">
         <p>삐빅!</p>

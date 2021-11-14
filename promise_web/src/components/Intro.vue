@@ -1,5 +1,5 @@
 <template>
-  <div class = "container">
+  <div class = "containers">
     <div class="container-content">
       <div class="left-content">
         <img class="main-image" src="./../assets/clock.png"/>
