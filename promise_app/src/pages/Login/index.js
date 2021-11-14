@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, Image, TouchableOpacity, Modal, Platform} from 'react-native';
+import {View, Text, Image, Modal, Platform} from 'react-native';
 import Logo from '../../assets/Promise_Logo.png';
 import GoogleLoginBtn from '../../components/GoogleLoginBtn';
 import AppleLoginBtn from '../../components/AppleLoginBtn';
@@ -43,7 +43,7 @@ const Login = (props) => {
       }else if(res===405){
         alert('일반 계정으로 가입된 계정입니다. 일반 로그인을 시도해주세요.');
       }else{
-        props.navigation.navigate('appscreen');
+        props.navigation.replace('appscreen');
       }
     }
   };
@@ -60,12 +60,12 @@ const Login = (props) => {
       if(type===0){
         await userAPI.login(id, pw, type)
         .then((res) =>{
-          props.navigation.navigate('appscreen');
+          props.navigation.replace('appscreen');
         });
       }else if(type===1 || type===2){
         await userAPI.social(id, pw, type)
         .then((res) =>{
-          props.navigation.navigate('appscreen');
+          props.navigation.replace('appscreen');
         });
       }
       
@@ -85,7 +85,7 @@ const Login = (props) => {
     }else if(res===401){
       alert('잘못된 비밀번호입니다.');
     }else{
-      props.navigation.navigate('appscreen');
+      props.navigation.replace('appscreen');
     }
   }
 

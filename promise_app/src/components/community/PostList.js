@@ -53,7 +53,7 @@ export default function PostList() {
     <FlatList
       data={data}
       renderItem={({item, i}) => (
-        <TouchableHighlight onPress={()=>navigation.navigate('게시물')} underlayColor="white">
+        <TouchableHighlight onPress={()=>navigation.navigate('PostDetailPage')} underlayColor="white">
         <View style={styles.container} key={i}>
             <View>
                 <Text style={styles.itemNameText}>{item.username}</Text>

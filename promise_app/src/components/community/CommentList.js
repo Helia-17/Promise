@@ -100,7 +100,7 @@ export default function Comments() {
       <ScrollView>
         {comments.map(function(item, i){
               return (
-                <TouchableHighlight key={i} onPress={()=>navigation.navigate('게시물')} underlayColor="white">
+                <TouchableHighlight key={i} onPress={()=>navigation.navigate('PostDetailPage')} underlayColor="white">
                   <View style={styles.container} >
                       <View>
                           <Text style={styles.itemNameText}>{item.username}</Text>

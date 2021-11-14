@@ -20,7 +20,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 // const { StatusBarManager } = NativeModules
 
-const PostDetailPage = ({navigation}) => {
+const PostDetailPage = () => {
   const [comment, onChangeComment] = useState('');
   const item = {
     username: 'manon',

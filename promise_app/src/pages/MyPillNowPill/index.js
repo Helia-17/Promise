@@ -6,7 +6,6 @@ import Moment from 'moment';
 import AccordionView from '../../components/MyPillNowPill/AccordionView';
 
 const MyPillNowPill = ({navigation}) => {
-
   return (
     <View >
       <ScrollView contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }} style={{ backgroundColor:'#F9F9F9' }}>

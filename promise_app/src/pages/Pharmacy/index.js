@@ -1,4 +1,5 @@
-import React, {useState, useLayoutEffect} from 'react';
+import React, {useState, useCallback} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
 import { View, Platform, PermissionsAndroid, ScrollView, Text } from 'react-native';
 import MapView, {  Marker } from "react-native-maps";
 import Geolocation from 'react-native-geolocation-service';
@@ -60,29 +61,32 @@ const Pharmacy = () => {
         }
     }
 
-    useLayoutEffect(()=>{
-        requestPermission().then(result=>{
-            console.log({result});
-            if (result === 'granted'){
-                Geolocation.getCurrentPosition(
-                    (posistion)=>{
-                        setRegion({ latitude: posistion.coords.latitude, longitude: posistion.coords.longitude, latitudeDelta: 0.015, longitudeDelta: 0.015 });
-                        setLatitude(posistion.coords.latitude);
-                        setLongitude(posistion.coords.longitude);
-                        getPharmacyList({ lat:posistion.coords.latitude, lon:posistion.coords.longitude });
-                    },
-                    (error)=>{
-                        console.log(error.code, error.message);
-                    },
-                    {
-                        enableHighAccuracy: true,
-                        timeout:3600,
-                        maximumAge:3600,
-                    },
-                );
-            }
-        });
-    },[]);
+    useFocusEffect(
+        useCallback(()=>{
+            requestPermission().then(result=>{
+                console.log({result});
+                if (result === 'granted'){
+                    Geolocation.getCurrentPosition(
+                        (posistion)=>{
+                            setRegion({ latitude: posistion.coords.latitude, longitude: posistion.coords.longitude, latitudeDelta: 0.015, longitudeDelta: 0.015 });
+                            setLatitude(posistion.coords.latitude);
+                            setLongitude(posistion.coords.longitude);
+                            getPharmacyList({ lat:posistion.coords.latitude, lon:posistion.coords.longitude });
+                        },
+                        (error)=>{
+                            console.log(error.code, error.message);
+                        },
+                        {
+                            enableHighAccuracy: true,
+                            timeout:3600,
+                            maximumAge:3600,
+                        },
+                    );
+                }
+            });
+        }, [])
+    );
+    
     
     const pharmList = ()=>{
         let result = [];

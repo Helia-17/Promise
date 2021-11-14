@@ -2,7 +2,6 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 let request = axios.create({
-  // baseURL: 'http://localhost:8080/api'
   baseURL: 'https://k5a201.p.ssafy.io/api',
 });
 
@@ -11,13 +10,27 @@ function setToken(value) {
 }
 
 export const myinfo = async () => {
-  AsyncStorage.getItem('token').then(token => {
-    request.defaults.headers.common['Authorization'] = token;
-    request.get('/users', {}).then(response => {
-      console.log(response);
-    });
+  return await request.get(`/users`, {
+    headers: {
+      Authorization: await AsyncStorage.getItem('token'),
+    }
+  })
+  .then(response => {
+    // console.log(response.data);
+    return response.data;
   });
 };
+
+export const withdraw = async()=>{
+  return await request.delete(`/users`, {
+    headers: {
+      Authorization: await AsyncStorage.getItem('token'),
+    }
+  })
+  .then(response => {
+    return response.data.statusCode;
+  });
+}
 
 export const shareUser = async searchKeyword => {
   return await request
@@ -171,7 +184,6 @@ export const userAPI = {
       })
       .then(response => {
         setToken(response.data.accessToken);
-        AsyncStorage.setItem('isLogin', 'true');
       })
       .catch(error => {
         console.log(error.response);
@@ -187,7 +199,6 @@ export const userAPI = {
       })
       .then(response => {
         setToken(response.data.accessToken);
-        AsyncStorage.setItem('isLogin', 'true');
       })
       .catch(error => {
         return error.response.status;
