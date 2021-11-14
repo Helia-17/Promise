@@ -16,8 +16,12 @@
         </div>
       </div>
       <div class="col-4">
-        <div>
+        <div class="phone-container">
           <img class="phone-img" src=".././assets/iphone-frame.png">
+          <div class="true-msg">
+            <p>우리가 어떤 민족입니까.</p>
+            <p>보조제의 민족.</p>
+          </div>
         </div>
       </div>
     </div>
