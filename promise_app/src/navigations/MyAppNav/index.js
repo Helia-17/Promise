@@ -75,7 +75,7 @@ const MyApp = ({navigation}) => {
       )
     }
 
-    function HomeNav() {
+    function HomeNav({navigation}) {
       return (
         <Stack.Navigator 
         screenOptions={{

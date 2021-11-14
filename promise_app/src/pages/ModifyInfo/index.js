@@ -57,9 +57,8 @@ const ModifyInfo = ({navigation}) => {
                         </TouchableOpacity>
                     </View>
                     <TextInput
-                        style={styles.input}
-                        onChangeText={onChangeText}
-                        value={text}
+                        onChangeText={setChangeNick}
+                        value={changeNick}
                     />
                 </View>
             </View>
