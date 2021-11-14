@@ -55,7 +55,7 @@
             <div class="developer-name">김지윤</div>
             <div class="developer-github">github</div>
           </div>
-          <a class="d-inline-block" href="#">
+          <a class="d-inline-block" href="https://github.com/Helia-17">
             <img class="team-img d-block" src="./../assets/JY.png">
           </a>
         </div>
