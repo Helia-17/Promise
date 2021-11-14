@@ -12,8 +12,21 @@ const Mypage = ({navigation}) => {
     const [userProfile, setUserProfile] = useState('');
 
     const logout = () =>{
-        AsyncStorage.removeItem('token');
-        navigation.replace('LoginScreen');
+        Alert.alert(
+            '로그아웃',
+            '로그아웃 하시겠습니까?',
+            [{
+                text:'예',
+                onPress : ()=>{
+                    AsyncStorage.removeItem('token');
+                    navigation.replace('LoginScreen');
+                }
+            },{
+                text:'아니요',
+                onPress: ()=>{}
+            }]
+        )
+        
     }
 
     const getMyInfo = async ()=>{
@@ -39,7 +52,7 @@ const Mypage = ({navigation}) => {
                 onPress : ()=> withdrawAccount()
             },{
                 text:'아니요',
-                onPress : ()=> console.log('노노')
+                onPress : ()=> {}
             }],
             {cancleable:false}
         )
@@ -77,7 +90,7 @@ const Mypage = ({navigation}) => {
                     </View>
                 </View>
                 <View style={{width: '100%', alignItems: 'center'}}>
-                    <TouchableOpacity style={{width:'85%', backgroundColor:'#FFFFFF', height:'30%', margin:10, borderRadius:3, borderColor:'#BDBDBD', borderWidth:0.3}}>
+                    <TouchableOpacity style={{width:'85%', backgroundColor:'#FFFFFF', height:'30%', margin:10, borderRadius:3, borderColor:'#BDBDBD', borderWidth:0.3}} onPress={()=>navigation.navigate('modifyInfo')}>
                         <View style={{flexDirection: "row", alignItems: 'center', justifyContent:'space-between', width:'100%', height:'100%'}}>
                             <View style={{flexDirection:"row", marginLeft:'5%'}}>
                                 <Icon name='pencil' color='black' size={30}/>
