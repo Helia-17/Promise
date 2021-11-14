@@ -1,6 +1,6 @@
 <template>
   <div class="containers">
-    <div class="container-content">
+    <div class="col container-content">
       <div class="">
         <div id="team-title">
           <p>우리가 누구냐고 물으신다면!</p>
