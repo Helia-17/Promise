@@ -27,6 +27,16 @@
   font-weight: 800;
 }
 
+.main-title {
+  font-size: 50px;
+  font-weight: 1000;
+}
+
+.point {
+  font-size: 64px;
+  font-weight: 1000;
+}
+
 .subtitle > p {
   margin: 0px;
 }

@@ -1,10 +1,15 @@
 <template>
   <div class = "containers">
     <div class="container-content">
-      <div class="left-content">
-        <img class="main-image" src="./../assets/clock.png"/>
+      <div class="col-6">
+        <img class="main-image float-right" src="./../assets/clock.png"/>
       </div>
-      <div class="right-content">
+      <div class="col-6">
+        <div class="main-title ml-5 pl-5">
+          <p>더 건강한</p>
+          <p><span class="point">나</span>를 위한</p>
+          <p class="point d-inline-block">약속</p><img class="main-pill d-inline-block mr-2" src=".././assets/main_pill.png"/>
+        </div>
       </div>
     </div>
   </div>
@@ -18,6 +23,9 @@ export default {
 
 <style scoped>
 .main-image{
-  width: 400px
+  height: 65vh
+}
+.main-pill{
+  height: 80px;
 }
 </style>
