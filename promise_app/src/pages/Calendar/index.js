@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useCallback} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
 import { View } from 'react-native';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import RoundBtn from '../../components/atoms/RoundBtn';
@@ -64,9 +65,11 @@ const CalendarPage = ({navigation}) => {
         }
     }
 
-    useEffect(() => {
-        getList(selectedMonth);
-    }, []);
+    useFocusEffect(
+        useCallback(()=>{
+            getList(selectedMonth);
+        }, [])
+    );
 
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9', justifyContent:'center' }}>

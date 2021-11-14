@@ -120,7 +120,7 @@ class AccordionView extends Component {
     activeSections: [],
   };
 
-  navigation = this.props.navigation
+  navigation = this.props.navigation;
 
   _renderHeader = (section) => {
     return (
@@ -135,7 +135,7 @@ class AccordionView extends Component {
   };
 
   _renderContent = (section, navigation) => {
-
+    
     return (
       <View style={styles.contentList}>
       { section.contents.map((object, i) => 

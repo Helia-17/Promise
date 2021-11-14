@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useCallback} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
 import { View, ScrollView, Text } from 'react-native';
 import MediInfo from '../../components/atoms/MediInfo';
 import Moment from 'moment';
@@ -15,9 +16,11 @@ const Alarm = (props) => {
         setAlarmList(result);
     }
 
-    useEffect(()=>{
-        gettingList();
-    },[props]);
+    useFocusEffect(
+        useCallback(()=>{
+            gettingList();
+        }, [props])
+    );
 
     const listInfo = ()=>{
         let result = [];

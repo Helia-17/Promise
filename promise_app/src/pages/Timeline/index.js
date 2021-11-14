@@ -1,4 +1,5 @@
-import React, {useState, useLayoutEffect} from 'react';
+import React, {useState, useCallback} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
 import { View, ScrollView, Platform, StyleSheet, Text } from 'react-native';
 import MediInfo from '../../components/atoms/MediInfo';
 import RNPickerSelect from 'react-native-picker-select';
@@ -67,14 +68,16 @@ const Timeline = () => {
         setAlarmList(result);
     }
 
-    useLayoutEffect(()=>{
-        if (Platform.OS === 'android'){
-            setPlatform('android');
-        }
-        if (Platform.OS === 'ios'){
-            setPlatform('ios');
-        }
-    });
+    useFocusEffect(
+        useCallback(()=>{
+            if (Platform.OS === 'android'){
+                setPlatform('android');
+            }
+            if (Platform.OS === 'ios'){
+                setPlatform('ios');
+            }
+        }, [])
+    );
 
     const mediInfoList = ()=>{
         let result = [];

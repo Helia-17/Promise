@@ -16,7 +16,7 @@ const CommunityPage = ({navigation}) => {
             </View>
             <View style={{width:'100%', alignItems:'flex-end', position: 'absolute', left: 0, right: 0, bottom: 0}}>
                 <RoundBtn 
-                    func={()=>navigation.navigate('글쓰기')}
+                    func={()=>navigation.navigate('communitywrite')}
                     text={<Icon name="plus" 
                     style={{
                     color: "white",
