@@ -7,130 +7,34 @@ import { getCommunityAPI } from '../../utils/axios';
 /* 초기 상태 선언 */
 const initialState = {
   communityList: {},
-  test: 'hi'
+  communityListCreated: false,
+  communityListUpdated: false,
+  communityListDeleted: false,
+  totalPageCnt: null,
 }
-// const initialState = {
-//     isLoggedIn: false,
-//     userMail: null,
-//     refereshToken: null,
-//     AccessToken: null,
-//     // true이면 회원가입 페이지로 이동 false이면 로그인을 진행해서 token을 받아왔으니 main으로
-//     actionCode: null,
-//     userInfo: {
-//       email: null,
-//       nickname: null,
-//       profileUrl: null,
-//       type: null,
-//       joinDate:  null,
-//       jointype: null,
-//     },
-//     pet: {
-//       id: null,
-//       name: null,
-//       type: null,
-//       level: null,
-//       exp: null
-//     },
-//     changeNickname: '아아아아악',
-//     changePetname: null,
-//     medicineList: null,
-//     alarmList: null,
-//     alarmHistory: null,
-//   };
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-      // case types.LOGIN:
-      //   // let jwt = require('jsonwebtoken');
-      //   // let decodedToken = jwt.decode(action.data.jwtAuthToken)
-      //   // localStorage.setItem("userToken", action.data.jwtAuthToken);
-      //   // localStorage.setItem("decodedToken", decodedToken);
-      //   localStorage.setItem("isLoggedIn", true);
-      //   return {
-      //     ...state,
-      //     isLoggedIn: true,
-      //     // userToken: action.data.jwtAuthToken,
-      //     // decodedToken: decodedToken,
-      //   };
-      // case types.LOGOUT:
-      //   // const client = StreamChat.getInstance('5gan2md896h2');
-      //   // const disconnect = client.disconnectUser();
-      //   // localStorage.removeItem("userToken");
-      //   // localStorage.removeItem("decodedToken");
-      //   localStorage.removeItem("isLoggedIn");
-      //   return {
-      //     // disconnect,
-      //     ...state,
-      //     isLoggedIn: false,
-      //     userMail: null,
-      //     refereshToken: null,
-      //     AccessToken: null,
-      //     actionCode: null,
-      //     userInfo: {
-      //       email: null,
-      //       nickname: null,
-      //       profileUrl: null,
-      //       type: null,
-      //       joinDate:  null,
-      //       jointype: null,
-      //     },
-      //     pet: {
-      //       id: null,
-      //       name: null,
-      //       type: null,
-      //       level: null,
-      //       exp: null
-      //     }
-      //   };
-      case types.GET_COMMUNITY:
-        console.log('접근했음!')
-        console.log(action.data)
 
+      case types.GET_COMMUNITY:
         return {
           ...state,
-          communityList: action.data
-          test: 'chagned'
+          communityList: action.data.communityDetailList,
+          totalPageCnt: action.data.totalPageCnt
         };
-      // case types.GET_PET_INFO:
-      //   return {
-      //     ...state,
-      //     pet: action.data
-      //   };
-      // case types.CHANGE_NICKNAME:
-      //   return {
-      //     ...state,
-      //     changeNickname: action.data,
-      //   };
-      // case types.CHANGE_PETNAME:
-      //   return {
-      //     ...state,
-      //     changePetname: action.data,
-      //   };
-      // case types.GET_MEDICINE_LIST:
-      //   return {
-      //     ...state,
-      //     medicineList: action.data,
-      //   };
-      // case types.GET_ALARM_LIST:
-      //   return {
-      //     ...state,
-      //     alarmList: action.data,
-      //   };
-      // case types.GET_ALARM_HISTORY:
-      //   return {
-      //     ...state,
-      //     alarmHistory: action.data,
-      //   };
-      // case types.REFRESH_INFO:
-      //   // const refreshedUserToken = localStorage.getItem("userToken");
-      //   // const refreshedJwt = require('jsonwebtoken');
-      //   // const refreshedDecodedToken = refreshedJwt.decode(refreshedUserToken)
-      //   // return {
-      //   //   ...state,
-      //   //   isLoggedIn: true,
-      //   //   userToken: localStorage.getItem("userToken"),
-      //   //   decodedToken: refreshedDecodedToken,
-      //   // }
+      
+      case types.CREATE_COMMUNITY_LIST:
+        return {
+          ...state,
+          communityListCreated: true,
+        };
+
+      case types.RESET_COMMUNITY_LIST:
+        return {
+          ...state,
+          communityListCreated: false,
+        };
+
       default:
         return state;
     }

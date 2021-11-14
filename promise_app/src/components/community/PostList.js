@@ -2,66 +2,27 @@ import React from 'react';
 import {View, Text, StyleSheet, FlatList, TouchableHighlight } from 'react-native';
 import { Divider } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
 
 export default function PostList() {
-  const data = [
-    {
-      username: 'manon',
-      title: '타이레놀 1개 vs 2개',
-      date: '2021.10.18 04:34',
-    },
-    {
-        username: '가빈리',
-        title: '타이레놀 vs 게보린',
-        date: '2021.10.18 04:34',
-    },
-    {
-        username: 'JY',
-        title: '진통제 뭐드시나요',
-        date: '2021.10.18 04:34',
-    },
-    {
-        username: 'JY',
-        title: '진통제 뭐드시나요',
-        date: '2021.10.18 04:34',
-    },
-    {
-        username: 'JY',
-        title: '진통제 뭐드시나요',
-        date: '2021.10.18 04:34',
-    },
-    {
-        username: 'JY',
-        title: '진통제 뭐드시나요',
-        date: '2021.10.18 04:34',
-    },
-    {
-        username: 'JY',
-        title: '진통제 뭐드시나요',
-        date: '2021.10.18 04:34',
-    },
-    {
-        username: 'JY',
-        title: '진통제 뭐드시나요',
-        date: '2021.10.18 04:34',
-    },
-  ]; //길이가 긴 Array 라고 가정
+
+  const communityList = useSelector((state) => state.community.communityList);
 
   const navigation = useNavigation(); 
 
   return (
     <FlatList
-      data={data}
+      data={communityList}
       renderItem={({item, i}) => (
         <TouchableHighlight onPress={()=>navigation.navigate('communitydetail')} underlayColor="white">
-        <View style={styles.container} key={i}>
+        <View style={styles.container} key={item.commuId}>
             <View>
-                <Text style={styles.itemNameText}>{item.username}</Text>
-                <Text style={styles.itemTitleText}>{item.title}</Text>
+                <Text style={styles.itemNameText}>{item.userNickname}</Text>
+                <Text style={styles.itemTitleText}>{item.commuTitle}</Text>
             </View>
             <View>
                 <Text style={styles.itemDateText}>
-                {item.date}
+                {item.commuDate}
                 </Text>
             </View>
         </View>

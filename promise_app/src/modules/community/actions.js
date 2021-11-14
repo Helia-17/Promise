@@ -6,39 +6,16 @@ import types from './types'
     data,
   });
 
-//   export const getPetInfoAction = (data) => ({
-//     type: types.GET_PET_INFO,
-//     data,
-//   });
-
-//   export const changeNickname = (data) => ({
-//     type: types.CHANGE_NICKNAME,
-//     data,
-//   });
-
-// //   펫의 이름은 초기 설정 후 못바꾸게 하는 것이 좋을 듯. 어쨌든 초기 입력에 필요
-//   export const changePetname = (data) => ({
-//     type: types.CHANGE_PETNAME,
-//     data,
-//   });
+  export const createCommunityListAction = () => {
+    return {
+      type: types.CREATE_COMMUNITY_LIST,
+    }
+  };
   
-//   export const getMedicineList = (data) => ({
-//     type: types.GET_MEDICINE_LIST,
-//     data,
-//   });
-
-//   export const getAlarmList = (data) => ({
-//     type: types.GET_ALARM_LIST,
-//     data,
-//   });
-  
-//   export const getAlarmHistory = (data) => ({
-//     type: types.GET_ALARM_HISTORY,
-//     data,
-//   });
-  
-//   export const refreshInfo = () => ({
-//     type: types.REFRESH_INFO,
-//   })
+  export const resetCommunityListAction = () => {
+    return {
+      type: types.RESET_COMMUNITY_LIST,
+    }
+  };
   
         
