@@ -5,6 +5,7 @@ import ElderlyWarningIcon from '../../components/frames/ElderlyWarningIcon';
 import PregnantWarningIcon from '../../components/frames/PregnantWarningIcon';
 
 const SearchList = (props) => {
+
     return (
         <View>
             <TouchableOpacity style={{ width:'90%', borderRadius:15, backgroundColor:'white', alignItems:'center', flexDirection: "row", justifyContent:'space-between', padding:'5%', marginTop:'4%' }}

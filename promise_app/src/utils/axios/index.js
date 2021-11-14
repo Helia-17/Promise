@@ -289,3 +289,21 @@ export const getCommunityAPI = async (lat, lon, week, curTime) => {
         console.log("error.response : ", error.response);
     });
 }
+
+export const getMediListAPI = async searchKeyword => {
+  return await request
+    .get('/medicines/search', {
+    headers: {
+      Authorization: await AsyncStorage.getItem('token'),
+    },
+    params: {
+      searchKeyword: searchKeyword,
+    }
+  })
+  .then((response) => {
+      return response.data.mediList;
+  })
+  .catch((error) => {
+    console.log("error.response: ", error.response);
+  })
+}
