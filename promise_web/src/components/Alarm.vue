@@ -16,11 +16,11 @@
         </div>
       </div>
       <div class="col-4">
-        <div>
+        <div class="phone-container">
           <img class="phone-img" src=".././assets/iphone-frame.png">
-        </div>
-        <div>
+          <div class="true-msg">
           <p>복용 알람과 함께한 모든 날이 건강했다</p>
+        </div>
         </div>
       </div>
     </div>

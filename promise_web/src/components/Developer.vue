@@ -1,7 +1,7 @@
 <template>
   <div class="containers">
-    <div class="col container-content">
-      <div class="">
+    <div class="team-content">
+      <div class="team">
         <div id="team-title">
           <p>우리가 누구냐고 물으신다면!</p>
           <p>대답해 드리는게 인지상정!</p>
@@ -13,7 +13,7 @@
           <p><span id="ssafy">삽히</span>의 감초 귀염둥이 <span id="precure">프리큐어</span></p>
         </div>
       </div>
-      <div class="row">
+      <div class="team row">
         <div class="col">
           <img class="team-img" src="./../assets/YS.png">
         </div>

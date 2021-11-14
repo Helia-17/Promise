@@ -16,8 +16,12 @@
         </div>
       </div>
       <div class="col-4">
-        <div>
+        <div class="phone-container">
           <img class="phone-img" src=".././assets/iphone-frame.png">
+          <div class="true-msg">
+            <p>언제까지 잊고 살겁니까?</p>
+            <p>당신의 약창고</p>
+          </div>
         </div>
       </div>
     </div>
