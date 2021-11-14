@@ -8,10 +8,13 @@
 }
 
 .container-content {
-  padding-top: 200px;
   width: 1100px;
   margin: 0 auto;
   text-align: left;
+}
+
+.title {
+  padding-top: 200px;
 }
 
 .title > p {
@@ -32,4 +35,40 @@
   margin: 10px 0px;
   font-size: 25px;
   font-weight: 700;
+}
+
+.phone-img {
+  padding-top: 100px;
+}
+
+#team-title {
+  margin-top: 150px;
+  font-size: 40px;
+  font-weight: 800;
+}
+
+#team-title > p {
+  margin: 0px;
+}
+
+#team-description {
+  margin: 50px 0px;
+}
+
+#team-description > p {
+  margin: 0px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+#ssafy {
+  color: rgb(161, 99, 192);
+}
+
+#precure {
+  color: rgb(220, 165, 192);
+}
+
+.team-img {
+  height: 180px;
 }

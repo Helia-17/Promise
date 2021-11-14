@@ -1,14 +1,12 @@
 <template>
-  <!-- <div class="container"> -->
     <header>
-      <h1>약속</h1>
-      <nav>
+      <span id='nav-title-left'>약속</span>
+      <nav id='nav-contents-right'>
         <span id='download'>다운로드</span>
         <span id='download-apple'><img class="download-logo" src="./../assets/apple-logo.png"> Apple Store</span>
         <span id='download-android'><img class="download-logo" src="./../assets/play-store-logo.png"> Play Store</span>
       </nav>
   </header>
-  <!-- </div> -->
 </template>
 
 <script>
@@ -18,11 +16,6 @@ export default {
 </script>
 
 <style scoped>
-/* .container{
-  width: 100%;
-  height: 100%;
-  background: teal;
-} */
 
 header {
   width: 1100px;
@@ -33,7 +26,7 @@ header {
   left: 0;
   right: 0;
   
-  height: 55px;
+  height: 60px;
   padding: 1rem;
   color: black;
   
@@ -41,6 +34,11 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  text-align: center;
+}
+
+#nav-title-left {
+  font-size: 30px;
 }
 
 nav > span {

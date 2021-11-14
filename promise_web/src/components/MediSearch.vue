@@ -1,6 +1,26 @@
 <template>
   <div class="containers">
-    <h1>MediSearch</h1>
+    <div class="container-content row">
+      <div class="col-8">
+        <div class="title">
+          <p>궁금하지 않아요?</p>
+          <p>내가 먹을 약</p>
+        </div>
+        <div class="subtitle">
+          <p>자세한 약 정보를 확인할 수 있어요.</p>
+        </div>
+        <div class="description">
+          <p>약 검색</p>
+          <p>주의대상 마크를 통한 손쉬운 확인</p>
+          <p>효능/복용법/보관법 등의 정보 제공</p>
+        </div>
+      </div>
+      <div class="col-4">
+        <div>
+          <img class="phone-img" src=".././assets/iphone-frame.png">
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -11,9 +31,4 @@ export default {
 </script>
 
 <style scoped>
-.container{
-  width: 100%;
-  height: 100%;
-  background-color: #DBDFE2;
-}
 </style>
