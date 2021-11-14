@@ -21,7 +21,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 // const { StatusBarManager } = NativeModules
 
-const PostDetailPage = () => {
+const PostDetailPage = ({navigation}) => {
   const [comment, onChangeComment] = useState('');
   const item = {
     username: 'manon',
@@ -66,7 +66,7 @@ const PostDetailPage = () => {
             </View>
           </View>
           <View style={{marginVertical:15, marginHorizontal: 10, flexDirection: 'row', justifyContent:'flex-end', alignItems: 'center'}}>
-            <SmallBtn backgroundColor='#F1E7C4' value='수정' func={()=>navigation.navigate('글수정', {item: item})}/>
+            <SmallBtn backgroundColor='#F1E7C4' value='수정' func={()=>navigation.navigate('communityupdate', {item: item})}/>
             <SmallBtn backgroundColor='#FF6464' value='삭제' />
           </View>
           {/* <InputScrollView style={{ width:'100%', backgroundColor:'#F4F4F4'}}>
