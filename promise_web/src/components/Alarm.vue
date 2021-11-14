@@ -19,7 +19,8 @@
         <div class="phone-container">
           <img class="phone-img" src=".././assets/iphone-frame.png">
           <div class="true-msg">
-          <p>복용 알람과 함께한 모든 날이 건강했다</p>
+          <p>복용 알람과 함께한</p>
+          <p>모든 날이 건강했다</p>
         </div>
         </div>
       </div>

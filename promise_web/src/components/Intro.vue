@@ -8,7 +8,7 @@
         <div class="main-title ml-5 pl-5">
           <p>더 건강한</p>
           <p><span class="point">나</span>를 위한</p>
-          <p class="point d-inline-block">약속</p><img class="main-pill d-inline-block mr-2" src=".././assets/main_pill.png"/>
+          <p class="point d-inline-block">약속</p><img class="main-pill d-inline-block ml-3 mb-3" src=".././assets/main_pill.png"/>
         </div>
       </div>
     </div>
@@ -22,10 +22,5 @@ export default {
 </script>
 
 <style scoped>
-.main-image{
-  height: 65vh
-}
-.main-pill{
-  height: 80px;
-}
+
 </style>

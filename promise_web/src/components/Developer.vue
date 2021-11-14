@@ -14,20 +14,50 @@
         </div>
       </div>
       <div class="team row">
-        <div class="col">
-          <img class="team-img" src="./../assets/YS.png">
+        <div class="col align-center text-center developer">
+          <div class="developer-text text-center">
+            <div class="developer-name">서요셉</div>
+            <div class="developer-github">github</div>
+          </div>
+          <a class="d-inline-block" href="https://github.com/yoseph0310">
+            <img class="team-img d-block" src="./../assets/YS.png">
+          </a>
         </div>
-        <div class="col">
-          <img class="team-img" src="./../assets/MY.png">
+        <div class="col align-center text-center developer ttt">
+          <div class="developer-text text-center">
+            <div class="developer-name">서민영</div>
+            <div class="developer-github">github</div>
+          </div>
+          <a class="d-inline-block" href="https://github.com/smy999">
+            <span></span><img class="team-img d-block" src="./../assets/MY.png">
+          </a>
         </div>
-        <div class="col">
-          <img class="team-img" src="./../assets/GV.png">
+        <div class="col align-center text-center developer">
+          <div class="developer-text text-center">
+            <div class="developer-name">이가빈</div>
+            <div class="developer-github">github</div>
+          </div>
+          <a class="d-inline-block" href="https://github.com/Ariel-G-Lee">
+            <img class="team-img d-block" src="./../assets/GV.png">
+          </a>
         </div>
-        <div class="col">
-          <img class="team-img" src="./../assets/AR.png">
+        <div class="col align-center text-center developer">
+          <div class="developer-text text-center">
+            <div class="developer-name">허애리</div>
+            <div class="developer-github">github</div>
+          </div>
+          <a class="d-inline-block" href="https://github.com/aeriheo">
+            <img class="team-img d-block" src="./../assets/AR.png">
+          </a>
         </div>
-        <div class="col">
-          <img class="team-img" src="./../assets/MY.png">
+        <div class="col align-center text-center developer">
+          <div class="developer-text text-center">
+            <div class="developer-name">김지윤</div>
+            <div class="developer-github">github</div>
+          </div>
+          <a class="d-inline-block" href="#">
+            <img class="team-img d-block" src="./../assets/JY.png">
+          </a>
         </div>
       </div>
     </div>
@@ -36,7 +66,7 @@
 
 <script>
 export default {
-  
+
 }
 </script>
 
