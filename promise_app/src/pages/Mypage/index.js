@@ -77,7 +77,7 @@ const Mypage = ({navigation}) => {
                     </View>
                 </View>
                 <View style={{width: '100%', alignItems: 'center'}}>
-                    <TouchableOpacity style={{width:'85%', backgroundColor:'#FFFFFF', height:'30%', margin:10, borderRadius:3, borderColor:'#BDBDBD', borderWidth:0.3}}>
+                    <TouchableOpacity style={{width:'85%', backgroundColor:'#FFFFFF', height:'30%', margin:10, borderRadius:3, borderColor:'#BDBDBD', borderWidth:0.3}} onPress={()=>navigation.navigate('modifyInfo')}>
                         <View style={{flexDirection: "row", alignItems: 'center', justifyContent:'space-between', width:'100%', height:'100%'}}>
                             <View style={{flexDirection:"row", marginLeft:'5%'}}>
                                 <Icon name='pencil' color='black' size={30}/>
