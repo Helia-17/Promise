@@ -10,6 +10,9 @@ import {
   NativeModules,
   Platform,
 } from 'react-native';
+
+import { getCommunityAPI } from '../../utils/axios';
+
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RoundBtn from '../../components/atoms/RoundBtn';
 import SmallBtn from '../../components/atoms/SmallBtn';
@@ -21,8 +24,18 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 // const { StatusBarManager } = NativeModules
 
-const PostDetailPage = ({navigation}) => {
+const PostDetailPage = ({navigation, route}) => {
+
+  const postId = route.params.post.commuId
+  const [post, setPost] = useState(route.params.post)
   const [comment, onChangeComment] = useState('');
+
+  useEffect(()=>{
+    getCommunityAPI.detail(postId).then(res => {
+      setPost(res)
+    })
+  }, [])
+
   const item = {
     username: 'manon',
     title: '타이레놀 1개 vs 2개',
@@ -43,54 +56,55 @@ const PostDetailPage = ({navigation}) => {
     ],
   };
 
-  // useEffect(()=>{
-  //   Platform.OS == 'ios' ? StatusBarManager.getHeight((statusBarFrameData) => {
-  //       setStatusBarHeight(statusBarFrameData.height)
-  //     }) : null
-  // }, []);
-
-  // const [statusBarHeight, setStatusBarHeight] = useState(0);
+  const postDelete = () => {
+    getCommunityAPI.delete(postId).then(res => {
+      console.log('글 삭제 성공?')
+    })
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       {Platform.OS === 'android' ? (
-        <View>
-          <View style={{width: '100%', margin: 10}}>
+        <View style={{ height: '100%'}}>
+          <ScrollView style={{ width: '100%', margin: 10, marginBottom: 55}} >
             <View style={styles.container}>
               <View>
-                <Text style={styles.itemTitleText}>{item.title}</Text>
-                <Text style={styles.itemNameText}>{item.username}</Text>
-                <Text style={styles.itemDateText}>{item.date}</Text>
-                <Text style={styles.itemContentText}>{item.content}</Text>
+                <Text style={styles.itemTitleText}>{post.commuTitle}</Text>
+                <Text style={styles.itemNameText}>{post.userNickname}</Text>
+                <Text style={styles.itemDateText}>{post.commuDate}</Text>
+                <Text style={styles.itemContentText}>{post.commuContents}</Text>
               </View>
             </View>
-          </View>
-          <View style={{marginVertical:15, marginHorizontal: 10, flexDirection: 'row', justifyContent:'flex-end', alignItems: 'center'}}>
-            <SmallBtn backgroundColor='#F1E7C4' value='수정' func={()=>navigation.navigate('communityupdate', {item: item})}/>
-            <SmallBtn backgroundColor='#FF6464' value='삭제' />
-          </View>
+            <View style={{marginVertical:15, marginHorizontal: 10, flexDirection: 'row', justifyContent:'flex-end', alignItems: 'center'}}>
+              <SmallBtn backgroundColor='#F1E7C4' value='수정' func={()=>navigation.navigate('communityupdate', {postId:postId, post: post})}/>
+              <SmallBtn backgroundColor='#FF6464' value='삭제' func={postDelete}/>
+            </View>
           {/* <InputScrollView style={{ width:'100%', backgroundColor:'#F4F4F4'}}>
                 </InputScrollView> */}
-          <CommentList />
-          <KeyboardAvoidingView>
+            <CommentList />
+          </ScrollView>
+          <KeyboardAvoidingView style={{ position: 'absolute', bottom: 0 }}>
             <InputCommentText name="댓글" result={data => onChangeComment(data)} />
           </KeyboardAvoidingView>
         </View>
       ) : (
         <View>
-          <View style={{width: '100%', padding: 5}}>
+          <ScrollView style={{width: '100%', padding: 5}}>
             <View style={styles.container}>
               <View>
-                <Text style={styles.itemTitleText}>{item.title}</Text>
-                <Text style={styles.itemNameText}>{item.username}</Text>
-                <Text style={styles.itemDateText}>{item.date}</Text>
-                <Text style={styles.itemContentText}>{item.content}</Text>
+                <Text style={styles.itemTitleText}>{post.commuTitle}</Text>
+                <Text style={styles.itemNameText}>{post.userNickname}</Text>
+                <Text style={styles.itemDateText}>{post.commuDate}</Text>
+                <Text style={styles.itemContentText}>{post.commuContents}</Text>
               </View>
             </View>
-            
-          </View>
+            <View style={{marginVertical:15, marginHorizontal: 10, flexDirection: 'row', justifyContent:'flex-end', alignItems: 'center'}}>
+              <SmallBtn backgroundColor='#F1E7C4' value='수정' func={()=>navigation.navigate('communityupdate', {postId:postId, post: post})}/>
+              <SmallBtn backgroundColor='#FF6464' value='삭제' func={postDelete}/>
+            </View>
             <InputCommentText name="댓글" result={data => onChangeComment(data)} />  
             <CommentList />
+          </ScrollView>
         </View>
       )}
       

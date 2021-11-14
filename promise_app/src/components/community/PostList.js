@@ -14,7 +14,7 @@ export default function PostList() {
     <FlatList
       data={communityList}
       renderItem={({item, i}) => (
-        <TouchableHighlight onPress={()=>navigation.navigate('communitydetail')} underlayColor="white">
+        <TouchableHighlight onPress={()=>navigation.navigate('communitydetail', {post: item})} underlayColor="white">
         <View style={styles.container} key={item.commuId}>
             <View>
                 <Text style={styles.itemNameText}>{item.userNickname}</Text>

@@ -13,6 +13,7 @@ import Alarm from '../../pages/Alarm';
 import Timeline from '../../pages/Timeline';
 import CommunityPage from '../../pages/Community';
 import PostCreatePage from '../../pages/PostCreate';
+import PostUpdatePage from '../../pages/PostUpdate';
 import PostDetailPage from '../../pages/PostDetail';
 import Mypage from '../../pages/Mypage';
 import ModifyInfo from '../../pages/ModifyInfo';
@@ -54,6 +55,7 @@ const MyApp = ({navigation}) => {
         <Stack.Navigator >
           <Stack.Screen name='community' component={CommunityPage} options={{title:'커뮤니티'}}/>
           <Stack.Screen name='communitywrite' component={PostCreatePage} options={{title:'글 작성'}}/>
+          <Stack.Screen name='communityupdate' component={PostUpdatePage} options={{title:'글 수정'}}/>
           <Stack.Screen name='communitydetail' component={PostDetailPage} options={{title:''}}/>
         </Stack.Navigator>
       );
