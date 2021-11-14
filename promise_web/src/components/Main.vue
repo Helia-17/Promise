@@ -1,13 +1,13 @@
 <template>
   <div class="app">
     <div class="sections-menu">
-      <!-- <span
+      <span
          class="menu-point"
          v-bind:class="{active: activeSection == index}"
          v-on:click="scrollToSection(index)"
          v-for="(offset, index) in offsets"
          v-bind:key="index">
-      </span> -->
+      </span>
     </div>
     <section class="fullpage">
       <Intro />
@@ -174,7 +174,6 @@ export default {
   width: 100%;
   display: flex;
   justify-content: center;
-
 }
 
 .sections-menu {
@@ -189,7 +188,7 @@ export default {
   height: 10px;
   background-color: #FFF;
   display: block;
-  margin: 1rem 0;
+  margin: 1.5rem 0;
   opacity: .6;
   transition: .4s ease all;
   cursor: pointer;

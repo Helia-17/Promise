@@ -1,6 +1,6 @@
 <template>
-  <div class ="container">
-    <p>더 건강한 나를 위한 약속</p>
+  <div class = "container">
+
   </div>
   
 </template>
