@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useLayoutEffect} from 'react';
 import { createNativeStackNavigator  } from '@react-navigation/native-stack';
 import {createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -19,6 +19,7 @@ import ModifyInfo from '../../pages/ModifyInfo';
 import MyPillHistory from '../../pages/MyPillHistory';
 import MyPillNowPill from '../../pages/MyPillNowPill';
 import Login from '../../pages/Login';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const MyApp = ({navigation}) => {
 
@@ -30,7 +31,8 @@ const MyApp = ({navigation}) => {
       return (
         <Stack.Navigator 
         screenOptions={{
-        headerShown : false
+          headerShown : false,
+          initialRouteName : 'Calendar'
         }}
         >
           <Stack.Screen name="Calendar" component={CalendarPage} />
@@ -41,7 +43,12 @@ const MyApp = ({navigation}) => {
 
     function CalendarTop() {
       return (
-        <TopTab.Navigator screenOptions={{tabBarActiveTintColor:'black', tabBarIndicatorStyle:{backgroundColor:'black'}, tabBarLabelStyle:{fontSize:15}}}>
+        <TopTab.Navigator screenOptions={{
+          tabBarActiveTintColor:'black', 
+          tabBarIndicatorStyle:{backgroundColor:'black'}, 
+          tabBarLabelStyle:{fontSize:15},
+          initialRouteName:'CalendarScreen'
+          }}>
             <TopTab.Screen name='CalendarScreen' component={CalendarNav}  options={{title:'달력'}}/>
             <TopTab.Screen name='Alarm' component={Alarm} options={{title:'알람'}} />
             <TopTab.Screen name='Timeline' component={Timeline} options={{title:'이력'}}/>
@@ -51,7 +58,7 @@ const MyApp = ({navigation}) => {
 
     function CommunityNav() {
       return (
-        <Stack.Navigator >
+        <Stack.Navigator screenOptions={{initialRouteName:'community'}}>
           <Stack.Screen name='community' component={CommunityPage} options={{title:'커뮤니티'}}/>
           <Stack.Screen name='communitywrite' component={PostCreatePage} options={{title:'글 작성'}}/>
           <Stack.Screen name='communitydetail' component={PostDetailPage} options={{title:''}}/>
@@ -91,7 +98,10 @@ const MyApp = ({navigation}) => {
 
     function MyPageNav() {
       return (
-        <Stack.Navigator >
+        <Stack.Navigator 
+        screenOptions={{
+          initialRouteName:'mypageScreen'
+        }}>
           <Stack.Screen name='mypageScreen' component={Mypage} options={{ title: '마이페이지' }}/>
           <Stack.Screen name='modifyInfo' component={ModifyInfo} options={{ title: '정보수정' }}/>
           <Stack.Screen name='mypill' component={MyPillScreen} options={{ title: '마이필' }}/>
@@ -101,7 +111,12 @@ const MyApp = ({navigation}) => {
 
     function MyPillTop() {
       return (
-        <TopTab.Navigator screenOptions={{tabBarActiveTintColor:'black', tabBarIndicatorStyle:{backgroundColor:'black'}, tabBarLabelStyle:{fontSize:15}}}>
+        <TopTab.Navigator screenOptions={{
+            tabBarActiveTintColor:'black', 
+            tabBarIndicatorStyle:{backgroundColor:'black'},
+            tabBarLabelStyle:{fontSize:15},
+            initialRouteName:'NowPill'
+           }}>
             <TopTab.Screen name='NowPill' component={NowPillNav} options={{title:'복용중인 약'}} />
             <TopTab.Screen name='PillHistory' component={MyPillHistory} options={{title:'최근 복용 이력'}}/>
         </TopTab.Navigator>
@@ -110,7 +125,7 @@ const MyApp = ({navigation}) => {
 
     function NowPillNav() {
       return (
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{initialRouteName : 'MyPillNowPill'}}>
             <Stack.Screen name="MyPillNowPill" component={MyPillNowPill} options={{ headerShown : false }}/>
             <Stack.Screen name="Info" component={Info} options={{ headerShown : false }} />
         </Stack.Navigator>
@@ -121,6 +136,7 @@ const MyApp = ({navigation}) => {
       return(
       <Tab.Navigator 
         screenOptions={({route})=>({
+          initialRouteName:'Home',
           tabBarActiveTintColor: 'black',
           headerShown : false, 
           tabBarHideOnKeyboard: true,
@@ -145,13 +161,26 @@ const MyApp = ({navigation}) => {
         )
     }
 
+    const [isLogin, setIsLogin] = useState(false);
+
+    const checkLogin = async() =>{
+      setIsLogin(await AsyncStorage.getItem('token'));
+    }
+
+    useLayoutEffect(() => {
+      checkLogin();
+    }, []);
+
     return (
       <Stack.Navigator 
       screenOptions={{
         headerShown : false
         }}>
-          <Stack.Screen name="LoginScreen" component={Login} />
-          <Stack.Screen name="appscreen" component={MyAppNav} />
+          {isLogin?(
+            <Stack.Screen name="appscreen" component={MyAppNav} />
+          ):(
+            <Stack.Screen name="LoginScreen" component={Login} />
+          )}
       </Stack.Navigator>
     )
 }

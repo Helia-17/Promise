@@ -3,7 +3,8 @@ import {useFocusEffect} from '@react-navigation/native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { View, Text, Image, Alert, TextInput, TouchableOpacity  } from 'react-native';
 import {myinfo} from '../../utils/axios';
-// import RoundBtn from '../../components/atoms/RoundBtn';
+import RoundBtn from '../../components/atoms/RoundBtn';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const ModifyInfo = ({navigation}) => {
 
@@ -13,6 +14,7 @@ const ModifyInfo = ({navigation}) => {
     const [changeNick, setChangeNick] = useState('');
     const [changePet, setChangePet] = useState('');
     const [isCheck, setIsCheck] = useState(false);
+    const [userEmail, setUserEmail] = useState('');
 
     const getMyInfo = async ()=>{
         const result = await myinfo();
@@ -21,6 +23,7 @@ const ModifyInfo = ({navigation}) => {
         setPetName(result.petName);
         setChangePet(result.petName);
         setUserProfile(result.userProfileUrl);
+        setUserEmail(result.userEmail);
     }
 
     useFocusEffect(
@@ -39,7 +42,8 @@ const ModifyInfo = ({navigation}) => {
             },
             (response) => {
                 if(!response.didCancel){
-                    console.log('S3 연결');
+                    console.log(response.assets[0].uri);
+                    console.log(userEmail.split('.')[0]+'_'+userEmail.split('.')[1]);
                 }
             }
         );
@@ -51,9 +55,9 @@ const ModifyInfo = ({navigation}) => {
                 <View style={{width:'30%', height:'90%', borderRadius:100, backgroundColor:'#C4C4C4'}}>
                     <Image resizeMode='cover' source={{uri:userProfile}} style={{width: '100%', height: '100%', borderRadius:100}}/>
                 </View>
-                {/* <View style={{width:30, }}> */}
-                    {/* <RoundBtn text="test" func={()=>console.log('test')}/> */}
-                {/* </View> */}
+                <View style={{position:'absolute', width:'50%', height:200, alignItems:'flex-end', justifyContent: 'flex-end'}}>
+                    <RoundBtn text={<Icon name='pencil' color='black' size={30}/>} func={()=>Album()}/>
+                </View>
             </View>
             <View style={{width: '100%', alignItems: 'center'}}>
                 <View style={{width: '70%', justifyContent: 'space-between', alignItems: 'center', flexDirection: "row"}}>
