@@ -1,8 +1,13 @@
 <template>
   <div class = "container">
-
+    <div class="container-content">
+      <div class="left-content">
+        <img class="main-image" src="./../assets/clock.png"/>
+      </div>
+      <div class="right-content">
+      </div>
+    </div>
   </div>
-  
 </template>
 
 <script>
@@ -12,9 +17,7 @@ export default {
 </script>
 
 <style scoped>
-.container{
-  width: 100%;
-  height: 100%;
-  background-color: #DBDFE2;
+.main-image{
+  width: 400px
 }
 </style>
