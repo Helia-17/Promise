@@ -7,11 +7,13 @@ import PhamacyInfo from '../../components/PhamacyInfo';
 import { getPharmacyAPI } from '../../utils/axios';
 
 const Pharmacy = () => {
-    const [pharmacyList, setPharmacyList] = useState([]);
 
+    const [pharmacyList, setPharmacyList] = useState([]);
     const [region, setRegion] = useState();
     const [latitude, setLatitude] = useState();
     const [longitude, setLongitude] = useState();
+    const [isPharmList, setIsPharmList] = useState(true);
+    
 
     async function requestPermission(){
         try{
@@ -46,7 +48,7 @@ const Pharmacy = () => {
             minutes = now.getMinutes().toString();
         }
         
-        // var curTime = '1130';
+        // var curTime = '0400';
         var curTime = hours + minutes;
         
         console.log("현재 : ", now);
@@ -102,15 +104,18 @@ const Pharmacy = () => {
                 }
 
                 result = result.concat(
-                    <PhamacyInfo name={item.pharmName} location={item.pharmAddr} tel={item.pharmTel} dist={distance} />
+                    <PhamacyInfo
+                        name={item.pharmName}
+                        location={item.pharmAddr}
+                        tel={item.pharmTel}
+                        dist={distance}
+                        lat={item.pharmLat}
+                        long={item.pharmLong}
+                    />
                 )
             })
         } else {
-            result = result.concat(
-                <View style={{ flex: 1, alignItems: 'center', justifyContent:'center' }}>
-                    <Text style={{fontSize:25, color:'gray'}}>현재 위치 주변에 연 약국이 없습니다</Text>
-                </View>
-            )
+            setIsPharmList(false);
         }
         return result;
     }
@@ -120,7 +125,10 @@ const Pharmacy = () => {
         if(pharmacyList){
             pharmacyList.map(item=>{
                 result = result.concat(
-                    <Marker coordinate={{ latitude: item.pharmLat, longitude: item.pharmLong }} title={ item.pharmName }/>
+                    <Marker
+                        coordinate={{ latitude: item.pharmLat, longitude: item.pharmLong }}
+                        title={item.pharmName}
+                    />
                 )
             })
         }
@@ -130,14 +138,24 @@ const Pharmacy = () => {
     return (
         <View style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
             {region?(
-            <MapView style={{ position: 'absolute', top:0, left:0, right:0, bottom:0, height:'70%' }} showsUserLocation={true} initialRegion={region} >
-                {pharmLatLong()}
-            </MapView>
+                <MapView style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, height: '70%' }}
+                    showsUserLocation={true}
+                    initialRegion={region}
+                    >
+                    {pharmLatLong()}
+                </MapView>
             ):null}
             <View style={{position: 'absolute',bottom:0, height:'30%', width:'100%', alignItems:'center'}}>
-                <ScrollView style={{width: '95%', margin:5}}>
-                    {pharmList()}
-                </ScrollView>
+                {isPharmList ? (
+                    <ScrollView style={{ width: '95%', margin: 5 }}>
+                        {pharmList()}
+                    </ScrollView>
+                ) : (
+                        <View style={{ width: '95%', height: '100%',margin: 5, alignItems: 'center', justifyContent: 'center' }}>
+                            <Text style={{fontSize:20, color:'#BBBBBB'}}>현재 위치 주변에 연 약국이 없습니다</Text>
+                        </View>
+                )}
+                
             </View>
         </View>
     );
