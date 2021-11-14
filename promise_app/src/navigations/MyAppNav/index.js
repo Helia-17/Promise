@@ -112,7 +112,7 @@ const MyApp = ({navigation}) => {
       return (
         <Stack.Navigator>
             <Stack.Screen name="MyPillNowPill" component={MyPillNowPill} options={{ headerShown : false }}/>
-            <Stack.Screen name="Search" component={Search} options={{ headerShown : false }}/>
+            <Stack.Screen name="Info" component={Info} options={{ headerShown : false }} />
         </Stack.Navigator>
       )
     }
