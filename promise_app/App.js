@@ -154,22 +154,23 @@ function MyTabs() {
       <Tab.Screen name="Home" component={StackScreen} options={{tabBarLabel:'홈'}}/>
       <Tab.Screen name="Pharmacy" component={Pharmacy} options={{ title: '약국' }} />
       <Tab.Screen name="CalendarPage" component={TopTabStackScreen} options={{ title: '일정' }} />
-      {/* <Tab.Screen name="CalendarPage" component={MyTopTab} options={{ title: '일정' }}/> */}
       <Tab.Screen name='CommunityScreen' component={CommunityScreen} options={{ title: '커뮤니티' }}/>
       <Tab.Screen name="Mypage" component={MyPageScreen} options={{ title: '내 정보' }}/>
     </Tab.Navigator>
   );
 }
 
-function App() {
+const App = () => {
+
+  const [rootname, setRootname] = useState('LoginScreen');
 
   async function IsLogin (){
     AsyncStorage.getItem('isLogin')
     .then((result) =>{
       if(result==='true'){
-        setIsLogin(true);
+        setRootname('appscreen');
       }else{
-        setIsLogin(false);
+        setRootname('LoginScreen');
       }
     });
   };
@@ -181,22 +182,19 @@ function App() {
     IsLogin();
   }, [reload]);
 
-  const [isLogin, setIsLogin] = useState(false);
-//   AsyncStorage.setItem('isLogin', 'false');
-// AsyncStorage.removeItem('token');
-
   return (
     <SafeAreaProvider store={createStore(combineReducers)}>
       <StatusBar barStyle="dark-content" hidden={false} backgroundColor='white' translucent={true}/>
-      {isLogin?(
-        <NavigationContainer>
-          <MyTabs />
-        </NavigationContainer>
-      ):(
-        <View style={{flex:1, backgroundColor:'#F9F9F9'}}>
-          <Login res={(data)=>setReload(reload+1)}/>
-        </View>
-      )}
+      <NavigationContainer>
+        <Stack.Navigator 
+        screenOptions={{
+          headerShown : false,
+          initialRouteName : rootname
+          }}>
+          <Stack.Screen name="appscreen" component={MyTabs} />
+          <Stack.Screen name="LoginScreen" component={Login} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </SafeAreaProvider>
   );
 }
