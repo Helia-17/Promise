@@ -19,6 +19,9 @@
         <div>
           <img class="phone-img" src=".././assets/iphone-frame.png">
         </div>
+        <div>
+          <p>복용 알람과 함께한 모든 날이 건강했다</p>
+        </div>
       </div>
     </div>
   </div>
