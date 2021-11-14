@@ -307,3 +307,18 @@ export const getMediListAPI = async searchKeyword => {
     console.log("error.response: ", error.response);
   })
 }
+
+export const getMediDetailAPI = async mediSerialNum => {
+  return await request
+    .get(`/medicines/detail/${mediSerialNum}`, {
+      headers: {
+        Authorization: await AsyncStorage.getItem('token'),
+      }
+    })
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.log("error.response: ", error.response);
+    })
+}
