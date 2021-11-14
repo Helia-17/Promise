@@ -59,7 +59,7 @@ const GoogleLoginBtn = (props) => {
                 </View>
             ):(
                 <View>
-                    <TouchableOpacity onPress={() => GoogleLogin()} style={styles.GoogleButton}>
+                    <TouchableOpacity onPress={() => GoogleLogin} style={styles.GoogleButton}>
                         <Image source={require('../../assets/Icon_Google.png')} style={ styles.GoogleIcon}/> 
                         <Text style={styles.GoogleButtonText}>
                             Google로 계속하기

@@ -9,7 +9,6 @@ import combineReducers from './src/modules/reducers'
 import MyApp from './src/navigations/MyAppNav';
 
 const App = () => {
-
   useEffect(() => {
     SplashScreen.hide();
   }, []);
