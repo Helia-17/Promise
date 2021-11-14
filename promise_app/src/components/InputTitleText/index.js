@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { View, Text,  TextInput } from 'react-native';
 
 const InputTitleText = (props) => {
-    const [text, onChangeText] = useState('');
+    const [text, onChangeText] = useState(props.text);
     const handleText = (text)=>{
         onChangeText(text);
         props.result(text);
