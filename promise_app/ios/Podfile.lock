@@ -5,6 +5,9 @@ PODS:
   - AppAuth/Core (1.4.0)
   - AppAuth/ExternalUserAgent (1.4.0)
   - boost (1.76.0)
+  - Charts (3.3.0):
+    - Charts/Core (= 3.3.0)
+  - Charts/Core (3.3.0)
   - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.66.1)
@@ -366,7 +369,13 @@ PODS:
     - React-Core
   - RNCAsyncStorage (1.15.11):
     - React-Core
+  - RNCharts (0.5.7):
+    - Charts (= 3.3.0)
+    - React
+    - SwiftyJSON (= 5.0)
   - RNCPicker (2.1.0):
+    - React-Core
+  - RNCPushNotificationIOS (1.10.1):
     - React-Core
   - RNDateTimePicker (3.5.2):
     - React-Core
@@ -378,6 +387,7 @@ PODS:
     - React-RCTImage
   - RNVectorIcons (9.0.0):
     - React-Core
+  - SwiftyJSON (5.0.0)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -443,7 +453,9 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - RNCharts (from `../node_modules/react-native-charts-wrapper`)
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
+  - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - "RNGoogleSignin (from `../node_modules/@react-native-community/google-signin`)"
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -453,6 +465,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - AppAuth
+    - Charts
     - CocoaAsyncSocket
     - Flipper
     - Flipper-Boost-iOSX
@@ -469,6 +482,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - libevent
     - OpenSSL-Universal
+    - SwiftyJSON
     - YogaKit
 
 EXTERNAL SOURCES:
@@ -546,8 +560,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@invertase/react-native-apple-authentication"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNCharts:
+    :path: "../node_modules/react-native-charts-wrapper"
   RNCPicker:
     :path: "../node_modules/@react-native-picker/picker"
+  RNCPushNotificationIOS:
+    :path: "../node_modules/@react-native-community/push-notification-ios"
   RNDateTimePicker:
     :path: "../node_modules/@react-native-community/datetimepicker"
   RNGoogleSignin:
@@ -562,6 +580,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   boost: a7c83b31436843459a1961bfd74b96033dc77234
+  Charts: e0dd4cd8f257bccf98407b58183ddca8e8d5b578
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: 831926d9b8bf8166fd87886c4abab286c2422662
   FBLazyVector: 500821d196c3d1bd10e7e828bc93ce075234080f
@@ -614,14 +633,17 @@ SPEC CHECKSUMS:
   ReactCommon: 620442811dc6f707b4bf5e3b27d4f19c12d5a821
   RNAppleAuthentication: 63c2127ace11985b94f852fc480eb84145653712
   RNCAsyncStorage: b4d70dc4bd735a92ce32b6943450c0822a802f04
+  RNCharts: e9461314e1930516d6c986d1be00440aeb26d5f2
   RNCPicker: f7a40b21b915b7a187624d52f52b7bc2f73ea413
+  RNCPushNotificationIOS: 089da3b657e1e3d464f38195fd2e3069608ef5af
   RNDateTimePicker: c9911be59b1f8670b9f244b85af3a7c295e175ed
   RNGoogleSignin: ad866d4c4af2651e36801dd3b7771d7715353499
   RNScreens: 4d79118be80f79fa1f4aa131909a1d6e86280af3
   RNVectorIcons: 4143ba35feebab8fdbe6bc43d1e776b393d47ac8
+  SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   Yoga: 2b4a01651f42a32f82e6cef3830a3ba48088237f
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 83e90550db0afe550d42fd884cf304777cf8f500
+PODFILE CHECKSUM: 779603d681273901b840341e5377a5b05c5476ad
 
 COCOAPODS: 1.11.2

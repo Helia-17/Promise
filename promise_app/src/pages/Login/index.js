@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, Image, TouchableOpacity, Modal, Platform} from 'react-native';
+import {View, Text, Image, Modal, Platform} from 'react-native';
 import Logo from '../../assets/Promise_Logo.png';
 import GoogleLoginBtn from '../../components/GoogleLoginBtn';
 import AppleLoginBtn from '../../components/AppleLoginBtn';
@@ -8,7 +8,7 @@ import NicknameModal from '../../components/NicknameModal';
 import PetModal from '../../components/PetModal';
 import LoginBtn from '../../components/atoms/LoginBtn';
 import LoginModal from '../../components/LoginModal';
-import {userAPI, myinfo} from '../../utils/axios';
+import {userAPI} from '../../utils/axios';
 
 const Login = (props) => {
   const [userModal, setUserModal] = useState(false);
@@ -43,7 +43,7 @@ const Login = (props) => {
       }else if(res===405){
         alert('일반 계정으로 가입된 계정입니다. 일반 로그인을 시도해주세요.');
       }else{
-        props.res(true);
+        props.navigation.replace('appscreen');
       }
     }
   };
@@ -60,12 +60,12 @@ const Login = (props) => {
       if(type===0){
         await userAPI.login(id, pw, type)
         .then((res) =>{
-          props.res(true);
+          props.navigation.replace('appscreen');
         });
       }else if(type===1 || type===2){
         await userAPI.social(id, pw, type)
         .then((res) =>{
-          props.res(true);
+          props.navigation.replace('appscreen');
         });
       }
       
@@ -85,7 +85,7 @@ const Login = (props) => {
     }else if(res===401){
       alert('잘못된 비밀번호입니다.');
     }else{
-      props.res(true);
+      props.navigation.replace('appscreen');
     }
   }
 
@@ -110,10 +110,7 @@ const Login = (props) => {
           <View style={{flexDirection: 'row', justifyContent: 'space-between', width: 300}}>
             <LoginBtn title='로그인' func={()=>setLoginModal(true)}/>
             <LoginBtn title='이메일 회원가입' func={()=>setUserModal(true)}/>
-          </View>  
-          {/* <TouchableOpacity style={{height:48, justifyContent: 'center'}}>
-            <Text style={{textDecorationLine: 'underline'}} onPress={()=>setUserModal(true)}>이메일로 회원가입하기</Text>
-          </TouchableOpacity> */}
+          </View> 
         </View>
       )}
       <Modal animationType={'fade'} transparent={true} visible={loginModal}>

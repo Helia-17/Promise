@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { View, Text, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import {searchMedicine} from '../../utils/axios';
@@ -46,6 +46,11 @@ const PillModal = (props) => {
         props.selected(selectedData);
         props.visible(false);
     }
+
+    useEffect(()=>{
+        setPillData([]);
+        onChangeSearch('');
+    }, []);
 
     return(
         <View style={{justifyContent: 'center', alignItems: 'center', flex:1, backgroundColor:'rgba(0,0,0,0.5)'}}>
