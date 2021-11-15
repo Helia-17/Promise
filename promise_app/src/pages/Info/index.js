@@ -46,7 +46,7 @@ const Info = ({ route }) => {
                         <Text style={{fontSize:20, color:'#BBBBBB'}}>의사 또는 약사와 상의해주세요.</Text>
                     </View>
                     ) : (
-                        <ScrollView style={style.pillDetailInfo}>
+                        <ScrollView style={style.pillDetailInfo} contentContainerStyle={{marginTop: 10, marginBottom: 10}}>
                             {mediDetail.mediIngredient ? (
                                 <InfoText title='성분' desc={mediDetail.mediIngredient}/>
                             ): (null)}

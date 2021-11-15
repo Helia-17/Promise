@@ -1,10 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 
 const PillInfo = (props) => {
     
     const mediImgUrl = props.imgUrl;
-    
+    const [mediName, setMediName] = useState('');
+
+    const replaceMediName = () => {
+        if (props['name'] && props['name'].includes('(')) {
+            setMediName(props['name'].replace(/\(/g, '\n('));
+        } else {
+            setMediName(props['name']);
+        }
+    }
+
+    useEffect(() => {
+        replaceMediName();
+    }, [props['name']]);
+
     return (
         <View style={style.pillInfoContainer}>
             <View style={{alignItems: 'center', marginBottom: 10}}>
@@ -16,7 +29,7 @@ const PillInfo = (props) => {
                 </View>
             </View>
             <View style={style.pillInfoText}>
-                <Text style={style.pillInfoName}>{props['name']}</Text>
+                <Text style={style.pillInfoName}>{mediName}</Text>
                 <Text style={style.pillInfoCompany}>{props['company']}</Text>
             </View >
         </View >
@@ -32,16 +45,17 @@ const style = StyleSheet.create({
     pillImage: {
         alignItems: 'center',
         backgroundColor: '#C4C4C4',
-        width: 230,
+        width: 270,
         height: 140,
         borderRadius: 5,
     },
     pillInfoText: {
-        marginTop: 5
+        marginTop: 10,
+        alignItems: 'center',
     },
     pillInfoName: {
         color: 'black',
-        width: '100%',
+        textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 24
     },
