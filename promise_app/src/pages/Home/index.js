@@ -1,13 +1,35 @@
-import React from 'react';
+import React, {useState, useEffect } from 'react';
 import { View, ScrollView, Text, InputText, TouchableOpacity, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Carousel from '../../components/Carousel';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {myinfo} from '../../utils/axios';
+import { getMyInfoAction } from '../../modules/user/actions';
+import { useSelector, useDispatch } from 'react-redux';
+
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 const PAGES = [1];
 
 const HomePage = ({navigation}) => {
+    
+    const dispatch = useDispatch();
+
+    const [userInfo, setUserInfo] = useState({});
+
+    const getMyInfo = ()=>{
+        return myinfo().then(res => {
+            setUserInfo(res);
+            dispatch(getMyInfoAction(res))
+        })
+    }
+
+    useEffect(()=>{
+        getMyInfo()
+      }, [])
+
+    
+
     return (
         <View  style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor:'#F9F9F9' }}>
             <Carousel

@@ -2,119 +2,71 @@ import React from 'react';
 import {View, Text, StyleSheet, FlatList, TouchableHighlight, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Divider } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import InputCommentText from '../../components/InputCommentText';
+import CommentBtn from '../atoms/CommentBtn';
+import { useSelector } from 'react-redux';
+import Moment from 'moment';
 
-export default function Comments() {
-    const comments = [
-        {
-          username: '호셉',
-          title: '타이레놀 2개 킹정합니다.',
-          date: '2021.10.18 04:34'
-        },
-        {
-          username: 'JY',
-          title: '타이레놀 2개 킹정합니다.',
-          date: '2021.10.18 04:34'
-        },
-        {
-          username: 'JY',
-          title: '타이레놀 2개 킹정합니다.',
-          date: '2021.10.18 04:34'
-        },
-        {
-          username: 'JY',
-          title: '타이레놀 2개 킹정합니다.',
-          date: '2021.10.18 04:34'
-        },
-        {
-          username: 'JY',
-          title: '타이레놀 2개 킹정합니다.',
-          date: '2021.10.18 04:34'
-      },
-      {
-        username: '호셉',
-        title: '타이레놀 2개 킹정합니다.',
-        date: '2021.10.18 04:34'
-      },
-      {
-        username: 'JY',
-        title: '타이레놀 2개 킹정합니다.',
-        date: '2021.10.18 04:34'
-      },
-      {
-        username: '호셉',
-        title: '타이레놀 2개 킹정합니다.',
-        date: '2021.10.18 04:34'
-      },
-      {
-        username: 'JY',
-        title: '타이레놀 2개 킹정합니다.',
-        date: '2021.10.18 04:34'
-      },
-      {
-        username: '호셉',
-        title: '타이레놀 2개 킹정합니다.',
-        date: '2021.10.18 04:34'
-      },
-      {
-        username: 'JY',
-        title: '타이레놀 2개 킹정합니다.',
-        date: '2021.10.18 04:34'
-      },
-      {
-        username: '호셉',
-        title: '타이레놀 2개 킹정합니다.',
-        date: '2021.10.18 04:34'
-      },
-      {
-        username: 'JY',
-        title: '타이레놀 2개 킹정합니다.',
-        date: '2021.10.18 04:34'
-      },
-
-        
-
-    ]
+export default function Comments(props) {
 
   const navigation = useNavigation(); 
+  
+  const { userNickname } = useSelector((state) => state.user.userInfo)
+  // console.log(props.commentList)
+  const commentList = props.commentList
+  
+  const postDelete = () => {
+    getCommunityAPI.commentDelete(commentId).then(res => {
+      console.log('글 삭제 성공')
+    })
+  }
 
   return (
-    // <FlatList
-    //   data={comments}
-    //   renderItem={({item, i}) => (
-    //     <TouchableHighlight onPress={()=>navigation.navigate('게시물')} underlayColor="white">
-    //     <View style={styles.container} key={i}>
-    //         <View>
-    //             <Text style={styles.itemNameText}>{item.username}</Text>
-    //             <Text style={styles.itemTitleText}>{item.title}</Text>
-    //         </View>
-    //         <View>
-    //             <Text style={styles.itemDateText}>
-    //             {item.date}
-    //             </Text>
-    //         </View>
-    //     </View>
-    //     </TouchableHighlight>
-    //   )}
-    // />
+      // <FlatList
+      //   data={comments}
+      //   renderItem={({item, i}) => (
+      //     <TouchableHighlight underlayColor="white">
+      //       <View style={styles.container} key={i}>
+      //           <View>
+      //               <Text style={styles.itemNameText}>{item.username}</Text>
+      //               <Text style={styles.itemTitleText}>{item.title}</Text>
+      //           </View>
+      //           <View style={styles.subcontainer}>
+      //                 <Text style={styles.itemDateText}>
+      //                 {item.date}
+      //                 </Text>
+      //               <CommentBtn backgroundColor='#FF6464' value='삭제' />
+      //           </View>
+      //       </View>
+      //     </TouchableHighlight>
+      //   )}
+      // />
       <ScrollView>
-        {comments.map(function(item, i){
-              return (
-                <TouchableHighlight key={i} onPress={()=>navigation.navigate('PostDetailPage')} underlayColor="white">
-                  <View style={styles.container} >
-                      <View>
-                          <Text style={styles.itemNameText}>{item.username}</Text>
-                          <Text style={styles.itemTitleText}>{item.title}</Text>
-                      </View>
-                      <View>
-                          <Text style={styles.itemDateText}>
-                          {item.date}
-                          </Text>
-                      </View>
-                  </View>
+        {commentList.map(function(item, i){
+
+            const subDate = item.commentDate.substr(0, 16)
+            const postDate = Moment(subDate).format("YYYY.MM.DD HH:mm")
+
+            return (
+              <TouchableHighlight key={i} underlayColor="white">
+                <View style={styles.container} >
+                    <View>
+                        <Text style={styles.itemNameText}>{item.userNickname}</Text>
+                        <Text style={styles.itemTitleText}>{item.commentContents}</Text>
+                    </View>
+                    <View style={styles.subcontainer}>
+                        <Text style={styles.itemDateText}>
+                        {postDate}
+                        </Text>
+                        { userNickname === item.userNickname
+                        ? <CommentBtn backgroundColor='#FF6464' value='삭제' />
+                        : null
+                        }
+                        
+                    </View>
+                </View>
               </TouchableHighlight>
-              );
-          })}
+            );
+        })}
       </ScrollView>
   );
 }
@@ -141,6 +93,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#F4F4F4',
     borderBottomColor: '#D1D1D1',
     borderBottomWidth: 1,
+  },
+  subcontainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    shadowColor: '#f1f2f3',
   },
   itemNameText: {
     fontSize: 16,

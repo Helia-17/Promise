@@ -12,8 +12,21 @@ const Mypage = ({navigation}) => {
     const [userProfile, setUserProfile] = useState('');
 
     const logout = () =>{
-        AsyncStorage.removeItem('token');
-        navigation.replace('LoginScreen');
+        Alert.alert(
+            '로그아웃',
+            '로그아웃 하시겠습니까?',
+            [{
+                text:'예',
+                onPress : ()=>{
+                    AsyncStorage.removeItem('token');
+                    navigation.replace('LoginScreen');
+                }
+            },{
+                text:'아니요',
+                onPress: ()=>{}
+            }]
+        )
+        
     }
 
     const getMyInfo = async ()=>{
@@ -39,7 +52,7 @@ const Mypage = ({navigation}) => {
                 onPress : ()=> withdrawAccount()
             },{
                 text:'아니요',
-                onPress : ()=> console.log('노노')
+                onPress : ()=> {}
             }],
             {cancleable:false}
         )

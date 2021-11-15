@@ -8,28 +8,34 @@ import InputText from '../../components/InputText';
 import InputLongText from '../../components/InputLongText';
 import InputTitleText from '../../components/InputTitleText';
 
-const PostCreatePage = ({navigation}) => {
-    const [title, onChangeTitle] = useState('');
-    const [content, onChangeContent] = useState('');
-
-    const sendPost = () => {
-        getCommunityAPI.create(title, content).then(res => {
-            // console.log(res)
-            navigation.navigate('community', {created: true});
-          })
-    }
+const PostUpdatePage = ({navigation, route}) => {
     
+    const postTitle = route.params.post.commuTitle
+    const postContents = route.params.post.commuContents
+    
+    const [title, onChangeTitle] = useState(postTitle);
+    const [content, onChangeContent] = useState(postContents);
+
+    const sendPost = async () => {
+        const postId = route.params.postId
+        await getCommunityAPI.update(postId, title, content)
+        // .then(res => {
+        //     console.log(res)
+        //   })
+        navigation.navigate('community')
+    }
+
     return (
         <>
             <View  style={styles.titleView}>
                 <View style={{width:'90%'}}>
-                    <InputTitleText name='제목' text='' result={(data)=>onChangeTitle(data)} />
+                    <InputTitleText name='제목' text={route.params.post.commuTitle} result={(data)=>onChangeTitle(data)} />
                 </View>
             </View>
             <View  style={styles.mainView}>
                 <ScrollView style={{ width:'90%' }} contentContainerStyle={{alignItems: 'center', justifyContent: 'flex-start'}}>
                     <View style={{width:'100%', margin:10}}>
-                        <InputLongText name='내용' text='' result={(data)=>onChangeContent(data)} />
+                        <InputLongText name='내용' text={route.params.post.commuContents} result={(data)=>onChangeContent(data)} />
                     </View>
                 </ScrollView>
                 <View style={{width:'90%', margin:10, alignItmes:'flex-end'}}>
@@ -59,4 +65,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default PostCreatePage;
+export default PostUpdatePage;
