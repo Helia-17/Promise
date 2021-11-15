@@ -18,6 +18,7 @@ const Info = ({ route }) => {
         getMediDetail();
     }, []);
     
+    console.log(mediDetail.mediIngredient);
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
             <ScrollView>
@@ -64,7 +65,9 @@ const Info = ({ route }) => {
                     mediDetail.mediNotWith == '' &&
                     mediDetail.mediAllergy == ''
                 ? (
-                        <Text>약에 대한 정보가 없습니다.</Text>
+                    <View style={{ width: '100%', height: '100%', margin: 5, alignItems: 'center', justifyContent: 'flex-end' }}>
+                        <Text style={{fontSize:20, color:'#BBBBBB'}}>이 약에 대한 정보가 없습니다.</Text>
+                    </View>
                 ) : (
                     null
                 )
