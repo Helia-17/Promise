@@ -16,10 +16,6 @@ export const myinfo = async () => {
     }
   })
   .then(response => {
-<<<<<<< HEAD
-    // console.log(response.data);
-=======
->>>>>>> FE_AR
     return response.data;
   }).catch(err => {
     console.log(err.response);

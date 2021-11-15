@@ -7,15 +7,17 @@ const PillInfo = (props) => {
     
     return (
         <View style={style.pillInfoContainer}>
-            <View style={style.pillImage}>
-                <Image
-                    source={{ uri: `${mediImgUrl}` }}
-                    style={{width: 100, height: 100, borderRadius:5}}
-                />
+            <View style={{alignItems: 'center', marginBottom: 10}}>
+                <View style={style.pillImage}>
+                    <Image
+                        source={{ uri: `${mediImgUrl}` }}
+                        style={{width: '100%', height: '100%', borderRadius:5}}
+                    />
+                </View>
             </View>
-            <View style={{marginLeft:15}}>
-                <Text style={{color:'black', width: 200, fontWeight:'bold', fontSize:30}}>{props['name']}</Text>
-                <Text style={{color:'black', marginTop: 10}}>{props['company']}</Text>
+            <View style={style.pillInfoText}>
+                <Text style={style.pillInfoName}>{props['name']}</Text>
+                <Text style={style.pillInfoCompany}>{props['company']}</Text>
             </View >
         </View >
     );
@@ -23,19 +25,29 @@ const PillInfo = (props) => {
 
 const style = StyleSheet.create({
     pillInfoContainer: {
-        width: '100%',
-        flexDirection: "row",
-        justifyContent: 'flex-start',
-        marginTop: 20,
-        alignItems: 'center',
-        marginLeft: 15
+        justifyContent: 'center',
+        margin: 15,
+        marginBottom: 10,
     },
     pillImage: {
+        alignItems: 'center',
         backgroundColor: '#C4C4C4',
-        width: 100,
-        height: 100,
+        width: 230,
+        height: 140,
         borderRadius: 5,
-        marginRight: 15
+    },
+    pillInfoText: {
+        marginTop: 5
+    },
+    pillInfoName: {
+        color: 'black',
+        width: '100%',
+        fontWeight: 'bold',
+        fontSize: 24
+    },
+    pillInfoCompany: {
+        color: 'black',
+        marginTop: 5
     }
 })
 export default PillInfo;
