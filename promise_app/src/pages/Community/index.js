@@ -3,7 +3,7 @@ import { View, ScrollView, Text, TouchableOpacity } from 'react-native';
 // axios, redux
 import { getCommunityAPI } from '../../utils/axios';
 import { getCommunityAction } from '../../modules/community/actions';
-// import ActionCreators from '../../modules/actions';
+
 import { useSelector, useDispatch } from 'react-redux';
 // components
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -14,7 +14,7 @@ import PostList from '../../components/community/PostList';
 const CommunityPage = ({navigation, route}) => {
 
     const dispatch = useDispatch();
-    const { communityListCreated, communityList } = useSelector((state) => state.community.communityList);
+    const { communityList, communityPostCreated } = useSelector((state) => state.community);
     const [ created, setCreated ] = useState(false)
 
     // const [ list, setList ] = useState({})
@@ -28,14 +28,14 @@ const CommunityPage = ({navigation, route}) => {
     
     useEffect(()=>{
         if (route.params) {
-            console.log(route.params.created)
+            // console.log(route.params.created)
             if (route.params.created) {
                 setCreated(true)
             }
         } else {
             setCreated(false)
         }
-        console.log('created', created)
+        // console.log('created', created)
         getCommunity()
     }, [])
 

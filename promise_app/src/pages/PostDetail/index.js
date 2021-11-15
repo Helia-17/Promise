@@ -12,6 +12,8 @@ import {
 } from 'react-native';
 
 import { getCommunityAPI } from '../../utils/axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { getCommunityAction, changePostDetailAction ,refreshPostDetailAction, resetCommunityListAction } from '../../modules/community/actions';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RoundBtn from '../../components/atoms/RoundBtn';
@@ -21,14 +23,17 @@ import PostList from '../../components/community/PostList';
 import CommentList from '../../components/community/CommentList';
 import InputCommentText from '../../components/InputCommentText';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useSelector } from 'react-redux';
 
 // const { StatusBarManager } = NativeModules
 
 const PostDetailPage = ({navigation, route}) => {
 
-  const { stateUserNickname } = useSelector((state) => state.user.userInfo)
-  const [ userNickname, setUserNickname ] = useState('')
+  const dispatch = useDispatch();
+
+  const  stateUserNickname  = useSelector((state) => state.user.userInfo.userNickname)
+  const [ userNickname, setUserNickname ] = useState(stateUserNickname)
+
+  const { communityPostDetail }  = useSelector((state) => state.community)
 
   const postId = route.params.post.commuId
   const postDate = route.params.postDate
@@ -36,21 +41,43 @@ const PostDetailPage = ({navigation, route}) => {
 
   const [commentList, setCommentList] = useState('')
   const [comment, onChangeComment] = useState('');
+  // const [commentDeleted, setCommentDeleted] = useState('');
 
-  useEffect(()=>{
+  useEffect(()=> {
     setUserNickname(stateUserNickname)
+    getCommunityDetail()
+  }, [])
+
+
+  const getCommunityDetail = () => {
     getCommunityAPI.detail(postId).then(res => {
       setPost(res)
+      dispatch(refreshPostDetailAction(res))
       setCommentList(res.commuCommentDetailList)
-      console.log(res)
     })
+  }
+
+  useEffect(()=>{
+    getCommunityDetail()
   }, [])
 
   const postDelete = () => {
     getCommunityAPI.delete(postId).then(res => {
-      console.log('글 삭제 성공')
+      alert('게시물이 성공적으로 삭제되었습니다.')
+      dispatch(resetCommunityListAction())
+    }).then(()=>{
+      getCommunityAPI.list(1).then(res => {
+      // setList(res)
+        dispatch(getCommunityAction(res))
+      }).then(()=>{navigation.pop()})
     })
   }
+
+  // const refreshCommentList = ({created}) => {
+  //   if (created === true) {
+  //     setCommentDeleted(true)
+  //   }
+  // }
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -75,7 +102,7 @@ const PostDetailPage = ({navigation, route}) => {
               }
             </View>
             {commentList.length != 0
-                ? <View style={{backgroundColor:"#F4F4F4", minHeight:230}}><CommentList commentList={commentList}/></View>
+                ? <View style={{backgroundColor:"#F4F4F4", minHeight:230}}><CommentList commentList={commentList} postId={postId}/></View>
                 : null
             }
           </ScrollView>

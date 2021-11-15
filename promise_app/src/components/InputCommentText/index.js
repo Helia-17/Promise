@@ -2,9 +2,12 @@ import React, {useState} from 'react';
 import { View, Text,  TextInput, TouchableOpacity, KeyboardAvoidingView, StyleSheet, ScrollView, Keyboard  } from 'react-native';
 import InputScrollView from 'react-native-input-scroll-view';
 import { getCommunityAPI } from '../../utils/axios';
+import { changePostDetailAction } from '../../modules/community/actions';
 
 const InputCommentText = (props) => {
     const [text, onChangeText] = useState('');
+    // const [created, setCreated] = useState(false)
+
     const handleText = (text)=>{
         onChangeText(text);
         props.result(text);
@@ -12,10 +15,17 @@ const InputCommentText = (props) => {
 
     const createComment = () => {
         getCommunityAPI.commentCreate(props.postId, text).then(res => {
+            // setCreated(true)
             onChangeText('')
+            changePostDetailAction()
             Keyboard.dismiss()
           })
     }
+
+    // const handleCreate = async () => {
+    //     createComment()
+    //     await props.refreshCommentList({ created: created })
+    // }
 
     return(
         // <InputScrollView>

@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {View, Text, StyleSheet, FlatList, TouchableHighlight, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Divider } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import CommentBtn from '../atoms/CommentBtn';
+// axios, redux
 import { getCommunityAPI } from '../../utils/axios';
+import { getCommunityAction } from '../../modules/community/actions';
 import { useSelector } from 'react-redux';
 import Moment from 'moment';
 
@@ -13,13 +15,26 @@ export default function Comments(props) {
   
   const { userNickname } = useSelector((state) => state.user.userInfo)
   // console.log(props.commentList)
-  const commentList = props.commentList
+  const postId = props.postId
+  const [commentList, setCommentList] = useState(props.commentList)
   
   const postDelete = (commentId) => {
     getCommunityAPI.commentDelete(commentId).then(res => {
-      console.log('글 삭제 성공')
     })
   }
+
+  const refreshCommentList = (postId) => {
+    getCommunityAPI.detail(postId).then(res => {
+      setCommentList(res.commuCommentDetailList)
+    })
+  }
+
+
+
+  const handlingDelete = async (commentId)=>{
+     await postDelete(commentId)
+     await refreshCommentList(postId)
+    }
 
   return (
       // <FlatList
@@ -58,10 +73,11 @@ export default function Comments(props) {
                         <Text style={styles.itemDateText}>
                         {postDate}
                         </Text>
-                        { userNickname === item.userNickname
-                        ? <CommentBtn backgroundColor='#FF6464' value='삭제' func={() => postDelete(item.commentId)} />
+                        <CommentBtn backgroundColor='#FF6464' value='삭제' func={() => handlingDelete(item.commentId)} />
+                        {/* { userNickname === item.userNickname
+                        ? <CommentBtn backgroundColor='#FF6464' value='삭제' func={() => handlingDelete(item.commentId)} />
                         : null
-                        }
+                        } */}
                         
                     </View>
                 </View>
