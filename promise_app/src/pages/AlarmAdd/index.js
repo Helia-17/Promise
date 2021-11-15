@@ -1,12 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  ScrollView,
-  Text,
-  Modal,
-  TouchableOpacity,
-  TextInput,
-} from 'react-native';
+import { View, ScrollView, Text, Modal, TouchableOpacity, TextInput} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import TimeSelect from '../../components/TimeSelect';
 import DateSelect from '../../components/DateSelect';
@@ -18,6 +11,7 @@ import ShareUser from '../../components/ShareUser';
 import OCRModal from '../../components/OCRModal';
 import Moment from 'moment';
 import PillModal from '../../components/PillModal';
+import Notifications from '../../utils/Notifications';
 import {enrollAlarm} from '../../utils/axios';
 
 const AlarmAdd = ({navigation}) => {
@@ -36,10 +30,6 @@ const AlarmAdd = ({navigation}) => {
   const [selectTime1, setSelectTime1] = useState(null);
   const [selectTime2, setSelectTime2] = useState(null);
   const [selectTime3, setSelectTime3] = useState(null);
-
-  const [shareList, setShareList] = useState([]);
-  const [mediList, setMediList] = useState([]);
-  const [tagList, setTagList] = useState([]);
 
   const addList = data => {
     if (data) {
@@ -153,24 +143,69 @@ const AlarmAdd = ({navigation}) => {
     }
   }
 
+  function myendDate() {
+    if (endDate) {
+      return endDate;
+    } else {
+      return Moment().format('YYYY-MM-DD');
+    }
+  }
+
   const addalarm = async () => {
     let alarmYN = 0;
     if (isOn === true) {
       alarmYN = 1;
     }
-    await enrollAlarm(
-      title,
-      alarmYN,
-      selectTime1,
-      selectTime2,
-      selectTime3,
-      myStartDate(),
-      endDate,
-      myMediList(),
-      myTagList(),
-      myShareList(),
-    );
+    const result = await enrollAlarm( title, alarmYN, selectTime1, selectTime2, selectTime3, myStartDate(), myendDate(), myMediList(), myTagList(), myShareList());
+    setNotification(result);
+    navigation.goBack();
   };
+
+  const setNotification = async(alarmId)=>{
+    Moment.locale('kr');
+    let nowTime = Moment().toDate();
+    let cur = Moment(myStartDate()).toDate();
+    let end = Moment(myendDate()).toDate();
+    let hour = [];
+    let minute = [];
+    if(selectTime1){
+      hour.push(selectTime1.substring(0,2));
+      minute.push(selectTime1.substring(2,4));
+    }
+    if(selectTime2){
+      hour.push(selectTime2.substring(0,2));
+      minute.push(selectTime2.substring(2,4));
+    }
+    if(selectTime3){
+      hour.push(selectTime3.substring(0,2));
+      minute.push(selectTime3.substring(2,4));
+    }
+    let listSize = hour.length;
+
+    end.setHours(Number(hour[listSize-1]));
+    end.setMinutes(Number(minute[listSize-1]));
+    end.setSeconds(0);
+
+    cur.setSeconds(0);
+    let medi = myMediList().join(', ');
+    let id = 1;
+    let registerId = '';
+    while (cur<=end){
+      for(let idx = 0; idx<listSize; idx++){
+        cur.setHours(Number(hour[idx]));
+        cur.setMinutes(Number(minute[idx]));
+
+        if (cur<nowTime){
+          continue;
+        }
+
+        registerId = `${alarmId}${id}`;
+        Notifications.scheduledLocalNotifications(alarmId, registerId, cur, title, medi);
+        id ++;
+      }
+      cur = Moment(cur).add(1, 'd').toDate();
+    }
+  }
 
   return (
     <View style={{flex: 1, alignItems: 'center', backgroundColor: 'white'}}>
@@ -192,14 +227,14 @@ const AlarmAdd = ({navigation}) => {
             alignItems: 'center',
             width: '90%',
             justifyContent: 'center',
-            height: 50,
+            height: 50
           }}>
           <Text
             style={{
               fontSize: 15,
               color: 'black',
               fontWeight: 'bold',
-              width: '20%',
+              width: '20%'
             }}>
             복용명
           </Text>
@@ -210,7 +245,7 @@ const AlarmAdd = ({navigation}) => {
               height: 40,
               borderRadius: 20,
               alignItems: 'center',
-              justifyContent: 'center',
+              justifyContent: 'center'
             }}>
             <TextInput
               onChangeText={onChangeTitle}
@@ -220,7 +255,7 @@ const AlarmAdd = ({navigation}) => {
                 color: 'black',
                 backgroundColor: '#E9E9E9',
                 borderRadius: 20,
-                textAlign: 'center',
+                textAlign: 'center'
               }}
             />
           </View>
@@ -254,14 +289,14 @@ const AlarmAdd = ({navigation}) => {
             alignItems: 'center',
             width: '90%',
             justifyContent: 'center',
-            height: 50,
+            height: 50
           }}>
           <Text
             style={{
               fontSize: 15,
               color: 'black',
               fontWeight: 'bold',
-              width: '20%',
+              width: '20%'
             }}>
             태그
           </Text>
@@ -272,7 +307,7 @@ const AlarmAdd = ({navigation}) => {
               height: 40,
               borderRadius: 20,
               alignItems: 'center',
-              justifyContent: 'center',
+              justifyContent: 'center'
             }}>
             <TextInput
               placeholder="나만의 태그를 #태그로 입력해주세요."
@@ -283,7 +318,7 @@ const AlarmAdd = ({navigation}) => {
                 color: 'black',
                 backgroundColor: '#E9E9E9',
                 borderRadius: 20,
-                textAlign: 'center',
+                textAlign: 'center'
               }}
             />
           </View>
@@ -315,11 +350,10 @@ const AlarmAdd = ({navigation}) => {
               alignItems: 'center',
               borderRadius: 12,
               height: 50,
-              justifyContent: 'center',
+              justifyContent: 'center'
             }}
             onPress={() => addalarm()}>
-            <Text style={{color: 'black', fontSize: 20, fontWeight: 'bold'}}>
-              등록하기
+            <Text style={{color: 'black', fontSize: 20, fontWeight: 'bold'}}>등록하기
             </Text>
           </TouchableOpacity>
         </View>

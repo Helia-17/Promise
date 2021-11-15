@@ -1,12 +1,16 @@
-import React, {useState, useLayoutEffect} from 'react';
-import { View, ScrollView, Platform, StyleSheet } from 'react-native';
+import React, {useState, useCallback} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
+import { View, ScrollView, Platform, StyleSheet, Text } from 'react-native';
 import MediInfo from '../../components/atoms/MediInfo';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/AntDesign';
+import { getPeriod } from '../../utils/axios';
 
 const Timeline = () => {
     const [value, setValue] = useState('week');
     const [platform, setPlatform] = useState();
+    const [alarmList, setAlarmList] = useState([]);
+
     function findPlatform(){
         let result = [];
         if (platform==='android'){
@@ -14,7 +18,7 @@ const Timeline = () => {
                 <View style={{width:'42%', backgroundColor:'white', borderRadius:20, height:35, margin:10, marginRight:0, justifyContent: 'center'}}>
                     <RNPickerSelect
                         value={value}
-                        onValueChange={(value)=>setValue(value)} 
+                        onValueChange={(value)=>gettingList(value)} 
                         items={[
                             {label:'이번 주', value:'week'},
                             {label:'이번 달', value:'month'},
@@ -33,7 +37,7 @@ const Timeline = () => {
                     <RNPickerSelect
                         doneText={"확인"}
                         value={value}
-                        onValueChange={(value)=>setValue(value)} 
+                        onValueChange={(value)=>gettingList(value)} 
                         items={[
                             {label:'이번 주', value:'week'},
                             {label:'이번 달', value:'month'},
@@ -47,30 +51,60 @@ const Timeline = () => {
                 </View>
             );
         }
-
         return result;
     }
-    useLayoutEffect(()=>{
-        if (Platform.OS === 'android'){
-            setPlatform('android');
+
+    const gettingList = async(value) => {
+        setValue(value);
+        let type = 1;
+        if (value === 'week'){
+            type = 1;
+        }else if (value === 'month'){
+            type = 2;
+        }else if (value === '3month'){
+            type = 3;
         }
-        if (Platform.OS === 'ios'){
-            setPlatform('ios');
+        const result = await getPeriod(type);
+        setAlarmList(result);
+    }
+
+    useFocusEffect(
+        useCallback(()=>{
+            if (Platform.OS === 'android'){
+                setPlatform('android');
+            }
+            if (Platform.OS === 'ios'){
+                setPlatform('ios');
+            }
+        }, [])
+    );
+
+    const mediInfoList = ()=>{
+        let result = [];
+        if(alarmList.length>0){
+            alarmList.map(item=>{
+                result = result.concat(
+                    <MediInfo alarmId={item.alarmId} alarmDayStart={item.alarmDayStart} alarmTitle = {item.alarmTitle} alarmDayEnd = {item.alarmDayEnd}/>
+                );
+            })
         }
-    });
+        return result;
+    }
+
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
             <View style={styles.pickerLayout}>
                 {findPlatform()}
             </View>
-            <ScrollView style={{ width:'100%', margin:10}} contentContainerStyle={{alignItems: 'center'}}>
-                <MediInfo name='비타민C' date='2021.10.15 15:22' />
-                <MediInfo name='감기약' date='2021.10.15 15:22' pillList='해열제, 항생제, 000'/>
-                <MediInfo name='비타민C' date='2021.10.15 15:22' />
-                <MediInfo name='감기약' date='2021.10.15 15:22' pillList='해열제, 항생제, 000'/>
-                <MediInfo name='비타민C' date='2021.10.15 15:22' />
-                <MediInfo name='감기약' date='2021.10.15 15:22' pillList='해열제, 항생제, 000'/>
-            </ScrollView>
+            {alarmList.length>0?(
+                <ScrollView style={{ width:'100%', margin:10}} contentContainerStyle={{alignItems: 'center'}}>
+                    {mediInfoList()}
+                </ScrollView>
+            ):(
+                <View style={{ flex: 1, alignItems: 'center', justifyContent:'center' }}>
+                    <Text style={{fontSize:25, color:'gray'}}>해당되는 알람이 없습니다.</Text>
+                </View>
+            )}
         </View>
     );
 };

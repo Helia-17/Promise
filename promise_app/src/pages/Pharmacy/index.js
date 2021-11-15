@@ -1,16 +1,19 @@
-import React, {useState, useLayoutEffect} from 'react';
-import { View, Platform, PermissionsAndroid, ScrollView } from 'react-native';
+import React, {useState, useCallback} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
+import { View, Platform, PermissionsAndroid, ScrollView, Text } from 'react-native';
 import MapView, {  Marker } from "react-native-maps";
 import Geolocation from 'react-native-geolocation-service';
 import PhamacyInfo from '../../components/PhamacyInfo';
 import { getPharmacyAPI } from '../../utils/axios';
 
 const Pharmacy = () => {
-    const [pharmacyList, setPharmacyList] = useState([]);
 
+    const [pharmacyList, setPharmacyList] = useState([]);
     const [region, setRegion] = useState();
     const [latitude, setLatitude] = useState();
     const [longitude, setLongitude] = useState();
+    const [isPharmList, setIsPharmList] = useState(true);
+    
 
     async function requestPermission(){
         try{
@@ -45,7 +48,7 @@ const Pharmacy = () => {
             minutes = now.getMinutes().toString();
         }
         
-        // var curTime = '1130';
+        // var curTime = '0400';
         var curTime = hours + minutes;
         
         console.log("현재 : ", now);
@@ -57,42 +60,62 @@ const Pharmacy = () => {
             setPharmacyList([]);
         } else {
             setPharmacyList(res);
-            console.log("res : ", res);
         }
     }
 
-    useLayoutEffect(()=>{
-        requestPermission().then(result=>{
-            console.log({result});
-            if (result === 'granted'){
-                Geolocation.getCurrentPosition(
-                    (posistion)=>{
-                        setRegion({ latitude: posistion.coords.latitude, longitude: posistion.coords.longitude, latitudeDelta: 0.015, longitudeDelta: 0.015 });
-                        setLatitude(posistion.coords.latitude);
-                        setLongitude(posistion.coords.longitude);
-                        getPharmacyList({ lat:posistion.coords.latitude, lon:posistion.coords.longitude });
-                    },
-                    (error)=>{
-                        console.log(error.code, error.message);
-                    },
-                    {
-                        enableHighAccuracy: true,
-                        timeout:3600,
-                        maximumAge:3600,
-                    },
-                );
-            }
-        });
-    },[]);
+    useFocusEffect(
+        useCallback(()=>{
+            requestPermission().then(result=>{
+                console.log({result});
+                if (result === 'granted'){
+                    Geolocation.getCurrentPosition(
+                        (posistion)=>{
+                            setRegion({ latitude: posistion.coords.latitude, longitude: posistion.coords.longitude, latitudeDelta: 0.015, longitudeDelta: 0.015 });
+                            setLatitude(posistion.coords.latitude);
+                            setLongitude(posistion.coords.longitude);
+                            getPharmacyList({ lat:posistion.coords.latitude, lon:posistion.coords.longitude });
+                        },
+                        (error)=>{
+                            console.log(error.code, error.message);
+                        },
+                        {
+                            enableHighAccuracy: true,
+                            timeout:3600,
+                            maximumAge:3600,
+                        },
+                    );
+                }
+            });
+        }, [])
+    );
+    
     
     const pharmList = ()=>{
         let result = [];
         if(pharmacyList){
-            pharmacyList.map(item=>{
+            pharmacyList.map(item => {
+                var distance = item.distance;
+
+                if (distance >= 1000) {
+                    distance = ((distance * 0.001).toFixed(2)).toString();
+                    distance = distance.replace(/0$/, "") + 'km';
+                } else {
+                    distance = distance.toString() + 'm';
+                }
+
                 result = result.concat(
-                    <PhamacyInfo name={item.pharmName} location={item.pharmAddr} tel={item.pharmTel} />
+                    <PhamacyInfo
+                        name={item.pharmName}
+                        location={item.pharmAddr}
+                        tel={item.pharmTel}
+                        dist={distance}
+                        lat={item.pharmLat}
+                        long={item.pharmLong}
+                    />
                 )
             })
+        } else {
+            setIsPharmList(false);
         }
         return result;
     }
@@ -102,9 +125,11 @@ const Pharmacy = () => {
         if(pharmacyList){
             pharmacyList.map(item=>{
                 result = result.concat(
-                    <Marker coordinate={{ latitude: item.pharmLat, longitude: item.pharmLong }} title={ item.pharmName }/>
+                    <Marker
+                        coordinate={{ latitude: item.pharmLat, longitude: item.pharmLong }}
+                        title={item.pharmName}
+                    />
                 )
-                console.log("Plist : ", item.pharmLat, item.pharmLong);
             })
         }
         return result;
@@ -113,14 +138,24 @@ const Pharmacy = () => {
     return (
         <View style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
             {region?(
-            <MapView style={{ position: 'absolute', top:0, left:0, right:0, bottom:0, height:'70%' }} showsUserLocation={true} initialRegion={region} >
-                {pharmLatLong()}
-            </MapView>
+                <MapView style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, height: '70%' }}
+                    showsUserLocation={true}
+                    initialRegion={region}
+                    >
+                    {pharmLatLong()}
+                </MapView>
             ):null}
             <View style={{position: 'absolute',bottom:0, height:'30%', width:'100%', alignItems:'center'}}>
-                <ScrollView style={{width: '90%', margin:5}}>
-                    {pharmList()}
-                </ScrollView>
+                {isPharmList ? (
+                    <ScrollView style={{ width: '95%', margin: 5 }}>
+                        {pharmList()}
+                    </ScrollView>
+                ) : (
+                        <View style={{ width: '95%', height: '100%',margin: 5, alignItems: 'center', justifyContent: 'center' }}>
+                            <Text style={{fontSize:20, color:'#BBBBBB'}}>현재 위치 주변에 연 약국이 없습니다</Text>
+                        </View>
+                )}
+                
             </View>
         </View>
     );
