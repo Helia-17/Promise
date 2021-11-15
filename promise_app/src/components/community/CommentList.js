@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, FlatList, TouchableHighlight, ScrollView, Keyboa
 import { Divider } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import CommentBtn from '../atoms/CommentBtn';
+import { getCommunityAPI } from '../../utils/axios';
 import { useSelector } from 'react-redux';
 import Moment from 'moment';
 
@@ -14,7 +15,7 @@ export default function Comments(props) {
   // console.log(props.commentList)
   const commentList = props.commentList
   
-  const postDelete = () => {
+  const postDelete = (commentId) => {
     getCommunityAPI.commentDelete(commentId).then(res => {
       console.log('글 삭제 성공')
     })
@@ -58,7 +59,7 @@ export default function Comments(props) {
                         {postDate}
                         </Text>
                         { userNickname === item.userNickname
-                        ? <CommentBtn backgroundColor='#FF6464' value='삭제' />
+                        ? <CommentBtn backgroundColor='#FF6464' value='삭제' func={() => postDelete(item.commentId)} />
                         : null
                         }
                         

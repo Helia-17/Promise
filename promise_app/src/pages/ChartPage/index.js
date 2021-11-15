@@ -23,7 +23,7 @@ const ChartPage = ({navigation}) => {
     let day = Moment().format('YYYY-MM-DD');
     const result = await getAlarmlist(day);
     setAlarmList(result);
-    console.log(result)
+    // console.log(result)
     dispatch(saveAlarmList(result))
   }
 
