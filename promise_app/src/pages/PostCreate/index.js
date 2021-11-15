@@ -14,9 +14,9 @@ const PostCreatePage = ({navigation}) => {
 
     const sendPost = () => {
         getCommunityAPI.create(title, content).then(res => {
-            console.log(res)
+            // console.log(res)
+            navigation.navigate('community', {created: true});
           })
-        navigation.navigate('community', {created: true});
     }
     
     return (

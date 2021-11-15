@@ -97,7 +97,7 @@ const PostDetailPage = ({navigation, route}) => {
               <View>
                 <Text style={styles.itemTitleText}>{post.commuTitle}</Text>
                 <Text style={styles.itemNameText}>{post.userNickname}</Text>
-                <Text style={styles.itemDateText}>{post.commuDate}</Text>
+                <Text style={styles.itemDateText}>{postDate}</Text>
                 <Text style={styles.itemContentText}>{post.commuContents}</Text>
               </View>
             </View>

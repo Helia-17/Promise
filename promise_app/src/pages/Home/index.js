@@ -32,7 +32,6 @@ const HomePage = ({navigation}) => {
 
     return (
         <View  style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor:'#F9F9F9' }}>
-            <Text>{userInfo.userNickname}</Text>
             <Carousel
             gap={0}
             offset={0}

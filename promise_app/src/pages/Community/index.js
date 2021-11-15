@@ -47,7 +47,7 @@ const CommunityPage = ({navigation, route}) => {
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
             {/* search bar */}
             <SearchBar/>
-            <View style={{width:'100%', margin:10}}>
+            <View style={{width:'100%', margin:10, marginBottom:55 }}>
                 <PostList/>
             </View>
             <View style={{width:'100%', alignItems:'flex-end', position: 'absolute', left: 0, right: 0, bottom: 0}}>
