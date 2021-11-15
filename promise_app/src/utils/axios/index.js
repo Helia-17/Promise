@@ -70,7 +70,6 @@ export const getVisual = async () => {
       }
     })
     .then(response => {
-      console.log(response.data.UsersTagList)
       return response.data.UsersTagList;
     });
 };

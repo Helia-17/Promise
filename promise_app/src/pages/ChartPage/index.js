@@ -18,7 +18,7 @@ const ChartPage = ({navigation}) => {
   const dispatch = useDispatch();
     
   const [alarmList, setAlarmList] = useState('');
-  const [visualData, setVisualData] = useState('');
+  const [visualData, setVisualData] = useState([]);
 
   const gettingAlarmList = async()=>{
 
@@ -78,7 +78,7 @@ const ChartPage = ({navigation}) => {
             </View>
           )
         })
-        : <Text>로딩중입니다 ..</Text>}
+        : <Text>등록하신 알람이 없습니다</Text>}
       </View>
 
 

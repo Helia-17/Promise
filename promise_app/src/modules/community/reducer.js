@@ -6,7 +6,7 @@ import { getCommunityAPI } from '../../utils/axios';
 
 /* 초기 상태 선언 */
 const initialState = {
-  communityList: {},
+  communityList: [],
   communityPostDetail: { 
     commuCommentDetailList: [],
     commuContents: '',
@@ -46,7 +46,7 @@ const reducer = (state = initialState, action) => {
       case types.RESET_POST_DETAIL:
         return {
           ...state,
-          communityPostDetail: { 
+          communityPostDetail: {
             commuCommentDetailList: [],
             commuContents: '',
             commuDate: '',
@@ -65,7 +65,7 @@ const reducer = (state = initialState, action) => {
         return {
           ...state,
           communityPostCreated: false,
-          communityList: {}
+          communityList: []
         };
 
       default:
