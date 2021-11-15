@@ -29,7 +29,6 @@ const PillInfo = (props) => {
                         />
                     </View>
                 ):(null)}
-                
             </View>
             <View style={style.pillInfoText}>
                 <Text style={style.pillInfoName}>{mediName}</Text>
