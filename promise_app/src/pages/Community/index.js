@@ -28,14 +28,12 @@ const CommunityPage = ({navigation, route}) => {
     
     useEffect(()=>{
         if (route.params) {
-            console.log(route.params.created)
             if (route.params.created) {
                 setCreated(true)
             }
         } else {
             setCreated(false)
         }
-        console.log('created', created)
         getCommunity()
     }, [])
 

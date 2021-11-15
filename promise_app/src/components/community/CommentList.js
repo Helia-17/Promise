@@ -11,12 +11,12 @@ export default function Comments(props) {
   const navigation = useNavigation(); 
   
   const { userNickname } = useSelector((state) => state.user.userInfo)
-  // console.log(props.commentList)
   const commentList = props.commentList
   
   const postDelete = () => {
-    getCommunityAPI.commentDelete(commentId).then(res => {
-      console.log('글 삭제 성공')
+    getCommunityAPI.commentDelete(commentId)
+    .then(res => {
+
     })
   }
 

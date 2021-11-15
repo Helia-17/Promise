@@ -10,7 +10,6 @@ const AddPill = (props) => {
     }
 
     const handleOCRModal = (data) => {
-        console.log(data);
         props.ocrdata(data);
         props.ocradd(true);
     }

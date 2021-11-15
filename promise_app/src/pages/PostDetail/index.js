@@ -46,9 +46,7 @@ const PostDetailPage = ({navigation, route}) => {
   }, [])
 
   const postDelete = () => {
-    getCommunityAPI.delete(postId).then(res => {
-      console.log('글 삭제 성공')
-    })
+    getCommunityAPI.delete(postId);
   }
 
   return (

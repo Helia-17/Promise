@@ -1,10 +1,8 @@
 import React, {useState, useCallback} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
-import { launchImageLibrary } from 'react-native-image-picker';
 import { View, Text, Image, Alert, TextInput, TouchableOpacity  } from 'react-native';
-import {myinfo} from '../../utils/axios';
-import RoundBtn from '../../components/atoms/RoundBtn';
-import Icon from 'react-native-vector-icons/Ionicons';
+import {myinfo, modifyNick, changeInfo} from '../../utils/axios';
+import S3Upload from '../../components/S3Upload';
 
 const ModifyInfo = ({navigation}) => {
 
@@ -22,7 +20,7 @@ const ModifyInfo = ({navigation}) => {
         setChangeNick(result.userNickname)
         setPetName(result.petName);
         setChangePet(result.petName);
-        setUserProfile(result.userProfileUrl);
+        setUserProfile(result.userProfileUrl+ '?' + new Date());
         setUserEmail(result.userEmail);
     }
 
@@ -31,23 +29,57 @@ const ModifyInfo = ({navigation}) => {
             getMyInfo();
         }, [])
     );
-
-    function Album(){
-        launchImageLibrary(
-            {
-            mediaType: 'photo',
-            includeBase64: true,
-            maxHeight: 500,
-            maxWidth: 500,
-            },
-            (response) => {
-                if(!response.didCancel){
-                    console.log(response.assets[0].uri);
-                    console.log(userEmail.split('.')[0]+'_'+userEmail.split('.')[1]);
-                }
-            }
+    
+    const checkNick = async ()=>{
+        const result = await modifyNick(changeNick);
+        Alert.alert(
+            '중복 확인',
+            result.message,
+            [{
+                text:'확인',
+                onPress: ()=>{}
+            }]
         );
-    };
+        if(result.statusCode!==409){
+            setIsCheck(true);
+        }else{
+            setIsCheck(false);
+        }
+    }
+
+    const changedata = async()=>{
+        await changeInfo(changeNick, changePet)
+        .then(()=>{
+            navigation.goBack();
+        })
+    }
+
+    function saveChange(){
+        if(changePet.length>0 && ( isCheck===true || userNickname === changeNick)){
+            Alert.alert(
+                '정보 수정',
+                `해당 정보로 수정하시겠습니까?
+    닉네임 : ${changeNick},
+    펫 이름 : ${changePet}`,
+                [{
+                    text:'예',
+                    onPress:()=>{changedata()}
+                },{
+                    text:'아니요',
+                    onPress:()=>{}
+                }]
+            );
+        }else{
+            Alert.alert(
+                '정보 수정',
+                '닉네임 중복 체크를 해주세요.',
+                [{
+                    text:'확인',
+                    onPress:()=>{}
+                }]
+            )
+        }
+    }
 
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
@@ -55,14 +87,12 @@ const ModifyInfo = ({navigation}) => {
                 <View style={{width:'30%', height:'90%', borderRadius:100, backgroundColor:'#C4C4C4'}}>
                     <Image resizeMode='cover' source={{uri:userProfile}} style={{width: '100%', height: '100%', borderRadius:100}}/>
                 </View>
-                <View style={{position:'absolute', width:'50%', height:200, alignItems:'flex-end', justifyContent: 'flex-end'}}>
-                    <RoundBtn text={<Icon name='pencil' color='black' size={30}/>} func={()=>Album()}/>
-                </View>
+                <S3Upload name={(data)=>setUserProfile(data)}/>
             </View>
             <View style={{width: '100%', alignItems: 'center'}}>
                 <View style={{width: '70%', justifyContent: 'space-between', alignItems: 'center', flexDirection: "row"}}>
                     <Text>닉네임</Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={()=>checkNick()}>
                         <Text>중복확인</Text>
                     </TouchableOpacity>
                 </View>
@@ -86,6 +116,9 @@ const ModifyInfo = ({navigation}) => {
                     />
                 </View>
             </View>
+            <TouchableOpacity style={{width:'70%', height:45, backgroundColor:'#A3BED7', marginTop:20, alignItems:'center', borderRadius: 5, justifyContent: 'center'}} onPress={() => saveChange()}>
+                <Text style={{color:'black', fontSize:18, fontWeight:'bold'}}>저장</Text>
+            </TouchableOpacity>
         </View>
     );
 };
