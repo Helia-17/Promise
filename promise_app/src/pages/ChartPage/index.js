@@ -10,7 +10,7 @@ import Moment from 'moment';
 const ChartPage = ({navigation}) => {
 
   const dispatch = useDispatch();
-  const [isVisible, setIsvisible] = useState();
+  const [isVisible, setIsvisible] = useState(false);
   const [alarmList, setAlarmList] = useState('');
   const [visualData, setVisualData] = useState([]);
 
@@ -35,6 +35,7 @@ const ChartPage = ({navigation}) => {
       }
       tagLists.push(tag);
     })
+
     setVisualData(tagLists);
     setIsvisible(false);
   }
@@ -42,6 +43,10 @@ const ChartPage = ({navigation}) => {
   useEffect(()=>{
     gettingAlarmList();
     gettingVisual();
+    // clearnup 함수
+    return () => {
+      setVisualData([])
+    }
   }, [])
 
     return (
