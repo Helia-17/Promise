@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import {View, Text, StyleSheet, FlatList, TouchableHighlight, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Divider } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import CommentBtn from '../atoms/CommentBtn';
 // axios, redux
 import { getCommunityAPI } from '../../utils/axios';
-import { getCommunityAction, resetPostDetailAction, getPostDetailAction } from '../../modules/community/actions';
+import { getPostDetailAction } from '../../modules/community/actions';
 import { useSelector, useDispatch } from 'react-redux';
 import Moment from 'moment';
 
-export default function Comments(props) {
+const Comments = forwardRef((props, ref) => {
 
   const dispatch = useDispatch();
   const navigation = useNavigation(); 
@@ -18,11 +18,18 @@ export default function Comments(props) {
   const postId = props.postId
   const [commentList, setCommentList] = useState(props.commentList)
   
+  // 상위 컴포넌트 PostDetail에서 CommentList의 함수 조작 가능하게 해줌
+  useImperativeHandle(ref, () => {
+    return {refresh() {
+      getCommunityAPI.detail(postId).then(res => {
+        setCommentList(res.commuCommentDetailList)
+      })
+    }}
+  })
+  
   const postDelete = (commentId) => {
     getCommunityAPI.commentDelete(commentId).then(res => {
-      dispatch(resetPostDetailAction())
     }).then(()=>{
-
       getCommunityAPI.detail(postId).then(res => {
         dispatch(getPostDetailAction(res))
         setCommentList(res.commuCommentDetailList)
@@ -31,55 +38,36 @@ export default function Comments(props) {
   }
 
   return (
-      // <FlatList
-      //   data={comments}
-      //   renderItem={({item, i}) => (
-      //     <TouchableHighlight underlayColor="white">
-      //       <View style={styles.container} key={i}>
-      //           <View>
-      //               <Text style={styles.itemNameText}>{item.username}</Text>
-      //               <Text style={styles.itemTitleText}>{item.title}</Text>
-      //           </View>
-      //           <View style={styles.subcontainer}>
-      //                 <Text style={styles.itemDateText}>
-      //                 {item.date}
-      //                 </Text>
-      //               <CommentBtn backgroundColor='#FF6464' value='삭제' />
-      //           </View>
-      //       </View>
-      //     </TouchableHighlight>
-      //   )}
-      // />
-      <ScrollView>
-        {commentList.map(function(item, i){
+    <ScrollView>
+      {commentList.map(function(item, i){
 
-            const subDate = item.commentDate.substr(0, 16)
-            const postDate = Moment(subDate).format("YYYY.MM.DD HH:mm")
+        const subDate = item.commentDate.substr(0, 16)
+        const postDate = Moment(subDate).format("YYYY.MM.DD HH:mm")
 
-            return (
-              <TouchableHighlight key={i} underlayColor="white">
-                <View style={styles.container} >
-                    <View>
-                        <Text style={styles.itemNameText}>{item.userNickname}</Text>
-                        <Text style={styles.itemTitleText}>{item.commentContents}</Text>
-                    </View>
-                    <View style={styles.subcontainer}>
-                        <Text style={styles.itemDateText}>
-                        {postDate}
-                        </Text>
-                        { userNickname === item.userNickname
-                        ? <CommentBtn backgroundColor='#FF6464' value='삭제' func={() => postDelete(item.commentId)} />
-                        : null
-                        }
-                        
-                    </View>
+        return (
+          <TouchableHighlight key={i} underlayColor="white">
+            <View style={styles.container} >
+                <View>
+                    <Text style={styles.itemNameText}>{item.userNickname}</Text>
+                    <Text style={styles.itemTitleText}>{item.commentContents}</Text>
                 </View>
-              </TouchableHighlight>
-            );
-        })}
-      </ScrollView>
+                <View style={styles.subcontainer}>
+                    <Text style={styles.itemDateText}>
+                    {postDate}
+                    </Text>
+                    { userNickname === item.userNickname
+                    ? <CommentBtn backgroundColor='#FF6464' value='삭제' func={() => postDelete(item.commentId, postId)} />
+                    : null
+                    }
+                    
+                </View>
+            </View>
+          </TouchableHighlight>
+        );
+      })}
+    </ScrollView>
   );
-}
+})
 
 const styles = StyleSheet.create({
   container: {
@@ -127,3 +115,5 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
 });
+
+export default Comments
