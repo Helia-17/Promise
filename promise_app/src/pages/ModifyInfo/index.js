@@ -56,8 +56,6 @@ const ModifyInfo = ({navigation}) => {
 
     function saveChange(){
         if(changePet.length>0 && ( isCheck===true || userNickname === changeNick)){
-            console.log('클릭됨');
-            console.log(isCheck, userNickname, changeNick, changePet.length);
             Alert.alert(
                 '정보 수정',
                 `해당 정보로 수정하시겠습니까?

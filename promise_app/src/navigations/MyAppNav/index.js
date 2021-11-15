@@ -175,7 +175,12 @@ const MyApp = ({navigation}) => {
     const [isLogin, setIsLogin] = useState(false);
 
     const checkLogin = async() =>{
-      setIsLogin(await AsyncStorage.getItem('token'));
+      const result = await AsyncStorage.getItem('token');
+      if(result === null){
+        setIsLogin(false);
+      }else{
+        setIsLogin(true);
+      }
     }
 
     useLayoutEffect(() => {

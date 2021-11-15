@@ -86,13 +86,9 @@ function S3Upload(props) {
 
                     promise_delete.then(
                         function () {
-                            console.log("delete success");
                             RNS3.put(file, options)
                             .then((response)=>{
-                                if(response.status!==201){
-                                    console.log('fail');
-                                }else{
-                                    console.log('success');
+                                if(response.status===201){
                                     sendAPI();
                                 }
                             })
@@ -107,10 +103,7 @@ function S3Upload(props) {
     }
 
     async function sendAPI(){
-        await uploadProfile(`https://promise-precure.s3.ap-northeast-2.amazonaws.com/profile/${filename}`)
-        .then(()=>{
-            console.log('success');
-        });
+        await uploadProfile(`https://promise-precure.s3.ap-northeast-2.amazonaws.com/profile/${filename}`);
         props.name(`https://promise-precure.s3.ap-northeast-2.amazonaws.com/profile/${filename}?${new Date()}`);
     }
     const deleteProfile = (deleteKey) => new AWS.S3().deleteObject(

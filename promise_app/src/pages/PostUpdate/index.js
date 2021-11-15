@@ -19,9 +19,6 @@ const PostUpdatePage = ({navigation, route}) => {
     const sendPost = async () => {
         const postId = route.params.postId
         await getCommunityAPI.update(postId, title, content)
-        // .then(res => {
-        //     console.log(res)
-        //   })
         navigation.navigate('community')
     }
 
