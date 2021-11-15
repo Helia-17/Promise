@@ -20,7 +20,6 @@ const CommunityPage = ({navigation, route}) => {
     // const [ list, setList ] = useState({})
 
     const getCommunity = () => {
-        console.log('실행')
         return getCommunityAPI.list(1).then(res => {
             // setList(res)
             dispatch(getCommunityAction(res))

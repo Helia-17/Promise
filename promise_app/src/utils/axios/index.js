@@ -30,6 +30,7 @@ export const withdraw = async()=>{
     }
   })
   .then(response => {
+    console.log(response.data)
     return response.data.statusCode;
   });
 }
@@ -323,7 +324,7 @@ export const getCommunityAPI = {
       }
     )
     .then((response) => {
-        console.log(response.data)
+        // console.log(response.data)
         return response.data;
     })
     .catch((error) => {
@@ -346,7 +347,7 @@ export const getCommunityAPI = {
       }
     )
     .then((response) => {
-        console.log(response.data)
+        // console.log(response.data)
         return response.data;
     })
     .catch((error) => {
@@ -362,6 +363,27 @@ export const getCommunityAPI = {
           commuId: commuId,
         }
     })
+    .then((response) => {
+        // console.log(response.data)
+        return response.data;
+    })
+    .catch((error) => {
+        console.log("error.response : ", error.response);
+    });
+  },
+  commentCreate: async (commuId, commentContents) => {
+    return await request.post(
+      `/communities/comment`, 
+      {
+        commuId,
+        commentContents,
+      },
+      {
+        headers:{
+            'Authorization': await AsyncStorage.getItem('token')
+        },
+      }
+    )
     .then((response) => {
         console.log(response.data)
         return response.data;
