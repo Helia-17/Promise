@@ -44,6 +44,7 @@ const MyApp = ({navigation}) => {
     function CalendarTop() {
       return (
         <TopTab.Navigator screenOptions={{
+          headerTitleAlign: 'center',
           tabBarActiveTintColor:'black', 
           tabBarIndicatorStyle:{backgroundColor:'black'}, 
           tabBarLabelStyle:{fontSize:15},
@@ -58,7 +59,10 @@ const MyApp = ({navigation}) => {
 
     function CommunityNav() {
       return (
-        <Stack.Navigator screenOptions={{initialRouteName:'community'}}>
+        <Stack.Navigator screenOptions={{
+          headerTitleAlign: 'center',
+          initialRouteName:'community'
+          }}>
           <Stack.Screen name='community' component={CommunityPage} options={{title:'커뮤니티'}}/>
           <Stack.Screen name='communitywrite' component={PostCreatePage} options={{title:'글 작성'}}/>
           <Stack.Screen name='communitydetail' component={PostDetailPage} options={{title:''}}/>
@@ -68,7 +72,9 @@ const MyApp = ({navigation}) => {
 
     function TopTabStackScreen(){
       return(
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{
+          headerTitleAlign: 'center'
+        }}>
           <Stack.Screen name="CalendarTab" component={CalendarTop} options={{ title: '복용 일정' }}/>
         </Stack.Navigator>
       );
@@ -86,6 +92,7 @@ const MyApp = ({navigation}) => {
       return (
         <Stack.Navigator 
         screenOptions={{
+          headerTitleAlign: 'center',
           initialRouteName : 'Homes',
           headerRight: ()=>(<Icon.Button onPress={()=>navigation.navigate('Search', {navigation:`${navigation}`})} name="magnify" color="black" backgroundColor='white' />),
         }}>
@@ -100,6 +107,7 @@ const MyApp = ({navigation}) => {
       return (
         <Stack.Navigator 
         screenOptions={{
+          headerTitleAlign: 'center',
           initialRouteName:'mypageScreen'
         }}>
           <Stack.Screen name='mypageScreen' component={Mypage} options={{ title: '마이페이지' }}/>
@@ -112,6 +120,7 @@ const MyApp = ({navigation}) => {
     function MyPillTop() {
       return (
         <TopTab.Navigator screenOptions={{
+            headerTitleAlign: 'center',
             tabBarActiveTintColor:'black', 
             tabBarIndicatorStyle:{backgroundColor:'black'},
             tabBarLabelStyle:{fontSize:15},

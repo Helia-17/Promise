@@ -34,8 +34,7 @@ const Mypage = ({navigation}) => {
         setUserNickname(result.userNickname);
         setPetName(result.petName);
         setPetLevel(result.petLevel);
-        setUserProfile(result.userProfileUrl);
-        // console.log(result.userEmail.split('@')[0]+'_'+result.userEmail.split('@')[1].split('.')[0]+'_'+result.userEmail.split('@')[1].split('.')[1]+`_profile.png`);
+        setUserProfile(result.userProfileUrl+ '?' + new Date());
     }
 
     useFocusEffect(
@@ -82,10 +81,10 @@ const Mypage = ({navigation}) => {
                         <Text style={{fontWeight: 'bold', fontSize:15}}>Lv{petLevel}. {petName}</Text>
                         <View style={{flexDirection: "row", width:'50%', alignItems: 'center', justifyContent: 'space-between'}}>
                             <TouchableOpacity onPress={()=>logout()}>
-                                <Text>로그아웃</Text>
+                                <Text style={{color:'#E86868'}}>로그아웃</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={()=>withdrawCheck()}>
-                                <Text>회원탈퇴</Text>
+                                <Text style={{color:'#999999'}}>회원탈퇴</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
