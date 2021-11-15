@@ -24,7 +24,7 @@ const PostUpdatePage = ({navigation, route}) => {
         const postId = route.params.postId
         await getCommunityAPI.update(postId, title, content)
         .then(res => {
-            alert('게시물이 성공적으로 작성되었습니다.')
+            alert('게시물이 성공적으로 수정되었습니다.')
             dispatch(resetCommunityListAction())
           }).then(()=>{
             getCommunityAPI.list(1).then(res => {

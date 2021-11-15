@@ -5,36 +5,30 @@ import { useNavigation } from '@react-navigation/native';
 import CommentBtn from '../atoms/CommentBtn';
 // axios, redux
 import { getCommunityAPI } from '../../utils/axios';
-import { getCommunityAction } from '../../modules/community/actions';
-import { useSelector } from 'react-redux';
+import { getCommunityAction, resetPostDetailAction, getPostDetailAction } from '../../modules/community/actions';
+import { useSelector, useDispatch } from 'react-redux';
 import Moment from 'moment';
 
 export default function Comments(props) {
 
+  const dispatch = useDispatch();
   const navigation = useNavigation(); 
   
   const { userNickname } = useSelector((state) => state.user.userInfo)
-  // console.log(props.commentList)
   const postId = props.postId
   const [commentList, setCommentList] = useState(props.commentList)
   
   const postDelete = (commentId) => {
     getCommunityAPI.commentDelete(commentId).then(res => {
+      dispatch(resetPostDetailAction())
+    }).then(()=>{
+
+      getCommunityAPI.detail(postId).then(res => {
+        dispatch(getPostDetailAction(res))
+        setCommentList(res.commuCommentDetailList)
+      })
     })
   }
-
-  const refreshCommentList = (postId) => {
-    getCommunityAPI.detail(postId).then(res => {
-      setCommentList(res.commuCommentDetailList)
-    })
-  }
-
-
-
-  const handlingDelete = async (commentId)=>{
-     await postDelete(commentId)
-     await refreshCommentList(postId)
-    }
 
   return (
       // <FlatList
@@ -73,11 +67,10 @@ export default function Comments(props) {
                         <Text style={styles.itemDateText}>
                         {postDate}
                         </Text>
-                        <CommentBtn backgroundColor='#FF6464' value='삭제' func={() => handlingDelete(item.commentId)} />
-                        {/* { userNickname === item.userNickname
-                        ? <CommentBtn backgroundColor='#FF6464' value='삭제' func={() => handlingDelete(item.commentId)} />
+                        { userNickname === item.userNickname
+                        ? <CommentBtn backgroundColor='#FF6464' value='삭제' func={() => postDelete(item.commentId)} />
                         : null
-                        } */}
+                        }
                         
                     </View>
                 </View>

@@ -7,7 +7,13 @@ import { getCommunityAPI } from '../../utils/axios';
 /* 초기 상태 선언 */
 const initialState = {
   communityList: {},
-  communityPostDetail: {},
+  communityPostDetail: { 
+    commuCommentDetailList: [],
+    commuContents: '',
+    commuDate: '',
+    commuTitle: '',
+    userNickname: ''
+  },
   communityPostChanged: false,
   communityPostCreated: false,
   communityPostUpdated: false,
@@ -25,16 +31,28 @@ const reducer = (state = initialState, action) => {
           totalPageCnt: action.data.totalPageCnt
         };
 
+      case types.GET_POST_DETAIL:
+        return {
+          ...state,
+          communityPostDetail: action.data,
+        };
+
       case types.CHANGE_POST_DETAIL:
         return {
           ...state,
           communityPostChanged: !communityPostChanged,
         };
 
-      case types.REFRESH_POST_DETAIL:
+      case types.RESET_POST_DETAIL:
         return {
           ...state,
-          communityPostDetail: action.data.communityPostDetail,
+          communityPostDetail: { 
+            commuCommentDetailList: [],
+            commuContents: '',
+            commuDate: '',
+            commuTitle: '',
+            userNickname: ''
+          }
         };
       
       case types.CREATE_COMMUNITY_LIST:

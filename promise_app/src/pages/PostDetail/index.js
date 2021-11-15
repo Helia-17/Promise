@@ -13,7 +13,7 @@ import {
 
 import { getCommunityAPI } from '../../utils/axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { getCommunityAction, changePostDetailAction ,refreshPostDetailAction, resetCommunityListAction } from '../../modules/community/actions';
+import { getCommunityAction, changePostDetailAction ,resetPostDetailAction, resetCommunityListAction } from '../../modules/community/actions';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RoundBtn from '../../components/atoms/RoundBtn';
@@ -52,7 +52,7 @@ const PostDetailPage = ({navigation, route}) => {
   const getCommunityDetail = () => {
     getCommunityAPI.detail(postId).then(res => {
       setPost(res)
-      dispatch(refreshPostDetailAction(res))
+      dispatch(resetPostDetailAction(res))
       setCommentList(res.commuCommentDetailList)
     })
   }

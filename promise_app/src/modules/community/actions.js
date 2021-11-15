@@ -6,14 +6,18 @@ import types from './types'
     data,
   });
 
+  export const getPostDetailAction = (data) => ({
+    type: types.GET_POST_DETAIL,
+    data,
+  });
+
   export const changePostDetailAction = (data) => ({
     type: types.CHANGE_POST_DETAIL,
     data,
   });
 
-  export const refreshPostDetailAction = (data) => ({
-    type: types.REFRESH_POST_DETAIL,
-    data,
+  export const resetPostDetailAction = () => ({
+    type: types.RESET_POST_DETAIL,
   });
 
   export const createCommunityListAction = () => {
