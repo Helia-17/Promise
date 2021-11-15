@@ -16,7 +16,7 @@ export const myinfo = async () => {
     }
   })
   .then(response => {
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
   }).catch(err => {
     console.log(err.response);
@@ -392,7 +392,23 @@ export const getCommunityAPI = {
         console.log("error.response : ", error.response);
     });
   },
-
+  commentDelete: async (commentId) => {
+    return await request.delete(`/communities/comment/${commentId}`, {
+        headers:{
+            'Authorization': await AsyncStorage.getItem('token')
+        },
+        params: {
+          commentId: commentId,
+        }
+    })
+    .then((response) => {
+        console.log(response.data)
+        return response.data;
+    })
+    .catch((error) => {
+        console.log("error.response : ", error.response);
+    });
+  },
 }
 
 

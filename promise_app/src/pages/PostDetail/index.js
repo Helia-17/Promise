@@ -27,15 +27,18 @@ import { useSelector } from 'react-redux';
 
 const PostDetailPage = ({navigation, route}) => {
 
-  const { userNickname } = useSelector((state) => state.user.userInfo)
-  
+  const { stateUserNickname } = useSelector((state) => state.user.userInfo)
+  const [ userNickname, setUserNickname ] = useState('')
   const postId = route.params.post.commuId
   const [post, setPost] = useState(route.params.post)
   const [commentList, setCommentList] = useState('')
   const [comment, onChangeComment] = useState('');
 
   useEffect(()=>{
+    setUserNickname(stateUserNickname)
+
     getCommunityAPI.detail(postId).then(res => {
+      console.log(res,'여기야')
       setPost(res)
       setCommentList(res.commuCommentDetailList)
     })
@@ -63,7 +66,7 @@ const PostDetailPage = ({navigation, route}) => {
 
   const postDelete = () => {
     getCommunityAPI.delete(postId).then(res => {
-      console.log('글 삭제 성공?')
+      console.log('글 삭제 성공')
     })
   }
 
@@ -71,7 +74,7 @@ const PostDetailPage = ({navigation, route}) => {
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       {Platform.OS === 'android' ? (
         <View style={{ height: '100%'}}>
-          <ScrollView style={{ width: '100%', margin: 10, marginBottom: 55}} >
+          <ScrollView style={{ width: '100%', marginVertical: 10, marginBottom: 55}} contentContainerStyle={{flexDirection:'column', justifyContent:'center'}}>
             <View style={styles.container}>
               <View>
                 <Text style={styles.itemTitleText}>{post.commuTitle}</Text>

@@ -8,35 +8,8 @@ import { useSelector } from 'react-redux';
 export default function Comments(props) {
 
   const { userNickname } = useSelector((state) => state.user.userInfo)
-    console.log(props.commentList)
+    // console.log(props.commentList)
     const commentList = props.commentList
-    // const comments = [
-    //     {
-    //       username: '호셉',
-    //       title: '타이레놀 2개 킹정합니다.',
-    //       date: '2021.10.18 04:34'
-    //     },
-    //     {
-    //       username: 'JY',
-    //       title: '타이레놀 2개 킹정합니다.',
-    //       date: '2021.10.18 04:34'
-    //     },
-    //     {
-    //       username: 'JY',
-    //       title: '타이레놀 2개 킹정합니다.',
-    //       date: '2021.10.18 04:34'
-    //     },
-    //     {
-    //       username: 'JY',
-    //       title: '타이레놀 2개 킹정합니다.',
-    //       date: '2021.10.18 04:34'
-    //     },
-    //     {
-    //       username: 'JY',
-    //       title: '타이레놀 2개 킹정합니다.',
-    //       date: '2021.10.18 04:34'
-    //   },
-    // ]
 
   const navigation = useNavigation(); 
 
@@ -66,6 +39,7 @@ export default function Comments(props) {
               <TouchableHighlight key={i} onPress={()=>navigation.navigate('게시물')} underlayColor="white">
                 <View style={styles.container} >
                     <View>
+                        <Text style={styles.itemNameText}>{item.commentId}</Text>
                         <Text style={styles.itemNameText}>{item.userNickname}</Text>
                         <Text style={styles.itemTitleText}>{item.commentContents}</Text>
                     </View>
