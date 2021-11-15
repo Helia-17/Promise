@@ -24,8 +24,9 @@ const initialState = {
       level: null,
       exp: null
     },
-    changeNickname: '아아아아악',
+    changeNickname: '',
     changePetname: null,
+    mainAlarmList: null,
     medicineList: null,
     alarmList: null,
     alarmHistory: null,
@@ -103,12 +104,17 @@ const reducer = (state = initialState, action) => {
           ...state,
           changePetname: action.data,
         };
+      case types.GET_MAIN_ALARM_LIST:
+        return {
+          ...state,
+          mainAlarmList: action.data,
+        };
       case types.GET_MEDICINE_LIST:
         return {
           ...state,
           medicineList: action.data,
         };
-      case types.GET_ALARM_LIST:
+      case types.SAVE_ALARM_LIST:
         return {
           ...state,
           alarmList: action.data,

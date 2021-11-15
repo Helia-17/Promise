@@ -1,22 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {View, Text, StyleSheet, FlatList, TouchableHighlight, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Divider } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import CommentBtn from '../atoms/CommentBtn';
-import { useSelector } from 'react-redux';
+// axios, redux
+import { getCommunityAPI } from '../../utils/axios';
+import { getCommunityAction, resetPostDetailAction, getPostDetailAction } from '../../modules/community/actions';
+import { useSelector, useDispatch } from 'react-redux';
 import Moment from 'moment';
 
 export default function Comments(props) {
 
+  const dispatch = useDispatch();
   const navigation = useNavigation(); 
   
   const { userNickname } = useSelector((state) => state.user.userInfo)
-  const commentList = props.commentList
+  const postId = props.postId
+  const [commentList, setCommentList] = useState(props.commentList)
   
-  const postDelete = () => {
-    getCommunityAPI.commentDelete(commentId)
-    .then(res => {
+  const postDelete = (commentId) => {
+    getCommunityAPI.commentDelete(commentId).then(res => {
+      dispatch(resetPostDetailAction())
+    }).then(()=>{
 
+      getCommunityAPI.detail(postId).then(res => {
+        dispatch(getPostDetailAction(res))
+        setCommentList(res.commuCommentDetailList)
+      })
     })
   }
 
@@ -58,7 +68,7 @@ export default function Comments(props) {
                         {postDate}
                         </Text>
                         { userNickname === item.userNickname
-                        ? <CommentBtn backgroundColor='#FF6464' value='삭제' />
+                        ? <CommentBtn backgroundColor='#FF6464' value='삭제' func={() => postDelete(item.commentId)} />
                         : null
                         }
                         
