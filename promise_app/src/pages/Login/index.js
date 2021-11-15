@@ -9,14 +9,14 @@ import PetModal from '../../components/PetModal';
 import LoginBtn from '../../components/atoms/LoginBtn';
 import LoginModal from '../../components/LoginModal';
 import {userAPI} from '../../utils/axios';
-import Spinner from 'react-native-loading-spinner-overlay';
+// import Spinner from 'react-native-loading-spinner-overlay';
 
 const Login = (props) => {
   const [userModal, setUserModal] = useState(false);
   const [nickModal, setNickModal] = useState(false);
   const [petModal, setPetModal] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
-  const [isVisible, setIsvisible] = useState();
+  // const [isVisible, setIsvisible] = useState();
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
   const [profile, setProfile] = useState(null);
@@ -31,9 +31,7 @@ const Login = (props) => {
         setProfile(data.profile);
       }
       setType(data.type);
-      setIsvisible(true);
       const res = await userAPI.social(data.email, pw, data.type);
-      setIsvisible(false);
       if (res === 404) {
         setNickModal(true);
       }else if(res===402){
@@ -54,20 +52,17 @@ const Login = (props) => {
     setType(0);
   };
 
-  const resultData = async() =>{
+  const resultData = async(petName) =>{
     try{
-      setIsvisible(true);
       await userAPI.join(id, pw, nick, profile, petName, type);
       if(type===0){
         await userAPI.login(id, pw, type)
         .then((res) =>{
-          setIsvisible(false);
           props.navigation.replace('appscreen');
         });
       }else if(type===1 || type===2){
         await userAPI.social(id, pw, type)
         .then((res) =>{
-          setIsvisible(false);
           props.navigation.replace('appscreen');
         });
       }
@@ -77,9 +72,7 @@ const Login = (props) => {
   };
 
   const NomalLogin = async (data) =>{
-    setIsvisible(true);
     const res = await userAPI.login(data.id, data.pw, 0);
-    setIsvisible(false);
     if(res===404){
       alert('존재하지 않는 계정입니다.');
     }else if(res===402){
@@ -95,7 +88,6 @@ const Login = (props) => {
 
   return (
     <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
-      <Spinner visible={isVisible} />
       <View style={{justifyContent: 'center'}}>
         <Image source={Logo} style={{height: '50%'}} resizeMode='contain'/>
         <Text style={{fontSize: 25, color:'black', fontWeight:'bold', marginTop:'5%'}}>더 건강한 나를 위한 약속</Text>
@@ -128,7 +120,7 @@ const Login = (props) => {
         <NicknameModal usernick={(data)=>setNick(data)} now={(data)=>setNickModal(data)} next={(data)=>setPetModal(data)} exit={(data)=>setNickModal(data)}/>
       </Modal>
       <Modal animationType={'fade'} transparent={true} visible={petModal}>
-        <PetModal petname={(data)=>setPetName(data)} now={(data)=>setPetModal(data)} next={(data)=>resultData()} exit={(data)=>setPetModal(data)} />
+        <PetModal petname={(data)=>setPetName(data)} now={(data)=>setPetModal(data)} next={(data)=>resultData(data)} exit={(data)=>setPetModal(data)} />
       </Modal>
     </View>
   )
