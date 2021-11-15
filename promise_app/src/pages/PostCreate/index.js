@@ -1,31 +1,35 @@
 import React, {useState, useEffect} from 'react';
 import { View, ScrollView, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
 
+import { getCommunityAPI } from '../../utils/axios';
+
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; 
 import InputText from '../../components/InputText';
 import InputLongText from '../../components/InputLongText';
 import InputTitleText from '../../components/InputTitleText';
 
-const CommunityPage = ({navigation}) => {
+const PostCreatePage = ({navigation}) => {
     const [title, onChangeTitle] = useState('');
     const [content, onChangeContent] = useState('');
 
     const sendPost = () => {
-        alert('작성로직')
-        navigation.navigate('커뮤니티')
+        getCommunityAPI.create(title, content).then(res => {
+            // console.log(res)
+            navigation.navigate('community', {created: true});
+          })
     }
     
     return (
         <>
             <View  style={styles.titleView}>
                 <View style={{width:'90%'}}>
-                    <InputTitleText name='제목' result={(data)=>onChangeTitle(data)} />
+                    <InputTitleText name='제목' text='' result={(data)=>onChangeTitle(data)} />
                 </View>
             </View>
             <View  style={styles.mainView}>
                 <ScrollView style={{ width:'90%' }} contentContainerStyle={{alignItems: 'center', justifyContent: 'flex-start'}}>
                     <View style={{width:'100%', margin:10}}>
-                        <InputLongText name='내용' result={(data)=>onChangeContent(data)} />
+                        <InputLongText name='내용' text='' result={(data)=>onChangeContent(data)} />
                     </View>
                 </ScrollView>
                 <View style={{width:'90%', margin:10, alignItmes:'flex-end'}}>
@@ -55,4 +59,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default CommunityPage;
+export default PostCreatePage;

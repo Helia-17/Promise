@@ -12,12 +12,10 @@ const initialState = {
     // true이면 회원가입 페이지로 이동 false이면 로그인을 진행해서 token을 받아왔으니 main으로
     actionCode: null,
     userInfo: {
-      email: null,
-      nickname: null,
-      profileUrl: null,
-      type: null,
-      joinDate:  null,
-      jointype: null,
+      userEmail: null,
+      userJoinType: null,
+      userNickname: null,
+      userProfileUrl: null,
     },
     pet: {
       id: null,
@@ -78,9 +76,17 @@ const reducer = (state = initialState, action) => {
           }
         };
       case types.GET_MY_INFO:
+        const refereshToken = action.data.refereshToken
+        const userInfo = {
+          userEmail: action.data.userEmail,
+          userJoinType: action.data.userJoinType,
+          userNickname: action.data.userNickname,
+          userProfileUrl: action.data.userProfileUrl,
+        }
         return {
           ...state,
-          userInfo: action.data
+          refereshToken: refereshToken,
+          userInfo: userInfo
         };
       case types.GET_PET_INFO:
         return {

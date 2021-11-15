@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 
@@ -7,11 +7,22 @@ const OCRModal = (props) => {
     const [selectedData, setSelectedData] = useState([]);
 
     const addData = (data)=>{
-        setSelectedData([
-            ...selectedData,
-            {id:data.mediSerialNum, name:data.mediName},
-        ]);
+        if(selectedData){
+            let flag = false;
+            selectedData.map(item=>{
+                if(item.id === data.mediSerialNum) flag = true;
+            });
+            if (flag===true) {
+                setSelectedData(selectedData.filter(item=>item.id !== data.mediSerialNum));
+            }else{
+                setSelectedData([
+                    ...selectedData,
+                    {id:data.mediSerialNum, name:data.mediName},
+                ]);
+            }
+        }
     }
+    
     const myOCRList = ()=>{
         let result = [];
         if(ocrPillData){
@@ -45,6 +56,10 @@ const OCRModal = (props) => {
         props.selected(selectedData);
         props.visible(false);
     }
+
+    useEffect(()=>{
+        setSelectedData([]);
+    }, []);
 
     return(
         <View style={{justifyContent: 'center', alignItems: 'center', flex:1, backgroundColor:'rgba(0,0,0,0.5)'}}>
