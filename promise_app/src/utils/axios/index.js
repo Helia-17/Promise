@@ -411,9 +411,35 @@ export const getCommunityAPI = {
   },
 }
 
+export const getMediListAPI = async searchKeyword => {
+  return await request
+    .get('/medicines/search', {
+    headers: {
+      Authorization: await AsyncStorage.getItem('token'),
+    },
+    params: {
+      searchKeyword: searchKeyword,
+    }
+  })
+  .then((response) => {
+      return response.data.mediList;
+  })
+  .catch((error) => {
+    console.log("error.response: ", error.response);
+  })
+}
 
-
-
-
-
-
+export const getMediDetailAPI = async mediSerialNum => {
+  return await request
+    .get(`/medicines/detail/${mediSerialNum}`, {
+      headers: {
+        Authorization: await AsyncStorage.getItem('token'),
+      }
+    })
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.log("error.response: ", error.response);
+    })
+}
