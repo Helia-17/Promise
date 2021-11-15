@@ -12,7 +12,7 @@ const PetPage = ({navigation}) => {
     const [petLevel, setPetLevel] = useState(3)
 
     return (
-      <View style={{height: '90%', paddingHorizontal: 20, paddingTop: 30}}>
+      <View style={{height: '90%', justifyContent: 'center', paddingHorizontal: 20, paddingTop: 30}}>
 
         {/* <Text style={styles.titleText}>건강한 나를 위한 '약속'</Text> */}
         <View style={styles.messageContainer}>
@@ -89,7 +89,8 @@ const styles = StyleSheet.create({
   petLevelText: {
     fontSize: 18,
     fontWeight: '700',
-    textAlign: 'center'
+    textAlign: 'center',
+    marginTop: 5
   },
 });
 
