@@ -101,6 +101,16 @@ function S3Upload(props) {
                             return alert("delete fail", err.message)
                         }
                     )
+                }else{
+                    RNS3.put(file, options)
+                    .then((response)=>{
+                        if(response.status!==201){
+                            console.log('fail');
+                        }else{
+                            console.log('success');
+                            sendAPI();
+                        }
+                    })
                 }
             });
         }
