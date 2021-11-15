@@ -76,8 +76,8 @@ public class UserServiceImpl implements UserService {
 			String petName = userUpdateInfo.getPetName();
 			Pet pet = petRepository.findPetByUser(user);
 			
-			if (userRepository.findUserByUserNickname(userNickname) != null &&
-					user.getUserNickname().equals(userNickname)) {
+			if(userRepository.findUserByUserNickname(userNickname) != null &&
+					!user.getUserNickname().equals(userNickname)){
 						return 2;
 					}
 

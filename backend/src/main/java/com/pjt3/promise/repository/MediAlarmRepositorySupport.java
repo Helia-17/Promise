@@ -13,6 +13,7 @@ import com.pjt3.promise.entity.User;
 import com.pjt3.promise.response.AlarmCalendarGetRes;
 import com.pjt3.promise.response.AlarmDetailGetRes;
 import com.pjt3.promise.response.AlarmGetRes;
+import com.pjt3.promise.response.AlarmMainGetRes;
 import com.pjt3.promise.response.MediGetRes;
 import com.pjt3.promise.response.MyAlarmHistory;
 import com.pjt3.promise.response.MyPillGetRes;
@@ -143,6 +144,17 @@ public class MediAlarmRepositorySupport {
     			.orderBy(qMediAlarm.alarmId.desc())
     			.fetch();
 		return calendarAlarmList;
+	}
+
+	public List<AlarmMainGetRes> getMainAlarmList(User user, String today) {
+		List<AlarmMainGetRes> alarmList = query.select(Projections.bean(AlarmMainGetRes.class,
+    			qMediAlarm.alarmId, qMediAlarm.alarmTitle,
+    			qMediAlarm.alarmTime1, qMediAlarm.alarmTime2, qMediAlarm.alarmTime3))
+    			.from(qMediAlarm)
+    			.where(qMediAlarm.user.eq(user), qMediAlarm.alarmDayStart.loe(today), qMediAlarm.alarmDayEnd.goe(today))
+    			.orderBy(qMediAlarm.alarmId.asc())
+    			.fetch();
+		return alarmList;
 	}
 
     
