@@ -4,7 +4,6 @@ import {LineChart, PieChart} from 'react-native-charts-wrapper';
 import {getMainAlarm, getVisual} from '../../utils/axios'
 import { getMainAlarmList } from '../../modules/user/actions';
 import { useDispatch } from 'react-redux';
-import Spinner from 'react-native-loading-spinner-overlay';
 import Moment from 'moment';
 
 const ChartPage = ({navigation}) => {
@@ -15,7 +14,6 @@ const ChartPage = ({navigation}) => {
   const [visualData, setVisualData] = useState([]);
 
   const gettingAlarmList = async()=>{
-    setIsvisible(true);
     const result = await getMainAlarm()
     setAlarmList(result);
     dispatch(getMainAlarmList(result))
@@ -37,13 +35,11 @@ const ChartPage = ({navigation}) => {
     })
 
     setVisualData(tagLists);
-    setIsvisible(false);
   }
 
   useEffect(()=>{
     gettingAlarmList();
     gettingVisual();
-    // clearnup 함수
     return () => {
       setVisualData([])
     }
@@ -51,7 +47,6 @@ const ChartPage = ({navigation}) => {
 
     return (
       <View style={{flex: 1, height: '100%', paddingHorizontal: 20, paddingTop: 30}}>
-        <Spinner visible={isVisible} />
         <Text style={styles.titleText}>건강한 나를 위한 '약속'</Text>
         <Text style={styles.contentText}>오늘의 약속</Text>
         <View style={styles.todayAlarm}>

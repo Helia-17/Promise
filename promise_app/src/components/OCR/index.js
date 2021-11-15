@@ -4,11 +4,9 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import {Alert, TouchableOpacity } from 'react-native';
 import {CAMERA_KEY} from '../../utils/oauth';
 import {ocrList} from '../../utils/axios';
-import Spinner from 'react-native-loading-spinner-overlay';
 
 const OCR = (props) => {
 
-    const [isVisible, setIsvisible] = useState();
     const API_URL = "https://vision.googleapis.com/v1/images:annotate?key=";
 
     const goOCR = ()=>{
@@ -29,7 +27,6 @@ const OCR = (props) => {
         )
     }
     const callGoogleVIsionApi = async (base) => {
-        setIsvisible(true);
         await fetch(API_URL + CAMERA_KEY, {
             method: 'POST',
             body: JSON.stringify({
@@ -57,8 +54,6 @@ const OCR = (props) => {
                         onPress: ()=>{}
                     }])
                 });
-
-        setIsvisible(false);
     }
     
     const callOCR = async (text)=>{
@@ -100,7 +95,6 @@ const OCR = (props) => {
 
     return (
         <TouchableOpacity onPress={()=>goOCR()} style={{marginLeft:20}}>
-            <Spinner visible={isVisible} />
             <Icon name='camera' size={20} color='black' backgroundColor='#E9E9E9' style={{paddingRight:0}} />
         </TouchableOpacity>
     );
