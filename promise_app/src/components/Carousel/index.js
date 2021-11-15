@@ -43,7 +43,7 @@ export default function Carousel({pages, pageWidth, gap, offset}) {
       </View>
       {/* 여기 백그라운드 컬러 지워버림 */}
       <ImageBackground 
-      source={require("./pet-bg.png")}
+      source={require("../../assets/pet-bg.png")}
       imageStyle={{ opacity: 0.7 }}>
       <View style={{width: pageWidth, marginHorizontal: gap / 2}}>
         <PetPage style={{ height: '90%'}}/>
