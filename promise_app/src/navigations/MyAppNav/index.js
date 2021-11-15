@@ -9,6 +9,7 @@ import Search from '../../pages/Search';
 import Pharmacy from '../../pages/Pharmacy';
 import CalendarPage from '../../pages/Calendar';
 import AlarmAdd from '../../pages/AlarmAdd';
+import AlarmInfo from '../../pages/AlarmInfo';
 import Alarm from '../../pages/Alarm';
 import Timeline from '../../pages/Timeline';
 import CommunityPage from '../../pages/Community';
@@ -42,6 +43,34 @@ const MyApp = ({navigation}) => {
       );
     }
 
+    function AlarmNav(){
+      return(
+        <Stack.Navigator 
+        screenOptions={{
+          headerShown : false,
+          initialRouteName : 'AlarmScreen'
+        }}
+        >
+          <Stack.Screen name="AlarmScreen" component={Alarm} />
+          <Stack.Screen name="AlarmInfo" component={AlarmInfo} />
+        </Stack.Navigator>
+      )
+    }
+
+    function TimelineNav(){
+      return(
+        <Stack.Navigator 
+        screenOptions={{
+          headerShown : false,
+          initialRouteName : 'TimelineScreen'
+        }}
+        >
+          <Stack.Screen name="TimelineScreen" component={Timeline} />
+          <Stack.Screen name="AlarmInfo" component={AlarmInfo} />
+        </Stack.Navigator>
+      )
+    }
+
     function CalendarTop() {
       return (
         <TopTab.Navigator screenOptions={{
@@ -52,8 +81,8 @@ const MyApp = ({navigation}) => {
           initialRouteName:'CalendarScreen'
           }}>
             <TopTab.Screen name='CalendarScreen' component={CalendarNav}  options={{title:'달력'}}/>
-            <TopTab.Screen name='Alarm' component={Alarm} options={{title:'알람'}} />
-            <TopTab.Screen name='Timeline' component={Timeline} options={{title:'이력'}}/>
+            <TopTab.Screen name='Alarm' component={AlarmNav} options={{title:'알람'}} />
+            <TopTab.Screen name='Timeline' component={TimelineNav} options={{title:'이력'}}/>
         </TopTab.Navigator>
       );
     }
