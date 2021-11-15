@@ -5,6 +5,7 @@ import RoundBtn from '../../components/atoms/RoundBtn';
 import SearchBar from '../../components/community/SearchBar';
 import PostList from '../../components/community/PostList';
 import exampleImg from '../../assets/Promise_Logo.png';
+import FastImage from 'react-native-fast-image'
 
 const PetPage = ({navigation}) => {
     const [petName, setPetName] = useState('넹넹이똥똥')
@@ -15,20 +16,19 @@ const PetPage = ({navigation}) => {
 
         {/* <Text style={styles.titleText}>건강한 나를 위한 '약속'</Text> */}
         <View style={styles.messageContainer}>
-            <View style={{width: '48%'}}> 
-                <Text style={styles.messageText}>마농님의 넹넹이똥똥(은)는 약속과 함께 자라고 있어요!</Text>
+            <View style={{width: '80%'}}> 
+                <Text style={styles.messageText}>마농님의 넹넹이똥똥(은)는</Text>
+                <Text style={styles.messageText}>약속과 함께 자라고 있어요!</Text>
             </View>
         </View>
         <View style={styles.container}>
-            <Image
-                style={styles.petImage}
-                source={exampleImg}
+            <FastImage
+            style={{ width: 300, height: 300 }}
+            source={require("../../assets/L3.gif")}
+            resizeMode={FastImage.resizeMode.contain}
             />
             <Text style={styles.petNameText}>{petName}</Text>
             <Text style={styles.petLevelText}>Lv.{petLevel}</Text>
-            <View style={{width: '100%', padding: 5}}>
-                <Text style={styles.petNextLevelText}>Lv.{petLevel+1}</Text>
-            </View>
         </View>
       </View>
     );
@@ -39,11 +39,11 @@ const styles = StyleSheet.create({
     // flex: 1,
     marginVertical: 5,
     paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingVertical: 0,
     justifyContent: 'center',
     alignItems: 'center',
     // backgroundColor: 'white',
-    maxHeight: 400,
+    maxHeight: 600,
     // elevation: 2,
   },
   titleText: {
@@ -53,12 +53,12 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   messageContainer: {
-    paddingVertical: 50,
+    paddingVertical: 20,
     justifyContent: 'center',
     alignItems: 'center'
   },
   messageText: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '500',
     textAlign: 'center'
   },
@@ -83,18 +83,13 @@ const styles = StyleSheet.create({
   },
   petNameText: {
     fontSize: 18,
-    fontWeight: '500',
+    fontWeight: '700',
     textAlign: 'center'
   },
   petLevelText: {
     fontSize: 18,
-    fontWeight: '500',
+    fontWeight: '700',
     textAlign: 'center'
-  },
-  petNextLevelText: {
-    fontSize: 12,
-    fontWeight: '500',
-    textAlign: 'right'
   },
 });
 
