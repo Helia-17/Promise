@@ -1,27 +1,50 @@
-import React from 'react';
-import { View, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, {useState, useCallback} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
+import { View, ScrollView, Text } from 'react-native';
 import MediInfo from '../../components/atoms/MediInfo';
 import Moment from 'moment';
+import {getAlarmlist} from '../../utils/axios';
 
 const Alarm = (props) => {
-
-    if(props.route.params){
-        console.log(props.route.params.day);
-    }else{
+    const [alarmList, setAlarmList] = useState([]);
+    const gettingList = async()=>{
         let day = Moment().format('YYYY-MM-DD');
-        console.log(day);
+        if(props.route.params){
+            day = props.route.params.day;
+        }
+        const result = await getAlarmlist(day);
+        setAlarmList(result);
     }
+
+    useFocusEffect(
+        useCallback(()=>{
+            gettingList();
+        }, [props])
+    );
+
+    const listInfo = ()=>{
+        let result = [];
+        if(alarmList.length>0){
+            alarmList.map(item=>{
+                result = result.concat(
+                    <MediInfo alarmTitle={item.alarmTitle} alarmId={item.alarmId}  alarmDayStart={item.alarmDayStart} alarmDayEnd = {item.alarmDayEnd}/>
+                );
+            })
+        }
+        return result;
+    }
+
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
-            <ScrollView style={{ width:'100%', margin:10}} contentContainerStyle={{alignItems: 'center'}}>
-                <MediInfo name='비타민C' date='2021.10.15 15:22' />
-                <MediInfo name='감기약' date='2021.10.15 15:22' pillList='해열제, 항생제, 000'/>
-                <MediInfo name='비타민C' date='2021.10.15 15:22' />
-                <MediInfo name='감기약' date='2021.10.15 15:22' pillList='해열제, 항생제, 000'/>
-                <MediInfo name='비타민C' date='2021.10.15 15:22' />
-                <MediInfo name='감기약' date='2021.10.15 15:22' pillList='해열제, 항생제, 000'/>
-            </ScrollView>
+            {alarmList.length>0?(
+                <ScrollView style={{ width:'100%', margin:10}} contentContainerStyle={{alignItems: 'center'}}>
+                    {listInfo()}
+                </ScrollView>
+            ):(
+                <View style={{ flex: 1, alignItems: 'center', justifyContent:'center' }}>
+                    <Text style={{fontSize:25, color:'gray'}}>등록된 알람이 없습니다.</Text>
+                </View>
+            )}
         </View>
     );
 };

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ import com.pjt3.promise.repository.UserRepository;
 import com.pjt3.promise.request.AlarmPostReq;
 import com.pjt3.promise.request.AlarmPutReq;
 import com.pjt3.promise.request.TakeHistoryPostReq;
+import com.pjt3.promise.response.AlarmCalendarGetRes;
 import com.pjt3.promise.response.AlarmDetailGetRes;
 import com.pjt3.promise.response.AlarmGetRes;
 import com.pjt3.promise.response.AlarmOCRRes;
@@ -236,13 +238,13 @@ public class AlarmServiceImpl implements AlarmService {
 	}
 
 	@Override
-	public List<AlarmGetRes> getProgressAlarmList(User user) {
+	public List<AlarmGetRes> getDateAlarmList(User user, String nowDate) {
 
-		LocalDate now = LocalDate.now();
+		LocalDate now = LocalDate.parse(nowDate);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		String today = now.format(formatter);
+		String findDate = now.format(formatter);
 
-		List<AlarmGetRes> alarmList = mediAlarmRepositorySupport.getProgressAlarmList(user, today);
+		List<AlarmGetRes> alarmList = mediAlarmRepositorySupport.getDateAlarmList(user, findDate);
 		return alarmList;
 
 	}
@@ -302,5 +304,28 @@ public class AlarmServiceImpl implements AlarmService {
 		}
 
 		return new ArrayList<AlarmOCRRes>(findMediList);
+	}
+
+	@Override
+	public List<AlarmCalendarGetRes> getMonthAlarmList(User user, String nowMonth) {
+		StringTokenizer st = new StringTokenizer(nowMonth, "-");
+		
+		Calendar c = Calendar.getInstance();
+
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		
+		c.set(Calendar.YEAR, Integer.parseInt(st.nextToken()));
+		c.set(Calendar.MONTH, Integer.parseInt(st.nextToken())-1);
+		c.set(Calendar.DAY_OF_MONTH, 1);
+		
+		String firstDay = formatter.format(c.getTime());
+		
+		c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+		
+		String lastDay = formatter.format(c.getTime());
+
+		List<AlarmCalendarGetRes> calendarAlarmList =  mediAlarmRepositorySupport.getMonthAlarmList(user, firstDay, lastDay);
+
+		return calendarAlarmList;
 	}
 }
