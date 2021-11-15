@@ -37,8 +37,9 @@ export const loginAction = (data) => ({
     data,
   });
 
-  export const getAlarmList = (data) => ({
-    type: types.GET_ALARM_LIST,
+  // axios의 getAlarmList와 이름이 겹쳐서 변경
+  export const saveAlarmList = (data) => ({
+    type: types.SAVE_ALARM_LIST,
     data,
   });
   

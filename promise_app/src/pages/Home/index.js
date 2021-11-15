@@ -3,9 +3,13 @@ import { View, ScrollView, Text, InputText, TouchableOpacity, Dimensions } from 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Carousel from '../../components/Carousel';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+// axios
 import {myinfo} from '../../utils/axios';
+
+// redux
 import { getMyInfoAction } from '../../modules/user/actions';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 
 const screenWidth = Math.round(Dimensions.get('window').width);

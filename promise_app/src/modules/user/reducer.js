@@ -108,7 +108,7 @@ const reducer = (state = initialState, action) => {
           ...state,
           medicineList: action.data,
         };
-      case types.GET_ALARM_LIST:
+      case types.SAVE_ALARM_LIST:
         return {
           ...state,
           alarmList: action.data,

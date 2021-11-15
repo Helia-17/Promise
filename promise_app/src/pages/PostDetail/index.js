@@ -42,6 +42,7 @@ const PostDetailPage = ({navigation, route}) => {
     getCommunityAPI.detail(postId).then(res => {
       setPost(res)
       setCommentList(res.commuCommentDetailList)
+      console.log(res)
     })
   }, [])
 
