@@ -18,7 +18,6 @@ const Info = ({ route }) => {
         getMediDetail();
     }, []);
     
-    console.log(mediDetail.mediIngredient);
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
             <ScrollView>

@@ -26,7 +26,6 @@ const Pharmacy = () => {
                 return await Geolocation.requestAuthorization('always');
             }
         }catch(e){
-            console.log(e);
         }
     }
 
@@ -48,12 +47,7 @@ const Pharmacy = () => {
             minutes = now.getMinutes().toString();
         }
         
-        // var curTime = '0400';
         var curTime = hours + minutes;
-        
-        console.log("현재 : ", now);
-        console.log("현재 week : ", week);
-        console.log("현재 curTime : ", curTime);
         
         const res = await getPharmacyAPI(data.lat, data.lon, week, curTime);
         if (res === 400) {
@@ -66,7 +60,6 @@ const Pharmacy = () => {
     useFocusEffect(
         useCallback(()=>{
             requestPermission().then(result=>{
-                console.log({result});
                 if (result === 'granted'){
                     Geolocation.getCurrentPosition(
                         (posistion)=>{
@@ -76,7 +69,6 @@ const Pharmacy = () => {
                             getPharmacyList({ lat:posistion.coords.latitude, lon:posistion.coords.longitude });
                         },
                         (error)=>{
-                            console.log(error.code, error.message);
                         },
                         {
                             enableHighAccuracy: true,

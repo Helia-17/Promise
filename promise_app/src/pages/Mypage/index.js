@@ -34,7 +34,9 @@ const Mypage = ({navigation}) => {
         setUserNickname(result.userNickname);
         setPetName(result.petName);
         setPetLevel(result.petLevel);
-        setUserProfile(result.userProfileUrl);
+        if(result.userProfileUrl){
+            setUserProfile(result.userProfileUrl+ '?' + new Date());
+        }
     }
 
     useFocusEffect(
@@ -63,10 +65,16 @@ const Mypage = ({navigation}) => {
         if(result === 200){
             Alert.alert(
                 '회원 탈퇴',
-                '성공적으로 탈퇴되셨습니다.'
+                '성공적으로 탈퇴되셨습니다.',
+                [{
+                    text:'확인',
+                    onPress: ()=>{
+                        AsyncStorage.removeItem('token');
+                        navigation.replace('LoginScreen');
+                    }
+                }]
             );
-            AsyncStorage.removeItem('token');
-            navigation.replace('LoginScreen');
+            
         }
     }
     return (
@@ -81,10 +89,10 @@ const Mypage = ({navigation}) => {
                         <Text style={{fontWeight: 'bold', fontSize:15}}>Lv{petLevel}. {petName}</Text>
                         <View style={{flexDirection: "row", width:'50%', alignItems: 'center', justifyContent: 'space-between'}}>
                             <TouchableOpacity onPress={()=>logout()}>
-                                <Text>로그아웃</Text>
+                                <Text style={{color:'#5A88B1', fontWeight:'bold'}}>로그아웃</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={()=>withdrawCheck()}>
-                                <Text>회원탈퇴</Text>
+                                <Text style={{color:'#999999', fontWeight:'bold'}}>회원탈퇴</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

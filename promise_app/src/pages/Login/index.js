@@ -70,7 +70,6 @@ const Login = (props) => {
       }
       
     }catch(e){
-      console.log(e);
     }
   };
 
