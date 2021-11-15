@@ -6,7 +6,6 @@ import { changePostDetailAction } from '../../modules/community/actions';
 
 const InputCommentText = (props) => {
     const [text, onChangeText] = useState('');
-    // const [created, setCreated] = useState(false)
 
     const handleText = (text)=>{
         onChangeText(text);
@@ -22,20 +21,13 @@ const InputCommentText = (props) => {
           })
     }
 
-    // const handleCreate = async () => {
-    //     createComment()
-    //     await props.refreshCommentList({ created: created })
-    // }
-
     return(
-        // <InputScrollView>
         <View style={styles.commentContainer}>
             <TextInput onChangeText={handleText} maxLength={40} placeholder={props.name} value={text} style={styles.commentInput}/>
             <TouchableOpacity style={styles.commentInsert} onPress={createComment}>
                 <Text style={{color:'white'}}>등록</Text>
             </TouchableOpacity>
         </View >
-        // </InputScrollView>
     );
 };
 

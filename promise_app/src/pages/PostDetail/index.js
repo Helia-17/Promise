@@ -73,12 +73,6 @@ const PostDetailPage = ({navigation, route}) => {
     })
   }
 
-  // const refreshCommentList = ({created}) => {
-  //   if (created === true) {
-  //     setCommentDeleted(true)
-  //   }
-  // }
-
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       {Platform.OS === 'android' ? (

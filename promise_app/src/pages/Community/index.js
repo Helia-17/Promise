@@ -17,25 +17,20 @@ const CommunityPage = ({navigation, route}) => {
     const { communityList, communityPostCreated } = useSelector((state) => state.community);
     const [ created, setCreated ] = useState(false)
 
-    // const [ list, setList ] = useState({})
-
     const getCommunity = () => {
         return getCommunityAPI.list(1).then(res => {
-            // setList(res)
             dispatch(getCommunityAction(res))
         })
     }
     
     useEffect(()=>{
         if (route.params) {
-            // console.log(route.params.created)
             if (route.params.created) {
                 setCreated(true)
             }
         } else {
             setCreated(false)
         }
-        // console.log('created', created)
         getCommunity()
     }, [])
 

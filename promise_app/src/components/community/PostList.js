@@ -10,7 +10,6 @@ export default function PostList() {
   const communityList = useSelector((state) => state.community.communityList);
 
   const navigation = useNavigation(); 
-  // console.log(communityList)
   return (
     <FlatList
       data={communityList}

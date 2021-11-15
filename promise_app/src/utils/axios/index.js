@@ -297,7 +297,6 @@ export const getCommunityAPI = {
         }
     })
     .then((response) => {
-        // console.log(response.data)
         return response.data;
     })
     .catch((error) => {
@@ -314,7 +313,6 @@ export const getCommunityAPI = {
         }
     })
     .then((response) => {
-        // console.log(response.data)
         return response.data;
     })
     .catch((error) => {
@@ -335,7 +333,6 @@ export const getCommunityAPI = {
       }
     )
     .then((response) => {
-        // console.log(response.data)
         return response.data;
     })
     .catch((error) => {
@@ -358,7 +355,6 @@ export const getCommunityAPI = {
       }
     )
     .then((response) => {
-        // console.log(response.data)
         return response.data;
     })
     .catch((error) => {
@@ -375,7 +371,6 @@ export const getCommunityAPI = {
         }
     })
     .then((response) => {
-        // console.log(response.data)
         return response.data;
     })
     .catch((error) => {
