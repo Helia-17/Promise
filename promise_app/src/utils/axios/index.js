@@ -411,7 +411,6 @@ export const getCommunityAPI = {
   },
 }
 
-<<<<<<< HEAD
 export const getMediListAPI = async searchKeyword => {
   return await request
     .get('/medicines/search', {
@@ -444,11 +443,3 @@ export const getMediDetailAPI = async mediSerialNum => {
       console.log("error.response: ", error.response);
     })
 }
-=======
-
-
-
-
-
-
->>>>>>> dev
