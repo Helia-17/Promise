@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useCallback} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
 import { View, Text, StyleSheet, processColor } from 'react-native';
 import {LineChart, PieChart} from 'react-native-charts-wrapper';
 import {getMainAlarm, getVisual} from '../../utils/axios'
@@ -37,13 +38,15 @@ const ChartPage = ({navigation}) => {
     setVisualData(tagLists);
   }
 
-  useEffect(()=>{
-    gettingAlarmList();
-    gettingVisual();
-    return () => {
-      setVisualData([])
-    }
-  }, [])
+  useFocusEffect(
+    useCallback(()=>{
+      gettingAlarmList();
+      gettingVisual();
+      return () => {
+        setVisualData([])
+      }
+    }, [])
+  );
 
     return (
       <View style={{flex: 1, height: '100%', paddingHorizontal: 20, paddingTop: 30}}>
