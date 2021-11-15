@@ -4,22 +4,26 @@ import InfoText from '../../components/atoms/InfoText';
 import InfoWarinings from '../../components/InfoWarinings';
 import PillInfo from '../../components/PillInfo';
 import { getMediDetailAPI } from '../../utils/axios';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const Info = ({ route }) => {
     
     const [mediDetail, setMediDetail] = useState([]);
-    
+    const [isVisible, setIsvisible] = useState();
     const getMediDetail = async () => {
         const res = await getMediDetailAPI(route.params.serialNum);
         setMediDetail(res);
     }
 
     useEffect(() => {
+        setIsvisible(true);
         getMediDetail();
+        setIsvisible(false);
     }, []);
 
     return (
         <View style={{ flex: 1, backgroundColor: '#F9F9F9' }}>
+            <Spinner visible={isVisible} />
             <View style={style.pillInfoCard}>
                 <PillInfo
                     name={mediDetail.mediName}

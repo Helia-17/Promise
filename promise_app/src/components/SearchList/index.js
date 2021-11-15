@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import AgeWarningIcon from '../frames/AgeWarningIcon';
 import ElderlyWarningIcon from '../../components/frames/ElderlyWarningIcon';
@@ -10,16 +10,29 @@ const SearchList = (props) => {
     const mediElderlyCare = props.elderCare;
     const mediPregnancyCare = props.pregnancyCare;
     const mediAgeCare = props.ageCare;
+    const [mediName, setMediName] = useState('');
+
+    const replaceMediName = () => {
+        if (props['name'].includes('(')) {
+            setMediName(props['name'].replace(/\(/g, '\n('));
+        }else{
+            setMediName(props['name']);
+        }
+    }
+
+    useEffect(() => {
+        replaceMediName();
+    },[props['name']])
 
     return (
         <View>
             <TouchableOpacity style={style.searchListContainer}
             onPress={() =>props.navigation.navigate('Info', {serialNum: `${mediSerialNum}`,name:`${props.name}`, company:`${props.company}`})}>
-                <View>
-                    <Text style={{ fontSize:20, fontWeight:'bold', color:'black' }}>{props['name']}</Text>
+                <View style={{width:'78%'}}>
+                    <Text style={{ fontSize:20, fontWeight:'bold', color:'black' }}>{mediName}</Text>
                     <Text style={{ fontSize:12, color:'#4F4F4F' }}>{props['company']}</Text>
                 </View>
-                <View style={{ flexDirection: "row", width: '20%', justifyContent: 'space-between' }}>
+                <View style={{ flexDirection: "row", width: '20%', justifyContent: 'center' }}>
                     {mediAgeCare == 1 ? (
                         <AgeWarningIcon/>
                     ) : (null)}

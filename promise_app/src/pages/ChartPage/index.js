@@ -1,27 +1,21 @@
 import React, {useState, useEffect} from 'react';
-import { View, ScrollView, Text, TouchableOpacity, StyleSheet, AppRegistry, processColor } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import SearchBar from '../../components/community/SearchBar';
-import PostList from '../../components/community/PostList';
+import { View, Text, StyleSheet, processColor } from 'react-native';
 import {LineChart, PieChart} from 'react-native-charts-wrapper';
-
-// axios
 import {getMainAlarm, getVisual} from '../../utils/axios'
-
-// redux
 import { getMainAlarmList } from '../../modules/user/actions';
 import { useDispatch } from 'react-redux';
+import Spinner from 'react-native-loading-spinner-overlay';
 import Moment from 'moment';
 
 const ChartPage = ({navigation}) => {
 
   const dispatch = useDispatch();
-    
+  const [isVisible, setIsvisible] = useState();
   const [alarmList, setAlarmList] = useState('');
   const [visualData, setVisualData] = useState([]);
 
   const gettingAlarmList = async()=>{
-
+    setIsvisible(true);
     const result = await getMainAlarm()
     setAlarmList(result);
     dispatch(getMainAlarmList(result))
@@ -31,7 +25,7 @@ const ChartPage = ({navigation}) => {
 
     let res = await getVisual()
     if (res.length > 7) {
-      res = res.slice(0,7)
+      res = res.slice(0,7);
     }
     const tagLists = []
     res.map(item => {
@@ -39,20 +33,20 @@ const ChartPage = ({navigation}) => {
         value: item.tagValue,
         label: item.tagName,
       }
-      tagLists.push(tag)
+      tagLists.push(tag);
     })
-    setVisualData(tagLists)
-     // dispatch(getMainAlarmList(result))
+    setVisualData(tagLists);
+    setIsvisible(false);
   }
 
   useEffect(()=>{
-    gettingAlarmList()
-    gettingVisual()
+    gettingAlarmList();
+    gettingVisual();
   }, [])
 
     return (
       <View style={{flex: 1, height: '100%', paddingHorizontal: 20, paddingTop: 30}}>
-
+        <Spinner visible={isVisible} />
         <Text style={styles.titleText}>건강한 나를 위한 '약속'</Text>
         <Text style={styles.contentText}>오늘의 약속</Text>
         <View style={styles.todayAlarm}>
@@ -60,7 +54,6 @@ const ChartPage = ({navigation}) => {
         ? alarmList.map((item) => {
 
           const temp = [item.alarmTime1, item.alarmTime2, item.alarmTime3]
-          // 유효한 시간만 담기
           const alarmTimeList = []
           temp.map(time => {
             if (time != null) {
