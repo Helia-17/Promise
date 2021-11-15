@@ -36,10 +36,9 @@ export default function Comments(props) {
       <ScrollView>
         {commentList.map(function(item, i){
             return (
-              <TouchableHighlight key={i} onPress={()=>navigation.navigate('게시물')} underlayColor="white">
+              <TouchableHighlight key={i} underlayColor="white">
                 <View style={styles.container} >
                     <View>
-                        <Text style={styles.itemNameText}>{item.commentId}</Text>
                         <Text style={styles.itemNameText}>{item.userNickname}</Text>
                         <Text style={styles.itemTitleText}>{item.commentContents}</Text>
                     </View>

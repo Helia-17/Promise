@@ -38,7 +38,6 @@ const PostDetailPage = ({navigation, route}) => {
     setUserNickname(stateUserNickname)
 
     getCommunityAPI.detail(postId).then(res => {
-      console.log(res,'여기야')
       setPost(res)
       setCommentList(res.commuCommentDetailList)
     })
@@ -93,7 +92,7 @@ const PostDetailPage = ({navigation, route}) => {
               }
             </View>
             {commentList.length != 0
-                ? <CommentList commentList={commentList}/>
+                ? <View style={{backgroundColor:"#F4F4F4", height:230}}><CommentList commentList={commentList}/></View>
                 : null
             }
           </ScrollView>
@@ -101,7 +100,7 @@ const PostDetailPage = ({navigation, route}) => {
                 ? null
                 : (
                   <View style={styles.noComments} >
-                    <Text>댓글을 작성해보세요</Text>
+                    <Text>가장 먼저 댓글을 작성해보세요</Text>
                   </View>
                 ) 
           }
@@ -134,7 +133,7 @@ const PostDetailPage = ({navigation, route}) => {
                 ? <CommentList commentList={commentList}/>
                 : (
                   <View style={styles.noComments} >
-                    <Text>댓글을 작성해보세요</Text>
+                    <Text>가장 먼저 댓글을 작성해보세요</Text>
                   </View>
                 ) 
             }
@@ -148,6 +147,7 @@ const PostDetailPage = ({navigation, route}) => {
 
 const styles = StyleSheet.create({
   container: {
+    minHeight: 300,
     paddingVertical: 12,
     paddingHorizontal: 14,
     shadowColor: '#f1f2f3',
