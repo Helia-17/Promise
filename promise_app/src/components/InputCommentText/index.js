@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import { View, Text,  TextInput, TouchableOpacity, KeyboardAvoidingView, StyleSheet, ScrollView } from 'react-native';
+import { View, Text,  TextInput, TouchableOpacity, KeyboardAvoidingView, StyleSheet, ScrollView, Keyboard  } from 'react-native';
 import InputScrollView from 'react-native-input-scroll-view';
+import { getCommunityAPI } from '../../utils/axios';
 
 const InputCommentText = (props) => {
     const [text, onChangeText] = useState('');
@@ -8,11 +9,19 @@ const InputCommentText = (props) => {
         onChangeText(text);
         props.result(text);
     }
+
+    const createComment = () => {
+        getCommunityAPI.commentCreate(props.postId, text).then(res => {
+            onChangeText('')
+            Keyboard.dismiss()
+          })
+    }
+
     return(
         // <InputScrollView>
         <View style={styles.commentContainer}>
             <TextInput onChangeText={handleText} maxLength={40} placeholder={props.name} value={text} style={styles.commentInput}/>
-            <TouchableOpacity style={styles.commentInsert}>
+            <TouchableOpacity style={styles.commentInsert} onPress={createComment}>
                 <Text style={{color:'white'}}>등록</Text>
             </TouchableOpacity>
         </View >

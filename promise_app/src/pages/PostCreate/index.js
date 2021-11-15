@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { View, ScrollView, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
 
+import { getCommunityAPI } from '../../utils/axios';
+
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; 
 import InputText from '../../components/InputText';
 import InputLongText from '../../components/InputLongText';
@@ -11,8 +13,10 @@ const PostCreatePage = ({navigation}) => {
     const [content, onChangeContent] = useState('');
 
     const sendPost = () => {
-        alert('작성로직')
-        navigation.navigate('community');
+        getCommunityAPI.create(title, content).then(res => {
+            // console.log(res)
+            navigation.navigate('community', {created: true});
+          })
     }
     
     return (
