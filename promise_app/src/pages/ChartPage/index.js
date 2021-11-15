@@ -6,10 +6,10 @@ import PostList from '../../components/community/PostList';
 import {LineChart, PieChart} from 'react-native-charts-wrapper';
 
 // axios
-import {getAlarmlist} from '../../utils/axios'
+import {getMainAlarm} from '../../utils/axios'
 
 // redux
-import { saveAlarmList } from '../../modules/user/actions';
+import { getMainAlarmList } from '../../modules/user/actions';
 import { useDispatch } from 'react-redux';
 import Moment from 'moment';
 
@@ -17,14 +17,16 @@ const ChartPage = ({navigation}) => {
 
   const dispatch = useDispatch();
     
-  const [alarmList, setAlarmList] = useState([]);
+  const [alarmList, setAlarmList] = useState('');
+  // const [alarmTimeList, setAlarmTimeList] = useState('')
 
   const gettingList = async()=>{
-    let day = Moment().format('YYYY-MM-DD');
-    const result = await getAlarmlist(day);
+
+    // let day = Moment().format('YYYY-MM-DD');
+
+    const result = await getMainAlarm()
     setAlarmList(result);
-    // console.log(result)
-    dispatch(saveAlarmList(result))
+    dispatch(getMainAlarmList(result))
   }
 
   useEffect(()=>{
@@ -36,11 +38,30 @@ const ChartPage = ({navigation}) => {
       <Text style={styles.titleText}>건강한 나를 위한 '약속'</Text>
       <Text style={styles.contentText}>오늘의 약속</Text>
       <View style={styles.todayAlarm}>
-        {alarmList.map((item, i) => (
-          <>
-            <Text key={i}>{item.alarmTitle}</Text>
-          </>
-        ))}
+        {alarmList.length != 0
+        ? alarmList.map((item) => {
+
+          const temp = [item.alarmTime1, item.alarmTime2, item.alarmTime3]
+          // 유효한 시간만 담기
+          const alarmTimeList = []
+          temp.map(time => {
+            if (time != null) {
+              const alarmTime = Moment(time, "HHmm").format("HH:mm")
+              alarmTimeList.push(alarmTime)
+            }
+          })
+          const alarmTimes = alarmTimeList.join(', ')
+          const alarmCnt = alarmTimeList.length
+
+          return(
+            <View key={item.alarmId}>
+              <Text>{item.alarmTitle}</Text>
+              <Text>{alarmCnt}회</Text> 
+              <Text>({alarmTimes})</Text>
+            </View>
+          )
+        })
+        : <Text>로딩중입니다 ..</Text>}
       </View>
 
 
@@ -118,6 +139,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   todayAlarm: {
+    flexDirection: 'row',
     height: 100,
     paddingVertical: 12,
     paddingHorizontal: 14,

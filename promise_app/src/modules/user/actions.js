@@ -32,6 +32,11 @@ export const loginAction = (data) => ({
     data,
   });
   
+  export const getMainAlarmList = (data) => ({
+    type: types.GET_MAIN_ALARM_LIST,
+    data,
+  });
+
   export const getMedicineList = (data) => ({
     type: types.GET_MEDICINE_LIST,
     data,
