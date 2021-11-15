@@ -4,6 +4,7 @@ import { View } from 'react-native';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import RoundBtn from '../../components/atoms/RoundBtn';
 import {getCalendar} from '../../utils/axios';
+import Spinner from 'react-native-loading-spinner-overlay';
 import Moment from 'moment';
 
 const CalendarPage = ({navigation}) => {
@@ -11,6 +12,7 @@ const CalendarPage = ({navigation}) => {
     const [resultList, setResultList] = useState([]);
     const nowDate = Moment().format('YYYY-MM-DD');
     const [markList, setMarkList] = useState({});
+    const [isVisible, setIsvisible] = useState();
 
     LocaleConfig.locales['ko']={
         monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
@@ -25,6 +27,7 @@ const CalendarPage = ({navigation}) => {
     const futureColor = '#C4C4C4';
 
     const getList = async(nowMonth)=>{
+        setIsvisible(true);
         let result = [];
         if(nowMonth.dateString){
             result = await getCalendar(Moment(nowMonth.dateString).format('YYYY-MM'));
@@ -35,6 +38,7 @@ const CalendarPage = ({navigation}) => {
             setResultList(result);
         }
         getMark(result, nowMonth.dateString);
+        setIsvisible(false);
         
     };
 
@@ -73,6 +77,7 @@ const CalendarPage = ({navigation}) => {
 
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9', justifyContent:'center' }}>
+            <Spinner visible={isVisible} />
             <Calendar
                 style={{borderRadius:5, width:330}}
                 theme={{todayTextColor:'#83BDFF', arrowColor:'black'}}
