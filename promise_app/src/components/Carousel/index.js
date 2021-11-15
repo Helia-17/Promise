@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {FlatList, View, Text} from 'react-native';
+import {FlatList, View, Text, ImageBackground} from 'react-native';
+// import { blueGrey100 } from 'react-native-paper/lib/typescript/styles/colors';
 import styled from 'styled-components/native';
 import ChartPage from '../../pages/ChartPage';
 import PetPage from '../../pages/Pet';
@@ -19,7 +20,7 @@ const Indicator = styled.View`
 `;
 
 const IndicatorWrapper = styled.View`
-  position: absolute;
+  // position: absolute;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -33,21 +34,26 @@ export default function Carousel({pages, pageWidth, gap, offset}) {
     return (
     <>
       <View style={{ width: pageWidth, marginHorizontal: gap / 2}}>
-        <ChartPage />
-        {/* <IndicatorWrapper style={{ height: '10%'}}>
+        <ChartPage style={{ height: '90%'}}/>
+        <IndicatorWrapper style={{ height: '10%'}}>
           {Array.from({length: 2}, (_, i) => i).map((i) => (
             <Indicator key={`indicator_${i}`} focused={i === page} />
           ))}
-        </IndicatorWrapper> */}
+        </IndicatorWrapper>
       </View>
-      <View style={{backgroundColor:'#FDECB0', width: pageWidth, marginHorizontal: gap / 2}}>
-        <PetPage style={{ height: '90%'}} />
-        {/* <IndicatorWrapper style={{ height: '10%'}}>
+      {/* 여기 백그라운드 컬러 지워버림 */}
+      <ImageBackground 
+      source={require("./pet-bg.png")}
+      imageStyle={{ opacity: 0.7 }}>
+      <View style={{width: pageWidth, marginHorizontal: gap / 2}}>
+        <PetPage style={{ height: '90%'}}/>
+        <IndicatorWrapper style={{ height: '10%'}}>
           {Array.from({length: 2}, (_, i) => i).map((i) => (
             <Indicator key={`indicator_${i}`} focused={i === page} />
           ))}
-        </IndicatorWrapper> */}
+        </IndicatorWrapper>
       </View>
+      </ImageBackground>
     </>
     );
   }
@@ -61,6 +67,7 @@ export default function Carousel({pages, pageWidth, gap, offset}) {
 
   return (
     <Container>
+
       <FlatList
         style={{ height: '90%'}}
         automaticallyAdjustContentInsets={false}
@@ -78,13 +85,14 @@ export default function Carousel({pages, pageWidth, gap, offset}) {
         snapToAlignment="start"
         showsHorizontalScrollIndicator={false}
       />
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', height: '10%'}}>
+      {/* <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', height: '10%'}}>
         <IndicatorWrapper>
             {Array.from({length: 2}, (_, i) => i).map((i) => (
               <Indicator key={`indicator_${i}`} focused={i === page} />
             ))}
         </IndicatorWrapper>
-      </View>
+      </View> */}
+
     </Container>
   );
 }

@@ -25,11 +25,11 @@ const ChartPage = ({navigation}) => {
             entryLabelColor={processColor('black')} // tag name text color
             entryLabelTextSize={15} // tag name text size
             legend={{enabled:false}}  // remove description
-            holeRadius={45}     // inner circle size
+            holeRadius={35}     // inner circle size
             holeColor={processColor('#white')} // inner circle color
-            transparentCircleRadius={43}  // transparent inner circle size
+            transparentCircleRadius={40}  // transparent inner circle size
             transparentCircleColor={processColor('#white')}  // transparent inner circle color
-            styledCenterText={{text:'TOP 7', color: processColor('black'), fontFamily: 'HelveticaNeue-Medium', size: 25}}
+            styledCenterText={{text:'TOP 7', color: processColor('black'), size: 25}} //fontFamily: 'HelveticaNeue-Medium',
             data={{dataSets: [
               {
                 values: [
@@ -64,7 +64,7 @@ const ChartPage = ({navigation}) => {
                   // xValuePosition: "INSIDE_SLICE",
                   // yValuePosition: "OUTSIDE_SLICE",
     
-                  valueFormatter: "#.#'%'",
+                  valueFormatter: "#'%'",
                   valueLineColor: processColor('black'),
                   valueLinePart1Length: 0.5,
                 },
@@ -83,9 +83,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
     justifyContent: 'center',
-    backgroundColor: 'white',
+
+    // backgroundColor: 'white',
+
     maxHeight: 400,
-    elevation: 2,
+
+    // elevation: 2,
+
   },
   chart: {
     flex: 1
@@ -95,8 +99,8 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 14,
     marginVertical: 8,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 3,
+    color: '#333333',
+    // borderRadius: 3,
     // ---* ios shadow *---
     // shadowColor: 'rgba(183, 183, 183, 0.8)',
     // shadowOffset: {
@@ -105,18 +109,23 @@ const styles = StyleSheet.create({
     // },
     // shadowOpacity: 1,
     // shadowRadius: 18.95,
-    elevation: 2,
-    color: '#333333'
+    // elevation: 2,
+
+    backgroundColor:'#FFFFFF', 
+    borderRadius:3, 
+    borderColor:'#BDBDBD', 
+    borderWidth:0.3
   },
+
   titleText: {
     fontSize: 24,
     lineHeight: 24,
-    fontWeight: '500',
+    fontWeight: '800',
     paddingVertical: 8,
   },
   contentText: {
     fontSize: 18,
-    fontWeight: '500',
+    fontWeight: '600',
     paddingTop: 20,
   },
 });

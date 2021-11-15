@@ -11,11 +11,11 @@ const PetPage = ({navigation}) => {
     const [petLevel, setPetLevel] = useState(3)
 
     return (
-      <View style={{flex: 1, height: '100%', paddingHorizontal: 20, paddingTop: 30}}>
+      <View style={{height: '90%', paddingHorizontal: 20, paddingTop: 30}}>
 
-        <Text style={styles.titleText}>건강한 나를 위한 '약속'</Text>
+        {/* <Text style={styles.titleText}>건강한 나를 위한 '약속'</Text> */}
         <View style={styles.messageContainer}>
-            <View style={{ width: '48%'}}> 
+            <View style={{width: '48%'}}> 
                 <Text style={styles.messageText}>마농님의 넹넹이똥똥(은)는 약속과 함께 자라고 있어요!</Text>
             </View>
         </View>
@@ -36,18 +36,15 @@ const PetPage = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     marginVertical: 5,
     paddingHorizontal: 10,
     paddingVertical: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     maxHeight: 400,
-    elevation: 2,
-  },
-  chart: {
-    flex: 1
+    // elevation: 2,
   },
   titleText: {
     fontSize: 24,
@@ -65,11 +62,24 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     textAlign: 'center'
   },
+  petContainer: {
+    // flex: 1,
+    marginVertical: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    width: 200,
+    height: 200,
+    justifyContent: 'center',
+    alignItems: 'center'
+    // borderColor: 'black',
+    // borderWidth: 1
+  },
   petImage: {
-    width: 180,
-    height: 180,
-    borderColor: 'black',
-    borderWidth: 1
+
+    width: 200,
+    height: 200,
+    // borderColor: 'black',
+    // borderWidth: 1
   },
   petNameText: {
     fontSize: 18,
