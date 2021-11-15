@@ -20,13 +20,16 @@ const PillInfo = (props) => {
 
     return (
         <View style={style.pillInfoContainer}>
-            <View style={{alignItems: 'center', marginBottom: 10}}>
-                <View style={style.pillImage}>
-                    <Image
-                        source={{ uri: `${mediImgUrl}` }}
-                        style={{width: '100%', height: '100%', borderRadius:5}}
-                    />
-                </View>
+            <View style={{ alignItems: 'center', marginBottom: 10 }}>
+                {mediImgUrl != '' ? (
+                    <View style={style.pillImage}>
+                        <Image
+                            source={{ uri: `${mediImgUrl}` }}
+                            style={{width: '100%', height: '100%', borderRadius:5}}
+                        />
+                    </View>
+                ):(null)}
+                
             </View>
             <View style={style.pillInfoText}>
                 <Text style={style.pillInfoName}>{mediName}</Text>
