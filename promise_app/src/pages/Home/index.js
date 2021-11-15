@@ -1,4 +1,5 @@
-import React, {useState, useEffect } from 'react';
+import React, {useState, useCallback } from 'react';
+import {useFocusEffect} from '@react-navigation/native';
 import { View,Dimensions } from 'react-native';
 import Carousel from '../../components/Carousel';
 import {myinfo} from '../../utils/axios';
@@ -24,9 +25,14 @@ const HomePage = ({navigation}) => {
         })
     }
 
-    useEffect(()=>{
-        getMyInfo()
-    }, [])
+    useFocusEffect(
+        useCallback(()=>{
+            getMyInfo()
+            return () => {
+                setUserInfo({})
+            }
+        }, [])
+    );
 
     
 

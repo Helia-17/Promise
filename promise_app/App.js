@@ -7,17 +7,11 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import combineReducers from './src/modules/reducers'
 import MyApp from './src/navigations/MyAppNav';
-import {sharingList} from './src/utils/axios';
 
 const App = () => {
 
-  const mySharing = async ()=>{
-    await sharingList();
-  }
-
   useEffect(() => {
     SplashScreen.hide();
-    mySharing();
   }, []);
 
   return (
