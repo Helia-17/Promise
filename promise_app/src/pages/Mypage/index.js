@@ -35,6 +35,7 @@ const Mypage = ({navigation}) => {
         setPetName(result.petName);
         setPetLevel(result.petLevel);
         setUserProfile(result.userProfileUrl);
+        // console.log(result.userEmail.split('@')[0]+'_'+result.userEmail.split('@')[1].split('.')[0]+'_'+result.userEmail.split('@')[1].split('.')[1]+`_profile.png`);
     }
 
     useFocusEffect(
