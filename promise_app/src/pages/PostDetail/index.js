@@ -22,6 +22,7 @@ import CommentList from '../../components/community/CommentList';
 import InputCommentText from '../../components/InputCommentText';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
+import Moment from 'moment';
 
 // const { StatusBarManager } = NativeModules
 
@@ -29,39 +30,22 @@ const PostDetailPage = ({navigation, route}) => {
 
   const { stateUserNickname } = useSelector((state) => state.user.userInfo)
   const [ userNickname, setUserNickname ] = useState('')
+
   const postId = route.params.post.commuId
+  const subDate = route.params.post.commuDate.substr(0, 16)
+  const postDate = Moment(subDate).format("YYYY.MM.DD HH:mm")
   const [post, setPost] = useState(route.params.post)
+
   const [commentList, setCommentList] = useState('')
   const [comment, onChangeComment] = useState('');
 
   useEffect(()=>{
     setUserNickname(stateUserNickname)
-
     getCommunityAPI.detail(postId).then(res => {
       setPost(res)
       setCommentList(res.commuCommentDetailList)
     })
   }, [])
-
-  const item = {
-    username: 'manon',
-    title: '타이레놀 1개 vs 2개',
-    date: '2021.10.18 04:34',
-    content:
-      '타이레놀 먹을 때 다들 한번에 몇 개씩 먹나요?? 당연히 2개 아닌가요?',
-    comments: [
-      {
-        username: 'manon',
-        title: '타이레놀 1개 vs 2개',
-        date: '2021.10.18 04:34',
-      },
-      {
-        username: 'manon',
-        title: '타이레놀 1개 vs 2개',
-        date: '2021.10.18 04:34',
-      },
-    ],
-  };
 
   const postDelete = () => {
     getCommunityAPI.delete(postId).then(res => {
@@ -78,7 +62,7 @@ const PostDetailPage = ({navigation, route}) => {
               <View>
                 <Text style={styles.itemTitleText}>{post.commuTitle}</Text>
                 <Text style={styles.itemNameText}>{post.userNickname}</Text>
-                <Text style={styles.itemDateText}>{post.commuDate}</Text>
+                <Text style={styles.itemDateText}>{postDate}</Text>
                 <Text style={styles.itemContentText}>{post.commuContents}</Text>
               </View>
             </View>
@@ -92,7 +76,7 @@ const PostDetailPage = ({navigation, route}) => {
               }
             </View>
             {commentList.length != 0
-                ? <View style={{backgroundColor:"#F4F4F4", height:230}}><CommentList commentList={commentList}/></View>
+                ? <View style={{backgroundColor:"#F4F4F4", minHeight:230}}><CommentList commentList={commentList}/></View>
                 : null
             }
           </ScrollView>

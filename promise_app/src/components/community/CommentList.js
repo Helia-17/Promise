@@ -4,12 +4,14 @@ import { Divider } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import CommentBtn from '../atoms/CommentBtn';
 import { useSelector } from 'react-redux';
+import Moment from 'moment';
 
 export default function Comments(props) {
 
   const { userNickname } = useSelector((state) => state.user.userInfo)
     // console.log(props.commentList)
-    const commentList = props.commentList
+  const commentList = props.commentList
+  
 
   const navigation = useNavigation(); 
 
@@ -35,6 +37,10 @@ export default function Comments(props) {
       // />
       <ScrollView>
         {commentList.map(function(item, i){
+
+            const subDate = item.commentDate.substr(0, 16)
+            const postDate = Moment(subDate).format("YYYY.MM.DD HH:mm")
+
             return (
               <TouchableHighlight key={i} underlayColor="white">
                 <View style={styles.container} >
@@ -44,7 +50,7 @@ export default function Comments(props) {
                     </View>
                     <View style={styles.subcontainer}>
                         <Text style={styles.itemDateText}>
-                        {item.commentDate}
+                        {postDate}
                         </Text>
                         { userNickname === item.userNickname
                         ? <CommentBtn backgroundColor='#FF6464' value='삭제' />
