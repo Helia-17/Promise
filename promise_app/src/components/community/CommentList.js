@@ -8,12 +8,17 @@ import Moment from 'moment';
 
 export default function Comments(props) {
 
+  const navigation = useNavigation(); 
+  
   const { userNickname } = useSelector((state) => state.user.userInfo)
-    // console.log(props.commentList)
+  // console.log(props.commentList)
   const commentList = props.commentList
   
-
-  const navigation = useNavigation(); 
+  const postDelete = () => {
+    getCommunityAPI.commentDelete(commentId).then(res => {
+      console.log('글 삭제 성공')
+    })
+  }
 
   return (
       // <FlatList

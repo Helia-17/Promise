@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, FlatList, TouchableHighlight } from 'react-nativ
 import { Divider } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
+import Moment from 'moment';
 
 export default function PostList() {
 
@@ -13,8 +14,13 @@ export default function PostList() {
   return (
     <FlatList
       data={communityList}
-      renderItem={({item, i}) => (
-        <TouchableHighlight onPress={()=>navigation.navigate('communitydetail', {post: item})} underlayColor="white">
+      renderItem={({item, i}) => {
+
+        const subDate = item.commuDate.substr(0, 16)
+        const postDate = Moment(subDate).format("YYYY.MM.DD HH:mm")
+
+      return (
+        <TouchableHighlight onPress={()=>navigation.navigate('communitydetail', {post: item, postDate: postDate})} underlayColor="white">
         <View style={styles.container} key={item.commuId}>
             <View>
                 <Text style={styles.itemNameText}>{item.userNickname}</Text>
@@ -22,12 +28,12 @@ export default function PostList() {
             </View>
             <View>
                 <Text style={styles.itemDateText}>
-                {item.commuDate}
+                {postDate}
                 </Text>
             </View>
         </View>
         </TouchableHighlight>
-      )}
+      )}}
     />
   );
 }

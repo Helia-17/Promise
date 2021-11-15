@@ -22,7 +22,6 @@ import CommentList from '../../components/community/CommentList';
 import InputCommentText from '../../components/InputCommentText';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
-import Moment from 'moment';
 
 // const { StatusBarManager } = NativeModules
 
@@ -32,8 +31,7 @@ const PostDetailPage = ({navigation, route}) => {
   const [ userNickname, setUserNickname ] = useState('')
 
   const postId = route.params.post.commuId
-  const subDate = route.params.post.commuDate.substr(0, 16)
-  const postDate = Moment(subDate).format("YYYY.MM.DD HH:mm")
+  const postDate = route.params.postDate
   const [post, setPost] = useState(route.params.post)
 
   const [commentList, setCommentList] = useState('')
