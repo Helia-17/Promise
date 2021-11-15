@@ -54,7 +54,7 @@ const Login = (props) => {
     setType(0);
   };
 
-  const resultData = async() =>{
+  const resultData = async(petName) =>{
     try{
       setIsvisible(true);
       await userAPI.join(id, pw, nick, profile, petName, type);
@@ -128,7 +128,7 @@ const Login = (props) => {
         <NicknameModal usernick={(data)=>setNick(data)} now={(data)=>setNickModal(data)} next={(data)=>setPetModal(data)} exit={(data)=>setNickModal(data)}/>
       </Modal>
       <Modal animationType={'fade'} transparent={true} visible={petModal}>
-        <PetModal petname={(data)=>setPetName(data)} now={(data)=>setPetModal(data)} next={(data)=>resultData()} exit={(data)=>setPetModal(data)} />
+        <PetModal petname={(data)=>setPetName(data)} now={(data)=>setPetModal(data)} next={(data)=>resultData(data)} exit={(data)=>setPetModal(data)} />
       </Modal>
     </View>
   )
