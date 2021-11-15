@@ -141,7 +141,7 @@ const MyApp = ({navigation}) => {
           headerTitleAlign: 'center',
           initialRouteName:'mypageScreen'
         }}>
-          <Stack.Screen name='mypageScreen' component={Mypage} options={{ title: '마이페이지' }}/>
+          <Stack.Screen name='mypageScreen' component={Mypage} options={{ title: '내 정보' }}/>
           <Stack.Screen name='modifyInfo' component={ModifyInfo} options={{ title: '정보수정' }}/>
           <Stack.Screen name='mypill' component={MyPillScreen} options={{ title: '마이필' }}/>
         </Stack.Navigator>
