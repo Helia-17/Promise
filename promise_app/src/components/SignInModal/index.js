@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, TextInput, ScrollView} from 'react-native';
+import {View, Text, TouchableOpacity, TextInput, ScrollView, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {userAPI} from '../../utils/axios';
 
@@ -7,7 +7,6 @@ const SignInModal = (props) => {
     const [pwColor, setPwColor] = useState('#000000');
     const [idColor, setIdColor] = useState('#000000');
 
-    // 일반 회원가입
     const [id, setId] = useState('');
     const [pw, setPw] = useState('');
     const [checkPw, setCheckPw] = useState('');
@@ -36,16 +35,46 @@ const SignInModal = (props) => {
             props.now(false);
             props.next(true);
         }else if(id.length<2){
-            alert('이메일을 입력해주세요.');
+            Alert.alert(
+                '이메일을 입력해주세요.',
+                [{
+                    text:'확인',
+                    onPress: ()=>{}
+                }]
+            );
         }
         else if(idColor === '#000000'){
-            alert('이메일 중복확인을 해주세요.');
+            Alert.alert(
+                '이메일 중복확인을 해주세요.',
+                [{
+                    text:'확인',
+                    onPress: ()=>{}
+                }]
+            );
         }else if(idColor === '#FFABAB'){
-            alert('중복된 이메일입니다. 다시 확인해주세요.');
+            Alert.alert(
+                '중복된 이메일입니다. 다시 확인해주세요.',
+                [{
+                    text:'확인',
+                    onPress: ()=>{}
+                }]
+            );
         }else if(pw.length<1){
-            alert('비밀번호를 입력해주세요.');
+            Alert.alert(
+                '비밀번호를 입력해주세요.',
+                [{
+                    text:'확인',
+                    onPress: ()=>{}
+                }]
+            );
         }else{    
-            alert('비밀번호를 확인해주세요.');
+            Alert.alert(
+                '비밀번호를 확인해주세요.',
+                [{
+                    text:'확인',
+                    onPress: ()=>{}
+                }]
+            );
         }
     }
 

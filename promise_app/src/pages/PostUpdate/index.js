@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, ScrollView, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity, TextInput, StyleSheet, Alert } from 'react-native';
 
 import { getCommunityAPI } from '../../utils/axios';
 import { useDispatch } from 'react-redux';
@@ -24,7 +24,13 @@ const PostUpdatePage = ({navigation, route}) => {
         const postId = route.params.postId
         await getCommunityAPI.update(postId, title, content)
         .then(res => {
-            alert('게시물이 성공적으로 수정되었습니다.')
+            Alert.alert(
+                '게시물이 성공적으로 수정되었습니다.',
+                [{
+                    text:'확인',
+                    onPress: () =>{}
+                }]
+            )
             dispatch(resetCommunityListAction())
           }).then(()=>{
             getCommunityAPI.list(1).then(res => {

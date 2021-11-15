@@ -3,28 +3,18 @@ import {
   View,
   ScrollView,
   Text,
-  TouchableOpacity,
   StyleSheet,
-  TextInput,
   KeyboardAvoidingView,
-  NativeModules,
   Platform,
+  Alert
 } from 'react-native';
 
 import { getCommunityAPI } from '../../utils/axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { getCommunityAction, changePostDetailAction ,resetPostDetailAction, resetCommunityListAction } from '../../modules/community/actions';
-
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import RoundBtn from '../../components/atoms/RoundBtn';
+import { getCommunityAction, resetPostDetailAction, resetCommunityListAction } from '../../modules/community/actions';
 import SmallBtn from '../../components/atoms/SmallBtn';
-import SearchBar from '../../components/community/SearchBar';
-import PostList from '../../components/community/PostList';
 import CommentList from '../../components/community/CommentList';
 import InputCommentText from '../../components/InputCommentText';
-import { SafeAreaView } from 'react-native-safe-area-context';
-
-// const { StatusBarManager } = NativeModules
 
 const PostDetailPage = ({navigation, route}) => {
 
@@ -63,7 +53,13 @@ const PostDetailPage = ({navigation, route}) => {
 
   const postDelete = () => {
     getCommunityAPI.delete(postId).then(res => {
-      alert('게시물이 성공적으로 삭제되었습니다.')
+      Alert.alert(
+        '게시물이 성공적으로 삭제되었습니다.',
+        [{
+          text:'확인',
+          onPress: () => {}
+        }]
+      );
       dispatch(resetCommunityListAction())
     }).then(()=>{
       getCommunityAPI.list(1).then(res => {

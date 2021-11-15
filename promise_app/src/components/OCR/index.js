@@ -28,7 +28,6 @@ const OCR = (props) => {
             {cancleable:false}
         )
     }
-    // google ocr api 사용
     const callGoogleVIsionApi = async (base) => {
         setIsvisible(true);
         await fetch(API_URL + CAMERA_KEY, {
@@ -50,7 +49,14 @@ const OCR = (props) => {
                 text = text.replace(/\n/gi, " ")
                 callOCR(String(text));
             })
-            .catch((err) => alert('OCR 인식에 실패했습니다. 직접 입력해주세요!'));
+            .catch((err) => {
+                Alert.alert(
+                    'OCR 인식에 실패했습니다. 직접 입력해주세요!',
+                    [{
+                        text:'확인',
+                        onPress: ()=>{}
+                    }])
+                });
 
         setIsvisible(false);
     }

@@ -94,7 +94,7 @@ function S3Upload(props) {
                             })
                         },
                         function (err) {
-                            return alert("delete fail", err.message)
+                            
                         }
                     )
                 }

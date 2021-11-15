@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {View, Text, Image, Modal, Platform} from 'react-native';
+import {View, Text, Image, Modal, Platform, Alert
+} from 'react-native';
 import Logo from '../../assets/Promise_Logo.png';
 import GoogleLoginBtn from '../../components/GoogleLoginBtn';
 import AppleLoginBtn from '../../components/AppleLoginBtn';
@@ -37,11 +38,29 @@ const Login = (props) => {
       if (res === 404) {
         setNickModal(true);
       }else if(res===402){
-        alert('Google 계정으로 가입된 계정입니다. Google로 계속하기를 시도해주세요.');
+        Alert.alert(
+          'Google 계정으로 가입된 계정입니다. Google로 계속하기를 시도해주세요.',
+          [{
+            text:'확인',
+            onPress: ()=>{}
+          }]
+        );
       }else if(res===403){
-        alert('Apple 계정으로 가입된 계정입니다. Apple로 계속하기를 시도해주세요.');
+        Alert.alert(
+          'Apple 계정으로 가입된 계정입니다. Apple로 계속하기를 시도해주세요.',
+          [{
+            text:'확인',
+            onPress: ()=>{}
+          }]
+        );
       }else if(res===405){
-        alert('일반 계정으로 가입된 계정입니다. 일반 로그인을 시도해주세요.');
+        Alert.alert(
+          '일반 계정으로 가입된 계정입니다. 일반 로그인을 시도해주세요.',
+          [{
+            text:'확인',
+            onPress: ()=>{}
+          }]
+        );
       }else{
         props.navigation.replace('appscreen');
       }
@@ -81,13 +100,37 @@ const Login = (props) => {
     const res = await userAPI.login(data.id, data.pw, 0);
     setIsvisible(false);
     if(res===404){
-      alert('존재하지 않는 계정입니다.');
+      Alert.alert(
+        '존재하지 않는 계정입니다.',
+          [{
+            text:'확인',
+            onPress: ()=>{}
+          }]
+        );
     }else if(res===402){
-      alert('Google 계정으로 가입된 계정입니다. Google로 계속하기를 시도해주세요.');
+      Alert.alert(
+        'Google 계정으로 가입된 계정입니다. Google로 계속하기를 시도해주세요.',
+          [{
+            text:'확인',
+            onPress: ()=>{}
+          }]
+        );
     }else if(res===403){
-      alert('Apple 계정으로 가입된 계정입니다. Apple로 계속하기를 시도해주세요.');
+      Alert.alert(
+        'Apple 계정으로 가입된 계정입니다. Apple로 계속하기를 시도해주세요.',
+          [{
+            text:'확인',
+            onPress: ()=>{}
+          }]
+        );
     }else if(res===401){
-      alert('잘못된 비밀번호입니다.');
+      Alert.alert(
+        '잘못된 비밀번호입니다.',
+          [{
+            text:'확인',
+            onPress: ()=>{}
+          }]
+        );
     }else{
       props.navigation.replace('appscreen');
     }

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, TextInput, ScrollView} from 'react-native';
+import {View, Text, TouchableOpacity, TextInput, ScrollView, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 const LoginModal = (props) => {
@@ -11,10 +11,20 @@ const LoginModal = (props) => {
             props.user({id:id, pw:pw});
             props.next(false);
         }else if(!id){
-            alert('이메일을 입력해주세요.');
+            Alert.alert(
+                '이메일을 입력해주세요.',
+            [{
+                text:'확인',
+                onPress:()=>{}
+            }]);
         }
         else if(pw.length<1){
-            alert('비밀번호를 입력해주세요.');
+            Alert.alert(
+                '비밀번호를 입력해주세요.',
+            [{
+                text:'확인',
+                onPress:()=>{}
+            }]);
         }
     }
 

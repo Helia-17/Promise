@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { getCommunityAPI } from '../../utils/axios';
 import { useDispatch } from 'react-redux';
 import { getCommunityAction, resetCommunityListAction } from '../../modules/community/actions';
@@ -15,14 +15,20 @@ const PostCreatePage = ({navigation}) => {
 
     const postCreate = () => {
         getCommunityAPI.create(title, content).then(res => {
-          alert('게시물이 성공적으로 작성되었습니다.')
-          dispatch(resetCommunityListAction())
+            Alert.alert(
+              '게시물이 성공적으로 작성되었습니다.',
+              [{
+                  text:'확인',
+                  onPress: () =>{}
+              }]
+            );
+            dispatch(resetCommunityListAction())
         }).then(()=>{
-          getCommunityAPI.list(1).then(res => {
+        getCommunityAPI.list(1).then(res => {
             dispatch(getCommunityAction(res))
-          }).then(()=>{navigation.goBack()})
+        }).then(()=>{navigation.goBack()})
         })
-      }
+    }
     
     return (
         <View>
