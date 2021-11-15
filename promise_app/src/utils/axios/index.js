@@ -16,7 +16,10 @@ export const myinfo = async () => {
     }
   })
   .then(response => {
+<<<<<<< HEAD
     // console.log(response.data);
+=======
+>>>>>>> FE_AR
     return response.data;
   }).catch(err => {
     console.log(err.response);
@@ -46,7 +49,6 @@ export const shareUser = async searchKeyword => {
       },
     })
     .then(response => {
-      console.log(response);
       return response.data;
     });
 };
@@ -58,7 +60,6 @@ export const getPeriod = async (periodType) => {
       }
     })
     .then(response => {
-      console.log(response.data.alarmList);
       return response.data.alarmList;
     });
 };
@@ -100,7 +101,7 @@ export const getCalendar = async(nowMonth)=>{
 export const ocrList = async text => {
   return await request
     .post(
-      'alarms/ocr',
+      '/alarms/ocr',
       {
         text,
       },
@@ -118,9 +119,26 @@ export const ocrList = async text => {
     });
 };
 
+export const uploadProfile = async (userProfileUrl) => {
+  return await request.put('/users/profile',{
+        userProfileUrl,
+      },{
+        headers: {
+          Authorization: await AsyncStorage.getItem('token'),
+        },
+      },
+    )
+    .then(response => {
+      return response.data.statusCode;
+    })
+    .catch(e => {
+      console.log(e.response);
+    });
+};
+
 export const searchMedicine = async searchKeyword => {
   return await request
-    .get('medicines/alarm', {
+    .get('/medicines/alarm', {
       headers: {
         Authorization: await AsyncStorage.getItem('token'),
       },
@@ -136,6 +154,36 @@ export const searchMedicine = async searchKeyword => {
     });
 };
 
+export const modifyNick = async (userNickname)=>{
+  return await request.get(`/users/me/nickname/${userNickname}`,{
+    headers: {
+      Authorization: await AsyncStorage.getItem('token'),
+    }
+  }).then((response)=>{
+    return response.data;
+  }).catch((err)=>{
+    if(err.response.data.statusCode===409){
+      return err.response.data;
+    }
+  })
+}
+
+export const changeInfo = async(userNickname, petName)=>{
+  return await request.put('/users',{
+    userNickname, petName
+  },{
+    headers: {
+      Authorization: await AsyncStorage.getItem('token'),
+    },
+  })
+  .then(response => {
+    return response.data.statusCode;
+  })
+  .catch(e => {
+    console.log(e.response);
+  });
+}
+
 export const enrollAlarm = async (
   alarmTitle,
   alarmYN,
@@ -150,7 +198,7 @@ export const enrollAlarm = async (
 ) => {
   return await request
     .post(
-      'alarms',
+      '/alarms',
       {
         alarmTitle,
         alarmYN,
