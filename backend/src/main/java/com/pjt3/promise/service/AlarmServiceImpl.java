@@ -36,6 +36,7 @@ import com.pjt3.promise.request.TakeHistoryPostReq;
 import com.pjt3.promise.response.AlarmCalendarGetRes;
 import com.pjt3.promise.response.AlarmDetailGetRes;
 import com.pjt3.promise.response.AlarmGetRes;
+import com.pjt3.promise.response.AlarmMainGetRes;
 import com.pjt3.promise.response.AlarmOCRRes;
 
 @Service
@@ -327,5 +328,14 @@ public class AlarmServiceImpl implements AlarmService {
 		List<AlarmCalendarGetRes> calendarAlarmList =  mediAlarmRepositorySupport.getMonthAlarmList(user, firstDay, lastDay);
 
 		return calendarAlarmList;
+	}
+
+	@Override
+	public List<AlarmMainGetRes> getMainAlarmList(User user) {
+		LocalDate now = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String today = now.format(formatter);
+		List<AlarmMainGetRes> alarmList = mediAlarmRepositorySupport.getMainAlarmList(user, today);
+		return alarmList;
 	}
 }

@@ -1,26 +1,28 @@
 import React, {useState, useEffect} from 'react';
-import { View, ScrollView, Text, TouchableOpacity } from 'react-native';
-// axios, redux
+import { View } from 'react-native';
 import { getCommunityAPI } from '../../utils/axios';
 import { getCommunityAction } from '../../modules/community/actions';
-
 import { useSelector, useDispatch } from 'react-redux';
-// components
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RoundBtn from '../../components/atoms/RoundBtn'; 
 import SearchBar from '../../components/community/SearchBar';
 import PostList from '../../components/community/PostList';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const CommunityPage = ({navigation, route}) => {
 
     const dispatch = useDispatch();
     const { communityList, communityPostCreated } = useSelector((state) => state.community);
     const [ created, setCreated ] = useState(false)
+    const [isVisible, setIsvisible] = useState();
 
     const getCommunity = () => {
+        setIsvisible(true);
         return getCommunityAPI.list(1).then(res => {
             dispatch(getCommunityAction(res))
+            setIsvisible(false);
         })
+        
     }
     
     useEffect(()=>{
@@ -40,7 +42,7 @@ const CommunityPage = ({navigation, route}) => {
     
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
-            {/* search bar */}
+            <Spinner visible={isVisible} />
             <SearchBar/>
             <View style={{width:'100%', margin:10, marginBottom:55 }}>
                 <PostList/>

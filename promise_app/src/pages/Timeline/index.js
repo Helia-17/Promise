@@ -5,11 +5,13 @@ import MediInfo from '../../components/atoms/MediInfo';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { getPeriod } from '../../utils/axios';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const Timeline = () => {
     const [value, setValue] = useState('week');
     const [platform, setPlatform] = useState();
     const [alarmList, setAlarmList] = useState([]);
+    const [isVisible, setIsvisible] = useState();
 
     function findPlatform(){
         let result = [];
@@ -55,6 +57,7 @@ const Timeline = () => {
     }
 
     const gettingList = async(value) => {
+        setIsvisible(true);
         setValue(value);
         let type = 1;
         if (value === 'week'){
@@ -66,6 +69,7 @@ const Timeline = () => {
         }
         const result = await getPeriod(type);
         setAlarmList(result);
+        setIsvisible(false);
     }
 
     useFocusEffect(
@@ -93,6 +97,7 @@ const Timeline = () => {
 
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
+            <Spinner visible={isVisible} />
             <View style={styles.pickerLayout}>
                 {findPlatform()}
             </View>

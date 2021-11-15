@@ -5,6 +5,7 @@ import MapView, {  Marker } from "react-native-maps";
 import Geolocation from 'react-native-geolocation-service';
 import PhamacyInfo from '../../components/PhamacyInfo';
 import { getPharmacyAPI } from '../../utils/axios';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const Pharmacy = () => {
 
@@ -13,7 +14,7 @@ const Pharmacy = () => {
     const [latitude, setLatitude] = useState();
     const [longitude, setLongitude] = useState();
     const [isPharmList, setIsPharmList] = useState(true);
-    
+    const [isVisible, setIsvisible] = useState();
 
     async function requestPermission(){
         try{
@@ -30,6 +31,7 @@ const Pharmacy = () => {
     }
 
     const getPharmacyList = async (data) => {
+        setIsvisible(true);
         var now = new Date();
         var week = now.getDay();
         var hours = '';
@@ -55,6 +57,7 @@ const Pharmacy = () => {
         } else {
             setPharmacyList(res);
         }
+        setIsvisible(false);
     }
 
     useFocusEffect(
@@ -129,6 +132,7 @@ const Pharmacy = () => {
 
     return (
         <View style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
+            <Spinner visible={isVisible} />
             {region?(
                 <MapView style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, height: '70%' }}
                     showsUserLocation={true}
@@ -138,7 +142,7 @@ const Pharmacy = () => {
                 </MapView>
             ):null}
             <View style={{position: 'absolute',bottom:0, height:'30%', width:'100%', alignItems:'center'}}>
-                {isPharmList ? (
+                {isPharmList.length>0 ? (
                     <ScrollView style={{ width: '95%', margin: 5 }}>
                         {pharmList()}
                     </ScrollView>

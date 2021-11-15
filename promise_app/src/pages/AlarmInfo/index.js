@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import { View, ScrollView, Text, Modal, TouchableOpacity, TextInput} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import TimeSelect from '../../components/TimeSelect';
@@ -12,10 +12,9 @@ import OCRModal from '../../components/OCRModal';
 import Moment from 'moment';
 import PillModal from '../../components/PillModal';
 import Notifications from '../../utils/Notifications';
-import {enrollAlarm} from '../../utils/axios';
+import {enrollAlarm, getAlarmDetail} from '../../utils/axios';
 
 const AlarmInfo = (props) => {
-    console.log(props);
     const [title, onChangeTitle] = useState('');
     const [isOn, setIsOn] = useState(false);
     const [pillList, setPillList] = useState([]);
@@ -67,6 +66,27 @@ const AlarmInfo = (props) => {
         setPillList(pillList.filter(pill => pill.id !== id));
         setIsChange(true);
     };
+
+    async function gettingAlarm(){
+        await getAlarmDetail(props.route.params.data);
+    }
+
+    useLayoutEffect(()=>{
+        const result = gettingAlarm();
+        onChangeTitle(result.alarmTitle);
+        if(result.alarmYN===1){
+            setIsOn(true);
+        }else{
+            setIsOn(false);
+        }
+        setPillList(result.alarmMediList);
+        setTag(result.tagList);
+        setSelectTime1(result.alarmTime1);
+        setSelectTime2(result.alarmTime2);
+        setSelectTime3(result.alarmTime3);
+        setStartDate(result.alarmDayStart);
+        setEndDate(result.alarmDayEnd);
+    },[props.route.params.data]);
 
     useEffect(() => {
         setIsChange(false);
@@ -216,7 +236,7 @@ const AlarmInfo = (props) => {
           color="black"
           backgroundColor="white"
           size={25}
-          onPress={() => navigation.goBack()}
+          onPress={() => props.navigation.goBack()}
         />
       </View>
       <ScrollView

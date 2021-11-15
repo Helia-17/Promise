@@ -2,12 +2,14 @@ import React, {useState, useEffect} from 'react';
 import { View, Text, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {shareUser} from '../../utils/axios';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const FindUser = (props) => {
     
     const [search, onChangeSearch] = useState('');
     const [selectUser, setSelectUser] = useState([]);
     const [findList, setFindList] = useState([]);
+    const [isVisible, setIsvisible] = useState();
 
     const findUserList = () =>{
         let result = [];
@@ -34,9 +36,11 @@ const FindUser = (props) => {
     }
 
     const findUser = async (search)=>{
+        setIsvisible(true);
         setSelectUser('');
         const result = await shareUser(search);
         setFindList(result);
+        setIsvisible(false);
     }
 
     useEffect(()=>{
@@ -46,6 +50,7 @@ const FindUser = (props) => {
 
     return(
         <View style={{justifyContent: 'center', alignItems: 'center', flex:1, backgroundColor:'rgba(0,0,0,0.5)'}}>
+            <Spinner visible={isVisible} />
             <View style={{position: 'absolute', width: '80%', height: '50%', backgroundColor: 'white', borderRadius: 20, elevation:2}} >
                 <View style={{flexDirection: "row", margin:20, alignItems: 'center', justifyContent:'space-between'}}>
                     <Text style={{fontSize:20, color: 'black', fontWeight: 'bold', marginLeft:10}}>사용자 찾기</Text>

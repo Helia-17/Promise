@@ -4,15 +4,20 @@ import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'react-native';
 import { createStore } from 'redux';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-// redux를 위해 필요, 위의 SafeAreaProvider와 쓰임이 다름
 import { Provider } from 'react-redux';
 import combineReducers from './src/modules/reducers'
 import MyApp from './src/navigations/MyAppNav';
+import {sharingList} from './src/utils/axios';
 
 const App = () => {
 
+  const mySharing = async ()=>{
+    await sharingList();
+  }
+
   useEffect(() => {
     SplashScreen.hide();
+    mySharing();
   }, []);
 
   return (

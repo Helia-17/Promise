@@ -49,13 +49,10 @@ const Search = (props) => {
 
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
-            {/* search bar */}
             <SearchBar data={(data) => setMediList(data)} searchText={(searchText) => setSearchText(searchText)}/>
-            {/* description */}
             <View style={{ width: '100%', alignItems: 'flex-start', marginLeft: '10%' }}>
                     {searchTextConfirm()}
             </View>
-            {/* result */}
             {mediList.length > 0 ? (
                 <ScrollView  style={{ width:'100%', marginLeft:'10%', marginBottom:'5%', marginTop:'3%' }} >
                     { medicineList()}

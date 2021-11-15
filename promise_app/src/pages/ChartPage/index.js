@@ -1,27 +1,21 @@
 import React, {useState, useEffect} from 'react';
-import { View, ScrollView, Text, TouchableOpacity, StyleSheet, AppRegistry, processColor } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import SearchBar from '../../components/community/SearchBar';
-import PostList from '../../components/community/PostList';
+import { View, Text, StyleSheet, processColor } from 'react-native';
 import {LineChart, PieChart} from 'react-native-charts-wrapper';
-
-// axios
 import {getMainAlarm, getVisual} from '../../utils/axios'
-
-// redux
 import { getMainAlarmList } from '../../modules/user/actions';
 import { useDispatch } from 'react-redux';
+import Spinner from 'react-native-loading-spinner-overlay';
 import Moment from 'moment';
 
 const ChartPage = ({navigation}) => {
 
   const dispatch = useDispatch();
-    
+  const [isVisible, setIsvisible] = useState();
   const [alarmList, setAlarmList] = useState('');
   const [visualData, setVisualData] = useState([]);
 
   const gettingAlarmList = async()=>{
-
+    setIsvisible(true);
     const result = await getMainAlarm()
     setAlarmList(result);
     dispatch(getMainAlarmList(result))
@@ -31,7 +25,7 @@ const ChartPage = ({navigation}) => {
 
     let res = await getVisual()
     if (res.length > 7) {
-      res = res.slice(0,7)
+      res = res.slice(0,7);
     }
     const tagLists = []
     res.map(item => {
@@ -39,27 +33,27 @@ const ChartPage = ({navigation}) => {
         value: item.tagValue,
         label: item.tagName,
       }
-      tagLists.push(tag)
+      tagLists.push(tag);
     })
-    setVisualData(tagLists)
-     // dispatch(getMainAlarmList(result))
+    setVisualData(tagLists);
+    setIsvisible(false);
   }
 
   useEffect(()=>{
-    gettingAlarmList()
-    gettingVisual()
+    gettingAlarmList();
+    gettingVisual();
   }, [])
 
-  return (
-    <View style={{flex: 1, height: '100%', paddingHorizontal: 20, paddingTop: 30}}>
-      <Text style={styles.titleText}>건강한 나를 위한 '약속'</Text>
-      <Text style={styles.contentText}>오늘의 약속</Text>
-      <View style={styles.todayAlarm}>
+    return (
+      <View style={{flex: 1, height: '100%', paddingHorizontal: 20, paddingTop: 30}}>
+        <Spinner visible={isVisible} />
+        <Text style={styles.titleText}>건강한 나를 위한 '약속'</Text>
+        <Text style={styles.contentText}>오늘의 약속</Text>
+        <View style={styles.todayAlarm}>
         {alarmList.length != 0
         ? alarmList.map((item) => {
 
           const temp = [item.alarmTime1, item.alarmTime2, item.alarmTime3]
-          // 유효한 시간만 담기
           const alarmTimeList = []
           temp.map(time => {
             if (time != null) {
@@ -79,51 +73,52 @@ const ChartPage = ({navigation}) => {
           )
         })
         : <Text>등록하신 알람이 없습니다</Text>}
-      </View>
+        </View>
 
 
-      <Text style={styles.contentText}>약속 NOW</Text>
-      <View style={styles.container}>
-        <PieChart 
-          style={styles.chart}
-          chartDescription={{text: ''}}
-          entryLabelColor={processColor('black')} // tag name text color
-          entryLabelTextSize={15} // tag name text size
-          legend={{enabled:false}}  // remove description
-          holeRadius={45}     // inner circle size
-          holeColor={processColor('#white')} // inner circle color
-          transparentCircleRadius={43}  // transparent inner circle size
-          transparentCircleColor={processColor('#white')}  // transparent inner circle color
-          styledCenterText={{text:'TOP 7', color: processColor('black'), fontFamily: 'HelveticaNeue-Medium', size: 25}}
-          data={{dataSets: [
-            {
-              values: visualData,
-              label: '',
-              config: {
-                colors: [
-                  processColor('#BCD4E6'),
-                  processColor('#D6E2E9'),
-                  processColor('#F0EFEB'),
-                  processColor('#DBE7E4'),
-                  processColor('#FDE2E4'),
-                  processColor('#FFF1E6'),
-                  processColor('#EDDCD2')
-                ],
-                valueTextSize: 15,  // tag value text size
-                valueTextColor: processColor('black'),
-                sliceSpace: 5,  // 차트사이 간격
-                selectionShift: 0,  // 박스 안 공간 0이 최대
+        <Text style={styles.contentText}>약속 NOW</Text>
+        <View style={styles.container}>
+          <PieChart
+            style={styles.chart}
+            chartDescription={{text: ''}}
+            entryLabelColor={processColor('black')} // tag name text color
+            entryLabelTextSize={15} // tag name text size
+            legend={{enabled:false}}  // remove description
+            holeRadius={35}     // inner circle size
+            holeColor={processColor('#white')} // inner circle color
+            transparentCircleRadius={40}  // transparent inner circle size
+            transparentCircleColor={processColor('#white')}  // transparent inner circle color
+            styledCenterText={{text:'TOP 7', color: processColor('black'), size: 25}} //fontFamily: 'HelveticaNeue-Medium',
+            data={{dataSets: [
+              {
+                values: visualData,
+                label: '',
+                config: {
+                  colors: [
+                    processColor('#BCD4E6'),
+                    processColor('#D6E2E9'),
+                    processColor('#F0EFEB'),
+                    processColor('#DBE7E4'),
+                    processColor('#FDE2E4'),
+                    processColor('#FFF1E6'),
+                    processColor('#EDDCD2')
+                  ],
+                  valueTextSize: 15,  // tag value text size
+                  valueTextColor: processColor('black'),
+                  sliceSpace: 5,  // 차트사이 간격
+                  selectionShift: 0,  // 박스 안 공간 0이 최대
 
-                // 수치 밖으로 꺼내기
-                // xValuePosition: "INSIDE_SLICE",
-                // yValuePosition: "OUTSIDE_SLICE",
-  
-                valueFormatter: "#.#'%'",
-                valueLineColor: processColor('black'),
-                valueLinePart1Length: 0.5,
-              },
-            },
-          ],}}
+                  // 수치 밖으로 꺼내기
+                  // xValuePosition: "INSIDE_SLICE",
+                  // yValuePosition: "OUTSIDE_SLICE",
+    
+                  valueFormatter: "#'%'",
+                  valueLineColor: processColor('black'),
+                  valueLinePart1Length: 0.5,
+                },
+
+              }
+          ]}}
         />
       </View>
     </View>
@@ -137,9 +132,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
     justifyContent: 'center',
-    backgroundColor: 'white',
+
+    // backgroundColor: 'white',
+
     maxHeight: 400,
-    elevation: 2,
+
+    // elevation: 2,
+
   },
   chart: {
     flex: 1
@@ -150,8 +149,8 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 14,
     marginVertical: 8,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 3,
+    color: '#333333',
+    // borderRadius: 3,
     // ---* ios shadow *---
     // shadowColor: 'rgba(183, 183, 183, 0.8)',
     // shadowOffset: {
@@ -160,18 +159,23 @@ const styles = StyleSheet.create({
     // },
     // shadowOpacity: 1,
     // shadowRadius: 18.95,
-    elevation: 2,
-    color: '#333333'
+    // elevation: 2,
+
+    backgroundColor:'#FFFFFF', 
+    borderRadius:3, 
+    borderColor:'#BDBDBD', 
+    borderWidth:0.3
   },
+
   titleText: {
     fontSize: 24,
     lineHeight: 24,
-    fontWeight: '500',
+    fontWeight: '800',
     paddingVertical: 8,
   },
   contentText: {
     fontSize: 18,
-    fontWeight: '500',
+    fontWeight: '600',
     paddingTop: 20,
   },
 });
