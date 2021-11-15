@@ -1,11 +1,11 @@
 import React from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import InfoWarining from '../atoms/InfoWarning';
 
 const InfoWarinings = (props) => {
 
     return (
-        <View style={{width: '100%', flexDirection: "row", justifyContent:'flex-start', marginTop:20, marginBottom:10, alignItems:'center', marginLeft: 10}}>
+        <View style={style.warningContainer}>
             {props.ageCare == 1 ? (
                 <InfoWarining color='#F2A737' name='연령' />
             ) : (null)}
@@ -18,4 +18,15 @@ const InfoWarinings = (props) => {
         </View>
     );
 };
+
+const style = StyleSheet.create({
+    warningContainer: {
+        width: '100%',
+        flexDirection: "row",
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        marginBottom: 10,
+        marginLeft: 10
+    }
+})
 export default InfoWarinings;

@@ -9,6 +9,7 @@ import com.pjt3.promise.request.TakeHistoryPostReq;
 import com.pjt3.promise.response.AlarmCalendarGetRes;
 import com.pjt3.promise.response.AlarmDetailGetRes;
 import com.pjt3.promise.response.AlarmGetRes;
+import com.pjt3.promise.response.AlarmMainGetRes;
 import com.pjt3.promise.response.AlarmOCRRes;
 
 public interface AlarmService {
@@ -29,4 +30,6 @@ public interface AlarmService {
 	List<AlarmOCRRes> getOCRMediList(String text);
 
 	List<AlarmCalendarGetRes> getMonthAlarmList(User user, String nowMonth);
+
+	List<AlarmMainGetRes> getMainAlarmList(User user);
 }

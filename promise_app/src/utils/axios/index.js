@@ -52,6 +52,29 @@ export const shareUser = async searchKeyword => {
     });
 };
 
+export const getMainAlarm = async () => {
+  return await request.get(`/alarms/main`, {
+      headers: {
+        Authorization: await AsyncStorage.getItem('token'),
+      }
+    })
+    .then(response => {
+      return response.data.alarmList;
+    });
+};
+
+export const getVisual = async () => {
+  return await request.get(`/visual`, {
+      headers: {
+        Authorization: await AsyncStorage.getItem('token'),
+      }
+    })
+    .then(response => {
+      console.log(response.data.UsersTagList)
+      return response.data.UsersTagList;
+    });
+};
+
 export const getPeriod = async (periodType) => {
   return await request.get(`/alarms/${periodType}`, {
       headers: {
