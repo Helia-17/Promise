@@ -222,8 +222,9 @@ const MyApp = ({navigation}) => {
         headerShown : false,
         initialRouteName:isLogin?'appscreen':'LoginScreen'
         }}>
-          <Stack.Screen name="appscreen" component={MyAppNav} />
+          
           <Stack.Screen name="LoginScreen" component={Login} />
+          <Stack.Screen name="appscreen" component={MyAppNav} />
       </Stack.Navigator>
     )
 }

@@ -25,14 +25,14 @@ const HomePage = ({navigation}) => {
         })
     }
 
-    useFocusEffect(
-        useCallback(()=>{
-            getMyInfo()
-            return () => {
-                setUserInfo({})
-            }
-        }, [])
-    );
+    // useFocusEffect(
+    //     useCallback(()=>{
+    //         getMyInfo()
+    //         return () => {
+    //             setUserInfo({})
+    //         }
+    //     }, [])
+    // );
 
     
 
