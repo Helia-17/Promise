@@ -16,10 +16,9 @@ export const myinfo = async () => {
     }
   })
   .then(response => {
-    // console.log(response.data);
     return response.data;
   }).catch(err => {
-    console.log(err.response);
+    return err.response.data;
   });
 };
 
@@ -30,8 +29,9 @@ export const withdraw = async()=>{
     }
   })
   .then(response => {
-    console.log(response.data)
     return response.data.statusCode;
+  }).catch(err => {
+    return err.response.data;
   });
 }
 
@@ -46,8 +46,9 @@ export const shareUser = async searchKeyword => {
       },
     })
     .then(response => {
-      console.log(response);
       return response.data;
+    }).catch(err => {
+      return err.response.data;
     });
 };
 
@@ -69,8 +70,9 @@ export const getPeriod = async (periodType) => {
       }
     })
     .then(response => {
-      console.log(response.data.alarmList);
       return response.data.alarmList;
+    }).catch(err => {
+      return err.response.data;
     });
 };
 
@@ -86,8 +88,8 @@ export const getAlarmlist = async (nowDate)=>{
     .then(response => {
       return response.data.alarmList;
     })
-    .catch(e => {
-      console.log(e.response);
+    .catch(err => {
+      return err.response.data;
     });
 }
 
@@ -103,15 +105,15 @@ export const getCalendar = async(nowMonth)=>{
   .then(response => {
     return response.data.alarmList;
   })
-  .catch(e => {
-    console.log(e.response);
+  .catch(err => {
+    return err.response.data;
   });
 }
 
 export const ocrList = async text => {
   return await request
     .post(
-      'alarms/ocr',
+      '/alarms/ocr',
       {
         text,
       },
@@ -124,14 +126,31 @@ export const ocrList = async text => {
     .then(response => {
       return response.data.mediList;
     })
-    .catch(e => {
-      console.log(e.response);
+    .catch(err => {
+      return err.response.data;
+    });
+};
+
+export const uploadProfile = async (userProfileUrl) => {
+  return await request.put('/users/profile',{
+        userProfileUrl,
+      },{
+        headers: {
+          Authorization: await AsyncStorage.getItem('token'),
+        },
+      },
+    )
+    .then(response => {
+      return response.data.statusCode;
+    })
+    .catch(err => {
+      return err.response.data;
     });
 };
 
 export const searchMedicine = async searchKeyword => {
   return await request
-    .get('medicines/alarm', {
+    .get('/medicines/alarm', {
       headers: {
         Authorization: await AsyncStorage.getItem('token'),
       },
@@ -142,10 +161,38 @@ export const searchMedicine = async searchKeyword => {
     .then(response => {
       return response.data;
     })
-    .catch(e => {
-      console.log(e.response);
+    .catch(err => {
+      return err.response.data;
     });
 };
+
+export const modifyNick = async (userNickname)=>{
+  return await request.get(`/users/me/nickname/${userNickname}`,{
+    headers: {
+      Authorization: await AsyncStorage.getItem('token'),
+    }
+  }).then((response)=>{
+    return response.data;
+  }).catch(err => {
+    return err.response.data;
+  });
+}
+
+export const changeInfo = async(userNickname, petName)=>{
+  return await request.put('/users',{
+    userNickname, petName
+  },{
+    headers: {
+      Authorization: await AsyncStorage.getItem('token'),
+    },
+  })
+  .then(response => {
+    return response.data.statusCode;
+  })
+  .catch(err => {
+    return err.response.data;
+  });
+}
 
 export const enrollAlarm = async (
   alarmTitle,
@@ -161,7 +208,7 @@ export const enrollAlarm = async (
 ) => {
   return await request
     .post(
-      'alarms',
+      '/alarms',
       {
         alarmTitle,
         alarmYN,
@@ -183,8 +230,8 @@ export const enrollAlarm = async (
     .then(response => {
       return response.data.alarmId;
     })
-    .catch(e => {
-      console.log(e.response);
+    .catch(err => {
+      return err.response.data;
     });
 };
 
@@ -198,10 +245,8 @@ export const userAPI = {
       })
       .then(response => {
         setToken(response.data.accessToken);
-        console.log('토큰설정')
       })
       .catch(error => {
-        console.log(error.response);
         return error.response.status;
       });
   },
@@ -281,8 +326,8 @@ export const getPharmacyAPI = async (lat, lon, week, curTime) => {
     .then(response => {
       return response.data;
     })
-    .catch(error => {
-      console.log('error.response : ', error.response);
+    .catch(err => {
+      return err.response.data;
     });
 }
 
@@ -299,8 +344,8 @@ export const getCommunityAPI = {
     .then((response) => {
         return response.data;
     })
-    .catch((error) => {
-        console.log("error.response : ", error.response);
+    .catch(err => {
+      return err.response.data;
     });
   },
   detail: async (commuId) => {
@@ -315,8 +360,8 @@ export const getCommunityAPI = {
     .then((response) => {
         return response.data;
     })
-    .catch((error) => {
-        console.log("error.response : ", error.response);
+    .catch(err => {
+      return err.response.data;
     });
   },
   create: async (commuTitle, commuContents) => {
@@ -335,12 +380,11 @@ export const getCommunityAPI = {
     .then((response) => {
         return response.data;
     })
-    .catch((error) => {
-        console.log("error.response : ", error.response);
+    .catch(err => {
+      return err.response.data;
     });
   },
   update: async (commuId, commuTitle, commuContents) => {
-    const test = AsyncStorage.getItem('token')
     return await request.put(
       `/communities`,
       {
@@ -357,8 +401,8 @@ export const getCommunityAPI = {
     .then((response) => {
         return response.data;
     })
-    .catch((error) => {
-        console.log("error.response : ", error.response);
+    .catch(err => {
+      return err.response.data;
     });
   },
   delete: async (commuId, commuTitle, commuContents) => {
@@ -373,8 +417,8 @@ export const getCommunityAPI = {
     .then((response) => {
         return response.data;
     })
-    .catch((error) => {
-        console.log("error.response : ", error.response);
+    .catch(err => {
+      return err.response.data;
     });
   },
   commentCreate: async (commuId, commentContents) => {
@@ -391,11 +435,10 @@ export const getCommunityAPI = {
       }
     )
     .then((response) => {
-        console.log(response.data)
         return response.data;
     })
-    .catch((error) => {
-        console.log("error.response : ", error.response);
+    .catch(err => {
+      return err.response.data;
     });
   },
   commentDelete: async (commentId) => {
@@ -408,18 +451,43 @@ export const getCommunityAPI = {
         }
     })
     .then((response) => {
-        console.log(response.data)
         return response.data;
     })
-    .catch((error) => {
-        console.log("error.response : ", error.response);
+    .catch(err => {
+      return err.response.data;
     });
   },
 }
 
+export const getMediListAPI = async searchKeyword => {
+  return await request
+    .get('/medicines/search', {
+    headers: {
+      Authorization: await AsyncStorage.getItem('token'),
+    },
+    params: {
+      searchKeyword: searchKeyword,
+    }
+  })
+  .then((response) => {
+      return response.data.mediList;
+  })
+  .catch(err => {
+    return err.response.data;
+  });
+}
 
-
-
-
-
-
+export const getMediDetailAPI = async mediSerialNum => {
+  return await request
+    .get(`/medicines/detail/${mediSerialNum}`, {
+      headers: {
+        Authorization: await AsyncStorage.getItem('token'),
+      }
+    })
+    .then((response) => {
+      return response.data;
+    })
+    .catch(err => {
+      return err.response.data;
+    });
+}

@@ -18,11 +18,8 @@ const ChartPage = ({navigation}) => {
   const dispatch = useDispatch();
     
   const [alarmList, setAlarmList] = useState('');
-  // const [alarmTimeList, setAlarmTimeList] = useState('')
 
   const gettingList = async()=>{
-
-    // let day = Moment().format('YYYY-MM-DD');
 
     const result = await getMainAlarm()
     setAlarmList(result);

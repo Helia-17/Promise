@@ -22,9 +22,13 @@ const HomePage = ({navigation}) => {
     const [userInfo, setUserInfo] = useState({});
 
     const getMyInfo = ()=>{
-        return myinfo().then(res => {
-            setUserInfo(res);
-            dispatch(getMyInfoAction(res))
+        return myinfo()
+        .then(res => {
+            if(res.statusCode === 420) navigation.replace('LoginScreen');
+            else{
+                setUserInfo(res);
+                dispatch(getMyInfoAction(res));
+            }
         })
     }
 

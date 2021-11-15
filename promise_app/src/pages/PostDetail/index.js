@@ -67,7 +67,6 @@ const PostDetailPage = ({navigation, route}) => {
       dispatch(resetCommunityListAction())
     }).then(()=>{
       getCommunityAPI.list(1).then(res => {
-      // setList(res)
         dispatch(getCommunityAction(res))
       }).then(()=>{navigation.pop()})
     })
