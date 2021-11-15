@@ -16,7 +16,7 @@ export const myinfo = async () => {
     }
   })
   .then(response => {
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
   }).catch(err => {
     console.log(err.response);
@@ -30,6 +30,7 @@ export const withdraw = async()=>{
     }
   })
   .then(response => {
+    console.log(response.data)
     return response.data.statusCode;
   });
 }
@@ -186,6 +187,7 @@ export const userAPI = {
       })
       .then(response => {
         setToken(response.data.accessToken);
+        console.log('토큰설정')
       })
       .catch(error => {
         console.log(error.response);
@@ -273,19 +275,145 @@ export const getPharmacyAPI = async (lat, lon, week, curTime) => {
     });
 }
 
-export const getCommunityAPI = async (lat, lon, week, curTime) => {
+export const getCommunityAPI = {
+  list: async (pageNum) => {
     return await request.get('/communities/list', {
-        // headers:{
-        //     'Authorization': await AsyncStorage.getItem('token')
-        // },
+        headers:{
+            'Authorization': await AsyncStorage.getItem('token')
+        },
         params: {
-            pageNum: 1
+            pageNum: pageNum
         }
     })
     .then((response) => {
+        // console.log(response.data)
         return response.data;
     })
     .catch((error) => {
         console.log("error.response : ", error.response);
     });
+  },
+  detail: async (commuId) => {
+    return await request.get(`/communities/detail`, {
+        headers:{
+            'Authorization': await AsyncStorage.getItem('token')
+        },
+        params: {
+          commuId: commuId
+        }
+    })
+    .then((response) => {
+        // console.log(response.data)
+        return response.data;
+    })
+    .catch((error) => {
+        console.log("error.response : ", error.response);
+    });
+  },
+  create: async (commuTitle, commuContents) => {
+    return await request.post(
+      `/communities`, 
+      {
+        commuTitle,
+        commuContents,
+      },
+      {
+        headers:{
+            'Authorization': await AsyncStorage.getItem('token')
+        },
+      }
+    )
+    .then((response) => {
+        // console.log(response.data)
+        return response.data;
+    })
+    .catch((error) => {
+        console.log("error.response : ", error.response);
+    });
+  },
+  update: async (commuId, commuTitle, commuContents) => {
+    const test = AsyncStorage.getItem('token')
+    return await request.put(
+      `/communities`,
+      {
+        commuId,
+        commuTitle,
+        commuContents,
+      },
+      {
+        headers:{
+            'Authorization': await AsyncStorage.getItem('token')
+        },
+      }
+    )
+    .then((response) => {
+        // console.log(response.data)
+        return response.data;
+    })
+    .catch((error) => {
+        console.log("error.response : ", error.response);
+    });
+  },
+  delete: async (commuId, commuTitle, commuContents) => {
+    return await request.delete(`/communities/${commuId}`, {
+        headers:{
+            'Authorization': await AsyncStorage.getItem('token')
+        },
+        params: {
+          commuId: commuId,
+        }
+    })
+    .then((response) => {
+        // console.log(response.data)
+        return response.data;
+    })
+    .catch((error) => {
+        console.log("error.response : ", error.response);
+    });
+  },
+  commentCreate: async (commuId, commentContents) => {
+    return await request.post(
+      `/communities/comment`, 
+      {
+        commuId,
+        commentContents,
+      },
+      {
+        headers:{
+            'Authorization': await AsyncStorage.getItem('token')
+        },
+      }
+    )
+    .then((response) => {
+        console.log(response.data)
+        return response.data;
+    })
+    .catch((error) => {
+        console.log("error.response : ", error.response);
+    });
+  },
+  commentDelete: async (commentId) => {
+    return await request.delete(`/communities/comment/${commentId}`, {
+        headers:{
+            'Authorization': await AsyncStorage.getItem('token')
+        },
+        params: {
+          commentId: commentId,
+        }
+    })
+    .then((response) => {
+        console.log(response.data)
+        return response.data;
+    })
+    .catch((error) => {
+        console.log("error.response : ", error.response);
+    });
+  },
 }
+
+
+
+
+
+
+
