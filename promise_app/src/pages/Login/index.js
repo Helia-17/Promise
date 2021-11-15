@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, Image, Modal, Platform, Alert
-} from 'react-native';
+import {View, Text, Image, Modal, Platform} from 'react-native';
 import Logo from '../../assets/Promise_Logo.png';
 import GoogleLoginBtn from '../../components/GoogleLoginBtn';
 import AppleLoginBtn from '../../components/AppleLoginBtn';
@@ -10,14 +9,12 @@ import PetModal from '../../components/PetModal';
 import LoginBtn from '../../components/atoms/LoginBtn';
 import LoginModal from '../../components/LoginModal';
 import {userAPI} from '../../utils/axios';
-import Spinner from 'react-native-loading-spinner-overlay';
 
 const Login = (props) => {
   const [userModal, setUserModal] = useState(false);
   const [nickModal, setNickModal] = useState(false);
   const [petModal, setPetModal] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
-  const [isVisible, setIsvisible] = useState();
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
   const [profile, setProfile] = useState(null);
@@ -32,35 +29,15 @@ const Login = (props) => {
         setProfile(data.profile);
       }
       setType(data.type);
-      setIsvisible(true);
       const res = await userAPI.social(data.email, pw, data.type);
-      setIsvisible(false);
       if (res === 404) {
         setNickModal(true);
       }else if(res===402){
-        Alert.alert(
-          'Google 계정으로 가입된 계정입니다. Google로 계속하기를 시도해주세요.',
-          [{
-            text:'확인',
-            onPress: ()=>{}
-          }]
-        );
+        alert('Google 계정으로 가입된 계정입니다. Google로 계속하기를 시도해주세요.');
       }else if(res===403){
-        Alert.alert(
-          'Apple 계정으로 가입된 계정입니다. Apple로 계속하기를 시도해주세요.',
-          [{
-            text:'확인',
-            onPress: ()=>{}
-          }]
-        );
+        alert('Apple 계정으로 가입된 계정입니다. Apple로 계속하기를 시도해주세요.');
       }else if(res===405){
-        Alert.alert(
-          '일반 계정으로 가입된 계정입니다. 일반 로그인을 시도해주세요.',
-          [{
-            text:'확인',
-            onPress: ()=>{}
-          }]
-        );
+        alert('일반 계정으로 가입된 계정입니다. 일반 로그인을 시도해주세요.');
       }else{
         props.navigation.replace('appscreen');
       }
@@ -75,18 +52,15 @@ const Login = (props) => {
 
   const resultData = async(petName) =>{
     try{
-      setIsvisible(true);
       await userAPI.join(id, pw, nick, profile, petName, type);
       if(type===0){
         await userAPI.login(id, pw, type)
         .then((res) =>{
-          setIsvisible(false);
           props.navigation.replace('appscreen');
         });
       }else if(type===1 || type===2){
         await userAPI.social(id, pw, type)
         .then((res) =>{
-          setIsvisible(false);
           props.navigation.replace('appscreen');
         });
       }
@@ -96,41 +70,15 @@ const Login = (props) => {
   };
 
   const NomalLogin = async (data) =>{
-    setIsvisible(true);
     const res = await userAPI.login(data.id, data.pw, 0);
-    setIsvisible(false);
     if(res===404){
-      Alert.alert(
-        '존재하지 않는 계정입니다.',
-          [{
-            text:'확인',
-            onPress: ()=>{}
-          }]
-        );
+      alert('존재하지 않는 계정입니다.');
     }else if(res===402){
-      Alert.alert(
-        'Google 계정으로 가입된 계정입니다. Google로 계속하기를 시도해주세요.',
-          [{
-            text:'확인',
-            onPress: ()=>{}
-          }]
-        );
+      alert('Google 계정으로 가입된 계정입니다. Google로 계속하기를 시도해주세요.');
     }else if(res===403){
-      Alert.alert(
-        'Apple 계정으로 가입된 계정입니다. Apple로 계속하기를 시도해주세요.',
-          [{
-            text:'확인',
-            onPress: ()=>{}
-          }]
-        );
+      alert('Apple 계정으로 가입된 계정입니다. Apple로 계속하기를 시도해주세요.');
     }else if(res===401){
-      Alert.alert(
-        '잘못된 비밀번호입니다.',
-          [{
-            text:'확인',
-            onPress: ()=>{}
-          }]
-        );
+      alert('잘못된 비밀번호입니다.');
     }else{
       props.navigation.replace('appscreen');
     }
@@ -138,7 +86,6 @@ const Login = (props) => {
 
   return (
     <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
-      <Spinner visible={isVisible} />
       <View style={{justifyContent: 'center'}}>
         <Image source={Logo} style={{height: '50%'}} resizeMode='contain'/>
         <Text style={{fontSize: 25, color:'black', fontWeight:'bold', marginTop:'5%'}}>더 건강한 나를 위한 약속</Text>

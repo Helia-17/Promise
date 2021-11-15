@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, TextInput, ScrollView, Alert} from 'react-native';
+import {View, Text, TouchableOpacity, TextInput, ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {userAPI} from '../../utils/axios';
 
@@ -35,46 +35,16 @@ const SignInModal = (props) => {
             props.now(false);
             props.next(true);
         }else if(id.length<2){
-            Alert.alert(
-                '이메일을 입력해주세요.',
-                [{
-                    text:'확인',
-                    onPress: ()=>{}
-                }]
-            );
+            alert('이메일을 입력해주세요.');
         }
         else if(idColor === '#000000'){
-            Alert.alert(
-                '이메일 중복확인을 해주세요.',
-                [{
-                    text:'확인',
-                    onPress: ()=>{}
-                }]
-            );
+            alert('이메일 중복확인을 해주세요.',);
         }else if(idColor === '#FFABAB'){
-            Alert.alert(
-                '중복된 이메일입니다. 다시 확인해주세요.',
-                [{
-                    text:'확인',
-                    onPress: ()=>{}
-                }]
-            );
+            alert('중복된 이메일입니다. 다시 확인해주세요.');
         }else if(pw.length<1){
-            Alert.alert(
-                '비밀번호를 입력해주세요.',
-                [{
-                    text:'확인',
-                    onPress: ()=>{}
-                }]
-            );
+            alert('비밀번호를 입력해주세요.');
         }else{    
-            Alert.alert(
-                '비밀번호를 확인해주세요.',
-                [{
-                    text:'확인',
-                    onPress: ()=>{}
-                }]
-            );
+            alert('비밀번호를 확인해주세요.');
         }
     }
 

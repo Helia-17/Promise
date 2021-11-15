@@ -30,6 +30,9 @@ const HomePage = ({navigation}) => {
 
     useEffect(()=>{
         getMyInfo()
+        return () => {
+            setUserInfo({})
+          }
       }, [])
 
     

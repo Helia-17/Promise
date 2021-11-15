@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { getCommunityAPI } from '../../utils/axios';
 import { getCommunityAction } from '../../modules/community/actions';
 import { useSelector, useDispatch } from 'react-redux';

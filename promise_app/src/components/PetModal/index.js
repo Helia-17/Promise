@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, TextInput, ScrollView, Alert} from 'react-native';
+import {View, Text, TouchableOpacity, TextInput, ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 const PetModal = (props) => {
@@ -21,13 +21,7 @@ const PetModal = (props) => {
             props.now(false);
             props.next(petName);
         }else{
-            Alert.alert(
-                '펫 이름을 지어주세요.',
-                [{
-                    text:'확인',
-                    onPress: () =>{}
-                }]
-            );
+            alert('펫 이름을 지어주세요.');
         }
     }
 

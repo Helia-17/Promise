@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, ScrollView, Text, Modal, TouchableOpacity, TextInput, Alert} from 'react-native';
+import { View, ScrollView, Text, Modal, TouchableOpacity, TextInput} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import TimeSelect from '../../components/TimeSelect';
 import DateSelect from '../../components/DateSelect';
@@ -55,22 +55,10 @@ const AlarmAdd = ({navigation}) => {
           {id: selectUser.userEmail, name: selectUser.userNickname},
         ]);
       } else {
-        Alert.alert(
-          '이미 추가한 사용자입니다.',
-          [{
-            text:'확인',
-            onPress:()=>{}
-          }]
-        );
+        alert('이미 추가한 사용자입니다.');
       }
     } else {
-      Alert.alert(
-        '선택한 사용자가 없습니다.',
-        [{
-          text:'확인',
-          onPress:()=>{}
-        }]
-      );
+      alert('선택한 사용자가 없습니다.');
     }
     setModalVisible(false);
     setIsChange(true);

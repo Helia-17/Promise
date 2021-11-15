@@ -23,29 +23,11 @@ const NicknameModal = (props) => {
             props.now(false);
             props.next(true);
         }else if(nick.length===0){
-            Alert.alert(
-                '닉네임을 입력해주세요.',
-                [{
-                    text:'확인',
-                    onPress: () =>{}
-                }]
-            )
+            alert('닉네임을 입력해주세요.');
         }else if(nickColor==='#000000'){
-            Alert.alert(
-                '닉네임 중복확인을 해주세요.',
-                [{
-                    text:'확인',
-                    onPress: () =>{}
-                }]
-            );
+            alert('닉네임 중복확인을 해주세요.');
         }else {
-            Alert.alert(
-                '중복된 닉네임입니다. 다시 확인해주세요.',
-                [{
-                    text:'확인',
-                    onPress: () =>{}
-                }]
-            );
+            alert('중복된 닉네임입니다. 다시 확인해주세요.');
         }
     }
 
