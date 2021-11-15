@@ -4,19 +4,15 @@ import { View, ScrollView, Text } from 'react-native';
 import MediInfo from '../../components/atoms/MediInfo';
 import Moment from 'moment';
 import {getAlarmlist} from '../../utils/axios';
-import Spinner from 'react-native-loading-spinner-overlay';
 
 const Alarm = (props) => {
     const [alarmList, setAlarmList] = useState([]);
-    const [isVisible, setIsvisible] = useState();
     const gettingList = async()=>{
-        setIsvisible(true);
         let day = Moment().format('YYYY-MM-DD');
         if(props.route.params){
             day = props.route.params.day;
         }
         const result = await getAlarmlist(day);
-        setIsvisible(false);
         setAlarmList(result);
     }
 
@@ -40,7 +36,6 @@ const Alarm = (props) => {
 
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
-            <Spinner visible={isVisible} />
             {alarmList.length>0?(
                 <ScrollView style={{ width:'100%', margin:10}} contentContainerStyle={{alignItems: 'center'}}>
                     {listInfo()}

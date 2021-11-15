@@ -3,7 +3,6 @@ import {useFocusEffect} from '@react-navigation/native';
 import { View, Text, Image, Alert, TextInput, TouchableOpacity  } from 'react-native';
 import {myinfo, modifyNick, changeInfo} from '../../utils/axios';
 import S3Upload from '../../components/S3Upload';
-import Spinner from 'react-native-loading-spinner-overlay';
 
 const ModifyInfo = ({navigation}) => {
 
@@ -14,10 +13,8 @@ const ModifyInfo = ({navigation}) => {
     const [changePet, setChangePet] = useState('');
     const [isCheck, setIsCheck] = useState(false);
     const [userEmail, setUserEmail] = useState('');
-    const [isVisible, setIsvisible] = useState();
 
     const getMyInfo = async ()=>{
-        setIsvisible(true);
         const result = await myinfo();
         setUserNickname(result.userNickname);
         setChangeNick(result.userNickname)
@@ -25,7 +22,6 @@ const ModifyInfo = ({navigation}) => {
         setChangePet(result.petName);
         setUserProfile(result.userProfileUrl+ '?' + new Date());
         setUserEmail(result.userEmail);
-        setIsvisible(false);
     }
 
     useFocusEffect(
@@ -35,9 +31,7 @@ const ModifyInfo = ({navigation}) => {
     );
     
     const checkNick = async ()=>{
-        setIsvisible(true);
         const result = await modifyNick(changeNick);
-        setIsvisible(false);
         Alert.alert(
             '중복 확인',
             result.message,
@@ -54,10 +48,8 @@ const ModifyInfo = ({navigation}) => {
     }
 
     const changedata = async()=>{
-        setIsvisible(true);
         await changeInfo(changeNick, changePet)
         .then(()=>{
-            setIsvisible(false);
             navigation.goBack();
         })
     }
@@ -91,7 +83,6 @@ const ModifyInfo = ({navigation}) => {
 
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
-            <Spinner visible={isVisible} />
             <View style={{width: 450, height:150, flexDirection: "row", alignItems: 'center', justifyContent: 'center', marginTop:30, marginBottom:30}}>
                 <View style={{width:'30%', height:'90%', borderRadius:100, backgroundColor:'#C4C4C4'}}>
                     <Image resizeMode='cover' source={{uri:userProfile}} style={{width: '100%', height: '100%', borderRadius:100}}/>

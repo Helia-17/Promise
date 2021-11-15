@@ -12,7 +12,6 @@ import OCRModal from '../../components/OCRModal';
 import Moment from 'moment';
 import PillModal from '../../components/PillModal';
 import Notifications from '../../utils/Notifications';
-import Spinner from 'react-native-loading-spinner-overlay';
 import {enrollAlarm} from '../../utils/axios';
 
 const AlarmAdd = ({navigation}) => {
@@ -31,7 +30,6 @@ const AlarmAdd = ({navigation}) => {
   const [selectTime1, setSelectTime1] = useState(null);
   const [selectTime2, setSelectTime2] = useState(null);
   const [selectTime3, setSelectTime3] = useState(null);
-  const [isVisible, setIsvisible] = useState();
 
   const addList = data => {
     if (data) {
@@ -154,14 +152,12 @@ const AlarmAdd = ({navigation}) => {
   }
 
   const addalarm = async () => {
-    setIsvisible(true);
     let alarmYN = 0;
     if (isOn === true) {
       alarmYN = 1;
     }
     const result = await enrollAlarm( title, alarmYN, selectTime1, selectTime2, selectTime3, myStartDate(), myendDate(), myMediList(), myTagList(), myShareList());
     setNotification(result);
-    setIsvisible(false);
     navigation.goBack();
   };
 
@@ -213,7 +209,6 @@ const AlarmAdd = ({navigation}) => {
 
   return (
     <View style={{flex: 1, alignItems: 'center', backgroundColor: 'white'}}>
-      <Spinner visible={isVisible} />
       <View style={{width: '90%', alignItems: 'flex-start', marginTop: 10}}>
         <Icon.Button
           name="left"

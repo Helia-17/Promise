@@ -4,18 +4,16 @@ import {LineChart, PieChart} from 'react-native-charts-wrapper';
 import {getMainAlarm, getVisual} from '../../utils/axios'
 import { getMainAlarmList } from '../../modules/user/actions';
 import { useDispatch } from 'react-redux';
-import Spinner from 'react-native-loading-spinner-overlay';
 import Moment from 'moment';
 
 const ChartPage = ({navigation}) => {
 
   const dispatch = useDispatch();
-  const [isVisible, setIsvisible] = useState();
+  const [isVisible, setIsvisible] = useState(false);
   const [alarmList, setAlarmList] = useState('');
   const [visualData, setVisualData] = useState([]);
 
   const gettingAlarmList = async()=>{
-    setIsvisible(true);
     const result = await getMainAlarm()
     setAlarmList(result);
     dispatch(getMainAlarmList(result))
@@ -35,18 +33,20 @@ const ChartPage = ({navigation}) => {
       }
       tagLists.push(tag);
     })
+
     setVisualData(tagLists);
-    setIsvisible(false);
   }
 
   useEffect(()=>{
     gettingAlarmList();
     gettingVisual();
+    return () => {
+      setVisualData([])
+    }
   }, [])
 
     return (
       <View style={{flex: 1, height: '100%', paddingHorizontal: 20, paddingTop: 30}}>
-        <Spinner visible={isVisible} />
         <Text style={styles.titleText}>건강한 나를 위한 '약속'</Text>
         <Text style={styles.contentText}>오늘의 약속</Text>
         <View style={styles.todayAlarm}>
@@ -72,7 +72,7 @@ const ChartPage = ({navigation}) => {
             </View>
           )
         })
-        : <Text>로딩중입니다 ..</Text>}
+        : <Text>등록하신 알람이 없습니다</Text>}
         </View>
 
 

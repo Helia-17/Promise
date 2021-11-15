@@ -15,14 +15,13 @@ const PostCreatePage = ({navigation}) => {
 
     const postCreate = () => {
         getCommunityAPI.create(title, content).then(res => {
-          alert('게시물이 성공적으로 작성되었습니다.')
-          dispatch(resetCommunityListAction())
+            dispatch(resetCommunityListAction())
         }).then(()=>{
-          getCommunityAPI.list(1).then(res => {
+        getCommunityAPI.list(1).then(res => {
             dispatch(getCommunityAction(res))
-          }).then(()=>{navigation.goBack()})
+        }).then(()=>{navigation.goBack()})
         })
-      }
+    }
     
     return (
         <View>
@@ -38,7 +37,7 @@ const PostCreatePage = ({navigation}) => {
                     </View>
                 </View>
                 <View style={{width:'90%', margin:10, alignItmes:'flex-end'}}>
-                    <TouchableOpacity style={{backgroundColor:'#A3BED7', color:'black', alignItems: 'center', borderRadius: 12, height:50, justifyContent: 'center'}} onPress={postCreate}>
+                    <TouchableOpacity style={{backgroundColor:'#A3BED7', color:'black', alignItems: 'center', borderRadius: 12, height:50, justifyContent: 'center'}} onPress={()=>postCreate()}>
                         <Text style={{color:'black', fontSize:20, fontWeight:'bold'}}>작성</Text >
                     </TouchableOpacity>
                 </View>

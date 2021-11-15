@@ -24,7 +24,6 @@ const PostUpdatePage = ({navigation, route}) => {
         const postId = route.params.postId
         await getCommunityAPI.update(postId, title, content)
         .then(res => {
-            alert('게시물이 성공적으로 수정되었습니다.')
             dispatch(resetCommunityListAction())
           }).then(()=>{
             getCommunityAPI.list(1).then(res => {
@@ -47,7 +46,7 @@ const PostUpdatePage = ({navigation, route}) => {
                     </View>
                 </ScrollView>
                 <View style={{width:'90%', margin:10, alignItmes:'flex-end'}}>
-                    <TouchableOpacity style={{backgroundColor:'#A3BED7', color:'black', alignItems: 'center', borderRadius: 12, height:50, justifyContent: 'center'}} onPress={postUpdate}>
+                    <TouchableOpacity style={{backgroundColor:'#A3BED7', color:'black', alignItems: 'center', borderRadius: 12, height:50, justifyContent: 'center'}} onPress={()=>postUpdate()}>
                         <Text style={{color:'black', fontSize:20, fontWeight:'bold'}}>작성</Text >
                     </TouchableOpacity>
                 </View>

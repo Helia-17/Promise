@@ -9,14 +9,12 @@ import PetModal from '../../components/PetModal';
 import LoginBtn from '../../components/atoms/LoginBtn';
 import LoginModal from '../../components/LoginModal';
 import {userAPI} from '../../utils/axios';
-// import Spinner from 'react-native-loading-spinner-overlay';
 
 const Login = (props) => {
   const [userModal, setUserModal] = useState(false);
   const [nickModal, setNickModal] = useState(false);
   const [petModal, setPetModal] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
-  // const [isVisible, setIsvisible] = useState();
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
   const [profile, setProfile] = useState(null);
