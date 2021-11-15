@@ -6,7 +6,7 @@ import PostList from '../../components/community/PostList';
 import {LineChart, PieChart} from 'react-native-charts-wrapper';
 
 // axios
-import {getMainAlarm} from '../../utils/axios'
+import {getMainAlarm, getVisual} from '../../utils/axios'
 
 // redux
 import { getMainAlarmList } from '../../modules/user/actions';
@@ -18,16 +18,36 @@ const ChartPage = ({navigation}) => {
   const dispatch = useDispatch();
     
   const [alarmList, setAlarmList] = useState('');
+  const [visualData, setVisualData] = useState('');
 
-  const gettingList = async()=>{
+  const gettingAlarmList = async()=>{
 
     const result = await getMainAlarm()
     setAlarmList(result);
     dispatch(getMainAlarmList(result))
   }
 
+  const gettingVisual = async()=>{
+
+    let res = await getVisual()
+    if (res.length > 7) {
+      res = res.slice(0,7)
+    }
+    const tagLists = []
+    res.map(item => {
+      const tag = {
+        value: item.tagValue,
+        label: item.tagName,
+      }
+      tagLists.push(tag)
+    })
+    setVisualData(tagLists)
+     // dispatch(getMainAlarmList(result))
+  }
+
   useEffect(()=>{
-    gettingList()
+    gettingAlarmList()
+    gettingVisual()
   }, [])
 
   return (
@@ -64,7 +84,7 @@ const ChartPage = ({navigation}) => {
 
       <Text style={styles.contentText}>약속 NOW</Text>
       <View style={styles.container}>
-        {/* <PieChart 
+        <PieChart 
           style={styles.chart}
           chartDescription={{text: ''}}
           entryLabelColor={processColor('black')} // tag name text color
@@ -77,18 +97,7 @@ const ChartPage = ({navigation}) => {
           styledCenterText={{text:'TOP 7', color: processColor('black'), fontFamily: 'HelveticaNeue-Medium', size: 25}}
           data={{dataSets: [
             {
-              values: [
-                { value: 19.672131147540984, label: '어린이' },
-                { value: 18.0327868852459, label: '치질' },
-                // { value: 10, label: '똥방구' },
-                { value: 14.754098360655737, label: '방구' },
-                // { value: 8, label: '상사병' },
-                { value: 6.557377049180328, label: '두통약' },
-                { value: 3.278688524590164, label: '감기' },
-                { value: 3.278688524590164, label: '발열' },
-                { value: 1.639344262295082, label: '몸살' }
-                // { value: 1, label: '어린이감기약' }
-              ],
+              values: visualData,
               label: '',
               config: {
                 colors: [
@@ -115,7 +124,7 @@ const ChartPage = ({navigation}) => {
               },
             },
           ],}}
-        /> */}
+        />
       </View>
     </View>
   );
