@@ -28,7 +28,6 @@ const PostDetailPage = ({navigation, route}) => {
   const postDate = Moment(route.params.postDate).format("YYYY.MM.DD HH:mm")
   const post = useSelector((state) => state.community.communityPostDetail)
 
-  // const [commentList, setCommentList] = useState([])
   const commentList = useSelector((state) => state.community.communityPostDetail.commuCommentDetailList)
   const [comment, onChangeComment] = useState('');
   
@@ -119,9 +118,9 @@ const PostDetailPage = ({navigation, route}) => {
                 : null
               }
             </View>
-            <InputCommentText name="댓글" result={data => onChangeComment(data)} />  
+            <InputCommentText name="댓글" result={data => onChangeComment(data)} postId={postId} refreshComments={refreshComments} />  
             {commentList.length != 0
-                ? <CommentList ref={commentsRef} postId={postId} commentList={commentList}/>
+                ? <CommentList postId={postId} commentList={commentList}/>
                 : (
                   <View style={styles.noComments} >
                     <Text>가장 먼저 댓글을 작성해보세요</Text>
