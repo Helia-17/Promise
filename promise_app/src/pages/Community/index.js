@@ -11,14 +11,14 @@ import PostList from '../../components/community/PostList';
 const CommunityPage = ({navigation, route}) => {
 
     const dispatch = useDispatch();
-    const { communityList, communityPostCreated } = useSelector((state) => state.community);
+    const [ communityList, setCommunityList ] = useState([])
     const [ created, setCreated ] = useState(false)
 
     const getCommunity = () => {
         return getCommunityAPI.list(1).then(res => {
             dispatch(getCommunityAction(res))
-        })
-        
+            setCommunityList(res.communityDetailList)
+        })   
     }
     
     useEffect(()=>{

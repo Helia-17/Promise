@@ -14,21 +14,39 @@ const initialState = {
     commuTitle: '',
     userNickname: ''
   },
+  pageNum: null,
+  hasMore:null,
+  totalPageCnt: null,
   communityPostChanged: false,
   communityPostCreated: false,
   communityPostUpdated: false,
   communityPostDeleted: false,
-  totalPageCnt: null,
 }
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
 
       case types.GET_COMMUNITY:
+        
+        let hasMore
+        action.data.totalPageCnt === 1
+        ? hasMore = false
+        : hasMore = true
         return {
           ...state,
           communityList: action.data.communityDetailList,
-          totalPageCnt: action.data.totalPageCnt
+          totalPageCnt: action.data.totalPageCnt,
+          hasMore: hasMore,
+          pageNum: 1,
+        };
+
+      case types.GET_MORE_COMMUNITY:
+        return {
+          ...state,
+          communityList: action.data.communityDetailList,
+          totalPageCnt: action.data.totalPageCnt,
+          hasMore: action.data.hasMore,
+          pageNum: action.data.pageNum,
         };
 
       case types.GET_POST_DETAIL:

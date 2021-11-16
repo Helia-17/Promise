@@ -6,6 +6,11 @@ import types from './types'
     data,
   });
 
+  export const getMoreCommunityAction = (data) => ({
+    type: types.GET_MORE_COMMUNITY,
+    data,
+  });
+
   export const getPostDetailAction = (data) => ({
     type: types.GET_POST_DETAIL,
     data,

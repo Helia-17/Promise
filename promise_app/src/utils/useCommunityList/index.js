@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios";
 import { getCommunityAPI } from '../../utils/axios';
-import ActionCreator from '../modules/actions';
 
 function useCommunityList(pageNum) {
 
@@ -26,14 +25,16 @@ function useCommunityList(pageNum) {
       await setLoading(true);
       await setError(false);
       let res
-        res = await getCommunityAPI(pageNum)
+        res = await getCommunityAPI.list(pageNum)
+        console.log(res)
       // page가 1이면 다시 열었단 뜻이므로 리스트를 초기화 한 뒤 담음 (prev 리스트와 합치지 않음)
-      if (pageNum === 1) {
-        await setList([...res.data.data]);
-        dispatch(ActionCreator.resetCommunityListAction())
-      } else {
-        await setList((prev) => [...new Set([...prev, ...res.data.data])]);
-      }
+      // if (pageNum === 1) {
+      //   await setList([...res.data.data]);
+      //   dispatch(ActionCreator.resetCommunityListAction())
+      // } else {
+      //   await setList((prev) => [...new Set([...prev, ...res.data.data])]);
+      // }
+      
       await setHasMore(res.data.hasmore);
       setLoading(false);
     } catch (err) {

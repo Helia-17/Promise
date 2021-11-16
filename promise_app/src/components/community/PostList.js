@@ -1,24 +1,77 @@
-import React from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import {View, Text, StyleSheet, FlatList, TouchableHighlight } from 'react-native';
 import { Divider } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
+// import useCommunityList from '../../utils/useCommunityList';
+import useCommunity from '../../utils/useCommunity';
 import { useSelector, useDispatch } from 'react-redux';
+import { getCommunityAPI } from '../../utils/axios';
+import { getMoreCommunityAction } from '../../modules/community/actions';
 import Moment from 'moment';
 
-export default function PostList() {
+const PostList = (props) => {
 
-  const communityList = useSelector((state) => state.community.communityList);
+  // infinite scroll
+  // const [pageNum, setPageNum] = useState(1);
+  const pageNum = useSelector(state => state.community.pageNum)
+  const hasMore = useSelector(state => state.community.hasMore)
+  const communityList = useSelector(state => state.community.communityList)
+  const totalPageCnt = useSelector(state => state.community.totalPageCnt)
+  const [onEndReachedCalledDuringMomentum, setOnEndReachedCalledDuringMomentum] = useState(false)
 
+  const dispatch = useDispatch()
   const navigation = useNavigation(); 
+
+
+  const getMorePost = async () => {
+    if (hasMore) {
+      console.log(pageNum)
+      const res = await useCommunity(communityList, pageNum, totalPageCnt)
+      dispatch(getMoreCommunityAction(res))
+    }
+  }
+    
+  const lastPostRef = useRef()
+
+
   return (
     <FlatList
       data={communityList}
-      renderItem={({item, i}) => {
+      onEndReachedThreshold = {0.5}
+      onMomentumScrollBegin = {() => {setOnEndReachedCalledDuringMomentum(false)}}
+      onEndReached = {() => {
+          if (!onEndReachedCalledDuringMomentum) {
+            getMorePost()    // LOAD MORE DATA
+            setOnEndReachedCalledDuringMomentum(true)
+          }
+        }
+      }
+      renderItem={({item, index}) => {
 
         const subDate = item.commuDate.substr(0, 16)
         const postDate = Moment(subDate).format("YYYY.MM.DD HH:mm")
+        const isLastPost = (communityList.length === index+1)
 
       return (
+        isLastPost
+        ? 
+        <TouchableHighlight ref={lastPostRef} onPress={()=>navigation.navigate('communitydetail', {post: item, postDate: postDate})} underlayColor="white">
+        <View style={styles.container} key={item.commuId}>
+            <View>
+                <Text style={styles.itemNameText}>이건 마지막</Text>
+                <Text style={styles.itemNameText}>{item.userNickname}</Text>
+                <Text style={styles.itemTitleText}>{item.commuTitle}</Text>
+            </View>
+            <View>
+                <Text style={styles.itemDateText}>
+                {postDate}
+                </Text>
+            </View>
+        </View>
+        </TouchableHighlight>
+        :
+        <>
+        <TouchableHighlight onPress={()=>getMorePost()}><Text>{pageNum}{hasMore?'true':'false'}</Text></TouchableHighlight>
         <TouchableHighlight onPress={()=>navigation.navigate('communitydetail', {post: item, postDate: postDate})} underlayColor="white">
         <View style={styles.container} key={item.commuId}>
             <View>
@@ -32,6 +85,7 @@ export default function PostList() {
             </View>
         </View>
         </TouchableHighlight>
+        </>
       )}}
     />
   );
@@ -76,3 +130,5 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
 });
+
+export default PostList
