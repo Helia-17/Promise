@@ -27,10 +27,10 @@ const HomePage = ({navigation}) => {
 
     useFocusEffect(
         useCallback(()=>{
-            // getMyInfo()
-            // return () => {
-            //     setUserInfo({})
-            // }
+            getMyInfo()
+            return () => {
+                setUserInfo({})
+            }
         }, [])
     );
 
