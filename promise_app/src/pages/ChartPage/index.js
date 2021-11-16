@@ -38,15 +38,15 @@ const ChartPage = ({navigation}) => {
     setVisualData(tagLists);
   }
 
-  // useFocusEffect(
-  //   useCallback(()=>{
-  //     gettingAlarmList();
-  //     gettingVisual();
-  //     return () => {
-  //       setVisualData([])
-  //     }
-  //   }, [])
-  // );
+  useFocusEffect(
+    useCallback(()=>{
+      gettingAlarmList();
+      gettingVisual();
+      return () => {
+        setVisualData([])
+      }
+    }, [])
+  );
 
     return (
       <View style={{flex: 1, height: '100%', paddingHorizontal: 20, paddingTop: 30}}>
