@@ -35,8 +35,10 @@ public class PetServiceImpl implements PetService{
 				pet.setPetLevel(2);
 			} else if(incExp >= 500) {
 				pet.setPetLevel(3);
-			} else if(incExp >= 10000){
+			} else if(incExp >= 1000){
 				pet.setPetLevel(4);
+			} else if(incExp >= 10000) {
+				pet.setPetLevel(5);
 			} else {
 			}
 			
