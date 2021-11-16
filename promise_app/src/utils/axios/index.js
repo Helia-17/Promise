@@ -58,7 +58,7 @@ export const myinfo = async () => {
     console.log('myinfo!!!');
     return response.data;
   }).catch(err => {
-    console.log(err.response);
+    console.log("getMyInfo : ",err.response);
     return err.response.data;
   });
 };
