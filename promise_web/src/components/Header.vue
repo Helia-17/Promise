@@ -36,7 +36,7 @@ header {
   align-items: center;
   text-align: center;
 
-  z-index: 2;
+  z-index: 1000;
 }
 
 #nav-title-left {
