@@ -1,4 +1,4 @@
-import React, { useState, forwardRef, useImperativeHandle } from 'react';
+import React, { useState, forwardRef } from 'react';
 import {View, Text, StyleSheet, FlatList, TouchableHighlight, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Divider } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
@@ -9,37 +9,28 @@ import { getPostDetailAction } from '../../modules/community/actions';
 import { useSelector, useDispatch } from 'react-redux';
 import Moment from 'moment';
 
-const Comments = forwardRef((props, ref) => {
+const Comments = ((props, ref) => {
 
   const dispatch = useDispatch();
   const navigation = useNavigation(); 
   
   const { userNickname } = useSelector((state) => state.user.userInfo)
   const postId = props.postId
-  const [commentList, setCommentList] = useState(props.commentList)
-  
-  // 상위 컴포넌트 PostDetail에서 CommentList의 함수 조작 가능하게 해줌
-  useImperativeHandle(ref, () => {
-    return {refresh() {
-      getCommunityAPI.detail(postId).then(res => {
-        setCommentList(res.commuCommentDetailList)
-      })
-    }}
-  })
+  const {commuCommentDetailList} = useSelector((state) => state.community.communityPostDetail)
+
   
   const postDelete = (commentId) => {
     getCommunityAPI.commentDelete(commentId).then(res => {
     }).then(()=>{
       getCommunityAPI.detail(postId).then(res => {
         dispatch(getPostDetailAction(res))
-        setCommentList(res.commuCommentDetailList)
       })
     })
   }
 
   return (
     <ScrollView>
-      {commentList.map(function(item, i){
+      {commuCommentDetailList.map(function(item, i){
 
         const subDate = item.commentDate.substr(0, 16)
         const postDate = Moment(subDate).format("YYYY.MM.DD HH:mm")

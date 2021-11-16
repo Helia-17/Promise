@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   ScrollView,
@@ -10,7 +10,7 @@ import {
 
 import { getCommunityAPI } from '../../utils/axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { getCommunityAction, resetCommunityListAction } from '../../modules/community/actions';
+import { getCommunityAction, resetCommunityListAction, getPostDetailAction } from '../../modules/community/actions';
 
 import SmallBtn from '../../components/atoms/SmallBtn';
 import CommentList from '../../components/community/CommentList';
@@ -25,35 +25,29 @@ const PostDetailPage = ({navigation, route}) => {
 
   const postId = route.params.post.commuId
   const postDate = route.params.postDate
-  const [post, setPost] = useState(route.params.post)
+  const post = useSelector((state) => state.community.communityPostDetail)
 
-  const [commentList, setCommentList] = useState([])
+  // const [commentList, setCommentList] = useState([])
+  const commentList = useSelector((state) => state.community.communityPostDetail.commuCommentDetailList)
   const [comment, onChangeComment] = useState('');
-
-  const commentsRef = useRef();
   
 
   const refreshComments = async () => {
-        commentsRef.current.refresh();
+        getCommunityAPI.detail(postId).then(res => {
+          dispatch(getPostDetailAction(res))
+        })
   }
 
   useEffect(()=> {
     setUserNickname(stateUserNickname)
-    getCommunityDetail()
-    refreshComments()
   }, [])
 
 
   const getCommunityDetail = () => {
     getCommunityAPI.detail(postId).then(res => {
-      setPost(res)
-      setCommentList(res.commuCommentDetailList)
+      getPostDetailAction(res)
     })
   }
-
-  useEffect(()=>{
-    getCommunityDetail()
-  }, [])
 
   const postDelete = () => {
     getCommunityAPI.delete(postId).then(res => {
@@ -88,7 +82,7 @@ const PostDetailPage = ({navigation, route}) => {
               }
             </View>
             {commentList.length != 0
-                ? <View style={{backgroundColor:"#F4F4F4", minHeight:230}}><CommentList postId={postId} commentList={commentList} ref={commentsRef} /></View>
+                ? <View style={{backgroundColor:"#F4F4F4", minHeight:230}}><CommentList postId={postId} commentList={commentList} /></View>
                 : null
             }
           </ScrollView>

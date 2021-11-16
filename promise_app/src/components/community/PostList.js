@@ -2,11 +2,10 @@ import React, { useState, useCallback, useRef, useEffect } from 'react';
 import {View, Text, StyleSheet, FlatList, TouchableHighlight } from 'react-native';
 import { Divider } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-// import useCommunityList from '../../utils/useCommunityList';
 import useCommunity from '../../utils/useCommunity';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCommunityAPI } from '../../utils/axios';
-import { getMoreCommunityAction } from '../../modules/community/actions';
+import { getPostDetailAction, getMoreCommunityAction } from '../../modules/community/actions';
 import Moment from 'moment';
 
 const PostList = (props) => {
@@ -25,13 +24,21 @@ const PostList = (props) => {
 
   const getMorePost = async () => {
     if (hasMore) {
-      console.log(pageNum)
       const res = await useCommunity(communityList, pageNum, totalPageCnt)
       dispatch(getMoreCommunityAction(res))
     }
   }
     
   const lastPostRef = useRef()
+
+  // 커뮤니티디테일에 보기 전 필요한 정보 리덕스에 저장
+  const getCommunityDetail = (post) => {
+     getCommunityAPI.detail(post.commuId).then((res)=>{
+       dispatch(getPostDetailAction(res))
+     }).then(()=>{
+       navigation.navigate('communitydetail', {post: post, postDate: post.commuDate})
+     })
+  }
 
 
   return (
@@ -71,8 +78,9 @@ const PostList = (props) => {
         </TouchableHighlight>
         :
         <>
-        <TouchableHighlight onPress={()=>getMorePost()}><Text>{pageNum}{hasMore?'true':'false'}</Text></TouchableHighlight>
-        <TouchableHighlight onPress={()=>navigation.navigate('communitydetail', {post: item, postDate: postDate})} underlayColor="white">
+        <TouchableHighlight ref={lastPostRef} onPress={()=>getCommunityDetail(item)} underlayColor="white">
+        {/* <TouchableHighlight onPress={()=>getMorePost()}><Text>{pageNum}{hasMore?'true':'false'}</Text></TouchableHighlight> */}
+        {/* <TouchableHighlight onPress={()=>navigation.navigate('communitydetail', {post: item, postDate: postDate})} underlayColor="white"> */}
         <View style={styles.container} key={item.commuId}>
             <View>
                 <Text style={styles.itemNameText}>{item.userNickname}</Text>
