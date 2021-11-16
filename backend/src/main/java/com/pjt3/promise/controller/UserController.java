@@ -198,17 +198,7 @@ public class UserController {
 			String userEmail = user.getUserEmail();
 			String userNickname = user.getUserNickname();
 			
-			List<ShareUserGetRes> shareUserGetResList = userService.getShareUserList(searchKeyword);
-			
-			for (ShareUserGetRes shareUserGetRes : shareUserGetResList) {
-				if (shareUserGetRes.getUserEmail().equals(userEmail) || shareUserGetRes.getUserNickname().equals(userNickname)) {
-					
-					shareUserGetResList.remove(shareUserGetRes);
-					if (shareUserGetResList.size() == 0) {
-						break;
-					}
-				}
-			}
+			List<ShareUserGetRes> shareUserGetResList = userService.getShareUserList(searchKeyword, userEmail, userNickname);
 			
 			if (shareUserGetResList.size() == 0) {
 				return ResponseEntity.status(400).body(null);
