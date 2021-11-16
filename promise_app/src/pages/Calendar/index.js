@@ -79,7 +79,7 @@ const CalendarPage = ({navigation}) => {
                 markingType={'multi-dot'}
                 markedDates={markList}
                 monthFormat={'yyyy년 MM월'}
-                onDayPress={(day)=>navigation.navigate('Alarm', {day:day.dateString})}
+                onDayPress={(day)=>navigation.navigate('AlarmScreen', {day:day.dateString})}
                 disableMonthChange={true}
                 firstDay={7}
                 hideDayNames={false}
