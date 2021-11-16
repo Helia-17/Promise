@@ -139,6 +139,7 @@
   z-index: 1;
   transform: translate(-50%, -50%);
 }
+
 .developer-name{
   font-size: 18px;
   font-weight: 600;
@@ -147,4 +148,25 @@
 .developer-github{
   font-size: 16px;
   font-weight: 600;
+}
+
+.phone-container{
+  position: relative;
+  z-index: 2;
+}
+.phone-back{
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 65%;
+  margin-left: 16%;
+  margin-top: 8%;
+  z-index: -1;
+}
+.slide-img{
+  width: 100%;
+}
+.phone-back {
+  font-size: 0 ;
 }

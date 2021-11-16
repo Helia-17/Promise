@@ -1,8 +1,9 @@
 import React, {useState, useCallback} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
-import { View, Text, Image, Alert, TextInput, TouchableOpacity  } from 'react-native';
+import { View, Text, Image, Alert, TextInput, TouchableOpacity, StyleSheet  } from 'react-native';
 import {myinfo, modifyNick, changeInfo} from '../../utils/axios';
 import S3Upload from '../../components/S3Upload';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 const ModifyInfo = ({navigation}) => {
 
@@ -13,6 +14,7 @@ const ModifyInfo = ({navigation}) => {
     const [changePet, setChangePet] = useState('');
     const [isCheck, setIsCheck] = useState(false);
     const [userEmail, setUserEmail] = useState('');
+    const [idColor, setIdColor] = useState('#000000');
 
     const getMyInfo = async ()=>{
         const result = await myinfo();
@@ -42,8 +44,10 @@ const ModifyInfo = ({navigation}) => {
         );
         if(result.statusCode!==409){
             setIsCheck(true);
+            setIdColor('#A6DB9E');
         }else{
             setIsCheck(false);
+            setIdColor('#FFABAB');
         }
     }
 
@@ -59,7 +63,7 @@ const ModifyInfo = ({navigation}) => {
             Alert.alert(
                 '정보 수정',
                 `해당 정보로 수정하시겠습니까?
-    닉네임 : ${changeNick},
+    닉네임 : ${changeNick}
     펫 이름 : ${changePet}`,
                 [{
                     text:'예',
@@ -93,28 +97,31 @@ const ModifyInfo = ({navigation}) => {
             </View>
             <View style={{width: '100%', alignItems: 'center'}}>
                 <View style={{width: '70%', justifyContent: 'space-between', alignItems: 'center', flexDirection: "row"}}>
-                    <Text>닉네임</Text>
-                    <TouchableOpacity onPress={()=>checkNick()}>
-                        <Text>중복확인</Text>
-                    </TouchableOpacity>
+                    <Text style={style.myInfoLabel}>닉네임</Text>
+                    <View style={style.myInfoNicknameCheck}>
+                        <Icon name='checkcircle' color={idColor} size={16}/>
+                        <TouchableOpacity onPress={()=>checkNick()}>
+                            <Text style={{marginLeft: 3, fontSize: 15}}>중복확인</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
                 <View style={{width:'70%', backgroundColor:'white', marginTop:10}}>
                     <TextInput
                         placeholder="닉네임입력"
                         onChangeText={setChangeNick}
                         value={changeNick}
-                        style={{width:'100%', margin:5}}
+                        style={style.myInfoInput}
                     />
                 </View>
                 <View style={{width: '70%', justifyContent: 'space-between', alignItems: 'center', flexDirection: "row", marginTop:20}}>
-                    <Text>펫 이름</Text>
+                    <Text style={style.myInfoLabel}>펫 이름</Text>
                 </View>
                 <View style={{width:'70%', backgroundColor:'white', marginTop:10}}>
                     <TextInput
                         placeholder="펫 이름 입력"
                         onChangeText={setChangePet}
                         value={changePet}
-                        style={{width:'100%', margin:5}}
+                        style={style.myInfoInput}
                     />
                 </View>
             </View>
@@ -124,4 +131,24 @@ const ModifyInfo = ({navigation}) => {
         </View>
     );
 };
+
+const style = StyleSheet.create({
+    myInfoLabel: {
+        fontSize: 18,
+        fontWeight: 'bold'
+    },
+    myInfoInput: {
+        width: '100%',
+        height: 45,
+        borderWidth: 0.3,
+        borderColor: '#BBBBBB',
+        borderRadius: 5,
+        padding: 10,
+        fontSize: 16,
+    },
+    myInfoNicknameCheck: {
+        flexDirection: 'row',
+        margin: 1,
+    }
+})
 export default ModifyInfo;

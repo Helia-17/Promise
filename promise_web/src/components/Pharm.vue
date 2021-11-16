@@ -17,7 +17,13 @@
       </div>
       <div class="col-4">
         <div class="phone-container">
-          <img class="phone-img" src=".././assets/iphone-frame.png">
+          <img class="phone-img d-block" src=".././assets/iphone-frame.png">
+          <div class="phone-back">
+            <tiny-slider v-bind="tinySliderOptions" class="tns-visually-hidden">
+              <img class="slide-img" src=".././assets/Alarm1.png" />
+              <img class="slide-img" src=".././assets/Alarm2.png" />
+            </tiny-slider>
+          </div>
           <div class="true-msg">
             <p>우리가 어떤 민족입니까.</p>
             <p>보조제의 민족.</p>
@@ -29,8 +35,26 @@
 </template>
 
 <script>
+import VueTinySlider from 'vue-tiny-slider';
 export default {
-  
+  components: {
+    'tiny-slider': VueTinySlider
+  },
+  data() {
+    return {
+      tinySliderOptions: {
+        mouseDrag: false,
+        autoplayButtonOutput: false,
+        loop: true,
+        autoplay: true,
+        nav: false,
+        controls: false,
+        items: 1,
+        speed: 500,
+        autoplayResetOnVisibility: false
+      }
+    }
+  },
 }
 </script>
 
