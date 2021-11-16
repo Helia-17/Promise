@@ -57,7 +57,7 @@ export default {
         swipeAngle: false,
         autoplayResetOnVisibility: false,
         rewind : false,
-        container: "#visual-carousel-controls"
+        container: "#visual-carousel-controls",
       }
     }
   },
@@ -103,4 +103,8 @@ export default {
 .slide-img{
   width: 100%;
 }
+.phone-back {
+  font-size: 0 ;
+}
+
 </style>
