@@ -11,19 +11,19 @@
         <scene sceneID="EHf-IW-A2E">
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                    <view key="view" contentMode="scaleToFill" id="Ccn-1f-brz">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SplashIcon" translatesAutoresizingMaskIntoConstraints="NO" id="PHd-ba-wL7">
-                                <rect key="frame" x="64" y="280" width="300" height="366"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SplashIcon" translatesAutoresizingMaskIntoConstraints="NO" id="IZh-gD-Xlq">
+                                <rect key="frame" x="64" y="313" width="300" height="300"/>
                             </imageView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
+                        <viewLayoutGuide key="safeArea" id="43y-BP-ZbP"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="PHd-ba-wL7" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Jzq-BW-6E3"/>
-                            <constraint firstItem="PHd-ba-wL7" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="aOT-38-4rO"/>
+                            <constraint firstItem="IZh-gD-Xlq" firstAttribute="centerY" secondItem="Ccn-1f-brz" secondAttribute="centerY" id="XX1-sH-h4q"/>
+                            <constraint firstItem="IZh-gD-Xlq" firstAttribute="centerX" secondItem="Ccn-1f-brz" secondAttribute="centerX" id="huD-4G-hVV"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -33,6 +33,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="SplashIcon" width="300" height="366.66665649414062"/>
+        <image name="SplashIcon" width="300" height="300"/>
     </resources>
 </document>
