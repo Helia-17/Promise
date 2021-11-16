@@ -64,14 +64,27 @@ const PostDetailPage = ({navigation, route}) => {
       {Platform.OS === 'android' ? (
         <View style={{ height: '100%'}}>
           <ScrollView style={{ width: '100%', marginVertical: 10, marginBottom: 55}} contentContainerStyle={{flexDirection:'column', justifyContent:'center'}}>
-            <View style={styles.container}>
-              <View>
-                <Text style={styles.itemTitleText}>{post.commuTitle}</Text>
-                <Text style={styles.itemNameText}>{post.userNickname}</Text>
-                <Text style={styles.itemDateText}>{postDate}</Text>
-                <Text style={styles.itemContentText}>{post.commuContents}</Text>
-              </View>
-            </View>
+            {commentList.length != 0
+                ? 
+                <View style={styles.container}>
+                  <View>
+                    <Text style={styles.itemTitleText}>{post.commuTitle}</Text>
+                    <Text style={styles.itemNameText}>{post.userNickname}</Text>
+                    <Text style={styles.itemDateText}>{postDate}</Text>
+                    <Text style={styles.itemContentText}>{post.commuContents}</Text>
+                  </View>
+                </View>
+                : 
+                <View style={styles.containerInNoComments}>
+                  <View>
+                    <Text style={styles.itemTitleText}>{post.commuTitle}</Text>
+                    <Text style={styles.itemNameText}>{post.userNickname}</Text>
+                    <Text style={styles.itemDateText}>{postDate}</Text>
+                    <Text style={styles.itemContentText}>{post.commuContents}</Text>
+                  </View>
+                </View>
+            }
+
             <View style={{marginVertical:15, marginHorizontal: 10, flexDirection: 'row', justifyContent:'flex-end', alignItems: 'center'}}>
               {userNickname === post.userNickname?
               <>
@@ -152,6 +165,22 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     color: '#333333',
   },
+  containerInNoComments: {
+    minHeight: 300,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    shadowColor: '#f1f2f3',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 18.95,
+    elevation: 1,
+    zIndex: 1,
+    backgroundColor: 'white',
+    color: '#333333',
+  },
   itemNameText: {
     fontSize: 18,
     fontWeight: '600',
@@ -181,7 +210,7 @@ const styles = StyleSheet.create({
     marginTop: 1,
     marginBottom: 55,
     marginHorizontal: 0,
-    paddingVertical: 12,
+    padding: 12,
     paddingHorizontal: 14,
     backgroundColor: '#F4F4F4',
   },
