@@ -15,6 +15,7 @@ import { getCommunityAction, resetCommunityListAction, getPostDetailAction } fro
 import SmallBtn from '../../components/atoms/SmallBtn';
 import CommentList from '../../components/community/CommentList';
 import InputCommentText from '../../components/InputCommentText';
+import Moment from 'moment';
 
 const PostDetailPage = ({navigation, route}) => {
 
@@ -24,7 +25,7 @@ const PostDetailPage = ({navigation, route}) => {
   const [ userNickname, setUserNickname ] = useState(stateUserNickname)
 
   const postId = route.params.post.commuId
-  const postDate = route.params.postDate
+  const postDate = Moment(route.params.postDate).format("YYYY.MM.DD HH:mm")
   const post = useSelector((state) => state.community.communityPostDetail)
 
   // const [commentList, setCommentList] = useState([])
