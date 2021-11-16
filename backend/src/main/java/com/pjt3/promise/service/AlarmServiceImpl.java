@@ -89,7 +89,9 @@ public class AlarmServiceImpl implements AlarmService {
 			userMedicineSetting(mediAlarm, alarmPostReq.getAlarmMediList());
 
 			// 태그 저장
-			for (String tagName : alarmPostReq.getTagList()) {
+			for (String prevTagName : alarmPostReq.getTagList()) {
+				String tagName = prevTagName.replaceAll("\\s", "");
+				if(tagName.equals("")) continue;
 				Tag tag = new Tag();
 				tag.setMediAlarm(mediAlarm);
 				tag.setUser(user);
