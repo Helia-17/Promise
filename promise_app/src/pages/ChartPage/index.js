@@ -1,13 +1,12 @@
 import React, {useState, useCallback} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
-import { View, Text, StyleSheet, processColor, Container } from 'react-native';
+import { View, Text, StyleSheet, processColor } from 'react-native';
 import Swiper from 'react-native-swiper'
-import {LineChart, PieChart} from 'react-native-charts-wrapper';
+import {PieChart} from 'react-native-charts-wrapper';
 import {getMainAlarm, getVisual} from '../../utils/axios'
 import { getMainAlarmList } from '../../modules/user/actions';
 import { useDispatch } from 'react-redux';
 import Moment from 'moment';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const ChartPage = ({navigation}) => {
 
@@ -55,7 +54,7 @@ const ChartPage = ({navigation}) => {
         <Text style={styles.titleText}>건강한 나를 위한 '약속'</Text>
         <Text style={styles.contentText}>오늘의 약속</Text>
         <View style={styles.swiperWrapper}>
-          <Swiper style={styles.wrapper} horizontal={false} key={alarmList.length} showsPagination={false} autoplay={true} autoplayTimeout={3}>
+          <Swiper horizontal={false} key={alarmList.length} showsPagination={false} autoplay={true} autoplayTimeout={3}>  
             {alarmList.length != 0
               ? alarmList.map((item) => {
 
@@ -76,13 +75,16 @@ const ChartPage = ({navigation}) => {
                       <Text style={styles.alarmTitleText}>{item.alarmTitle}</Text>
                     </View>
                     {alarmCnt > 0
-                      ? <Text style={styles.alarmTimesText}>{alarmCnt}회({alarmTimes})</Text>
+                      ? <Text style={styles.alarmTimesText}>{alarmCnt}회 ({alarmTimes})</Text>
                       : null
                     }
                   </View>
                 )
               })
-              : <Text>등록하신 알람이 없습니다</Text>
+              :
+              <View style={styles.slide}>
+                <Text style={{fontSize:18, color:'#BBBBBB'}}>등록하신 알람이 없습니다</Text>
+              </View>
             }
           </Swiper>
         </View>
@@ -92,14 +94,14 @@ const ChartPage = ({navigation}) => {
           <PieChart
             style={styles.chart}
             chartDescription={{text: ''}}
-            entryLabelColor={processColor('black')} // tag name text color
-            entryLabelTextSize={15} // tag name text size
-            legend={{enabled:false}}  // remove description
-            holeRadius={35}     // inner circle size
-            holeColor={processColor('#white')} // inner circle color
-            transparentCircleRadius={40}  // transparent inner circle size
-            transparentCircleColor={processColor('#white')}  // transparent inner circle color
-            styledCenterText={{text:'TOP 7', color: processColor('black'), size: 25}} //fontFamily: 'HelveticaNeue-Medium',
+            entryLabelColor={processColor('black')}
+            entryLabelTextSize={15}
+            legend={{enabled:false}}
+            holeRadius={35}
+            holeColor={processColor('#white')}
+            transparentCircleRadius={40}
+            transparentCircleColor={processColor('#white')}
+            styledCenterText={{text:'TOP 7', color: processColor('black'), size: 25}}
             data={{dataSets: [
               {
                 values: visualData,
@@ -114,15 +116,10 @@ const ChartPage = ({navigation}) => {
                     processColor('#FFF1E6'),
                     processColor('#EDDCD2')
                   ],
-                  valueTextSize: 15,  // tag value text size
+                  valueTextSize: 15,
                   valueTextColor: processColor('black'),
-                  sliceSpace: 5,  // 차트사이 간격
-                  selectionShift: 0,  // 박스 안 공간 0이 최대
-
-                  // 수치 밖으로 꺼내기
-                  // xValuePosition: "INSIDE_SLICE",
-                  // yValuePosition: "OUTSIDE_SLICE",
-    
+                  sliceSpace: 5,
+                  selectionShift: 0,
                   valueFormatter: "#'%'",
                   valueLineColor: processColor('black'),
                   valueLinePart1Length: 0.5,
@@ -140,19 +137,18 @@ const styles = StyleSheet.create({
   swiperWrapper: {
     marginTop: 10,
     height: 80,
-    borderColor:'#BDBDBD', 
-    borderWidth:0.5,
-  },
-  wrapper: {
-    backgroundColor:'#FFFFFF', 
-    // height: 80
+    borderColor: '#C4D6E6',
+    borderRadius: 10,
+    borderWidth: 1,
+    backgroundColor: 'white',
   },
   slide: {
     flex: 1,
+    width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
     margin: 0.1,
-    borderRadius:3, 
+    borderRadius: 20,
   },
   chartContainer: {
     flex: 1,
@@ -160,13 +156,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
     justifyContent: 'center',
-
-    // backgroundColor: 'white',
-
     maxHeight: 400,
-
-    // elevation: 2,
-
   },
   chart: {
     flex: 1
@@ -177,16 +167,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     marginVertical: 8,
     color: '#333333',
-    // ---* ios shadow *---
-    // shadowColor: 'rgba(183, 183, 183, 0.8)',
-    // shadowOffset: {
-    //   width: 5,
-    //   height: -5,
-    // },
-    // shadowOpacity: 1,
-    // shadowRadius: 18.95,
-    // elevation: 2,
-
     backgroundColor:'#FFFFFF', 
     borderRadius:3, 
     borderColor:'#BDBDBD', 
@@ -210,7 +190,7 @@ const styles = StyleSheet.create({
   },
   alarmTimesText: {
     marginLeft: 10,
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '400'
   },
   contentText: {
