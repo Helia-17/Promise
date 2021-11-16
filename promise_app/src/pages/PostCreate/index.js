@@ -24,7 +24,7 @@ const PostCreatePage = ({navigation}) => {
     }
     
     return (
-        <View>
+        <View style={styles.container}>
             <View  style={styles.titleView}>
                 <View style={{width:'90%'}}>
                     <InputTitleText name='제목' text='' result={(data)=>onChangeTitle(data)} />
@@ -36,7 +36,7 @@ const PostCreatePage = ({navigation}) => {
                         <InputLongText name='내용' text='' result={(data)=>onChangeContent(data)} />
                     </View>
                 </View>
-                <View style={{width:'90%', margin:10, alignItmes:'flex-end'}}>
+                <View style={{width:'90%', marginHorizontal:10, marginVertical:20, alignItmes:'flex-end'}}>
                     <TouchableOpacity style={{backgroundColor:'#A3BED7', color:'black', alignItems: 'center', borderRadius: 12, height:50, justifyContent: 'center'}} onPress={()=>postCreate()}>
                         <Text style={{color:'black', fontSize:20, fontWeight:'bold'}}>작성</Text >
                     </TouchableOpacity>
@@ -49,13 +49,17 @@ const PostCreatePage = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+    container: {
+        height: '100%',
+    },
     titleView: {
-        marginTop:20, 
+        height: '20%',
         alignItems: 'center', 
         backgroundColor:'#F9F9F9', 
         justifyContent:'center' 
     },
     mainView: { 
+        height: '80%',
         alignItems: 'center', 
         backgroundColor:'#F9F9F9', 
         justifyContent:'center' 
