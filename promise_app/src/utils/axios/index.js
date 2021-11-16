@@ -502,3 +502,19 @@ export const getMediDetailAPI = async mediSerialNum => {
       return err.response.data;
     });
 }
+
+export const alarmCheckAPI = async (alarmId, thYN) => {
+  return await request
+  .post(`/alarms/check`,
+    {
+      alarmId,
+      thYN
+    }
+  )
+    .then((response) => {
+      return response.data;
+    })
+    .catch(err => {
+      return err.response.data;
+    })
+}

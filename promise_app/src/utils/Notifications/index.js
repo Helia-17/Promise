@@ -1,5 +1,6 @@
 import PushNotification from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import { alarmCheckAPI } from '../axios';
 
 class Notifications {
   constructor() {
@@ -13,7 +14,7 @@ class Notifications {
         console.log('NOTIFICATION:', notification);
         // notification.tag에 alarmId를 넣어놨으니까
         // 여기서 axios로 복용 이력 api 날리면 됨!
-        console.log(notification.data.alarmId + " 여기서 뭐든 하면 돼!!!!!!!! 알람 아이디가 돌아오는걸~~");
+        postAlarmCheck(notification.data.alarmId);
         notification.finish(PushNotificationIOS.FetchResult.NoData);
       },
 
@@ -41,8 +42,10 @@ class Notifications {
       },
       () => { },
     );
-
     
+    postAlarmCheck = async (data) => {
+      await alarmCheckAPI(data, 1);
+    }
   }
 
   cancelScheduledLocalNotifications(id) {

@@ -1,6 +1,6 @@
 import React, {useState, useCallback} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
-import { View, Text, TouchableOpacity, Image, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Alert, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {myinfo, withdraw} from '../../utils/axios';
@@ -101,18 +101,18 @@ const Mypage = ({navigation}) => {
                     </View>
                 </View>
                 <View style={{width: '100%', alignItems: 'center'}}>
-                    <TouchableOpacity style={{width:'85%', backgroundColor:'#FFFFFF', height:'30%', margin:10, borderRadius:3, borderColor:'#BDBDBD', borderWidth:0.3}} onPress={()=>navigation.navigate('modifyInfo')}>
-                        <View style={{flexDirection: "row", alignItems: 'center', justifyContent:'space-between', width:'100%', height:'100%'}}>
-                            <View style={{flexDirection:"row", marginLeft:'5%'}}>
+                    <TouchableOpacity style={styles.mypageContainer} onPress={()=>navigation.navigate('modifyInfo')}>
+                        <View style={styles.mypageWrapper}>
+                            <View style={styles.mypageContent}>
                                 <Icon name='pencil' color='black' size={30}/>
                                 <Text style={{fontSize:18, marginLeft:'10%'}}>정보수정</Text>
                             </View>
                             <Icon name='chevron-right' color='black' size={30} style={{marginRight:'5%'}}/>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{width:'85%', backgroundColor:'#FFFFFF', height:'30%', margin:10, borderRadius:3, borderColor:'#BDBDBD', borderWidth:0.3}} onPress={()=>navigation.navigate('mypill')}>
-                        <View style={{flexDirection: "row", alignItems: 'center', justifyContent:'space-between', width:'100%', height:'100%'}}>
-                            <View style={{flexDirection:"row", marginLeft:'5%'}}>
+                    <TouchableOpacity style={styles.mypageContainer} onPress={()=>navigation.navigate('mypill')}>
+                        <View style={styles.mypageWrapper}>
+                            <View style={styles.mypageContent}>
                                 <Icon name='pill' color='black' size={30}/>
                                 <Text style={{fontSize:18, marginLeft:'10%'}}>마이필</Text>
                             </View>
@@ -124,4 +124,27 @@ const Mypage = ({navigation}) => {
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    mypageContainer: {
+        width: '85%',
+        backgroundColor: '#FFFFFF',
+        height: '30%', margin: 10,
+        borderRadius: 10,
+        borderColor: '#BDBDBD',
+        borderWidth: 0.3
+    },
+    mypageWrapper: {
+        flexDirection: "row",
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        width: '100%',
+        height: '100%'
+    },
+    mypageContent: {
+        flexDirection: "row",
+        alignItems: 'center',
+        marginLeft: '5%',
+    }
+})
 export default Mypage;

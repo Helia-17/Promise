@@ -123,8 +123,16 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<ShareUserGetRes> getShareUserList(String searchKeyword) {
+	public List<ShareUserGetRes> getShareUserList(String searchKeyword, String userEmail, String userNickname) {
 		List<ShareUserGetRes> shareUserList = userRepositorySupport.getShareUserList(searchKeyword);
+		
+		for (ShareUserGetRes shareUserGetRes : shareUserList) {
+			if (shareUserGetRes.getUserEmail().equals(userEmail) && shareUserGetRes.getUserNickname().equals(userNickname)) {
+				shareUserList.remove(shareUserGetRes);
+				break;
+			}
+		}
+		
 		return shareUserList;
 	}
 

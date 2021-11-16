@@ -59,7 +59,7 @@ const Search = (props) => {
                 </ScrollView>
             ) : (
                 <View style={{ width: '100%', height:'85%', alignItems: 'center', justifyContent: 'center' }}>
-                    <Text style={{fontSize:20, color:'#BBBBBB'}}>검색 결과가 없습니다.</Text>
+                    <Text style={{fontSize:24, color:'#BBBBBB'}}>검색 결과가 없습니다.</Text>
                 </View>  
             )}
             

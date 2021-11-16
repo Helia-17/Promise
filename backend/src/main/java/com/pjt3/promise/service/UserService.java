@@ -18,5 +18,5 @@ public interface UserService {
 	int deleteUser(String userEmail);
 	int update(User user, UserInfoPutReq userUpdateInfo);
 	int updateProfile(User user, UserProfilePostReq userProfileInfo);
-	List<ShareUserGetRes> getShareUserList(String searchKeyword);
+	List<ShareUserGetRes> getShareUserList(String searchKeyword, String userEmail, String userNickname);
 }
