@@ -5,17 +5,57 @@ let request = axios.create({
   baseURL: 'https://k5a201.p.ssafy.io/api',
 });
 
+request.interceptors.request.use(
+  async (config)=>{
+    if(await AsyncStorage.getItem('token')){
+      config.headers['Authorization'] = await AsyncStorage.getItem('token');
+    }
+    return config;
+  }
+);
+
+request.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async(err)=>{
+    const originalConfig = err.config;
+    if(err.response){
+      if(err.response.status === 420 && !originalConfig.retry){
+        originalConfig.retry = true;
+        try{
+          const refresh = await request.post('/auth/reissue',{
+                            refreshToken : await AsyncStorage.getItem('refresh')
+                          }).then((response) => response.data)
+          AsyncStorage.removeItem('refresh');
+          AsyncStorage.removeItem('token');
+          AsyncStorage.setItem('refresh',refresh.refreshToken);
+          setToken(refresh.accessToken);
+          request.defaults.headers.common['Authorization'] = 'Bearer ' + refresh.accessToken;
+          return request(originalConfig);
+        }catch(error){
+          if (error.response && error.response.data){
+            return Promise.reject(error.response.data);
+          }
+          return Promise.reject(error);
+        }
+      }
+    }
+    return Promise.reject(err);
+  }
+)
+
 function setToken(value) {
   AsyncStorage.setItem('token', `Bearer ${value}`);
 }
 
 export const myinfo = async () => {
+  console.log('myinfo 시작!');
+  console.log(await AsyncStorage.getItem('token'));
   return await request.get(`/users`, {
-    headers: {
-      Authorization: await AsyncStorage.getItem('token'),
-    }
   })
   .then(response => {
+    console.log('myinfo!!!');
     return response.data;
   }).catch(err => {
     console.log(err.response);
@@ -25,9 +65,6 @@ export const myinfo = async () => {
 
 export const withdraw = async()=>{
   return await request.delete(`/users`, {
-    headers: {
-      Authorization: await AsyncStorage.getItem('token'),
-    }
   })
   .then(response => {
     return response.data.statusCode;
@@ -39,9 +76,6 @@ export const withdraw = async()=>{
 export const shareUser = async searchKeyword => {
   return await request
     .get('/users/sharing', {
-      headers: {
-        Authorization: await AsyncStorage.getItem('token'),
-      },
       params: {
         searchKeyword: searchKeyword,
       },
@@ -55,15 +89,11 @@ export const shareUser = async searchKeyword => {
 
 export const getAlarmDetail = async (alarmId) => {
   return await request.get(`/alarms/detail/${alarmId}`, {
-      headers: {
-        Authorization: await AsyncStorage.getItem('token'),
-      },
       params: {
         alarmId: alarmId,
       },
     })
     .then(response => {
-      console.log(response.data);
       return response.data;
     }).catch(err => {
       return err.response.data;
@@ -72,9 +102,6 @@ export const getAlarmDetail = async (alarmId) => {
 
 export const getMainAlarm = async () => {
   return await request.get(`/alarms/main`, {
-      headers: {
-        Authorization: await AsyncStorage.getItem('token'),
-      }
     })
     .then(response => {
       return response.data.alarmList;
@@ -83,9 +110,6 @@ export const getMainAlarm = async () => {
 
 export const getVisual = async () => {
   return await request.get(`/visual`, {
-      headers: {
-        Authorization: await AsyncStorage.getItem('token'),
-      }
     })
     .then(response => {
       return response.data.UsersTagList;
@@ -94,9 +118,6 @@ export const getVisual = async () => {
 
 export const getPeriod = async (periodType) => {
   return await request.get(`/alarms/${periodType}`, {
-      headers: {
-        Authorization: await AsyncStorage.getItem('token'),
-      }
     })
     .then(response => {
       return response.data.alarmList;
@@ -107,9 +128,6 @@ export const getPeriod = async (periodType) => {
 
 export const getAlarmlist = async (nowDate)=>{
   return await request.get('/alarms', {
-      headers: {
-        Authorization: await AsyncStorage.getItem('token'),
-      },
       params: {
         nowDate: nowDate,
       },
@@ -124,9 +142,6 @@ export const getAlarmlist = async (nowDate)=>{
 
 export const sharingList = async()=>{
   return await request.get('/sharings',{
-    headers: {
-      Authorization: await AsyncStorage.getItem('token'),
-    }
   }).then((response) => {
     console.log(response.data);
   }).catch((err) => {
@@ -136,9 +151,6 @@ export const sharingList = async()=>{
 
 export const getCalendar = async(nowMonth)=>{
   return await request.get('/alarms/calendar', {
-    headers: {
-      Authorization: await AsyncStorage.getItem('token'),
-    },
     params: {
       nowMonth: nowMonth,
     },
@@ -152,18 +164,9 @@ export const getCalendar = async(nowMonth)=>{
 }
 
 export const ocrList = async text => {
-  return await request
-    .post(
-      '/alarms/ocr',
-      {
-        text,
-      },
-      {
-        headers: {
-          Authorization: await AsyncStorage.getItem('token'),
-        },
-      },
-    )
+  return await request.post('/alarms/ocr',{
+      text,
+    })
     .then(response => {
       return response.data.mediList;
     })
@@ -175,11 +178,7 @@ export const ocrList = async text => {
 export const uploadProfile = async (userProfileUrl) => {
   return await request.put('/users/profile',{
         userProfileUrl,
-      },{
-        headers: {
-          Authorization: await AsyncStorage.getItem('token'),
-        },
-      },
+      }
     )
     .then(response => {
       return response.data.statusCode;
@@ -192,9 +191,6 @@ export const uploadProfile = async (userProfileUrl) => {
 export const searchMedicine = async searchKeyword => {
   return await request
     .get('/medicines/alarm', {
-      headers: {
-        Authorization: await AsyncStorage.getItem('token'),
-      },
       params: {
         searchKeyword: searchKeyword,
       },
@@ -209,9 +205,6 @@ export const searchMedicine = async searchKeyword => {
 
 export const modifyNick = async (userNickname)=>{
   return await request.get(`/users/me/nickname/${userNickname}`,{
-    headers: {
-      Authorization: await AsyncStorage.getItem('token'),
-    }
   }).then((response)=>{
     return response.data;
   }).catch(err => {
@@ -222,10 +215,6 @@ export const modifyNick = async (userNickname)=>{
 export const changeInfo = async(userNickname, petName)=>{
   return await request.put('/users',{
     userNickname, petName
-  },{
-    headers: {
-      Authorization: await AsyncStorage.getItem('token'),
-    },
   })
   .then(response => {
     return response.data.statusCode;
@@ -261,12 +250,7 @@ export const enrollAlarm = async (
         alarmMediList,
         tagList,
         shareEmail,
-      },
-      {
-        headers: {
-          Authorization: await AsyncStorage.getItem('token'),
-        },
-      },
+      }
     )
     .then(response => {
       return response.data.alarmId;
@@ -285,6 +269,7 @@ export const userAPI = {
         userLoginType,
       })
       .then(response => {
+        AsyncStorage.setItem('refresh', response.data.refreshToken);
         setToken(response.data.accessToken);
       })
       .catch(error => {
@@ -299,6 +284,7 @@ export const userAPI = {
         userLoginType,
       })
       .then(response => {
+        AsyncStorage.setItem('refresh', response.data.refreshToken);
         setToken(response.data.accessToken);
       })
       .catch(error => {
@@ -354,9 +340,6 @@ export const userAPI = {
 export const getPharmacyAPI = async (lat, lon, week, curTime) => {
   return await request
     .get('/pharmacies', {
-      headers: {
-        Authorization: await AsyncStorage.getItem('token'),
-      },
       params: {
         lat: lat,
         lon: lon,
@@ -375,9 +358,6 @@ export const getPharmacyAPI = async (lat, lon, week, curTime) => {
 export const getCommunityAPI = {
   list: async (pageNum) => {
     return await request.get('/communities/list', {
-        headers:{
-            'Authorization': await AsyncStorage.getItem('token')
-        },
         params: {
             pageNum: pageNum
         }
@@ -391,9 +371,6 @@ export const getCommunityAPI = {
   },
   detail: async (commuId) => {
     return await request.get(`/communities/detail`, {
-        headers:{
-            'Authorization': await AsyncStorage.getItem('token')
-        },
         params: {
           commuId: commuId
         }
@@ -411,11 +388,6 @@ export const getCommunityAPI = {
       {
         commuTitle,
         commuContents,
-      },
-      {
-        headers:{
-            'Authorization': await AsyncStorage.getItem('token')
-        },
       }
     )
     .then((response) => {
@@ -432,11 +404,6 @@ export const getCommunityAPI = {
         commuId,
         commuTitle,
         commuContents,
-      },
-      {
-        headers:{
-            'Authorization': await AsyncStorage.getItem('token')
-        },
       }
     )
     .then((response) => {
@@ -448,9 +415,6 @@ export const getCommunityAPI = {
   },
   delete: async (commuId, commuTitle, commuContents) => {
     return await request.delete(`/communities/${commuId}`, {
-        headers:{
-            'Authorization': await AsyncStorage.getItem('token')
-        },
         params: {
           commuId: commuId,
         }
@@ -468,11 +432,6 @@ export const getCommunityAPI = {
       {
         commuId,
         commentContents,
-      },
-      {
-        headers:{
-            'Authorization': await AsyncStorage.getItem('token')
-        },
       }
     )
     .then((response) => {
@@ -484,9 +443,6 @@ export const getCommunityAPI = {
   },
   commentDelete: async (commentId) => {
     return await request.delete(`/communities/comment/${commentId}`, {
-        headers:{
-            'Authorization': await AsyncStorage.getItem('token')
-        },
         params: {
           commentId: commentId,
         }
@@ -503,9 +459,6 @@ export const getCommunityAPI = {
 export const getMediListAPI = async searchKeyword => {
   return await request
     .get('/medicines/search', {
-    headers: {
-      Authorization: await AsyncStorage.getItem('token'),
-    },
     params: {
       searchKeyword: searchKeyword,
     }
@@ -521,9 +474,6 @@ export const getMediListAPI = async searchKeyword => {
 export const getMediDetailAPI = async mediSerialNum => {
   return await request
     .get(`/medicines/detail/${mediSerialNum}`, {
-      headers: {
-        Authorization: await AsyncStorage.getItem('token'),
-      }
     })
     .then((response) => {
       return response.data;

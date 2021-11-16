@@ -84,8 +84,10 @@ const ModifyInfo = ({navigation}) => {
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
             <View style={{width: 450, height:150, flexDirection: "row", alignItems: 'center', justifyContent: 'center', marginTop:30, marginBottom:30}}>
-                <View style={{width:'30%', height:'90%', borderRadius:100, backgroundColor:'#C4C4C4'}}>
-                    <Image resizeMode='cover' source={{uri:userProfile}} style={{width: '100%', height: '100%', borderRadius:100}}/>
+                <View style={{width:130, height:130, borderRadius:100, backgroundColor:'#C4C4C4'}}>
+                    {userProfile.length>0?
+                        <Image resizeMode='cover' source={{uri:userProfile}} style={{width: 130, height: 130, borderRadius:100}}/>
+                    :null}
                 </View>
                 <S3Upload name={(data)=>setUserProfile(data)}/>
             </View>
