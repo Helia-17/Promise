@@ -15,7 +15,7 @@ const GoogleLoginBtn = (props) => {
     const GoogleLogin = async() => {
       try {
           await GoogleSignin.hasPlayServices()
-          const userInfoDetail = await GoogleSignin.signIn();
+          const userInfoDetail = await GoogleSignin.signIn()
           props.data({email: userInfoDetail.user.email, profile: userInfoDetail.user.photo, type:1})
 
       } catch (error) {

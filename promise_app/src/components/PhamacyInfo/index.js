@@ -7,7 +7,7 @@ const PhamacyInfo = (props) => {
     return (
         <View style={style.pharmInfoContainer}>
             <View style={style.pharmInfoTitle}>
-                <View style={{flexDirection: 'row'}}>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <Icon name='pharmacy' color='#CF422F' size={20} />
                     <Text style={style.pharmNameText} >{props.name}</Text>
                 </View>

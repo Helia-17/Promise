@@ -50,15 +50,12 @@ function setToken(value) {
 }
 
 export const myinfo = async () => {
-  console.log('myinfo 시작!');
   console.log(await AsyncStorage.getItem('token'));
   return await request.get(`/users`, {
   })
   .then(response => {
-    console.log('myinfo!!!');
     return response.data;
   }).catch(err => {
-    console.log("getMyInfo : ",err.response);
     return err.response.data;
   });
 };
