@@ -42,6 +42,7 @@ const Mypage = ({navigation}) => {
     useFocusEffect(
         useCallback(()=>{
             getMyInfo();
+            return ()=> clearTimeout(3000);
         }, [])
     );
 
@@ -82,7 +83,9 @@ const Mypage = ({navigation}) => {
             <View style={{width: '100%', height: '50%'}}>
                 <View style={{width: '100%', height:'40%', flexDirection: "row", alignItems: 'center', justifyContent: 'space-between', margin:30}}>
                     <View style={{width:130, height:130, borderRadius:100, backgroundColor:'#C4C4C4'}}>
-                        <Image resizeMode='cover' source={{uri:userProfile}} style={{width: 130, height: 130, borderRadius:100}}/>
+                        {userProfile.length>0 ? 
+                            <Image resizeMode='cover' source={{uri:userProfile}} style={{width: 130, height: 130, borderRadius:100}}/>
+                        :null}
                     </View>
                     <View style={{width:'60%', height:'70%', justifyContent: 'space-between'}}>
                         <Text style={{fontWeight: 'bold', fontSize:20}}>{userNickname}</Text>

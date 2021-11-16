@@ -16,11 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SplashIcon" translatesAutoresizingMaskIntoConstraints="NO" id="PHd-ba-wL7">
-                                <rect key="frame" x="81" y="280" width="266" height="366"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="266" id="NhO-i0-MpK"/>
-                                    <constraint firstAttribute="height" constant="366" id="tNt-fT-kzz"/>
-                                </constraints>
+                                <rect key="frame" x="64" y="280" width="300" height="366"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
