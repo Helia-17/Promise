@@ -3,8 +3,8 @@
       <span id='nav-title-left'>약속</span>
       <nav id='nav-contents-right'>
         <span id='download'>다운로드</span>
-        <span id='download-apple'><img class="download-logo" src="./../assets/apple-logo.png"> Apple Store</span>
-        <span id='download-android'><img class="download-logo" src="./../assets/play-store-logo.png"> Play Store</span>
+        <span id='download-apple'><a href="#"><img class="download-logo" src="./../assets/apple-logo.png"> Apple Store</a></span>
+        <span id='download-android'><a href="#"><img class="download-logo" src="./../assets/play-store-logo.png"> Play Store</a></span>
       </nav>
   </header>
 </template>
@@ -26,7 +26,7 @@ header {
   left: 0;
   right: 0;
   
-  height: 60px;
+  height: 90px;
   padding: 1rem;
   color: black;
   
@@ -35,6 +35,8 @@ header {
   justify-content: space-between;
   align-items: center;
   text-align: center;
+
+  z-index: 1000;
 }
 
 #nav-title-left {
@@ -42,18 +44,23 @@ header {
 }
 
 nav > span {
-  font-size: 20px;
+  font-size: 15px;
 }
 
 #download, #download-apple{
   margin-right: 20px;
 }
 
-#download-android > .download-logo {
+span > a{
+  text-decoration: none;
+  color: black;
+}
+
+#download-android > a >.download-logo {
   width: 15px;
 }
 
-#download-apple > .download-logo {
-  width: 18px;
+#download-apple > a > .download-logo {
+  width: 15px;
 }
 </style>
