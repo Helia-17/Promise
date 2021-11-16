@@ -195,8 +195,20 @@ public class UserController {
 		try {
 			PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
 			User user = userDetails.getUser();
+			String userEmail = user.getUserEmail();
+			String userNickname = user.getUserNickname();
 			
 			List<ShareUserGetRes> shareUserGetResList = userService.getShareUserList(searchKeyword);
+			
+			for (ShareUserGetRes shareUserGetRes : shareUserGetResList) {
+				if (shareUserGetRes.getUserEmail().equals(userEmail) || shareUserGetRes.getUserNickname().equals(userNickname)) {
+					
+					shareUserGetResList.remove(shareUserGetRes);
+					if (shareUserGetResList.size() == 0) {
+						break;
+					}
+				}
+			}
 			
 			if (shareUserGetResList.size() == 0) {
 				return ResponseEntity.status(400).body(null);
