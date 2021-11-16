@@ -19,6 +19,7 @@ const HomePage = ({navigation}) => {
         .then(res => {
             if(res.statusCode === 420) navigation.replace('LoginScreen');
             else{
+                console.log(res)
                 setUserInfo(res);
                 dispatch(getMyInfoAction(res));
             }
