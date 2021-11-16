@@ -14,11 +14,10 @@ const InputCommentText = (props) => {
 
     const createComment = () => {
         getCommunityAPI.commentCreate(props.postId, text).then(res => {
-            // setCreated(true)
             onChangeText('')
             changePostDetailAction()
             Keyboard.dismiss()
-          })
+          }).then(()=>{props.refreshComments()})
     }
 
     return(
@@ -31,8 +30,6 @@ const InputCommentText = (props) => {
     );
 };
 
-
-
 const styles = StyleSheet.create({
     commentContainer: {
         width: '100%',
@@ -43,15 +40,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         padding: 5,
     },
-    // commentContainer: {
-    //     width: '100%',
-    //     backgroundColor: '#E9E9E9',
-    //     bottom: 0,
-    //     height: 50,
-    //     alignItems: 'center',
-    //     justifyContent: 'center',
-    //     flexDirection: 'row'
-    // },
     commentInput: {
         borderTopLeftRadius: 5,
         borderBottomLeftRadius: 5,

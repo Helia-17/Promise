@@ -18,6 +18,7 @@ export const myinfo = async () => {
   .then(response => {
     return response.data;
   }).catch(err => {
+    console.log("getMyInfo : ",err.response);
     return err.response.data;
   });
 };
@@ -52,6 +53,23 @@ export const shareUser = async searchKeyword => {
     });
 };
 
+export const getAlarmDetail = async (alarmId) => {
+  return await request.get(`/alarms/detail/${alarmId}`, {
+      headers: {
+        Authorization: await AsyncStorage.getItem('token'),
+      },
+      params: {
+        alarmId: alarmId,
+      },
+    })
+    .then(response => {
+      console.log(response.data);
+      return response.data;
+    }).catch(err => {
+      return err.response.data;
+    });
+};
+
 export const getMainAlarm = async () => {
   return await request.get(`/alarms/main`, {
       headers: {
@@ -70,7 +88,6 @@ export const getVisual = async () => {
       }
     })
     .then(response => {
-      console.log(response.data.UsersTagList)
       return response.data.UsersTagList;
     });
 };
@@ -103,6 +120,18 @@ export const getAlarmlist = async (nowDate)=>{
     .catch(err => {
       return err.response.data;
     });
+}
+
+export const sharingList = async()=>{
+  return await request.get('/sharings',{
+    headers: {
+      Authorization: await AsyncStorage.getItem('token'),
+    }
+  }).then((response) => {
+    console.log(response.data);
+  }).catch((err) => {
+    console.log(err.response.data);
+  })
 }
 
 export const getCalendar = async(nowMonth)=>{

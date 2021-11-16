@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, TextInput, ScrollView} from 'react-native';
+import {View, Text, TouchableOpacity, TextInput, ScrollView, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {userAPI} from '../../utils/axios';
 
@@ -23,7 +23,7 @@ const NicknameModal = (props) => {
             props.now(false);
             props.next(true);
         }else if(nick.length===0){
-            alert('닉네임을 입력해주세요.')
+            alert('닉네임을 입력해주세요.');
         }else if(nickColor==='#000000'){
             alert('닉네임 중복확인을 해주세요.');
         }else {

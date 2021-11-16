@@ -13,7 +13,6 @@ const Pharmacy = () => {
     const [latitude, setLatitude] = useState();
     const [longitude, setLongitude] = useState();
     const [isPharmList, setIsPharmList] = useState(true);
-    
 
     async function requestPermission(){
         try{
@@ -138,7 +137,7 @@ const Pharmacy = () => {
                 </MapView>
             ):null}
             <View style={{position: 'absolute',bottom:0, height:'30%', width:'100%', alignItems:'center'}}>
-                {isPharmList ? (
+                {pharmacyList.length>0 ? (
                     <ScrollView style={{ width: '95%', margin: 5 }}>
                         {pharmList()}
                     </ScrollView>

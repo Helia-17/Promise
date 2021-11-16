@@ -27,7 +27,7 @@ const Alarm = (props) => {
         if(alarmList.length>0){
             alarmList.map(item=>{
                 result = result.concat(
-                    <MediInfo naviagtion = {props.navigation} func={()=>props.navigation.navigate('AlarmInfo',{data:item.alarmId})} alarmTitle={item.alarmTitle} alarmId={item.alarmId} alarmDayStart={item.alarmDayStart} alarmDayEnd = {item.alarmDayEnd}/>
+                    <MediInfo naviagtion = {props.navigation} func={(alarmId)=>props.navigation.navigate('AlarmInfo',{data:alarmId})} alarmTitle={item.alarmTitle} alarmId={item.alarmId} alarmDayStart={item.alarmDayStart} alarmDayEnd = {item.alarmDayEnd}/>
                 );
             })
         }

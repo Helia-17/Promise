@@ -1,11 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import { View, ScrollView, Text, TouchableOpacity } from 'react-native';
-// axios, redux
+import { View, ScrollView } from 'react-native';
 import { getCommunityAPI } from '../../utils/axios';
 import { getCommunityAction } from '../../modules/community/actions';
-
 import { useSelector, useDispatch } from 'react-redux';
-// components
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RoundBtn from '../../components/atoms/RoundBtn'; 
 import SearchBar from '../../components/community/SearchBar';
@@ -21,6 +18,7 @@ const CommunityPage = ({navigation, route}) => {
         return getCommunityAPI.list(1).then(res => {
             dispatch(getCommunityAction(res))
         })
+        
     }
     
     useEffect(()=>{
@@ -40,7 +38,6 @@ const CommunityPage = ({navigation, route}) => {
     
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
-            {/* search bar */}
             <SearchBar/>
             <View style={{width:'100%', margin:10, marginBottom:55 }}>
                 <PostList/>

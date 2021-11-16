@@ -7,7 +7,6 @@ const SignInModal = (props) => {
     const [pwColor, setPwColor] = useState('#000000');
     const [idColor, setIdColor] = useState('#000000');
 
-    // 일반 회원가입
     const [id, setId] = useState('');
     const [pw, setPw] = useState('');
     const [checkPw, setCheckPw] = useState('');
@@ -39,7 +38,7 @@ const SignInModal = (props) => {
             alert('이메일을 입력해주세요.');
         }
         else if(idColor === '#000000'){
-            alert('이메일 중복확인을 해주세요.');
+            alert('이메일 중복확인을 해주세요.',);
         }else if(idColor === '#FFABAB'){
             alert('중복된 이메일입니다. 다시 확인해주세요.');
         }else if(pw.length<1){

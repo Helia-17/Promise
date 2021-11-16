@@ -8,7 +8,6 @@ import { getMediDetailAPI } from '../../utils/axios';
 const Info = ({ route }) => {
     
     const [mediDetail, setMediDetail] = useState([]);
-    
     const getMediDetail = async () => {
         const res = await getMediDetailAPI(route.params.serialNum);
         setMediDetail(res);
