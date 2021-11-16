@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Moment from 'moment';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -22,6 +22,13 @@ const DateSelect = (props) => {
         setIsEndVisible(false);
         props.selectedEnd(Moment(date).format('YYYY-MM-DD'));
     }
+
+    useEffect(() => {
+        if(props.mydate){
+            setStartDate(Moment(props.mydate.start).format('YYYY-MM-DD'));
+            setEndDate(Moment(props.mydate.end).format('YYYY-MM-DD'));
+        }
+    }, [props])
 
     return (
         <View style={{flexDirection: "row", alignItems: 'center', width:'90%', justifyContent: 'center', height:50}}>

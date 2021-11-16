@@ -50,7 +50,6 @@ function setToken(value) {
 }
 
 export const myinfo = async () => {
-  console.log(await AsyncStorage.getItem('token'));
   return await request.get(`/users`, {
   })
   .then(response => {
@@ -97,6 +96,18 @@ export const getAlarmDetail = async (alarmId) => {
     });
 };
 
+export const deleteAlarm = async(alarmId)=>{
+  return await request.delete(`/alarms/${alarmId}`,{
+    params: {
+      alarmId: alarmId
+    }
+  }).then(response => {
+    return response.data;
+  }).catch(err => {
+    return err.response.data;
+  })
+}
+
 export const getMainAlarm = async () => {
   return await request.get(`/alarms/main`, {
     })
@@ -135,6 +146,18 @@ export const getAlarmlist = async (nowDate)=>{
     .catch(err => {
       return err.response.data;
     });
+}
+
+export const modifyAlarm = async(alarmId, alarmTitle, alarmYN, alarmTime1, alarmTime2, alarmTime3, alarmDayStart, alarmDayEnd, alarmMediList, tagList)=>{
+  return await request.put('/alarms', {
+    alarmId, alarmTitle, alarmYN, alarmTime1, alarmTime2, alarmTime3, alarmDayStart, alarmDayEnd, alarmMediList, tagList
+  })
+  .then(response => {
+    return response.data;
+  })
+  .catch(err => {
+    return err.response.data;
+  });
 }
 
 export const sharingList = async()=>{

@@ -12,6 +12,7 @@ import AlarmAdd from '../../pages/AlarmAdd';
 import AlarmInfo from '../../pages/AlarmInfo';
 import Alarm from '../../pages/Alarm';
 import Timeline from '../../pages/Timeline';
+import TimelineDetail from '../../pages/TimelineDetail';
 // import CommunityPage from '../../pages/Community';
 // import PostCreatePage from '../../pages/PostCreate';
 // import PostUpdatePage from '../../pages/PostUpdate';
@@ -66,7 +67,7 @@ const MyApp = ({navigation}) => {
         }}
         >
           <Stack.Screen name="TimelineScreen" component={Timeline} />
-          <Stack.Screen name="AlarmInfo" component={AlarmInfo} />
+          <Stack.Screen name="TimelineDetail" component={TimelineDetail} />
         </Stack.Navigator>
       )
     }
@@ -201,26 +202,13 @@ const MyApp = ({navigation}) => {
         )
     }
 
-    const [isLogin, setIsLogin] = useState('LoginScreen');
-
-    const checkLogin = async() =>{
-      const result = await AsyncStorage.getItem('token');
-      {result.length>0?setIsLogin('appscreen'):setIsLogin('LoginScreen')}
-    }
-
-    useLayoutEffect(() => {
-      checkLogin();
-    }, []);
-
     return (
       <Stack.Navigator 
       screenOptions={{
-        headerShown : false,
-        initialRouteName:isLogin
+        headerShown : false
         }}>
-          
-          <Stack.Screen name="LoginScreen" component={Login} />
           <Stack.Screen name="appscreen" component={MyAppNav} />
+          <Stack.Screen name="LoginScreen" component={Login} />
       </Stack.Navigator>
     )
 }

@@ -11,6 +11,8 @@ const Alarm = (props) => {
         let day = Moment().format('YYYY-MM-DD');
         if(props.route.params){
             day = props.route.params.day;
+        }else{
+            day = Moment().format('YYYY-MM-DD');
         }
         const result = await getAlarmlist(day);
         setAlarmList(result);
