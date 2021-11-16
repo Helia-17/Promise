@@ -137,7 +137,7 @@ const Pharmacy = () => {
                 </MapView>
             ):null}
             <View style={{position: 'absolute',bottom:0, height:'30%', width:'100%', alignItems:'center'}}>
-                {isPharmList.length>0 ? (
+                {pharmacyList.length>0 ? (
                     <ScrollView style={{ width: '95%', margin: 5 }}>
                         {pharmList()}
                     </ScrollView>
