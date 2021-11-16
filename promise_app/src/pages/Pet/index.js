@@ -1,34 +1,50 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 import { View, ScrollView, Text, TouchableOpacity, StyleSheet, AppRegistry, processColor, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RoundBtn from '../../components/atoms/RoundBtn'; 
 import SearchBar from '../../components/community/SearchBar';
 import PostList from '../../components/community/PostList';
 import exampleImg from '../../assets/Promise_Logo.png';
+import FastImage from 'react-native-fast-image'
+import L1Img from '../../assets/L1.gif'
+import L2Img from '../../assets/L2.gif'
+import L3Img from '../../assets/L3.gif'
+import L4Img from '../../assets/L4.gif'
+import L5Img from '../../assets/L5.gif'
 
 const PetPage = ({navigation}) => {
-    const [petName, setPetName] = useState('넹넹이똥똥')
-    const [petLevel, setPetLevel] = useState(3)
+
+    const petName =  useSelector((state) => state.user.userInfo.petName)
+    const petLevel =  useSelector((state) => state.user.userInfo.petLevel)
+    const userNickname = useSelector((state) => state.user.userInfo.userNickname)
+    const petImg = {
+      1: L1Img,
+      2: L2Img,
+      3: L3Img,
+      4: L4Img,
+      5: L5Img,
+    }
 
     return (
-      <View style={{flex: 1, height: '100%', paddingHorizontal: 20, paddingTop: 30}}>
+      <View style={{height: '90%', justifyContent: 'center', paddingHorizontal: 20, paddingTop: 30}}>
 
-        <Text style={styles.titleText}>건강한 나를 위한 '약속'</Text>
+        {/* <Text style={styles.titleText}>건강한 나를 위한 '약속'</Text> */}
         <View style={styles.messageContainer}>
-            <View style={{ width: '48%'}}> 
-                <Text style={styles.messageText}>마농님의 넹넹이똥똥(은)는 약속과 함께 자라고 있어요!</Text>
+            <View style={{width: '80%'}}> 
+                <Text style={styles.messageText}>{userNickname}님의 {petName}(은)는</Text>
+                <Text style={styles.messageText}>약속과 함께 자라고 있어요!</Text>
             </View>
         </View>
         <View style={styles.container}>
-            <Image
-                style={styles.petImage}
-                source={exampleImg}
+            <FastImage
+            style={{ width: 300, height: 300 }}
+            source={petImg[petLevel]}
+            resizeMode={FastImage.resizeMode.contain}
             />
             <Text style={styles.petNameText}>{petName}</Text>
             <Text style={styles.petLevelText}>Lv.{petLevel}</Text>
-            <View style={{width: '100%', padding: 5}}>
-                <Text style={styles.petNextLevelText}>Lv.{petLevel+1}</Text>
-            </View>
         </View>
       </View>
     );
@@ -36,18 +52,15 @@ const PetPage = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     marginVertical: 5,
     paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingVertical: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
-    maxHeight: 400,
-    elevation: 2,
-  },
-  chart: {
-    flex: 1
+    // backgroundColor: 'white',
+    maxHeight: 600,
+    // elevation: 2,
   },
   titleText: {
     fontSize: 24,
@@ -56,35 +69,44 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   messageContainer: {
-    paddingVertical: 50,
+    paddingVertical: 20,
     justifyContent: 'center',
     alignItems: 'center'
   },
   messageText: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '500',
     textAlign: 'center'
   },
+  petContainer: {
+    // flex: 1,
+    marginVertical: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    width: 200,
+    height: 200,
+    justifyContent: 'center',
+    alignItems: 'center'
+    // borderColor: 'black',
+    // borderWidth: 1
+  },
   petImage: {
-    width: 180,
-    height: 180,
-    borderColor: 'black',
-    borderWidth: 1
+
+    width: 200,
+    height: 200,
+    // borderColor: 'black',
+    // borderWidth: 1
   },
   petNameText: {
     fontSize: 18,
-    fontWeight: '500',
+    fontWeight: '700',
     textAlign: 'center'
   },
   petLevelText: {
     fontSize: 18,
-    fontWeight: '500',
-    textAlign: 'center'
-  },
-  petNextLevelText: {
-    fontSize: 12,
-    fontWeight: '500',
-    textAlign: 'right'
+    fontWeight: '700',
+    textAlign: 'center',
+    marginTop: 5
   },
 });
 

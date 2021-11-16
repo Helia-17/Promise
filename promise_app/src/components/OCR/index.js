@@ -7,7 +7,6 @@ import {ocrList} from '../../utils/axios';
 
 const OCR = (props) => {
 
-    // api key는 숨겨야함
     const API_URL = "https://vision.googleapis.com/v1/images:annotate?key=";
 
     const goOCR = ()=>{
@@ -27,7 +26,6 @@ const OCR = (props) => {
             {cancleable:false}
         )
     }
-    // google ocr api 사용
     const callGoogleVIsionApi = async (base) => {
         await fetch(API_URL + CAMERA_KEY, {
             method: 'POST',
@@ -48,8 +46,14 @@ const OCR = (props) => {
                 text = text.replace(/\n/gi, " ")
                 callOCR(String(text));
             })
-            .catch((err) => alert('OCR 인식에 실패했습니다. 직접 입력해주세요!'));
-
+            .catch((err) => {
+                Alert.alert(
+                    'OCR 인식에 실패했습니다. 직접 입력해주세요!',
+                    [{
+                        text:'확인',
+                        onPress: ()=>{}
+                    }])
+                });
     }
     
     const callOCR = async (text)=>{

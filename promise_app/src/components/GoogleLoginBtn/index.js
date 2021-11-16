@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Platform, TouchableOpacity, StyleSheet, Text, Image} from 'react-native';
-import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
+import { GoogleSignin, GoogleSigninButton } from '@react-native-community/google-signin';
 import { GOOGLE_WEB_ID, GOOGLE_ANDROID_ID, GOOGLE_IOS_ID } from '../../utils/oauth';
 
 GoogleSignin.configure({
@@ -15,36 +15,13 @@ const GoogleLoginBtn = (props) => {
     const GoogleLogin = async() => {
       try {
           await GoogleSignin.hasPlayServices()
-          const userInfoDetail = await GoogleSignin.signIn();
+          const userInfoDetail = await GoogleSignin.signIn()
           props.data({email: userInfoDetail.user.email, profile: userInfoDetail.user.photo, type:1})
 
       } catch (error) {
-          console.log(error)
-          if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-            console.log("user cancelled the login flow")
-          } else if (error.code === statusCodes.IN_PROGRESS) {
-            console.log("operation (e.g. sign in) is in progress already")
-          } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-            console.log("play services not available or outdated")
-          } else {
-            console.log("some other error happened")
-          }
+          
       }
     }
-
-    // const signOut = async () => {
-    //   console.log("signOut")
-    //   try {
-    //     setUserInfo('');
-    //     setUserEmail('')
-    //     setUserProfile('')
-
-    //     await GoogleSignin.revokeAccess();
-    //     await GoogleSignin.signOut();
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // };
 
     return (
         <View>

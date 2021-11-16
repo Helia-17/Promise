@@ -1,12 +1,10 @@
-import React, {useState, useEffect } from 'react';
-import { View, ScrollView, Text, InputText, TouchableOpacity, Dimensions } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, {useState, useCallback } from 'react';
+import {useFocusEffect} from '@react-navigation/native';
+import { View,Dimensions } from 'react-native';
 import Carousel from '../../components/Carousel';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {myinfo} from '../../utils/axios';
 import { getMyInfoAction } from '../../modules/user/actions';
-import { useSelector, useDispatch } from 'react-redux';
-
+import { useDispatch } from 'react-redux';
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 const PAGES = [1];
@@ -14,19 +12,27 @@ const PAGES = [1];
 const HomePage = ({navigation}) => {
     
     const dispatch = useDispatch();
-
     const [userInfo, setUserInfo] = useState({});
 
     const getMyInfo = ()=>{
-        return myinfo().then(res => {
-            setUserInfo(res);
-            dispatch(getMyInfoAction(res))
+        return myinfo()
+        .then(res => {
+            if(res.statusCode === 420) navigation.replace('LoginScreen');
+            else{
+                setUserInfo(res);
+                dispatch(getMyInfoAction(res));
+            }
         })
     }
 
-    useEffect(()=>{
-        getMyInfo()
-      }, [])
+    useFocusEffect(
+        useCallback(()=>{
+            getMyInfo()
+            return () => {
+                setUserInfo({})
+            }
+        }, [])
+    );
 
     
 

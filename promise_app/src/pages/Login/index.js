@@ -15,12 +15,8 @@ const Login = (props) => {
   const [nickModal, setNickModal] = useState(false);
   const [petModal, setPetModal] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
-
-  // 일반 회원가입
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
-
-  // 공통
   const [profile, setProfile] = useState(null);
   const [nick, setNick] = useState('');
   const [petName, setPetName] = useState('');
@@ -54,7 +50,7 @@ const Login = (props) => {
     setType(0);
   };
 
-  const resultData = async() =>{
+  const resultData = async(petName) =>{
     try{
       await userAPI.join(id, pw, nick, profile, petName, type);
       if(type===0){
@@ -70,7 +66,6 @@ const Login = (props) => {
       }
       
     }catch(e){
-      console.log(e);
     }
   };
 
@@ -123,7 +118,7 @@ const Login = (props) => {
         <NicknameModal usernick={(data)=>setNick(data)} now={(data)=>setNickModal(data)} next={(data)=>setPetModal(data)} exit={(data)=>setNickModal(data)}/>
       </Modal>
       <Modal animationType={'fade'} transparent={true} visible={petModal}>
-        <PetModal petname={(data)=>setPetName(data)} now={(data)=>setPetModal(data)} next={(data)=>resultData()} exit={(data)=>setPetModal(data)} />
+        <PetModal petname={(data)=>setPetName(data)} now={(data)=>setPetModal(data)} next={(data)=>resultData(data)} exit={(data)=>setPetModal(data)} />
       </Modal>
     </View>
   )

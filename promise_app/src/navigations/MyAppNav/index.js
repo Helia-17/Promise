@@ -9,12 +9,13 @@ import Search from '../../pages/Search';
 import Pharmacy from '../../pages/Pharmacy';
 import CalendarPage from '../../pages/Calendar';
 import AlarmAdd from '../../pages/AlarmAdd';
+import AlarmInfo from '../../pages/AlarmInfo';
 import Alarm from '../../pages/Alarm';
 import Timeline from '../../pages/Timeline';
-import CommunityPage from '../../pages/Community';
-import PostCreatePage from '../../pages/PostCreate';
-import PostUpdatePage from '../../pages/PostUpdate';
-import PostDetailPage from '../../pages/PostDetail';
+// import CommunityPage from '../../pages/Community';
+// import PostCreatePage from '../../pages/PostCreate';
+// import PostUpdatePage from '../../pages/PostUpdate';
+// import PostDetailPage from '../../pages/PostDetail';
 import Mypage from '../../pages/Mypage';
 import ModifyInfo from '../../pages/ModifyInfo';
 import MyPillHistory from '../../pages/MyPillHistory';
@@ -42,35 +43,69 @@ const MyApp = ({navigation}) => {
       );
     }
 
+    function AlarmNav(){
+      return(
+        <Stack.Navigator 
+        screenOptions={{
+          headerShown : false,
+          initialRouteName : 'AlarmScreen'
+        }}
+        >
+          <Stack.Screen name="AlarmScreen" component={Alarm} />
+          <Stack.Screen name="AlarmInfo" component={AlarmInfo} />
+        </Stack.Navigator>
+      )
+    }
+
+    function TimelineNav(){
+      return(
+        <Stack.Navigator 
+        screenOptions={{
+          headerShown : false,
+          initialRouteName : 'TimelineScreen'
+        }}
+        >
+          <Stack.Screen name="TimelineScreen" component={Timeline} />
+          <Stack.Screen name="AlarmInfo" component={AlarmInfo} />
+        </Stack.Navigator>
+      )
+    }
+
     function CalendarTop() {
       return (
         <TopTab.Navigator screenOptions={{
+          headerTitleAlign: 'center',
           tabBarActiveTintColor:'black', 
           tabBarIndicatorStyle:{backgroundColor:'black'}, 
           tabBarLabelStyle:{fontSize:15},
           initialRouteName:'CalendarScreen'
           }}>
             <TopTab.Screen name='CalendarScreen' component={CalendarNav}  options={{title:'달력'}}/>
-            <TopTab.Screen name='Alarm' component={Alarm} options={{title:'알람'}} />
-            <TopTab.Screen name='Timeline' component={Timeline} options={{title:'이력'}}/>
+            <TopTab.Screen name='Alarm' component={AlarmNav} options={{title:'알람'}} />
+            <TopTab.Screen name='Timeline' component={TimelineNav} options={{title:'이력'}}/>
         </TopTab.Navigator>
       );
     }
 
-    function CommunityNav() {
-      return (
-        <Stack.Navigator screenOptions={{initialRouteName:'community'}}>
-          <Stack.Screen name='community' component={CommunityPage} options={{title:'커뮤니티'}}/>
-          <Stack.Screen name='communitywrite' component={PostCreatePage} options={{title:'글 작성'}}/>
-          <Stack.Screen name='communityupdate' component={PostUpdatePage} options={{title:'글 수정'}}/>
-          <Stack.Screen name='communitydetail' component={PostDetailPage} options={{title:''}}/>
-        </Stack.Navigator>
-      );
-    }
+    // function CommunityNav() {
+    //   return (
+    //     <Stack.Navigator screenOptions={{
+    //       headerTitleAlign: 'center',
+    //       initialRouteName:'community'
+    //       }}>
+    //       <Stack.Screen name='community' component={CommunityPage} options={{title:'커뮤니티'}}/>
+    //       <Stack.Screen name='communitywrite' component={PostCreatePage} options={{title:'글 작성'}}/>
+    //       <Stack.Screen name='communityupdate' component={PostUpdatePage} options={{title:'글 수정'}}/>
+    //       <Stack.Screen name='communitydetail' component={PostDetailPage} options={{title:''}}/>
+    //     </Stack.Navigator>
+    //   );
+    // }
 
     function TopTabStackScreen(){
       return(
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{
+          headerTitleAlign: 'center'
+        }}>
           <Stack.Screen name="CalendarTab" component={CalendarTop} options={{ title: '복용 일정' }}/>
         </Stack.Navigator>
       );
@@ -88,6 +123,7 @@ const MyApp = ({navigation}) => {
       return (
         <Stack.Navigator 
         screenOptions={{
+          headerTitleAlign: 'center',
           initialRouteName : 'Homes',
           headerRight: ()=>(<Icon.Button onPress={()=>navigation.navigate('Search', {navigation:`${navigation}`})} name="magnify" color="black" backgroundColor='white' />),
         }}>
@@ -102,9 +138,10 @@ const MyApp = ({navigation}) => {
       return (
         <Stack.Navigator 
         screenOptions={{
+          headerTitleAlign: 'center',
           initialRouteName:'mypageScreen'
         }}>
-          <Stack.Screen name='mypageScreen' component={Mypage} options={{ title: '마이페이지' }}/>
+          <Stack.Screen name='mypageScreen' component={Mypage} options={{ title: '내 정보' }}/>
           <Stack.Screen name='modifyInfo' component={ModifyInfo} options={{ title: '정보수정' }}/>
           <Stack.Screen name='mypill' component={MyPillScreen} options={{ title: '마이필' }}/>
         </Stack.Navigator>
@@ -114,6 +151,7 @@ const MyApp = ({navigation}) => {
     function MyPillTop() {
       return (
         <TopTab.Navigator screenOptions={{
+            headerTitleAlign: 'center',
             tabBarActiveTintColor:'black', 
             tabBarIndicatorStyle:{backgroundColor:'black'},
             tabBarLabelStyle:{fontSize:15},
@@ -157,16 +195,17 @@ const MyApp = ({navigation}) => {
           <Tab.Screen name="Home" component={HomeNav} options={{tabBarLabel:'홈'}}/>
           <Tab.Screen name="Pharmacy" component={Pharmacy} options={{ title: '약국' }} />
           <Tab.Screen name="CalendarPage" component={TopTabStackScreen} options={{ title: '일정' }} />
-          <Tab.Screen name='CommunityScreen' component={CommunityNav} options={{ title: '커뮤니티' }}/>
+          {/* <Tab.Screen name='CommunityScreen' component={CommunityNav} options={{ title: '커뮤니티' }}/> */}
           <Tab.Screen name="Mypage" component={MyPageNav} options={{ title: '내 정보' }}/>
         </Tab.Navigator>
         )
     }
 
-    const [isLogin, setIsLogin] = useState(false);
+    const [isLogin, setIsLogin] = useState('LoginScreen');
 
     const checkLogin = async() =>{
-      setIsLogin(await AsyncStorage.getItem('token'));
+      const result = await AsyncStorage.getItem('token');
+      {result.length>0?setIsLogin('appscreen'):setIsLogin('LoginScreen')}
     }
 
     useLayoutEffect(() => {
@@ -177,10 +216,11 @@ const MyApp = ({navigation}) => {
       <Stack.Navigator 
       screenOptions={{
         headerShown : false,
-        initialRouteName:isLogin?'appscreen':'LoginScreen'
+        initialRouteName:isLogin
         }}>
-          <Stack.Screen name="appscreen" component={MyAppNav} />
+          
           <Stack.Screen name="LoginScreen" component={Login} />
+          <Stack.Screen name="appscreen" component={MyAppNav} />
       </Stack.Navigator>
     )
 }

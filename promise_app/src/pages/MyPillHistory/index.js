@@ -1,21 +1,8 @@
 import React from 'react';
 import { View, ScrollView, StyleSheet, TouchableOpacity, Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import MediInfo from '../../components/atoms/MediInfo';
-import Moment from 'moment';
 import MyPillHistoryList from '../../components/MyPillHistory/MyPillHistoryList';
 
 const MyPillHistory = ({navigation}) => {
-
-    const object = {
-      id: 1,
-      mediinfo : {
-        name: '타이레놀',
-        company: '(주)한국얀센'
-      },
-      date: '2021.10.18 04:34',
-      memo: '삼성병원허리통증약'
-    }
 
     const list = [
       { 
@@ -58,9 +45,6 @@ const MyPillHistory = ({navigation}) => {
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
             <View style={{ width:'100%', margin:10, alignItems: 'center'}}>
-                {/* <MediInfo name='비타민C' date='2021.10.15 15:22' />
-                <MediInfo name='감기약' date='2021.10.15 15:22' pillList='해열제, 항생제, 000'/> */}
-
                 <View style={{ width:'100%', marginVertical:20, paddingVertical:10, paddingHorizontal: 20, }}>
                   <MyPillHistoryList list={list}/>
                 </View>

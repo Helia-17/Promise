@@ -34,13 +34,15 @@ const Mypage = ({navigation}) => {
         setUserNickname(result.userNickname);
         setPetName(result.petName);
         setPetLevel(result.petLevel);
-        setUserProfile(result.userProfileUrl);
-        // console.log(result.userEmail.split('@')[0]+'_'+result.userEmail.split('@')[1].split('.')[0]+'_'+result.userEmail.split('@')[1].split('.')[1]+`_profile.png`);
+        if(result.userProfileUrl){
+            setUserProfile(result.userProfileUrl+ '?' + new Date());
+        }
     }
 
     useFocusEffect(
         useCallback(()=>{
             getMyInfo();
+            return ()=> clearTimeout(3000);
         }, [])
     );
 
@@ -64,28 +66,36 @@ const Mypage = ({navigation}) => {
         if(result === 200){
             Alert.alert(
                 '회원 탈퇴',
-                '성공적으로 탈퇴되셨습니다.'
+                '성공적으로 탈퇴되셨습니다.',
+                [{
+                    text:'확인',
+                    onPress: ()=>{
+                        AsyncStorage.removeItem('token');
+                        navigation.replace('LoginScreen');
+                    }
+                }]
             );
-            AsyncStorage.removeItem('token');
-            navigation.replace('LoginScreen');
+            
         }
     }
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
             <View style={{width: '100%', height: '50%'}}>
                 <View style={{width: '100%', height:'40%', flexDirection: "row", alignItems: 'center', justifyContent: 'space-between', margin:30}}>
-                    <View style={{width:'30%', height:'90%', borderRadius:100, backgroundColor:'#C4C4C4'}}>
-                        <Image resizeMode='cover' source={{uri:userProfile}} style={{width: '100%', height: '100%', borderRadius:100}}/>
+                    <View style={{width:130, height:130, borderRadius:100, backgroundColor:'#C4C4C4'}}>
+                        {userProfile.length>0 ? 
+                            <Image resizeMode='cover' source={{uri:userProfile}} style={{width: 130, height: 130, borderRadius:100}}/>
+                        :null}
                     </View>
                     <View style={{width:'60%', height:'70%', justifyContent: 'space-between'}}>
                         <Text style={{fontWeight: 'bold', fontSize:20}}>{userNickname}</Text>
                         <Text style={{fontWeight: 'bold', fontSize:15}}>Lv{petLevel}. {petName}</Text>
                         <View style={{flexDirection: "row", width:'50%', alignItems: 'center', justifyContent: 'space-between'}}>
                             <TouchableOpacity onPress={()=>logout()}>
-                                <Text>로그아웃</Text>
+                                <Text style={{color:'#5A88B1', fontWeight:'bold'}}>로그아웃</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={()=>withdrawCheck()}>
-                                <Text>회원탈퇴</Text>
+                                <Text style={{color:'#999999', fontWeight:'bold'}}>회원탈퇴</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

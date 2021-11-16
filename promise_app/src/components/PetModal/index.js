@@ -16,10 +16,10 @@ const PetModal = (props) => {
     }
 
     const sendData = () =>{
-        if(petColor==='#A6DB9E'){
+        if(petColor==='#A6DB9E'&&petName.length>0){
             props.petname(petName);
             props.now(false);
-            props.next(true);
+            props.next(petName);
         }else{
             alert('펫 이름을 지어주세요.');
         }

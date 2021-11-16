@@ -54,17 +54,24 @@ public class AlarmController {
 			PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
 			User user = userDetails.getUser();
 
-			int result = 0;
+			int result = -1;
 			result = alarmService.insertAlarm(user, alarmPostReq);
 
 			if (result != -1) {
 				Map<String, Integer> map = new HashMap<String, Integer>();
 				map.put("alarmId", result);
-				return ResponseEntity.status(200).body(map);
+				
+				int result2 = petService.increasePetExp(3, user);
+				if (result2 == 1) {
+					return ResponseEntity.status(200).body(map);
+				} else {
+					return ResponseEntity.status(500).body(BaseResponseBody.of(500, "복용 이력 등록 성공/경험치 등록 실패"));
+				}
 
 			} else {
 				return ResponseEntity.status(500).body(BaseResponseBody.of(500, "알람 입력 실패"));
 			}
+			
 
 		} catch (NullPointerException e) {
 			return ResponseEntity.status(420).body(BaseResponseBody.of(420, "만료된 토큰입니다."));
@@ -161,7 +168,7 @@ public class AlarmController {
 				if (result2 == 1) {
 					return ResponseEntity.status(200).body(BaseResponseBody.of(200, "복용 이력 등록 성공/경험치 등록 성공"));
 				} else {
-					return ResponseEntity.status(500).body(BaseResponseBody.of(500, "복용 이력 등록 성공/경험치 등록 성공"));
+					return ResponseEntity.status(500).body(BaseResponseBody.of(500, "복용 이력 등록 성공/경험치 등록 실패"));
 				}
 
 			} else {

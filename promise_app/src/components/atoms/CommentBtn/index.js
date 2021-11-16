@@ -12,9 +12,9 @@ const CommentBtnBackground = styled.TouchableOpacity`
   margin: 5px;
 `;
 
-const CommentBtn = ({backgroundColor, value}) => {
+const CommentBtn = ({backgroundColor, value, func}) => {
   return(
-    <CommentBtnBackground style={backgroundColor={backgroundColor}}>
+    <CommentBtnBackground style={backgroundColor={backgroundColor}} onPress={func}>
         <Text style={{color:'black', fontSize:12, fontWeight:'500'}}>{value}</Text >
     </CommentBtnBackground>
   );

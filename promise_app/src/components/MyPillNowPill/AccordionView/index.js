@@ -24,78 +24,6 @@ const SECTIONS = [
     ]
   },
   {
-    title: '에페날정, 록사펜정, 모사무라정',
-    date: '2021.10.18 ~ 2021.10.21 (3일)',
-    contents: [
-      {
-        name: '타이레놀',
-        company: '(주)한국약센'
-      },
-      {
-        name: '타이레놀',
-        company: '(주)한국약센'
-      },
-      {
-        name: '타이레놀',
-        company: '(주)한국약센'
-      },
-    ]
-  },
-  {
-    title: '에페날정, 록사펜정, 모사무라정',
-    date: '2021.10.18 ~ 2021.10.21 (3일)',
-    contents: [
-      {
-        name: '타이레놀',
-        company: '(주)한국약센'
-      },
-      {
-        name: '타이레놀',
-        company: '(주)한국약센'
-      },
-      {
-        name: '타이레놀',
-        company: '(주)한국약센'
-      },
-    ]
-  },
-  {
-    title: '에페날정, 록사펜정, 모사무라정',
-    date: '2021.10.18 ~ 2021.10.21 (3일)',
-    contents: [
-      {
-        name: '타이레놀',
-        company: '(주)한국약센'
-      },
-      {
-        name: '타이레놀',
-        company: '(주)한국약센'
-      },
-      {
-        name: '타이레놀',
-        company: '(주)한국약센'
-      },
-    ]
-  },
-  {
-    title: '에페날정, 록사펜정, 모사무라정',
-    date: '2021.10.18 ~ 2021.10.21 (3일)',
-    contents: [
-      {
-        name: '타이레놀',
-        company: '(주)한국약센'
-      },
-      {
-        name: '타이레놀',
-        company: '(주)한국약센'
-      },
-      {
-        name: '타이레놀',
-        company: '(주)한국약센'
-      },
-    ]
-  },
-  {
     title: '타이레놀, 록사펜정, 모사무라정',
     date: '2021.10.18 ~ 2021.10.21 (3일)',
     contents: [
@@ -135,7 +63,6 @@ class AccordionView extends Component {
   };
 
   _renderContent = (section, navigation) => {
-    
     return (
       <View style={styles.contentList}>
       { section.contents.map((object, i) => 

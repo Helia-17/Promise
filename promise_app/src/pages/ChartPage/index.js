@@ -1,49 +1,108 @@
-import React, {useState, useEffect} from 'react';
-import { View, ScrollView, Text, TouchableOpacity, StyleSheet, AppRegistry, processColor } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import SearchBar from '../../components/community/SearchBar';
-import PostList from '../../components/community/PostList';
+import React, {useState, useCallback} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
+import { View, Text, StyleSheet, processColor, Container } from 'react-native';
+import Swiper from 'react-native-swiper'
 import {LineChart, PieChart} from 'react-native-charts-wrapper';
+import {getMainAlarm, getVisual} from '../../utils/axios'
+import { getMainAlarmList } from '../../modules/user/actions';
+import { useDispatch } from 'react-redux';
+import Moment from 'moment';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const ChartPage = ({navigation}) => {
-    
+
+  const dispatch = useDispatch();
+  const [isVisible, setIsvisible] = useState(false);
+  const [alarmList, setAlarmList] = useState('');
+  const [visualData, setVisualData] = useState([]);
+
+  const gettingAlarmList = async()=>{
+    const result = await getMainAlarm()
+    setAlarmList(result);
+    dispatch(getMainAlarmList(result))
+  }
+
+  const gettingVisual = async()=>{
+
+    let res = await getVisual()
+    if (res.length > 7) {
+      res = res.slice(0,7);
+    }
+    const tagLists = []
+    res.map(item => {
+      const tag = {
+        value: item.tagValue,
+        label: item.tagName,
+      }
+      tagLists.push(tag);
+    })
+
+    setVisualData(tagLists);
+  }
+
+  useFocusEffect(
+    useCallback(()=>{
+      gettingAlarmList();
+      gettingVisual();
+      return () => {
+        setVisualData([])
+      }
+    }, [])
+  );
+
     return (
       <View style={{flex: 1, height: '100%', paddingHorizontal: 20, paddingTop: 30}}>
-
         <Text style={styles.titleText}>건강한 나를 위한 '약속'</Text>
         <Text style={styles.contentText}>오늘의 약속</Text>
-        <View style={styles.todayAlarm}>
-          <Text>약속창</Text>
+        <View style={styles.swiperWrapper}>
+          <Swiper style={styles.wrapper} horizontal={false} key={alarmList.length} showsPagination={false} autoplay={true} autoplayTimeout={3}>
+            {alarmList.length != 0
+              ? alarmList.map((item) => {
+
+                const temp = [item.alarmTime1, item.alarmTime2, item.alarmTime3]
+                const alarmTimeList = []
+                temp.map(time => {
+                  if (time != null) {
+                    const alarmTime = Moment(time, "HHmm").format("HH:mm")
+                    alarmTimeList.push(alarmTime)
+                  }
+                })
+                const alarmTimes = alarmTimeList.join(', ')
+                const alarmCnt = alarmTimeList.length
+
+                return(
+                  <View key={item.alarmId} style={styles.slide}>
+                    <View key={item.alarmId} style={styles.alarmTitleContainer}>
+                      <Text style={styles.alarmTitleText}>{item.alarmTitle}</Text>
+                    </View>
+                    {alarmCnt > 0
+                      ? <Text style={styles.alarmTimesText}>{alarmCnt}회({alarmTimes})</Text>
+                      : null
+                    }
+                  </View>
+                )
+              })
+              : <Text>등록하신 알람이 없습니다</Text>
+            }
+          </Swiper>
         </View>
 
-
         <Text style={styles.contentText}>약속 NOW</Text>
-        <View style={styles.container}>
+        <View style={styles.chartContainer}>
           <PieChart
             style={styles.chart}
             chartDescription={{text: ''}}
             entryLabelColor={processColor('black')} // tag name text color
             entryLabelTextSize={15} // tag name text size
             legend={{enabled:false}}  // remove description
-            holeRadius={45}     // inner circle size
+            holeRadius={35}     // inner circle size
             holeColor={processColor('#white')} // inner circle color
-            transparentCircleRadius={43}  // transparent inner circle size
+            transparentCircleRadius={40}  // transparent inner circle size
             transparentCircleColor={processColor('#white')}  // transparent inner circle color
-            styledCenterText={{text:'TOP 7', color: processColor('black'), fontFamily: 'HelveticaNeue-Medium', size: 25}}
+            styledCenterText={{text:'TOP 7', color: processColor('black'), size: 25}} //fontFamily: 'HelveticaNeue-Medium',
             data={{dataSets: [
               {
-                values: [
-                  { value: 19.672131147540984, label: '어린이' },
-                  { value: 18.0327868852459, label: '치질' },
-                  // { value: 10, label: '똥방구' },
-                  { value: 14.754098360655737, label: '방구' },
-                  // { value: 8, label: '상사병' },
-                  { value: 6.557377049180328, label: '두통약' },
-                  { value: 3.278688524590164, label: '감기' },
-                  { value: 3.278688524590164, label: '발열' },
-                  { value: 1.639344262295082, label: '몸살' }
-                  // { value: 1, label: '어린이감기약' }
-                ],
+                values: visualData,
                 label: '',
                 config: {
                   colors: [
@@ -64,39 +123,60 @@ const ChartPage = ({navigation}) => {
                   // xValuePosition: "INSIDE_SLICE",
                   // yValuePosition: "OUTSIDE_SLICE",
     
-                  valueFormatter: "#.#'%'",
+                  valueFormatter: "#'%'",
                   valueLineColor: processColor('black'),
                   valueLinePart1Length: 0.5,
                 },
-              },
-            ],}}
-          />
-        </View>
+
+              }
+          ]}}
+        />
       </View>
-    );
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  swiperWrapper: {
+    marginTop: 10,
+    height: 80,
+    borderColor:'#BDBDBD', 
+    borderWidth:0.5,
+  },
+  wrapper: {
+    backgroundColor:'#FFFFFF', 
+    // height: 80
+  },
+  slide: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 0.1,
+    borderRadius:3, 
+  },
+  chartContainer: {
     flex: 1,
     marginVertical: 5,
     paddingHorizontal: 10,
     paddingVertical: 10,
     justifyContent: 'center',
-    backgroundColor: 'white',
+
+    // backgroundColor: 'white',
+
     maxHeight: 400,
-    elevation: 2,
+
+    // elevation: 2,
+
   },
   chart: {
     flex: 1
   },
   todayAlarm: {
-    height: 100,
-    paddingVertical: 12,
+    flexDirection: 'row',
+    paddingVertical: 0,
     paddingHorizontal: 14,
     marginVertical: 8,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 3,
+    color: '#333333',
     // ---* ios shadow *---
     // shadowColor: 'rgba(183, 183, 183, 0.8)',
     // shadowOffset: {
@@ -105,18 +185,37 @@ const styles = StyleSheet.create({
     // },
     // shadowOpacity: 1,
     // shadowRadius: 18.95,
-    elevation: 2,
-    color: '#333333'
+    // elevation: 2,
+
+    backgroundColor:'#FFFFFF', 
+    borderRadius:3, 
+    borderColor:'#BDBDBD', 
+    borderWidth:0.3
   },
   titleText: {
     fontSize: 24,
     lineHeight: 24,
-    fontWeight: '500',
+    fontWeight: '800',
     paddingVertical: 8,
+  },
+  alarmTitleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  alarmTitleText: {
+    marginLeft: 10,
+    fontSize: 20,
+    fontWeight: '400'
+  },
+  alarmTimesText: {
+    marginLeft: 10,
+    fontSize: 14,
+    fontWeight: '400'
   },
   contentText: {
     fontSize: 18,
-    fontWeight: '500',
+    fontWeight: '600',
     paddingTop: 20,
   },
 });
