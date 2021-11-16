@@ -1,11 +1,13 @@
 import React, {useState, useCallback} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
-import { View, Text, StyleSheet, processColor } from 'react-native';
+import { View, Text, StyleSheet, processColor, Container } from 'react-native';
+import Swiper from 'react-native-swiper'
 import {LineChart, PieChart} from 'react-native-charts-wrapper';
 import {getMainAlarm, getVisual} from '../../utils/axios'
 import { getMainAlarmList } from '../../modules/user/actions';
 import { useDispatch } from 'react-redux';
 import Moment from 'moment';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const ChartPage = ({navigation}) => {
 
@@ -38,49 +40,55 @@ const ChartPage = ({navigation}) => {
     setVisualData(tagLists);
   }
 
-  // useFocusEffect(
-  //   useCallback(()=>{
-  //     gettingAlarmList();
-  //     gettingVisual();
-  //     return () => {
-  //       setVisualData([])
-  //     }
-  //   }, [])
-  // );
+  useFocusEffect(
+    useCallback(()=>{
+      gettingAlarmList();
+      gettingVisual();
+      return () => {
+        setVisualData([])
+      }
+    }, [])
+  );
 
     return (
       <View style={{flex: 1, height: '100%', paddingHorizontal: 20, paddingTop: 30}}>
         <Text style={styles.titleText}>건강한 나를 위한 '약속'</Text>
         <Text style={styles.contentText}>오늘의 약속</Text>
-        <View style={styles.todayAlarm}>
-        {alarmList.length != 0
-        ? alarmList.map((item) => {
+        <View style={styles.swiperWrapper}>
+          <Swiper style={styles.wrapper} horizontal={false} key={alarmList.length} showsPagination={false} autoplay={true} autoplayTimeout={3}>
+            {alarmList.length != 0
+              ? alarmList.map((item) => {
 
-          const temp = [item.alarmTime1, item.alarmTime2, item.alarmTime3]
-          const alarmTimeList = []
-          temp.map(time => {
-            if (time != null) {
-              const alarmTime = Moment(time, "HHmm").format("HH:mm")
-              alarmTimeList.push(alarmTime)
+                const temp = [item.alarmTime1, item.alarmTime2, item.alarmTime3]
+                const alarmTimeList = []
+                temp.map(time => {
+                  if (time != null) {
+                    const alarmTime = Moment(time, "HHmm").format("HH:mm")
+                    alarmTimeList.push(alarmTime)
+                  }
+                })
+                const alarmTimes = alarmTimeList.join(', ')
+                const alarmCnt = alarmTimeList.length
+
+                return(
+                  <View key={item.alarmId} style={styles.slide}>
+                    <View key={item.alarmId} style={styles.alarmTitleContainer}>
+                      <Text style={styles.alarmTitleText}>{item.alarmTitle}</Text>
+                    </View>
+                    {alarmCnt > 0
+                      ? <Text style={styles.alarmTimesText}>{alarmCnt}회({alarmTimes})</Text>
+                      : null
+                    }
+                  </View>
+                )
+              })
+              : <Text>등록하신 알람이 없습니다</Text>
             }
-          })
-          const alarmTimes = alarmTimeList.join(', ')
-          const alarmCnt = alarmTimeList.length
-
-          return(
-            <View key={item.alarmId}>
-              <Text>{item.alarmTitle}</Text>
-              <Text>{alarmCnt}회</Text> 
-              <Text>({alarmTimes})</Text>
-            </View>
-          )
-        })
-        : <Text>등록하신 알람이 없습니다</Text>}
+          </Swiper>
         </View>
 
-
         <Text style={styles.contentText}>약속 NOW</Text>
-        <View style={styles.container}>
+        <View style={styles.chartContainer}>
           <PieChart
             style={styles.chart}
             chartDescription={{text: ''}}
@@ -129,7 +137,24 @@ const ChartPage = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  swiperWrapper: {
+    marginTop: 10,
+    height: 80,
+    borderColor:'#BDBDBD', 
+    borderWidth:0.5,
+  },
+  wrapper: {
+    backgroundColor:'#FFFFFF', 
+    // height: 80
+  },
+  slide: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 0.1,
+    borderRadius:3, 
+  },
+  chartContainer: {
     flex: 1,
     marginVertical: 5,
     paddingHorizontal: 10,
@@ -148,12 +173,10 @@ const styles = StyleSheet.create({
   },
   todayAlarm: {
     flexDirection: 'row',
-    height: 100,
-    paddingVertical: 12,
+    paddingVertical: 0,
     paddingHorizontal: 14,
     marginVertical: 8,
     color: '#333333',
-    // borderRadius: 3,
     // ---* ios shadow *---
     // shadowColor: 'rgba(183, 183, 183, 0.8)',
     // shadowOffset: {
@@ -169,12 +192,26 @@ const styles = StyleSheet.create({
     borderColor:'#BDBDBD', 
     borderWidth:0.3
   },
-
   titleText: {
     fontSize: 24,
     lineHeight: 24,
     fontWeight: '800',
     paddingVertical: 8,
+  },
+  alarmTitleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  alarmTitleText: {
+    marginLeft: 10,
+    fontSize: 20,
+    fontWeight: '400'
+  },
+  alarmTimesText: {
+    marginLeft: 10,
+    fontSize: 14,
+    fontWeight: '400'
   },
   contentText: {
     fontSize: 18,

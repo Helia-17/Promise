@@ -40,6 +40,7 @@ const PostDetailPage = ({navigation, route}) => {
   useEffect(()=> {
     setUserNickname(stateUserNickname)
     getCommunityDetail()
+    refreshComments()
   }, [])
 
 
