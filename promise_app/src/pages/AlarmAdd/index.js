@@ -127,7 +127,7 @@ const AlarmAdd = ({navigation}) => {
     let result = [];
     if (userList.length>0) {
       userList.map(item => {
-        result = result.concat(item.name);
+        result = result.concat(item.id);
       });
     }
     return result;
@@ -162,9 +162,9 @@ const AlarmAdd = ({navigation}) => {
     if (isOn === true) {
       alarmYN = 1;
     }
-    if(title.length>0 && Moment(myendDate()).isAfter(Moment(myStartDate())) && myMediList().length>0 && (alarmYN===0||(alarmYN===1 && (selectTime1 || selectTime2 || selectTime3)))){
+    if(title.length>0 && (Moment(myendDate()).isSame(Moment(myStartDate()))||Moment(myendDate()).isAfter(Moment(myStartDate()))) && myMediList().length>0 && (alarmYN===0||(alarmYN===1 && (selectTime1 || selectTime2 || selectTime3)))){
       const result = await enrollAlarm( title, alarmYN, selectTime1, selectTime2, selectTime3, myStartDate(), myendDate(), myMediList(), myTagList(), myShareList());
-      setNotification(result);
+      if(alarmYN===1) setNotification(result);
       navigation.goBack();
     }else if(title.length===0){
       alert('복용명을 입력해주세요.');

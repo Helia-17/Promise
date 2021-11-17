@@ -183,7 +183,7 @@ const AlarmInfo = (props) => {
     if (isOn === true) {
       alarmYN = 1;
     }
-    if(title.length>0 && Moment(myendDate()).isAfter(Moment(myStartDate())) && myMediList().length>0 && (alarmYN===0||(alarmYN===1 && (selectTime1 || selectTime2 || selectTime3)))){
+    if(title.length>0 && (Moment(myendDate()).isSame(Moment(myStartDate()))||Moment(myendDate()).isAfter(Moment(myStartDate()))) && myMediList().length>0 && (alarmYN===0||(alarmYN===1 && (selectTime1 || selectTime2 || selectTime3)))){
       await modifyAlarm(props.route.params.data, title, alarmYN, selectTime1, selectTime2, selectTime3, myStartDate(), myendDate(), pillList, myTagList());
       deleteNotification(props.route.params.data);
       setNotification(props.route.params.data);

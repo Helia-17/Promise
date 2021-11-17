@@ -27,7 +27,6 @@ request.interceptors.response.use(
           const refresh = await request.post('/auth/reissue',{
                             refreshToken : await AsyncStorage.getItem('refresh')
                           }).then((response) => response.data)
-          console.log(refresh);
           AsyncStorage.removeItem('refresh');
           AsyncStorage.removeItem('token');
           AsyncStorage.setItem('refresh',refresh.refreshToken);
@@ -164,11 +163,35 @@ export const modifyAlarm = async(alarmId, alarmTitle, alarmYN, alarmTime1, alarm
 export const sharingList = async()=>{
   return await request.get('/sharings',{
   }).then((response) => {
-    console.log(response.data);
+    return response.data.alarmShareList;
   }).catch((err) => {
-    console.log(err.response.data);
+    return err.response;
   })
 }
+
+export const sharingAccept = async(alarmId)=>{
+  return await request.delete('/sharings/accept',{
+    params:{
+      alarmId: alarmId
+    }
+  }).then((response) => {
+    return response.data.statusCode;
+  }).catch((err) => {
+    return err.response;
+  })
+};
+
+export const sharingReject = async(alarmId)=>{
+  return await request.delete('/sharings/reject',{
+    params:{
+      alarmId: alarmId
+    }
+  }).then((response) => {
+    return response.data.statusCode;
+  }).catch((err) => {
+    return err.response;
+  })
+};
 
 export const getCalendar = async(nowMonth)=>{
   return await request.get('/alarms/calendar', {
@@ -245,34 +268,11 @@ export const changeInfo = async(userNickname, petName)=>{
   });
 }
 
-export const enrollAlarm = async (
-  alarmTitle,
-  alarmYN,
-  alarmTime1,
-  alarmTime2,
-  alarmTime3,
-  alarmDayStart,
-  alarmDayEnd,
-  alarmMediList,
-  tagList,
-  shareEmail,
-) => {
+export const enrollAlarm = async (alarmTitle, alarmYN, alarmTime1, alarmTime2, alarmTime3, alarmDayStart, alarmDayEnd, alarmMediList, tagList, shareEmail) => {
   return await request
-    .post(
-      '/alarms',
-      {
-        alarmTitle,
-        alarmYN,
-        alarmTime1,
-        alarmTime2,
-        alarmTime3,
-        alarmDayStart,
-        alarmDayEnd,
-        alarmMediList,
-        tagList,
-        shareEmail,
-      }
-    )
+    .post( '/alarms', {  
+      alarmTitle, alarmYN, alarmTime1, alarmTime2, alarmTime3, alarmDayStart, alarmDayEnd, alarmMediList, tagList, shareEmail
+    })
     .then(response => {
       return response.data.alarmId;
     })
