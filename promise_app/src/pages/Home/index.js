@@ -32,9 +32,7 @@ const HomePage = ({navigation}) => {
                 setUserInfo({})
             }
         }, [])
-    );
-
-    
+    );    
 
     return (
         <View  style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor:'#F9F9F9' }}>

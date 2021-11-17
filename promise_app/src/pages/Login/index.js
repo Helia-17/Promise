@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
-import {View, Text, Image, Modal, Platform} from 'react-native';
+import React, {useState, useCallback} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
+import {View, Image, Modal, Platform} from 'react-native';
 import Logo from '../../assets/Promise_Logo.png';
 import GoogleLoginBtn from '../../components/GoogleLoginBtn';
 import AppleLoginBtn from '../../components/AppleLoginBtn';
@@ -9,6 +10,7 @@ import PetModal from '../../components/PetModal';
 import LoginBtn from '../../components/atoms/LoginBtn';
 import LoginModal from '../../components/LoginModal';
 import {userAPI} from '../../utils/axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = (props) => {
   const [userModal, setUserModal] = useState(false);
@@ -21,6 +23,17 @@ const Login = (props) => {
   const [nick, setNick] = useState('');
   const [petName, setPetName] = useState('');
   const [type, setType] = useState();
+
+  async function checkLogin(){
+    if(await AsyncStorage.getItem('refresh')!==null){
+      props.navigation.replace('appscreen');
+    }
+  }
+  useFocusEffect(
+    useCallback(()=>{
+      checkLogin();
+    },[])
+  );
 
   const SocialSignin = async (data) => {
     if (data.email){

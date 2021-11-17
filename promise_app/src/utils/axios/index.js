@@ -27,6 +27,7 @@ request.interceptors.response.use(
           const refresh = await request.post('/auth/reissue',{
                             refreshToken : await AsyncStorage.getItem('refresh')
                           }).then((response) => response.data)
+          console.log(refresh);
           AsyncStorage.removeItem('refresh');
           AsyncStorage.removeItem('token');
           AsyncStorage.setItem('refresh',refresh.refreshToken);
