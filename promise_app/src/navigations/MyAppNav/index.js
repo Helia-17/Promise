@@ -22,6 +22,7 @@ import Mypage from '../../pages/Mypage';
 import ModifyInfo from '../../pages/ModifyInfo';
 import MyPillHistory from '../../pages/MyPillHistory';
 import MyPillNowPill from '../../pages/MyPillNowPill';
+import MyPillInfo from '../../pages/MyPillInfo';
 import Login from '../../pages/Login';
 
 const MyApp = () => {
@@ -169,7 +170,7 @@ const MyApp = () => {
       return (
         <Stack.Navigator screenOptions={{initialRouteName : 'MyPillNowPill'}}>
             <Stack.Screen name="MyPillNowPill" component={MyPillNowPill} options={{ headerShown : false }}/>
-            <Stack.Screen name="Info" component={Info} options={{ headerShown : false }} />
+            <Stack.Screen name="MyPillInfo" component={MyPillInfo} options={{ headerShown : false }} />
         </Stack.Navigator>
       )
     }

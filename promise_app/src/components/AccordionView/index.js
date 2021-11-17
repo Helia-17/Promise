@@ -47,6 +47,7 @@ const SECTIONS = [
 
 
 const AccordionView = ({navigation}) => {
+  // console.log(navigation);
   const [activeSections, setActiveSections] = useState([]);
   const [myPillList, setMyPillList] = useState([]);
   const [headerUmName, setHeaderUmName] = useState('');
@@ -97,7 +98,7 @@ const AccordionView = ({navigation}) => {
     return (
       <View style={styles.contentList}>
       { alarmMediList.map((object, i) => 
-        <TouchableOpacity key={i} onPress={() => {navigation.navigate('Info', { name: `${object.umName}`}) }} style={styles.contents}>
+        <TouchableOpacity key={i} onPress={() => {navigation.navigate('MyPillInfo', { name: `${object.umName}`}) }} style={styles.contents}>
           <View style={styles.contentTextContainer}>
             <Icon name="pill" color="#5383ad" backgroundColor='white' size={20}/>
             <Text style={styles.contentText}>{(object.umName).replace(/\(/g, '\n(')}</Text>

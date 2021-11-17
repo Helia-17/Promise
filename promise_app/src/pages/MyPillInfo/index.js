@@ -4,25 +4,32 @@ import InfoText from '../../components/atoms/InfoText';
 import InfoWarinings from '../../components/InfoWarinings';
 import PillInfo from '../../components/PillInfo';
 import { getMediDetailAPI } from '../../utils/axios';
-import Spinner from 'react-native-loading-spinner-overlay';
+import Icon from 'react-native-vector-icons/AntDesign';
 
-const Info = ({ route }) => {
-    const [spinVisible, setSpinvisible] = useState();
+const MyPillInfo = (props) => {
     const [mediDetail, setMediDetail] = useState([]);
+
     const getMediDetail = async () => {
-        setSpinvisible(true);
-        const res = await getMediDetailAPI(route.params.serialNum);
+        const res = await getMediDetailAPI(props.route.params.serialNum);
         setMediDetail(res);
-        setSpinvisible(false);
     }
 
     useEffect(() => {
+        if(!props.route.params.serialNum) props.navigation.goBack();
         getMediDetail();
     }, []);
 
     return (
         <View style={{ flex: 1, backgroundColor: '#F9F9F9' }}>
-            <Spinner visible={spinVisible} />
+            <View style={{width: '90%', alignItems: 'flex-start', marginTop: 10}}>
+                <Icon.Button
+                name="left"
+                color="black"
+                backgroundColor="#F9F9F9"
+                size={25}
+                onPress={() => props.navigation.goBack()}
+                />
+            </View>
             <View style={style.pillInfoCard}>
                 <PillInfo
                     name={mediDetail.mediName}
@@ -96,5 +103,5 @@ const style = StyleSheet.create({
         marginBottom: 0,
     }
 })
-export default Info;
+export default MyPillInfo;
 

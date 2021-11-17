@@ -12,9 +12,11 @@ import DirectModal from '../../components/DirectModal';
 import Moment from 'moment';
 import PillModal from '../../components/PillModal';
 import Notifications from '../../utils/Notifications';
+import Spinner from 'react-native-loading-spinner-overlay';
 import {modifyAlarm, getAlarmDetail, deleteAlarm} from '../../utils/axios';
 
 const AlarmInfo = (props) => {
+  const [spinVisible, setSpinvisible] = useState();
   const [title, onChangeTitle] = useState('');
   const [isOn, setIsOn] = useState(false);
   const [pillList, setPillList] = useState([]);
@@ -62,6 +64,7 @@ const AlarmInfo = (props) => {
   }
 
   const getDetail = async(id)=>{
+    setSpinvisible(true);
     const result = await getAlarmDetail(id);
     onChangeTitle(result.alarmTitle);
     setPillList(result.alarmMediList);
@@ -78,6 +81,7 @@ const AlarmInfo = (props) => {
     setSelectTime3(result.alarmTime3);
     if(result.alarmYN===1) setIsOn(true);
     else setIsOn(false);
+    setSpinvisible(false);
 }
 
   useFocusEffect(
@@ -173,8 +177,10 @@ const AlarmInfo = (props) => {
   };
 
   const deleteaxios = async()=>{
+    setSpinvisible(true);
     await deleteAlarm(props.route.params.data);
     deleteNotification(props.route.params.data);
+    setSpinvisible(false);
     props.navigation.goBack();
   }
 
@@ -184,9 +190,11 @@ const AlarmInfo = (props) => {
       alarmYN = 1;
     }
     if(title.length>0 && (Moment(myendDate()).isSame(Moment(myStartDate()))||Moment(myendDate()).isAfter(Moment(myStartDate()))) && myMediList().length>0 && (alarmYN===0||(alarmYN===1 && (selectTime1 || selectTime2 || selectTime3)))){
+      setSpinvisible(true);
       await modifyAlarm(props.route.params.data, title, alarmYN, selectTime1, selectTime2, selectTime3, myStartDate(), myendDate(), pillList, myTagList());
       deleteNotification(props.route.params.data);
-      setNotification(props.route.params.data);
+      if(alarmYN===1) setNotification(props.route.params.data);
+      setSpinvisible(false);
       props.navigation.goBack();
     }else if(title.length===0){
       alert('복용명을 입력해주세요.');
@@ -279,6 +287,7 @@ const AlarmInfo = (props) => {
 
   return (
     <View style={{flex: 1, alignItems: 'center', backgroundColor: 'white'}}>
+      <Spinner visible={spinVisible} />
       <View style={{width: '90%', alignItems: 'flex-start', marginTop: 10}}>
         <Icon.Button
           name="left"

@@ -3,6 +3,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import { View, Text, TouchableOpacity, Image, Alert, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Spinner from 'react-native-loading-spinner-overlay';
 import {myinfo, withdraw} from '../../utils/axios';
 
 const Mypage = ({navigation}) => {
@@ -10,6 +11,7 @@ const Mypage = ({navigation}) => {
     const [petName, setPetName] = useState('');
     const [petLevel, setPetLevel] = useState(1);
     const [userProfile, setUserProfile] = useState('');
+    const [spinVisible, setSpinvisible] = useState();
 
     const logout = () =>{
         Alert.alert(
@@ -31,6 +33,7 @@ const Mypage = ({navigation}) => {
     }
 
     const getMyInfo = async ()=>{
+        setSpinvisible(true);
         const result = await myinfo();
         setUserNickname(result.userNickname);
         setPetName(result.petName);
@@ -38,6 +41,7 @@ const Mypage = ({navigation}) => {
         if(result.userProfileUrl){
             setUserProfile(result.userProfileUrl+ '?' + new Date());
         }
+        setSpinvisible(false);
     }
 
     useFocusEffect(
@@ -82,6 +86,7 @@ const Mypage = ({navigation}) => {
     }
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
+            <Spinner visible={spinVisible} />
             <View style={{width: '100%', height: '50%'}}>
                 <View style={{width: '100%', height:'40%', flexDirection: "row", alignItems: 'center', justifyContent: 'space-between', margin:30}}>
                     <View style={{width:130, height:130, borderRadius:100, backgroundColor:'#C4C4C4'}}>

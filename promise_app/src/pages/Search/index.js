@@ -8,11 +8,10 @@ const Search = (props) => {
     const [mediList, setMediList] = useState([]);
     const [searchText, setSearchText] = useState('');
     const [isSearchText, setIsSearchText] = useState(true);
-    
+
     const medicineList = () => {
         let result = [];
         if (mediList) {
-            
             mediList.map(item => {
                 result = result.concat(
                     <SearchList

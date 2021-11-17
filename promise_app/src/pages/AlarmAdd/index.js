@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { View, ScrollView, Text, Modal, TouchableOpacity, TextInput} from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 import Icon from 'react-native-vector-icons/AntDesign';
 import TimeSelect from '../../components/TimeSelect';
 import DateSelect from '../../components/DateSelect';
@@ -16,6 +17,7 @@ import Notifications from '../../utils/Notifications';
 import {enrollAlarm} from '../../utils/axios';
 
 const AlarmAdd = ({navigation}) => {
+  const [spinVisible, setSpinvisible] = useState();
   const [title, onChangeTitle] = useState('');
   const [isOn, setIsOn] = useState(false);
   const [pillList, setPillList] = useState([]);
@@ -163,8 +165,10 @@ const AlarmAdd = ({navigation}) => {
       alarmYN = 1;
     }
     if(title.length>0 && (Moment(myendDate()).isSame(Moment(myStartDate()))||Moment(myendDate()).isAfter(Moment(myStartDate()))) && myMediList().length>0 && (alarmYN===0||(alarmYN===1 && (selectTime1 || selectTime2 || selectTime3)))){
+      setSpinvisible(true);
       const result = await enrollAlarm( title, alarmYN, selectTime1, selectTime2, selectTime3, myStartDate(), myendDate(), myMediList(), myTagList(), myShareList());
       if(alarmYN===1) setNotification(result);
+      setSpinvisible(false);
       navigation.goBack();
     }else if(title.length===0){
       alert('복용명을 입력해주세요.');
@@ -225,6 +229,7 @@ const AlarmAdd = ({navigation}) => {
 
   return (
     <View style={{flex: 1, alignItems: 'center', backgroundColor: 'white'}}>
+      <Spinner visible={spinVisible} />
       <View style={{width: '90%', alignItems: 'flex-start', marginTop: 10}}>
         <Icon.Button
           name="left"

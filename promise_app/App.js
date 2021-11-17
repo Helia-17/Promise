@@ -9,7 +9,7 @@ import combineReducers from './src/modules/reducers'
 import MyApp from './src/navigations/MyAppNav';
 
 const App = () => {
-
+  console.disableYellowBox = true;
   useEffect(() => {
     SplashScreen.hide();
     const backAction = () => {
@@ -34,7 +34,7 @@ const App = () => {
   return (
     <Provider store={createStore(combineReducers)}>
       <SafeAreaProvider>
-        <StatusBar barStyle="dark-content" hidden={false} backgroundColor='white' translucent={true}/>
+      <StatusBar barStyle='dark-content' hidden={false} backgroundColor='white' translucent={true}/>
         <NavigationContainer>
           <MyApp/>
         </NavigationContainer>
