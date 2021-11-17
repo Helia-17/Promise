@@ -15,10 +15,12 @@ const SearchBar = (props) => {
     const [text, onChangeText] = useState(props.searchKeyword);
 
     const getCommunityResult = () => {
-        return getCommunityAPI.search(1, text).then(res => {
-            dispatch(getCommunitySearchAction(res))
-            navigation.navigate('communitysearch')
-        })   
+        if (text) {
+            return getCommunityAPI.search(1, text).then(res => {
+                dispatch(getCommunitySearchAction(res))
+                navigation.navigate('communitysearch')
+            })   
+        }
     }   
 
     const resetSearchValue = () => {
