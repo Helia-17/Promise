@@ -94,9 +94,6 @@ const PostList = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    // display: 'flex',
-    // flexDirection: 'row',
-    // justifyContent: 'space-between',
     marginTop: 1,
     marginHorizontal: 0,
     paddingVertical: 12,

@@ -38,16 +38,16 @@ const Comments = ((props, ref) => {
         return (
           <TouchableHighlight key={i} underlayColor="white">
             <View style={styles.container} >
-                <View>
+                <View style={styles.subContainer}>
                     <Text style={styles.itemNameText}>{item.userNickname}</Text>
-                    <Text style={styles.itemTitleText}>{item.commentContents}</Text>
-                </View>
-                <View style={styles.subcontainer}>
                     <Text style={styles.itemDateText}>
                     {postDate}
                     </Text>
+                </View>
+                <Text style={styles.itemTitleText}>{item.commentContents}</Text>
+                <View style={styles.buttonContainer}>
                     { userNickname === item.userNickname
-                    ? <CommentBtn backgroundColor='#FF6464' value='삭제' func={() => postDelete(item.commentId, postId)} />
+                    ? <CommentBtn value='삭제' func={() => postDelete(item.commentId, postId)} />
                     : null
                     }
                     
@@ -63,13 +63,13 @@ const Comments = ((props, ref) => {
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-between',
     marginTop: 1,
     marginHorizontal: 0,
-    paddingVertical: 12,
+    paddingVertical: 5,
     paddingHorizontal: 14,
-    height: 80,
+    height: 85,
     shadowColor: '#f1f2f3',
     shadowOffset: {
       width: 0,
@@ -83,10 +83,14 @@ const styles = StyleSheet.create({
     borderBottomColor: '#D1D1D1',
     borderBottomWidth: 1,
   },
-  subcontainer: {
+  subContainer: {
+    flexDirection:'row', 
+    alignItems:'center', 
+    justifyContent:'space-between'
+  },
+  buttonContainer: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
     alignItems: 'flex-end',
     shadowColor: '#f1f2f3',
   },
@@ -97,7 +101,6 @@ const styles = StyleSheet.create({
   itemTitleText: {
     fontSize: 16,
     fontWeight: '400',
-    paddingVertical: 10,
   },
   itemDateText: {
     paddingTop: 6,
