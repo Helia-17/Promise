@@ -19,6 +19,7 @@ const Mypage = ({navigation}) => {
                 text:'예',
                 onPress : ()=>{
                     AsyncStorage.removeItem('token');
+                    AsyncStorage.removeItem('refresh');
                     navigation.replace('LoginScreen');
                 }
             },{
@@ -71,6 +72,7 @@ const Mypage = ({navigation}) => {
                     text:'확인',
                     onPress: ()=>{
                         AsyncStorage.removeItem('token');
+                        AsyncStorage.removeItem('refresh');
                         navigation.replace('LoginScreen');
                     }
                 }]

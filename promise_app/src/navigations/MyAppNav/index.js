@@ -22,9 +22,8 @@ import ModifyInfo from '../../pages/ModifyInfo';
 import MyPillHistory from '../../pages/MyPillHistory';
 import MyPillNowPill from '../../pages/MyPillNowPill';
 import Login from '../../pages/Login';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const MyApp = ({navigation}) => {
+const MyApp = () => {
 
     const Stack = createNativeStackNavigator();
     const TopTab = createMaterialTopTabNavigator();
@@ -207,8 +206,8 @@ const MyApp = ({navigation}) => {
       screenOptions={{
         headerShown : false
         }}>
-          <Stack.Screen name="appscreen" component={MyAppNav} />
           <Stack.Screen name="LoginScreen" component={Login} />
+          <Stack.Screen name="appscreen" component={MyAppNav} />
       </Stack.Navigator>
     )
 }
