@@ -7,6 +7,7 @@ import { getCommunityAPI } from '../../utils/axios';
 /* 초기 상태 선언 */
 const initialState = {
   communityList: [],
+  communitySearchList: [],
   communityPostDetail: { 
     commuCommentDetailList: [],
     commuContents: '',
@@ -17,6 +18,7 @@ const initialState = {
   pageNum: null,
   hasMore:null,
   totalPageCnt: null,
+  searchKeyword: '',
   communityPostChanged: false,
   communityPostCreated: false,
   communityPostUpdated: false,
@@ -47,6 +49,36 @@ const reducer = (state = initialState, action) => {
           totalPageCnt: action.data.totalPageCnt,
           hasMore: action.data.hasMore,
           pageNum: action.data.pageNum,
+        };
+
+      case types.GET_COMMUNITY_SEARCH:
+        
+        let SearchHasMore
+        action.data.totalPageCnt === 1
+        ? SearchHasMore = false
+        : SearchHasMore = true
+        return {
+          ...state,
+          communitySearchList: action.data.communityDetailList,
+          totalPageCnt: action.data.totalPageCnt,
+          hasMore: SearchHasMore,
+          pageNum: 1,
+          searchKeyword: action.data.searchKeyword
+        };
+
+      case types.GET_MORE_COMMUNITY_SEARCH:
+        return {
+          ...state,
+          communitySearchList: action.data.communityDetailList,
+          totalPageCnt: action.data.totalPageCnt,
+          hasMore: action.data.hasMore,
+          pageNum: action.data.pageNum,
+        };
+
+      case types.RESET_COMMUNITY_SEARCH_VALUE:
+        return {
+          ...state,
+          searchKeyword: ''
         };
 
       case types.GET_POST_DETAIL:

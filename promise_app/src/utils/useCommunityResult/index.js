@@ -3,15 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios";
 import { getCommunityAPI } from '../axios';
 
-const useCommunity = (communityList, askPage, totalPageCnt) => {
+const useCommunityResult = (communitySearchList, askPage, totalPageCnt, searchKeyword) => {
   let communityDetailList
   let hasMore
   let totalPages = totalPageCnt
   let pageNum = askPage + 1
   
   const getCommunity = async (pageNum) => {
-      await getCommunityAPI.list(pageNum).then(res => {
-        communityDetailList = communityList.concat(res.communityDetailList)  
+      await getCommunityAPI.search(pageNum, searchKeyword).then(res => {
+        communityDetailList = communitySearchList.concat(res.communityDetailList)  
         totalPages = res.totalPageCnt
         pageNum === res.totalPageCnt
         ? hasMore = false
@@ -26,4 +26,4 @@ const useCommunity = (communityList, askPage, totalPageCnt) => {
 
 }
 
-export default useCommunity;
+export default useCommunityResult;
