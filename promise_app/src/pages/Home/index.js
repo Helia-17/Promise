@@ -110,7 +110,7 @@ const HomePage = ({navigation}) => {
     useFocusEffect(
         useCallback(()=>{
             checkSharing();
-            getMyInfo()
+            getMyInfo();
             return () => {
                 setUserInfo({})
             }

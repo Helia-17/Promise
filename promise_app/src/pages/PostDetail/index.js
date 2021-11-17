@@ -101,7 +101,7 @@ const PostDetailPage = ({navigation, route}) => {
           <ScrollView style={{width: '100%', padding: 5}}>
             <View style={styles.container}>
               <View >
-                <Text style={styles.itemTitleText}>{post.commuTitle}</Text>
+                  <Text style={styles.itemTitleText}>{post.commuTitle}</Text>
                 {userNickname === post.userNickname?
                 <View style={styles.buttonContainer}>
                   <SmallBtn value='수정' func={()=>navigation.navigate('communityupdate', {postId:postId, post: post})}/>
