@@ -14,7 +14,7 @@ import com.pjt3.promise.response.AlarmCalendarGetRes;
 import com.pjt3.promise.response.AlarmDetailGetRes;
 import com.pjt3.promise.response.AlarmGetRes;
 import com.pjt3.promise.response.AlarmMainGetRes;
-import com.pjt3.promise.response.MediGetRes;
+import com.pjt3.promise.response.MediPillGetRes;
 import com.pjt3.promise.response.MyAlarmHistory;
 import com.pjt3.promise.response.MyPillGetRes;
 import com.querydsl.core.types.Projections;
@@ -91,7 +91,7 @@ public class MediAlarmRepositorySupport {
 		
 		for (MyPillGetRes myPillGetRes : alarmList) {
 			int alarmId = myPillGetRes.getAlarmId();
-			List<MediGetRes> alarmMediList = query.select(Projections.bean(MediGetRes.class,
+			List<MediPillGetRes> alarmMediList = query.select(Projections.bean(MediPillGetRes.class,
 	    			qUserMedicine.medicine.mediSerialNum, qUserMedicine.umName))
 	    			.from(qUserMedicine)
 	    			.where(qUserMedicine.mediAlarm.alarmId.eq(alarmId)).fetch();

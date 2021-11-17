@@ -17,14 +17,14 @@ import CommunitySearchPage from '../../pages/CommunitySearchPage';
 import PostCreatePage from '../../pages/PostCreate';
 import PostUpdatePage from '../../pages/PostUpdate';
 import PostDetailPage from '../../pages/PostDetail';
+import TimelineDetail from '../../pages/TimelineDetail';
 import Mypage from '../../pages/Mypage';
 import ModifyInfo from '../../pages/ModifyInfo';
 import MyPillHistory from '../../pages/MyPillHistory';
 import MyPillNowPill from '../../pages/MyPillNowPill';
 import Login from '../../pages/Login';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const MyApp = ({navigation}) => {
+const MyApp = () => {
 
     const Stack = createNativeStackNavigator();
     const TopTab = createMaterialTopTabNavigator();
@@ -67,7 +67,7 @@ const MyApp = ({navigation}) => {
         }}
         >
           <Stack.Screen name="TimelineScreen" component={Timeline} />
-          <Stack.Screen name="AlarmInfo" component={AlarmInfo} />
+          <Stack.Screen name="TimelineDetail" component={TimelineDetail} />
         </Stack.Navigator>
       )
     }
@@ -203,24 +203,11 @@ const MyApp = ({navigation}) => {
         )
     }
 
-    const [isLogin, setIsLogin] = useState('LoginScreen');
-
-    const checkLogin = async() =>{
-      const result = await AsyncStorage.getItem('token');
-      {result.length>0?setIsLogin('appscreen'):setIsLogin('LoginScreen')}
-    }
-
-    useLayoutEffect(() => {
-      checkLogin();
-    }, []);
-
     return (
       <Stack.Navigator 
       screenOptions={{
-        headerShown : false,
-        initialRouteName:isLogin
+        headerShown : false
         }}>
-          
           <Stack.Screen name="LoginScreen" component={Login} />
           <Stack.Screen name="appscreen" component={MyAppNav} />
       </Stack.Navigator>

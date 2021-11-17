@@ -7,6 +7,7 @@ const PillModal = (props) => {
     const [pillData, setPillData] = useState([]);
     const [search, onChangeSearch] = useState('');
     const [selectedData, setSelectedData] = useState([]);
+    const [resultEmpty, setEmpty] = useState(false);
 
     const addData = (data)=>{
         setSelectedData(data);
@@ -14,7 +15,7 @@ const PillModal = (props) => {
 
     const mySearchList = ()=>{
         let result = [];
-        if(pillData){
+        if(pillData.length>0){
             pillData.map(item=>{
                 if(selectedData.mediSerialNum===item.mediSerialNum){
                     result = result.concat(
@@ -40,11 +41,23 @@ const PillModal = (props) => {
     const searchList = async()=>{
         const result = await searchMedicine(search);
         setPillData(result);
+        if(result.length===0) setEmpty(true);
+        else setEmpty(false);
     }
 
     const sendProps = ()=>{
         props.selected(selectedData);
+        if(selectedData.length===0){
+            alert('선택하신 약이 없습니다!');
+        }
         props.visible(false);
+        props.my(false);
+    }
+
+    const myAdd = () => {
+        props.selected([]);
+        props.visible(false);
+        props.my(true);
     }
 
     useEffect(()=>{
@@ -66,9 +79,19 @@ const PillModal = (props) => {
                         </View>
                     </View>
                 </View>
-                <ScrollView style={{ width:'100%'}} contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}>
-                    {mySearchList()}
-                </ScrollView>
+                {resultEmpty?(
+                    <ScrollView style={{ width:'100%'}} contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}>
+                        <Text style={{fontSize:17, color:'gray'}}>해당되는 약이 존재하지 않습니다.</Text>
+                        <Text style={{fontSize:13, color:'#414141', marginTop:10}}>직접 등록을 원하시나요?</Text>
+                        <TouchableOpacity style={{borderColor:'#BDBDBD', borderWidth:0.5,backgroundColor:'white', color:'black', width:'30%', marginTop:20, marginBottom:20, alignItems: 'center', borderRadius: 5, height:30, justifyContent: 'center'}} onPress={()=>myAdd()} >
+                            <Text style={{color:'black', fontSize:15, fontWeight:'bold'}}>직접 등록</Text >
+                        </TouchableOpacity>
+                    </ScrollView>
+                ):(
+                    <ScrollView style={{ width:'100%'}} contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}>
+                        {mySearchList()}
+                    </ScrollView>
+                )}
                 <View style={{margin:20, alignItems: 'center'}}>
                     <TouchableOpacity style={{backgroundColor:'#B8CE9C', color:'black', width:'30%', alignItems: 'center', borderRadius: 5, height:30, justifyContent: 'center'}} onPress={()=>sendProps()} >
                         <Text style={{color:'black', fontSize:15, fontWeight:'bold'}}>등록</Text >

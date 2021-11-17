@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import { useFocusEffect } from '@react-navigation/core';
+import React, { Component, useCallback, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Accordion from 'react-native-collapsible/Accordion';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { withNavigation  } from '@react-navigation/native';
+import { getMyPillAPI } from '../../utils/axios';
 
 const SECTIONS = [
   {
@@ -43,97 +44,88 @@ const SECTIONS = [
   },
 ];
 
-class AccordionView extends Component {
-  state = {
-    activeSections: [],
-  };
+// const getMyPillList = async () => {
+//   const res = await getMyPillAPI();
+//   console.log("getMyPillList res : ", res);
+// }
 
-  navigation = this.props.navigation;
+// useFocusEffect(
+//   useCallback(()=>{
+//     getMyPillList();
+//   }, [])
+// );
 
-  _renderHeader = (section) => {
+const AccordionView = ({navigation}) => {
+  const [activeSections, setActiveSections] = useState([]);
+
+  const renderHeader = (section) => {
     return (
       <View style={styles.header}>
         <Text style={styles.headerText}>{section.title}</Text>
         <View style={styles.dateContainer}>
           <Text style={styles.dateText}>{section.date}</Text>
-          <Icon name="chevron-down" color="black" backgroundColor='white' size={40}/>
+          <Icon name="chevron-down" color="black" backgroundColor='white' size={35}/>
         </View>
       </View>
     );
   };
 
-  _renderContent = (section, navigation) => {
+  const renderContent = (section, navigation) => {
     return (
       <View style={styles.contentList}>
       { section.contents.map((object, i) => 
-        <TouchableOpacity key={i} onPress={() => {this.props.navigation.navigate('Info', {name:`${object.name}`, company:`${object.company}`})}} style={styles.contents}>
+        <TouchableOpacity key={i} onPress={() => {navigation.navigate('Info', { name: `${object.name}`, company: `${object.company}` }) }} style={styles.contents}>
           <View style={styles.contentTextContainer}>
             <Icon name="pill" color="#5383ad" backgroundColor='white' size={20}/>
             <Text style={styles.contentText}>{object.name}</Text>
           </View>
           <Icon name="chevron-right" color="black" backgroundColor='white' size={30}/>
         </TouchableOpacity>
-      )}
+        )}
+        <View style={styles.space}></View>
       </View>
     );
   };
 
-  _updateSections = (activeSections) => {
-    this.setState({ activeSections });
+  const updateSections = (activeSections) => {
+    setActiveSections(activeSections);
   };
 
-  render() {
-    return (
-      <View style={{ width:'100%', marginVertical:20, paddingVertical:10, paddingHorizontal: 20, }} >
-      {/* <View styles={{width:'93%', marginTop:10, backgroundColor:'white', borderRadius:3, elevation:1}}> */}
-        <Accordion
-          sections={SECTIONS}
-          underlayColor={'white'}
-          activeSections={this.state.activeSections}
-          // renderSectionTitle={this._renderSectionTitle}
-          renderHeader={this._renderHeader}
-          renderContent={this._renderContent}
-          onChange={this._updateSections}
-        />
-      </View>
-    );
-  }
+  
+  return (
+    <View style={{ width:'100%', paddingVertical:10, paddingHorizontal: 15, }} >
+      <Accordion
+        sections={SECTIONS}
+        underlayColor={'#F9F9F9'}
+        activeSections={activeSections}
+        renderHeader={renderHeader}
+        renderContent={renderContent}
+        onChange={updateSections}
+      />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 1,
-    marginHorizontal: 0,
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    height: 80,
-    shadowRadius: 18.95,
-    elevation: 0,
-    zIndex: 1,
+  space: {
+    paddingVertical: 5,
   },
   contentList: {
-    borderColor: '#e3e3e3',
-    borderTopWidth: 1,
+    borderColor: '#BBBBBB',
+    borderTopWidth: 0.3,
   },
   header: {
-    backgroundColor:'white',
-    marginVertical: 10,
-    borderRadius:5,
-    borderColor: '#e3e3e3',
-    borderWidth: 1,
-    paddingTop: 25,
-    paddingBottom: 5,
-    paddingLeft: 20,
-    paddingRight: 15,
-    width: '100%',
-    flexDirection: 'column',
+    backgroundColor: 'white',
+    marginBottom: 5,
+    padding: 20,
+    paddingBottom: 15,
+    borderRadius: 5,
+    borderColor: '#BBBBBB',
+    borderWidth: 0.3,
   },
   headerText: {
-    fontSize: 18,
-    fontWeight: '400'
+    fontSize: 19,
+    fontWeight: '600'
   },
   dateContainer: {
     flexDirection: 'row',
@@ -155,9 +147,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     borderColor: '#e3e3e3',
-    borderBottomWidth: 1,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
+    borderWidth: 1,
+    borderTopWidth: 0,
   },
   contentTextContainer: {
     flexDirection: 'row',

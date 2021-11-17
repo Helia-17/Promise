@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Moment from 'moment';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -12,6 +12,12 @@ const TimeSelect = (props) => {
         setIsTimeVisible(false);
         props.selected(Moment(time).format('HHmm'));
     }
+
+    useEffect(() => {
+        if(props.mytime){
+            setSelectTime(`${props.mytime[0]}${props.mytime[1]}:${props.mytime[2]}${props.mytime[3]}`);
+        }
+    }, [props])
 
     return (
         <View style={{flexDirection: "row", alignItems: 'center', width:'90%', justifyContent: 'center', height:50}}>

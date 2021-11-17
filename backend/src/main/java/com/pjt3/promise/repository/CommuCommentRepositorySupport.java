@@ -20,7 +20,6 @@ public class CommuCommentRepositorySupport {
 	QCommunityComment qCommunityComment = QCommunityComment.communityComment;
 
 	public List<CommuCommentDetail> getCommuCommentDetailList(int commuId) {
-		System.out.println("support-getCommuCommentDetailList");
 		List<CommuCommentDetail> commuCommentDetailList = query.select(Projections.bean(CommuCommentDetail.class,
 				qCommunityComment.commentId, qCommunityComment.user.userNickname, qCommunityComment.commentContents, qCommunityComment.commentDate))
     			.from(qCommunityComment)

@@ -9,6 +9,7 @@ import AlarmList from '../../components/atoms/AlarmList';
 import AddPill from '../../components/AddPill';
 import ShareUser from '../../components/ShareUser';
 import OCRModal from '../../components/OCRModal';
+import DirectModal from '../../components/DirectModal';
 import Moment from 'moment';
 import PillModal from '../../components/PillModal';
 import Notifications from '../../utils/Notifications';
@@ -25,15 +26,20 @@ const AlarmAdd = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [ocrModal, setOcrModal] = useState(false);
   const [addModal, setAddModal] = useState(false);
+  const [myModal, setMyModal] = useState(false);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [selectTime1, setSelectTime1] = useState(null);
   const [selectTime2, setSelectTime2] = useState(null);
   const [selectTime3, setSelectTime3] = useState(null);
+  const [mediId, setMediId] = useState(1);
 
   const addList = data => {
-    if (data) {
+    if (data.mediName && data.mediSerialNum) {
       setPillList([...pillList, {id: data.mediSerialNum, name: data.mediName}]);
+    }else if(data.mediName){
+      setPillList([...pillList, {id: mediId, name: data.mediName}]);
+      setMediId(mediId+1);
     }
     setIsChange(true);
   };
@@ -73,7 +79,7 @@ const AlarmAdd = ({navigation}) => {
 
   const myPillList = () => {
     let result = [];
-    if (pillList) {
+    if (pillList.length>0) {
       pillList.map(item => {
         result = result.concat(
           <AlarmList item={item} remove={data => removeList(data)} />,
@@ -85,7 +91,7 @@ const AlarmAdd = ({navigation}) => {
 
   const myUserList = () => {
     let result = [];
-    if (userList) {
+    if (userList.length>0) {
       userList.map(item => {
         result = result.concat(
           <AlarmList item={item} remove={data => removeUserList(data)} />,
@@ -109,7 +115,7 @@ const AlarmAdd = ({navigation}) => {
 
   function myMediList() {
     let result = [];
-    if (pillList) {
+    if (pillList.length>0) {
       pillList.map(item => {
         result = result.concat(item.name);
       });
@@ -119,9 +125,9 @@ const AlarmAdd = ({navigation}) => {
 
   function myShareList() {
     let result = [];
-    if (userList) {
+    if (userList.length>0) {
       userList.map(item => {
-        result = result.concat(item.name);
+        result = result.concat(item.id);
       });
     }
     return result;
@@ -129,7 +135,7 @@ const AlarmAdd = ({navigation}) => {
 
   function myTagList() {
     let result = [];
-    if (tag) {
+    if (tag.length>0) {
       result = tag.split('#');
     }
     return result;
@@ -156,9 +162,19 @@ const AlarmAdd = ({navigation}) => {
     if (isOn === true) {
       alarmYN = 1;
     }
-    const result = await enrollAlarm( title, alarmYN, selectTime1, selectTime2, selectTime3, myStartDate(), myendDate(), myMediList(), myTagList(), myShareList());
-    setNotification(result);
-    navigation.goBack();
+    if(title.length>0 && (Moment(myendDate()).isSame(Moment(myStartDate()))||Moment(myendDate()).isAfter(Moment(myStartDate()))) && myMediList().length>0 && (alarmYN===0||(alarmYN===1 && (selectTime1 || selectTime2 || selectTime3)))){
+      const result = await enrollAlarm( title, alarmYN, selectTime1, selectTime2, selectTime3, myStartDate(), myendDate(), myMediList(), myTagList(), myShareList());
+      if(alarmYN===1) setNotification(result);
+      navigation.goBack();
+    }else if(title.length===0){
+      alert('복용명을 입력해주세요.');
+    }else if(Moment(myendDate()).isBefore(Moment(myStartDate()))){
+      alert('종료일이 시작일보다 빠를 수 없습니다.');
+    }else if(myMediList().length===0){
+      alert('약 정보를 입력해주세요.');
+    }else if(alarmYN===1 && (selectTime1===null && selectTime2===null && selectTime3===null)){
+      alert('알람 허용시 최소 1개의 알람을 등록해주세요.');
+    }
   };
 
   const setNotification = async(alarmId)=>{
@@ -273,6 +289,7 @@ const AlarmAdd = ({navigation}) => {
           <PillModal
             visible={data => setAddModal(data)}
             selected={data => addList(data)}
+            my = {data=>setMyModal(data)}
           />
         </Modal>
         <Modal animationType={'fade'} transparent={true} visible={ocrModal}>
@@ -280,6 +297,12 @@ const AlarmAdd = ({navigation}) => {
             data={ocrPillData}
             selected={data => addOCRList(data)}
             visible={data => setOcrModal(data)}
+          />
+        </Modal>
+        <Modal animationType={'fade'} transparent={true} visible={myModal}>
+          <DirectModal
+            visible={data => setMyModal(data)}
+            selected={data => addList(data)}
           />
         </Modal>
         {myPillList()}

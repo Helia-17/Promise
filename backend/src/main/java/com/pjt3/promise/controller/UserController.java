@@ -195,8 +195,10 @@ public class UserController {
 		try {
 			PMUserDetails userDetails = (PMUserDetails) authentication.getDetails();
 			User user = userDetails.getUser();
+			String userEmail = user.getUserEmail();
+			String userNickname = user.getUserNickname();
 			
-			List<ShareUserGetRes> shareUserGetResList = userService.getShareUserList(searchKeyword);
+			List<ShareUserGetRes> shareUserGetResList = userService.getShareUserList(searchKeyword, userEmail, userNickname);
 			
 			if (shareUserGetResList.size() == 0) {
 				return ResponseEntity.status(400).body(null);

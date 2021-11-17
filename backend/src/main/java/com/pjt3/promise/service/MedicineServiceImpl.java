@@ -21,7 +21,6 @@ public class MedicineServiceImpl implements MedicineService{
 
     @Override
     public List<MediGetRes> getMediAutoListInfo(String searchKeyword) {
-//        List<String> mediList = medicineRepositorySupport.getMediAutoListInfo(searchKeyword);
     	List<MediGetRes> mediList = medicineRepositorySupport.getMediAutoListInfo(searchKeyword);
         return mediList;
     }
