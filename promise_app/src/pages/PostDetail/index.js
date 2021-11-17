@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   ScrollView,
@@ -10,11 +10,12 @@ import {
 
 import { getCommunityAPI } from '../../utils/axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { getCommunityAction, resetCommunityListAction } from '../../modules/community/actions';
+import { getCommunityAction, resetCommunityListAction, getPostDetailAction } from '../../modules/community/actions';
 
 import SmallBtn from '../../components/atoms/SmallBtn';
 import CommentList from '../../components/community/CommentList';
 import InputCommentText from '../../components/InputCommentText';
+import Moment from 'moment';
 
 const PostDetailPage = ({navigation, route}) => {
 
@@ -24,36 +25,29 @@ const PostDetailPage = ({navigation, route}) => {
   const [ userNickname, setUserNickname ] = useState(stateUserNickname)
 
   const postId = route.params.post.commuId
-  const postDate = route.params.postDate
-  const [post, setPost] = useState(route.params.post)
+  const postDate = Moment(route.params.postDate).format("YYYY.MM.DD HH:mm")
+  const post = useSelector((state) => state.community.communityPostDetail)
 
-  const [commentList, setCommentList] = useState([])
+  const commentList = useSelector((state) => state.community.communityPostDetail.commuCommentDetailList)
   const [comment, onChangeComment] = useState('');
-
-  const commentsRef = useRef();
   
 
   const refreshComments = async () => {
-        commentsRef.current.refresh();
+        getCommunityAPI.detail(postId).then(res => {
+          dispatch(getPostDetailAction(res))
+        })
   }
 
   useEffect(()=> {
     setUserNickname(stateUserNickname)
-    getCommunityDetail()
-    refreshComments()
   }, [])
 
 
   const getCommunityDetail = () => {
     getCommunityAPI.detail(postId).then(res => {
-      setPost(res)
-      setCommentList(res.commuCommentDetailList)
+      getPostDetailAction(res)
     })
   }
-
-  useEffect(()=>{
-    getCommunityDetail()
-  }, [])
 
   const postDelete = () => {
     getCommunityAPI.delete(postId).then(res => {
@@ -71,65 +65,68 @@ const PostDetailPage = ({navigation, route}) => {
         <View style={{ height: '100%'}}>
           <ScrollView style={{ width: '100%', marginVertical: 10, marginBottom: 55}} contentContainerStyle={{flexDirection:'column', justifyContent:'center'}}>
             <View style={styles.container}>
-              <View>
+              <View style={styles.subContainer}>
                 <Text style={styles.itemTitleText}>{post.commuTitle}</Text>
+                {userNickname === post.userNickname?
+                <View style={styles.buttonContainer}>
+                  <SmallBtn value='수정' func={()=>navigation.navigate('communityupdate', {postId:postId, post: post})}/>
+                  <Text style={{color:'black', fontSize:15, fontWeight:'bold'}}>|</Text>
+                  <SmallBtn value='삭제' func={()=>postDelete()}/>
+                </View>
+                : null
+                }
+              </View>
+              <View>
                 <Text style={styles.itemNameText}>{post.userNickname}</Text>
                 <Text style={styles.itemDateText}>{postDate}</Text>
                 <Text style={styles.itemContentText}>{post.commuContents}</Text>
               </View>
             </View>
-            <View style={{marginVertical:15, marginHorizontal: 10, flexDirection: 'row', justifyContent:'flex-end', alignItems: 'center'}}>
-              {userNickname === post.userNickname?
-              <>
-                <SmallBtn backgroundColor='#F1E7C4' value='수정' func={()=>navigation.navigate('communityupdate', {postId:postId, post: post})}/>
-                <SmallBtn backgroundColor='#FF6464' value='삭제' func={()=>postDelete()}/>
-              </>
-              : null
-              }
-            </View>
             {commentList.length != 0
-                ? <View style={{backgroundColor:"#F4F4F4", minHeight:230}}><CommentList postId={postId} commentList={commentList} ref={commentsRef} /></View>
-                : null
+              ? <View style={{backgroundColor:"#F4F4F4", minHeight:333}}>
+                  <CommentList postId={postId} commentList={commentList} />
+                </View>
+              :
+               <View style={styles.noComments} >
+                <Text style={{color:'#8e8e8f'}}>가장 먼저 댓글을 작성해보세요</Text>
+              </View>
             }
           </ScrollView>
-          {commentList.length != 0
-                ? null
-                : (
-                  <View style={styles.noComments} >
-                    <Text>가장 먼저 댓글을 작성해보세요</Text>
-                  </View>
-                ) 
-          }
           <KeyboardAvoidingView style={{ position: 'absolute', bottom: 0 }}>
-            <InputCommentText name="댓글" result={data => onChangeComment(data)} postId={postId} refreshComments={refreshComments}/>
+            <InputCommentText name="댓글 입력" result={data => onChangeComment(data)} postId={postId} refreshComments={refreshComments}/>
           </KeyboardAvoidingView>
         </View>
       ) : (
         <View>
           <ScrollView style={{width: '100%', padding: 5}}>
             <View style={styles.container}>
-              <View>
+              <View >
                 <Text style={styles.itemTitleText}>{post.commuTitle}</Text>
+                {userNickname === post.userNickname?
+                <View style={styles.buttonContainer}>
+                  <SmallBtn value='수정' func={()=>navigation.navigate('communityupdate', {postId:postId, post: post})}/>
+                  <Text style={{color:'black', fontSize:15, fontWeight:'bold'}}>|</Text>
+                  <SmallBtn value='삭제' func={()=>postDelete()}/>
+                </View>
+                : null
+                }
+              </View>
+              <View>
                 <Text style={styles.itemNameText}>{post.userNickname}</Text>
                 <Text style={styles.itemDateText}>{postDate}</Text>
                 <Text style={styles.itemContentText}>{post.commuContents}</Text>
               </View>
             </View>
-            <View style={{marginVertical:15, marginHorizontal: 10, flexDirection: 'row', justifyContent:'flex-end', alignItems: 'center'}}>
-              {userNickname === post.userNickname?
-                <>
-                  <SmallBtn backgroundColor='#F1E7C4' value='수정' func={()=>navigation.navigate('communityupdate', {postId:postId, post: post})}/>
-                  <SmallBtn backgroundColor='#FF6464' value='삭제' func={()=>postDelete()}/>
-                </>
-                : null
-              }
-            </View>
-            <InputCommentText name="댓글" result={data => onChangeComment(data)} />  
+            <InputCommentText name="댓글" result={data => onChangeComment(data)} postId={postId} refreshComments={refreshComments} />  
             {commentList.length != 0
-                ? <CommentList ref={commentsRef} postId={postId} commentList={commentList}/>
+                ? (
+                  <View style={{backgroundColor:"#F4F4F4", minHeight:330}}>
+                   <CommentList postId={postId} commentList={commentList} />
+                  </View>
+                )
                 : (
                   <View style={styles.noComments} >
-                    <Text>가장 먼저 댓글을 작성해보세요</Text>
+                    <Text style={{color:'#8e8e8f'}}>가장 먼저 댓글을 작성해보세요</Text>
                   </View>
                 ) 
             }
@@ -143,8 +140,8 @@ const PostDetailPage = ({navigation, route}) => {
 
 const styles = StyleSheet.create({
   container: {
-    minHeight: 300,
-    paddingVertical: 12,
+    minHeight: 200,
+    paddingVertical: 10,
     paddingHorizontal: 14,
     shadowColor: '#f1f2f3',
     shadowOffset: {
@@ -157,6 +154,17 @@ const styles = StyleSheet.create({
     zIndex: 1,
     backgroundColor: 'white',
     color: '#333333',
+  },
+  subContainer : {
+    flexDirection:'row', 
+    alignItems:'center', 
+    justifyContent:'space-between'
+  },
+  buttonContainer: {
+    marginVertical:5, 
+    flexDirection: 'row', 
+    justifyContent:'flex-end', 
+    alignItems: 'center'
   },
   itemNameText: {
     fontSize: 18,
@@ -180,15 +188,11 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   noComments: {
-    height: 100,
+    minHeight:333,
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 1,
-    marginBottom: 55,
-    marginHorizontal: 0,
-    paddingVertical: 12,
-    paddingHorizontal: 14,
     backgroundColor: '#F4F4F4',
   },
 });

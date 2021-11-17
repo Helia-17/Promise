@@ -3,18 +3,16 @@ import styled from 'styled-components/native';
 import { View, Text, TouchableOpacity } from 'react-native';
 
 const CommentBtnBackground = styled.TouchableOpacity`
-  width: 50%;
+  width: 10%;
   color: black;
-  align-items: center;
-  border-radius: 5px;
+  align-items: flex-end;
   height: 20px;
   justify-content: center;
-  margin: 5px;
 `;
 
-const CommentBtn = ({backgroundColor, value, func}) => {
+const CommentBtn = ({ value, func}) => {
   return(
-    <CommentBtnBackground style={backgroundColor={backgroundColor}} onPress={func}>
+    <CommentBtnBackground onPress={func}>
         <Text style={{color:'black', fontSize:12, fontWeight:'500'}}>{value}</Text >
     </CommentBtnBackground>
   );

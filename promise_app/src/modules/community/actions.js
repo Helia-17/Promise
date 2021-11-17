@@ -6,6 +6,25 @@ import types from './types'
     data,
   });
 
+  export const getMoreCommunityAction = (data) => ({
+    type: types.GET_MORE_COMMUNITY,
+    data,
+  });
+
+  export const getCommunitySearchAction = (data) => ({
+    type: types.GET_COMMUNITY_SEARCH,
+    data,
+  });
+
+  export const getMoreCommunitySearchAction = (data) => ({
+    type: types.GET_MORE_COMMUNITY_SEARCH,
+    data,
+  });
+
+  export const resetCommunitySearchValueAction = () => ({
+    type: types.RESET_COMMUNITY_SEARCH_VALUE,
+  });
+
   export const getPostDetailAction = (data) => ({
     type: types.GET_POST_DETAIL,
     data,

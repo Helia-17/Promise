@@ -1,37 +1,24 @@
 import React, {useState, useEffect} from 'react';
 import { View, ScrollView, Text } from 'react-native';
-import { Divider } from 'react-native-paper';
 import { getCommunityAPI } from '../../utils/axios';
 import { getCommunityAction } from '../../modules/community/actions';
 import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RoundBtn from '../../components/atoms/RoundBtn'; 
-import SearchBar from '../../components/community/SearchBar';
-import PostList from '../../components/community/PostList';
+import SearchResultBar from '../../components/community/SearchResultBar';
+import SearchResultList from '../../components/community/SearchResultList';
 
-const CommunityPage = ({navigation, route}) => {
+const CommunitySearchPage = ({navigation, route}) => {
 
     const dispatch = useDispatch();
-    const [ communityList, setCommunityList ] = useState([])
+    const searchKeyword = useSelector((state)=>state.community.searchKeyword)
     const [ created, setCreated ] = useState(false)
-    const [ searchKeyword, setSearchKeyword ] = useState('')
-
-    const getCommunity = () => {
-        return getCommunityAPI.list(1).then(res => {
-            dispatch(getCommunityAction(res))
-            setCommunityList(res.communityDetailList)
-        })   
-    }
-    
-    useEffect(()=>{
-        getCommunity()
-    }, [])
     
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
-            <SearchBar searchKeyword={searchKeyword} />
+            <SearchResultBar searchKeyword={searchKeyword}/>
             <View style={{width:'100%', margin:10, marginBottom:55 }}>
-                <PostList/>
+                <SearchResultList searchKeyword={searchKeyword}/>
             </View>
             <View style={{width:'100%', alignItems:'flex-end', position: 'absolute', left: 0, right: 0, bottom: 0}}>
                 <RoundBtn 
@@ -47,4 +34,4 @@ const CommunityPage = ({navigation, route}) => {
     );
 };
 
-export default CommunityPage;
+export default CommunitySearchPage;

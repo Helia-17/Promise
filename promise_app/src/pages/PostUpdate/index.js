@@ -33,7 +33,7 @@ const PostUpdatePage = ({navigation, route}) => {
     }
 
     return (
-        <>
+        <View style={styles.container}>
             <View  style={styles.titleView}>
                 <View style={{width:'90%'}}>
                     <InputTitleText name='제목' text={route.params.post.commuTitle} result={(data)=>onChangeTitle(data)} />
@@ -41,9 +41,7 @@ const PostUpdatePage = ({navigation, route}) => {
             </View>
             <View  style={styles.mainView}>
                 <ScrollView style={{ width:'90%' }} contentContainerStyle={{alignItems: 'center', justifyContent: 'flex-start'}}>
-                    <View style={{width:'100%', margin:10}}>
-                        <InputLongText name='내용' text={route.params.post.commuContents} result={(data)=>onChangeContent(data)} />
-                    </View>
+                    <InputLongText name='내용' text={route.params.post.commuContents} result={(data)=>onChangeContent(data)} />
                 </ScrollView>
                 <View style={{width:'90%', margin:10, alignItmes:'flex-end'}}>
                     <TouchableOpacity style={{backgroundColor:'#A3BED7', color:'black', alignItems: 'center', borderRadius: 12, height:50, justifyContent: 'center'}} onPress={()=>postUpdate()}>
@@ -51,24 +49,27 @@ const PostUpdatePage = ({navigation, route}) => {
                     </TouchableOpacity>
                 </View>
             </View>
-        </>
+        </View>
 
 
     );
 };
 
 const styles = StyleSheet.create({
+    container: {
+        height: '100%'
+    },
     titleView: { 
-        flex: 1, 
+        height: '15%',
         alignItems: 'center', 
         backgroundColor:'#F9F9F9', 
         justifyContent:'center' 
     },
     mainView: { 
-        flex: 6, 
+        height: '85%',
         alignItems: 'center', 
         backgroundColor:'#F9F9F9', 
-        justifyContent:'center' 
+        justifyContent:'space-between' 
     }
 })
 

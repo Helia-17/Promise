@@ -1,30 +1,32 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import {View, Text, StyleSheet, FlatList, TouchableHighlight } from 'react-native';
 import { Divider } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
-import useCommunity from '../../utils/useCommunity';
+import { useNavigation  } from '@react-navigation/native';
+import useCommunityResult from '../../utils/useCommunityResult';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCommunityAPI } from '../../utils/axios';
-import { getPostDetailAction, getMoreCommunityAction } from '../../modules/community/actions';
+import { getPostDetailAction, getMoreCommunitySearchAction } from '../../modules/community/actions';
 import Moment from 'moment';
 
-const PostList = (props) => {
-  
+const SearchResultList = (props) => {
+
   const dispatch = useDispatch()
   const navigation = useNavigation(); 
 
+  const searchKeyword = props.searchKeyword
+  
   // infinite scroll
   const pageNum = useSelector(state => state.community.pageNum)
   const hasMore = useSelector(state => state.community.hasMore)
-  const communityList = useSelector(state => state.community.communityList)
+  const communitySearchList = useSelector(state => state.community.communitySearchList)
   const totalPageCnt = useSelector(state => state.community.totalPageCnt)
   const [onEndReachedCalledDuringMomentum, setOnEndReachedCalledDuringMomentum] = useState(false)
 
 
-  const getMorePost = async () => {
+  const getMoreSearch = async () => {
     if (hasMore) {
-      const res = await useCommunity(communityList, pageNum, totalPageCnt)
-      dispatch(getMoreCommunityAction(res))
+      const res = await useCommunityResult(communitySearchList, pageNum, totalPageCnt, searchKeyword)
+      dispatch(getMoreCommunitySearchAction(res))
     }
   }
   
@@ -38,12 +40,12 @@ const PostList = (props) => {
 
   return (
     <FlatList
-      data={communityList}
+      data={communitySearchList}
       onEndReachedThreshold = {0.5}
       onMomentumScrollBegin = {() => {setOnEndReachedCalledDuringMomentum(false)}}
       onEndReached = {() => {
           if (!onEndReachedCalledDuringMomentum) {
-            getMorePost()    // LOAD MORE DATA
+            getMoreSearch()    // LOAD MORE DATA
             setOnEndReachedCalledDuringMomentum(true)
           }
         }
@@ -52,7 +54,7 @@ const PostList = (props) => {
 
         const subDate = item.commuDate.substr(0, 16)
         const postDate = Moment(subDate).format("YYYY.MM.DD HH:mm")
-        const isLastPost = (communityList.length === index+1)
+        const isLastPost = (communitySearchList.length === index+1)
 
       return (
         isLastPost
@@ -129,4 +131,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PostList
+export default SearchResultList
