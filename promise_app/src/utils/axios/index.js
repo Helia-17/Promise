@@ -544,19 +544,8 @@ export const getMyPillAPI = async ()=> {
   return await request.get(`/mypills`, {
   })
     .then(response => {
-      return response.data;
+      return response.data.alarmList;
     }).catch(err => {
       return err.response.data;
     });
 }
-
-
-// export const myinfo = async () => {
-//   return await request.get(`/users`, {
-//   })
-//   .then(response => {
-//     return response.data;
-//   }).catch(err => {
-//     return err.response.data;
-//   });
-// };

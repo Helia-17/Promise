@@ -44,40 +44,63 @@ const SECTIONS = [
   },
 ];
 
-// const getMyPillList = async () => {
-//   const res = await getMyPillAPI();
-//   console.log("getMyPillList res : ", res);
-// }
 
-// useFocusEffect(
-//   useCallback(()=>{
-//     getMyPillList();
-//   }, [])
-// );
 
 const AccordionView = ({navigation}) => {
   const [activeSections, setActiveSections] = useState([]);
+  const [myPillList, setMyPillList] = useState([]);
+  const [headerUmName, setHeaderUmName] = useState('');
+  const [contentUmName, setContentUmName] = useState('');
 
   const renderHeader = (section) => {
+    var date = section.alarmDayStart + " ~ " + section.alarmDayEnd;
+    date = date.replace(/-/g, '.');
+    
+    let result = [];
+    if(section.alarmMediList.length > 1){
+      result = section.alarmMediList[0].umName + ' 외 ' + (section.alarmMediList.length-1).toString() + '개';
+    } else if (section.alarmMediList.length === 1){
+      result = section.alarmMediList[0].umName;
+    }
+    
+    replaceHeaderUmName(result);
+
     return (
       <View style={styles.header}>
-        <Text style={styles.headerText}>{section.title}</Text>
+        <Text style={styles.headerText}>{headerUmName}</Text>
         <View style={styles.dateContainer}>
-          <Text style={styles.dateText}>{section.date}</Text>
+          <Text style={styles.dateText}>{date}</Text>
           <Icon name="chevron-down" color="black" backgroundColor='white' size={35}/>
         </View>
       </View>
     );
   };
 
+  const replaceHeaderUmName = (name) => {
+    if (name.includes('(')) {
+      setHeaderUmName(name.replace(/\(/g, '\n('));
+    } else {
+      setHeaderUmName(name);
+    }
+  }
+
+  const replaceContentUmName = (name) => {
+    if (name.includes('(')) {
+      setContentUmName(name.replace(/\(/g, '\n('));
+    } else {
+      setContentUmName(name);
+    }
+  }
+
   const renderContent = (section, navigation) => {
+    var alarmMediList = section.alarmMediList;
     return (
       <View style={styles.contentList}>
-      { section.contents.map((object, i) => 
-        <TouchableOpacity key={i} onPress={() => {navigation.navigate('Info', { name: `${object.name}`, company: `${object.company}` }) }} style={styles.contents}>
+      { alarmMediList.map((object, i) => 
+        <TouchableOpacity key={i} onPress={() => {navigation.navigate('Info', { name: `${object.umName}`}) }} style={styles.contents}>
           <View style={styles.contentTextContainer}>
             <Icon name="pill" color="#5383ad" backgroundColor='white' size={20}/>
-            <Text style={styles.contentText}>{object.name}</Text>
+            <Text style={styles.contentText}>{(object.umName).replace(/\(/g, '\n(')}</Text>
           </View>
           <Icon name="chevron-right" color="black" backgroundColor='white' size={30}/>
         </TouchableOpacity>
@@ -87,6 +110,17 @@ const AccordionView = ({navigation}) => {
     );
   };
 
+  const getMyPillList = async () => {
+    const res = await getMyPillAPI();
+    setMyPillList(res);
+  }
+  
+  useFocusEffect(
+    useCallback(()=>{
+      getMyPillList();
+    }, [])
+  );
+
   const updateSections = (activeSections) => {
     setActiveSections(activeSections);
   };
@@ -95,7 +129,7 @@ const AccordionView = ({navigation}) => {
   return (
     <View style={{ width:'100%', paddingVertical:10, paddingHorizontal: 15, }} >
       <Accordion
-        sections={SECTIONS}
+        sections={myPillList}
         underlayColor={'#F9F9F9'}
         activeSections={activeSections}
         renderHeader={renderHeader}
@@ -124,7 +158,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.3,
   },
   headerText: {
-    fontSize: 19,
+    fontSize: 18,
     fontWeight: '600'
   },
   dateContainer: {
@@ -157,7 +191,7 @@ const styles = StyleSheet.create({
   },
   contentText: {
     marginLeft: 10,
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: '400'
   }
 });
