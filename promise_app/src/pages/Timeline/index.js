@@ -6,8 +6,8 @@ import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { getPeriod } from '../../utils/axios';
 
-const Timeline = () => {
-    const [value, setValue] = useState('week');
+const Timeline = (props) => {
+    const [value, setValue] = useState('');
     const [platform, setPlatform] = useState();
     const [alarmList, setAlarmList] = useState([]);
 
@@ -15,7 +15,7 @@ const Timeline = () => {
         let result = [];
         if (platform==='android'){
             result = result.concat(
-                <View style={{width:'42%', backgroundColor:'white', borderRadius:20, height:35, margin:10, marginRight:0, justifyContent: 'center'}}>
+                <View style={{width:'58%', backgroundColor:'white', borderRadius:20, height:35, margin:10, marginRight:0, justifyContent: 'center'}}>
                     <RNPickerSelect
                         value={value}
                         onValueChange={(value)=>gettingList(value)} 
@@ -84,7 +84,7 @@ const Timeline = () => {
         if(alarmList.length>0){
             alarmList.map(item=>{
                 result = result.concat(
-                    <MediInfo alarmId={item.alarmId} alarmDayStart={item.alarmDayStart} alarmTitle = {item.alarmTitle} alarmDayEnd = {item.alarmDayEnd}/>
+                    <MediInfo naviagtion = {props.navigation} func={(alarmId)=>props.navigation.navigate('TimelineDetail',{data:alarmId})} alarmId={item.alarmId} alarmDayStart={item.alarmDayStart} alarmTitle = {item.alarmTitle} alarmDayEnd = {item.alarmDayEnd}/>
                 );
             })
         }

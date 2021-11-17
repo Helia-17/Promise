@@ -54,11 +54,19 @@ const OCRModal = (props) => {
 
     const sendProps = ()=>{
         props.selected(selectedData);
+        if(selectedData.length===0){
+            alert('선택하신 약이 없습니다!');
+        }
         props.visible(false);
     }
 
     useEffect(()=>{
         setSelectedData([]);
+        if(props.data.length===0){
+            alert('OCR로 인식된 약이 없습니다.');
+            props.selected([]);
+            props.visible(false);
+        }
     }, []);
 
     return(

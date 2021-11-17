@@ -50,19 +50,19 @@ class AccordionView extends Component {
 
   navigation = this.props.navigation;
 
-  _renderHeader = (section) => {
+  renderHeader = (section) => {
     return (
       <View style={styles.header}>
         <Text style={styles.headerText}>{section.title}</Text>
         <View style={styles.dateContainer}>
           <Text style={styles.dateText}>{section.date}</Text>
-          <Icon name="chevron-down" color="black" backgroundColor='white' size={40}/>
+          <Icon name="chevron-down" color="black" backgroundColor='white' size={35}/>
         </View>
       </View>
     );
   };
 
-  _renderContent = (section, navigation) => {
+  renderContent = (section, navigation) => {
     return (
       <View style={styles.contentList}>
       { section.contents.map((object, i) => 
@@ -73,27 +73,26 @@ class AccordionView extends Component {
           </View>
           <Icon name="chevron-right" color="black" backgroundColor='white' size={30}/>
         </TouchableOpacity>
-      )}
+        )}
+        <View style={styles.space}></View>
       </View>
     );
   };
 
-  _updateSections = (activeSections) => {
+  updateSections = (activeSections) => {
     this.setState({ activeSections });
   };
 
   render() {
     return (
-      <View style={{ width:'100%', marginVertical:20, paddingVertical:10, paddingHorizontal: 20, }} >
-      {/* <View styles={{width:'93%', marginTop:10, backgroundColor:'white', borderRadius:3, elevation:1}}> */}
+      <View style={{ width:'100%', paddingVertical:10, paddingHorizontal: 15, }} >
         <Accordion
           sections={SECTIONS}
           underlayColor={'white'}
           activeSections={this.state.activeSections}
-          // renderSectionTitle={this._renderSectionTitle}
-          renderHeader={this._renderHeader}
-          renderContent={this._renderContent}
-          onChange={this._updateSections}
+          renderHeader={this.renderHeader}
+          renderContent={this.renderContent}
+          onChange={this.updateSections}
         />
       </View>
     );
@@ -101,39 +100,28 @@ class AccordionView extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 1,
-    marginHorizontal: 0,
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    height: 80,
-    shadowRadius: 18.95,
-    elevation: 0,
-    zIndex: 1,
+  space: {
+    paddingVertical: 5,
   },
   contentList: {
-    borderColor: '#e3e3e3',
-    borderTopWidth: 1,
+    borderColor: '#BBBBBB',
+    borderTopWidth: 0.3,
   },
   header: {
-    backgroundColor:'white',
-    marginVertical: 10,
-    borderRadius:5,
-    borderColor: '#e3e3e3',
-    borderWidth: 1,
-    paddingTop: 25,
-    paddingBottom: 5,
+    backgroundColor: 'white',
+    // 추가해서 간격을 넓힐수 있으나 클릭하면 마진 먹은 부분이 흰색으로 변하는 현상 발견.
+    // marginVertical: 5,
+    paddingTop: 20,
+    paddingBottom: 15,
     paddingLeft: 20,
     paddingRight: 15,
-    width: '100%',
-    flexDirection: 'column',
+    borderRadius: 5,
+    borderColor: '#BBBBBB',
+    borderWidth: 0.3,
   },
   headerText: {
-    fontSize: 18,
-    fontWeight: '400'
+    fontSize: 19,
+    fontWeight: '600'
   },
   dateContainer: {
     flexDirection: 'row',

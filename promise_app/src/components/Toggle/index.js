@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text } from 'react-native';
 import SwitchToggle from 'react-native-switch-toggle';
 
@@ -9,6 +9,10 @@ const Toggle = (props) => {
         setIsOn(!isOn);
         props.result(!isOn);
     }
+
+    useEffect(() => {
+        if(props.tog) setIsOn(props.tog);
+    })
 
     return(
         <View style={{flexDirection: "row", alignItems: 'center', width:'90%', justifyContent: 'center', height:50}}>

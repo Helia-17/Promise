@@ -8,23 +8,22 @@ const FindUser = (props) => {
     const [search, onChangeSearch] = useState('');
     const [selectUser, setSelectUser] = useState([]);
     const [findList, setFindList] = useState([]);
+    const [resultEmpty, setEmpty] = useState(false);
 
     const findUserList = () =>{
         let result = [];
-        if(findList){
+        if(findList.length>0){
             findList.map(item=>{
                 if(selectUser.userEmail===item.userEmail){
                     result = result.concat(
                         <TouchableOpacity style={{flexDirection: "row", alignItems: 'center', width:'90%', margin:10, marginTop:0, justifyContent: 'space-around', height:40, borderRadius: 5, borderColor:'black', borderWidth:0.5}} onPress={()=>setSelectUser({userEmail:item.userEmail, userNickname:item.userNickname})}>
-                            <Text style={{color:'black', width:'57%', textAlign:'center'}}>{item.userEmail}</Text>
-                            <Text style={{color:'black', width:'43%', textAlign:'center'}}>{item.userNickname}</Text>
+                            <Text style={{color:'black', width:'100%', textAlign:'center'}}>{item.userNickname}</Text>
                         </TouchableOpacity>
                     )
                 }else{
                     result = result.concat(
                         <TouchableOpacity style={{flexDirection: "row", alignItems: 'center', width:'90%', margin:10, marginTop:0, justifyContent: 'space-around', height:40, borderRadius: 5, borderColor:'rgba(0,0,0,0.3)', borderWidth:0.5}} onPress={()=>setSelectUser({userEmail:item.userEmail, userNickname:item.userNickname})}>
-                            <Text style={{color:'black', width:'57%', textAlign:'center'}}>{item.userEmail}</Text>
-                            <Text style={{color:'black', width:'43%', textAlign:'center'}}>{item.userNickname}</Text>
+                            <Text style={{color:'black', width:'100%', textAlign:'center'}}>{item.userNickname}</Text>
                         </TouchableOpacity>
                     )
                 }
@@ -37,6 +36,8 @@ const FindUser = (props) => {
         setSelectUser('');
         const result = await shareUser(search);
         setFindList(result);
+        if(result.length===0) setEmpty(true);
+        else setEmpty(false);
     }
 
     useEffect(()=>{
@@ -59,9 +60,15 @@ const FindUser = (props) => {
                         </View>
                     </View>
                 </View>
-                <ScrollView style={{ width:'100%'}} contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}>
-                    {findUserList()}
-                </ScrollView>
+                {resultEmpty?(
+                    <ScrollView style={{ width:'100%'}} contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}>
+                        <Text style={{fontSize:17, color:'gray'}}>해당되는 사용자가 존재하지 않습니다.</Text>
+                    </ScrollView>
+                ):(
+                    <ScrollView style={{ width:'100%'}} contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}>
+                        {findUserList()}
+                    </ScrollView>
+                )}
                 <View style={{margin:20, alignItems: 'center'}}>
                     <TouchableOpacity style={{backgroundColor:'#B8CE9C', color:'black', width:'30%', alignItems: 'center', borderRadius: 5, height:30, justifyContent: 'center'}} onPress={()=>props.selected(selectUser)}>
                         <Text style={{color:'black', fontSize:15, fontWeight:'bold'}}>등록</Text >

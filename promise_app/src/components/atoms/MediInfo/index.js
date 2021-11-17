@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 const MediInfo = (props) => {
     return (
         <View style={style.mediInfoContainer}>
-            <TouchableOpacity style={{width:'100%', height:80, justifyContent: 'center'}} onPress={()=>{}}>
+            <TouchableOpacity style={{width:'100%', height:80, justifyContent: 'center'}} onPress={()=>props.func(props.alarmId)}>
                 <View style={{flexDirection: "row", alignItems:'center', justifyContent: 'space-between', margin:15}}>
                     <Text style={{color:'black', fontWeight:'bold', fontSize:18}}>{props.alarmTitle}</Text>
                     <Text style={{color:'black'}}>{props.alarmDayStart} ~ {props.alarmDayEnd}</Text>
