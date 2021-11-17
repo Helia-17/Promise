@@ -119,7 +119,7 @@ public class CommunityServiceImpl implements CommunityService{
 	public CommunityListGetRes getCommunityList(int pageNum) {
 		CommunityListGetRes communityListGetRes = new CommunityListGetRes();
 		
-		int limit = 5;
+		int limit = 8;
 		
 		int total = communityRepositorySupport.getCommunityTotalCount();
 		int totalPageCnt = calcTotalPageCnt(total, limit);
@@ -152,7 +152,7 @@ public class CommunityServiceImpl implements CommunityService{
 	public CommunityListGetRes getCommunitySearchList(int pageNum, String searchWord) {
 		CommunityListGetRes communityListGetRes = new CommunityListGetRes();
 		
-		int limit = 5;
+		int limit = 8;
 		
 		int total = communityRepositorySupport.getCommunitySearchCount(searchWord);
 		int totalPageCnt = calcTotalPageCnt(total, limit);
