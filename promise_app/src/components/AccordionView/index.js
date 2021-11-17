@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import { useFocusEffect } from '@react-navigation/core';
+import React, { Component, useCallback, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Accordion from 'react-native-collapsible/Accordion';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { withNavigation  } from '@react-navigation/native';
+import { getMyPillAPI } from '../../utils/axios';
 
 const SECTIONS = [
   {
@@ -43,14 +44,21 @@ const SECTIONS = [
   },
 ];
 
-class AccordionView extends Component {
-  state = {
-    activeSections: [],
-  };
+// const getMyPillList = async () => {
+//   const res = await getMyPillAPI();
+//   console.log("getMyPillList res : ", res);
+// }
 
-  navigation = this.props.navigation;
+// useFocusEffect(
+//   useCallback(()=>{
+//     getMyPillList();
+//   }, [])
+// );
 
-  renderHeader = (section) => {
+const AccordionView = ({navigation}) => {
+  const [activeSections, setActiveSections] = useState([]);
+
+  const renderHeader = (section) => {
     return (
       <View style={styles.header}>
         <Text style={styles.headerText}>{section.title}</Text>
@@ -62,11 +70,11 @@ class AccordionView extends Component {
     );
   };
 
-  renderContent = (section, navigation) => {
+  const renderContent = (section, navigation) => {
     return (
       <View style={styles.contentList}>
       { section.contents.map((object, i) => 
-        <TouchableOpacity key={i} onPress={() => {this.props.navigation.navigate('Info', {name:`${object.name}`, company:`${object.company}`})}} style={styles.contents}>
+        <TouchableOpacity key={i} onPress={() => {navigation.navigate('Info', { name: `${object.name}`, company: `${object.company}` }) }} style={styles.contents}>
           <View style={styles.contentTextContainer}>
             <Icon name="pill" color="#5383ad" backgroundColor='white' size={20}/>
             <Text style={styles.contentText}>{object.name}</Text>
@@ -79,24 +87,23 @@ class AccordionView extends Component {
     );
   };
 
-  updateSections = (activeSections) => {
-    this.setState({ activeSections });
+  const updateSections = (activeSections) => {
+    setActiveSections(activeSections);
   };
 
-  render() {
-    return (
-      <View style={{ width:'100%', paddingVertical:10, paddingHorizontal: 15, }} >
-        <Accordion
-          sections={SECTIONS}
-          underlayColor={'white'}
-          activeSections={this.state.activeSections}
-          renderHeader={this.renderHeader}
-          renderContent={this.renderContent}
-          onChange={this.updateSections}
-        />
-      </View>
-    );
-  }
+  
+  return (
+    <View style={{ width:'100%', paddingVertical:10, paddingHorizontal: 15, }} >
+      <Accordion
+        sections={SECTIONS}
+        underlayColor={'#F9F9F9'}
+        activeSections={activeSections}
+        renderHeader={renderHeader}
+        renderContent={renderContent}
+        onChange={updateSections}
+      />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -109,12 +116,9 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: 'white',
-    // 추가해서 간격을 넓힐수 있으나 클릭하면 마진 먹은 부분이 흰색으로 변하는 현상 발견.
-    // marginVertical: 5,
-    paddingTop: 20,
+    marginBottom: 5,
+    padding: 20,
     paddingBottom: 15,
-    paddingLeft: 20,
-    paddingRight: 15,
     borderRadius: 5,
     borderColor: '#BBBBBB',
     borderWidth: 0.3,
@@ -143,9 +147,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     borderColor: '#e3e3e3',
-    borderBottomWidth: 1,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
+    borderWidth: 1,
+    borderTopWidth: 0,
   },
   contentTextContainer: {
     flexDirection: 'row',
