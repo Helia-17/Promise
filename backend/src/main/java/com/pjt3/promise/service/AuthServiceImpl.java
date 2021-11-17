@@ -114,6 +114,7 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	public TokenPostRes reissue(TokenPostReq refreshToken) {
 		String token = refreshToken.getRefreshToken();
+		System.out.println("AuthController refreshToken : " + token);
 		if (JwtTokenUtil.validateToken(token)) {
 			User user = userService.getUserByRefreshToken(token);
 			if (user == null) {
@@ -126,6 +127,7 @@ public class AuthServiceImpl implements AuthService {
 			
 			user.setRefreshToken(newRefreshToken);
 			userRepository.save(user);
+			System.out.println("AuthController newRefreshToken : " + newRefreshToken);
 			
 			TokenPostRes tokenPostRes = new TokenPostRes(200, "토큰 재발급", newAccessToken, newRefreshToken);
 			return tokenPostRes;
