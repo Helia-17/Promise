@@ -93,12 +93,12 @@ const AccordionView = ({navigation}) => {
     }
   }
 
-  const renderContent = (section, navigation) => {
+  const renderContent = (section) => {
     var alarmMediList = section.alarmMediList;
     return (
       <View style={styles.contentList}>
       { alarmMediList.map((object, i) => 
-        <TouchableOpacity key={i} onPress={() => {navigation.navigate('MyPillInfo', { name: `${object.umName}`}) }} style={styles.contents}>
+        <TouchableOpacity key={i} onPress={() => {navigation.navigate('MyPillInfo', { name: `${object.umName}`, serialNumber: `${object.mediSerialNum}`}) }} style={styles.contents}>
           <View style={styles.contentTextContainer}>
             <Icon name="pill" color="#5383ad" backgroundColor='white' size={20}/>
             <Text style={styles.contentText}>{(object.umName).replace(/\(/g, '\n(')}</Text>

@@ -10,12 +10,11 @@ const MyPillInfo = (props) => {
     const [mediDetail, setMediDetail] = useState([]);
 
     const getMediDetail = async () => {
-        const res = await getMediDetailAPI(props.route.params.serialNum);
+        const res = await getMediDetailAPI(props.route.params.serialNumber);
         setMediDetail(res);
     }
 
     useEffect(() => {
-        if(!props.route.params.serialNum) props.navigation.goBack();
         getMediDetail();
     }, []);
 
@@ -99,7 +98,7 @@ const style = StyleSheet.create({
         backgroundColor: 'white'
     },
     pillInfoCard: {
-        margin: 10,
+        margin: 0,
         marginBottom: 0,
     }
 })
