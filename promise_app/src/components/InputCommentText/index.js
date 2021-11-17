@@ -24,7 +24,7 @@ const InputCommentText = (props) => {
         <View style={styles.commentContainer}>
             <TextInput onChangeText={handleText} maxLength={40} placeholder={props.name} value={text} style={styles.commentInput}/>
             <TouchableOpacity style={styles.commentInsert} onPress={createComment}>
-                <Text style={{color:'white'}}>등록</Text>
+                <Text>등록</Text>
             </TouchableOpacity>
         </View >
     );
@@ -38,11 +38,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#F9F9F9',
         justifyContent: "center",
         alignItems: "center",
-        padding: 5,
+        padding: 10,
+        borderColor:'#BDBDBD', 
+        borderTopWidth:0.5,
+        
     },
     commentInput: {
-        borderTopLeftRadius: 5,
-        borderBottomLeftRadius: 5,
+        borderTopLeftRadius: 17,
+        borderBottomLeftRadius: 17,
         padding: 15,
         height: 50,
         width: '85%',
@@ -50,12 +53,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#E9E9E9',
     },
     commentInsert: {
-        borderTopRightRadius: 5,
-        borderBottomRightRadius: 5,
+        borderTopRightRadius: 17,
+        borderBottomRightRadius: 17,
         padding: 10,
         height: 50,
         width: '15%',
-        backgroundColor: '#A8BDD5',
+        backgroundColor: '#E9E9E9',
         alignItems: 'center',
         justifyContent: 'center',
         fontWeight: '700'

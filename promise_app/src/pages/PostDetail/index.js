@@ -108,7 +108,7 @@ const PostDetailPage = ({navigation, route}) => {
                 ) 
           }
           <KeyboardAvoidingView style={{ position: 'absolute', bottom: 0 }}>
-            <InputCommentText name="댓글" result={data => onChangeComment(data)} postId={postId} refreshComments={refreshComments}/>
+            <InputCommentText name="댓글 입력" result={data => onChangeComment(data)} postId={postId} refreshComments={refreshComments}/>
           </KeyboardAvoidingView>
         </View>
       ) : (

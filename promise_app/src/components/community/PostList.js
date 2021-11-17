@@ -11,7 +11,6 @@ import Moment from 'moment';
 const PostList = (props) => {
 
   // infinite scroll
-  // const [pageNum, setPageNum] = useState(1);
   const pageNum = useSelector(state => state.community.pageNum)
   const hasMore = useSelector(state => state.community.hasMore)
   const communityList = useSelector(state => state.community.communityList)
@@ -29,8 +28,6 @@ const PostList = (props) => {
     }
   }
   
-
-  // 커뮤니티디테일에 보기 전 필요한 정보 리덕스에 저장
   const getCommunityDetail = (post) => {
      getCommunityAPI.detail(post.commuId).then((res)=>{
        dispatch(getPostDetailAction(res))
