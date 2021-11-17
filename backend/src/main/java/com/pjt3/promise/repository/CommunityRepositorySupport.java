@@ -54,13 +54,11 @@ public class CommunityRepositorySupport {
 	}
 	
 	public CommunityDetail getCommunityDetail(int commuId) {
-		System.out.println("support-getCommunityDetail");
 		CommunityDetail communityDetail = query.select(Projections.bean(CommunityDetail.class,
 	    			qCommunity.user.userNickname, qCommunity.commuTitle, qCommunity.commuContents, qCommunity.commuDate))
 	    			.from(qCommunity)
 	    			.where(qCommunity.commuId.eq(commuId))
 	                .fetchOne();
-		System.out.println("support-" + communityDetail.getCommuTitle());
 
 		return communityDetail;
 	}
