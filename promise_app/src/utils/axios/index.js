@@ -391,6 +391,25 @@ export const getCommunityAPI = {
       return err.response.data;
     });
   },
+
+  search: async (pageNum, searchKeyword) => {
+    return await request.post(
+      '/communities/search', 
+      {
+        pageNum,
+        searchKeyword
+      }
+    )
+    .then((response) => {
+      return {
+        ...response.data,
+        searchKeyword: searchKeyword,
+      };
+    })
+    .catch(err => {
+      return err.response.data;
+    });
+  },
   detail: async (commuId) => {
     return await request.get(`/communities/detail`, {
         params: {

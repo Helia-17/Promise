@@ -24,17 +24,15 @@ const PostCreatePage = ({navigation}) => {
     }
     
     return (
-        <View>
+        <View style={styles.container}>
             <View  style={styles.titleView}>
                 <View style={{width:'90%'}}>
                     <InputTitleText name='제목' text='' result={(data)=>onChangeTitle(data)} />
                 </View>
             </View>
-            <View  style={styles.mainView}>
-                <View style={{ width:'90%', alignItems: 'center', justifyContent:'flex-start'}} >
-                    <View style={{width:'100%', margin:10}}>
-                        <InputLongText name='내용' text='' result={(data)=>onChangeContent(data)} />
-                    </View>
+            <View style={styles.mainView}>
+                <View style={{ width:'90%', alignItems: 'flex-start', justifyContent:'flex-start'}} >
+                    <InputLongText name='내용' text='' result={(data)=>onChangeContent(data)} />
                 </View>
                 <View style={{width:'90%', margin:10, alignItmes:'flex-end'}}>
                     <TouchableOpacity style={{backgroundColor:'#A3BED7', color:'black', alignItems: 'center', borderRadius: 12, height:50, justifyContent: 'center'}} onPress={()=>postCreate()}>
@@ -49,16 +47,20 @@ const PostCreatePage = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+    container: {
+        height: '100%',
+    },
     titleView: {
-        marginTop:20, 
+        height: '15%',
         alignItems: 'center', 
         backgroundColor:'#F9F9F9', 
         justifyContent:'center' 
     },
     mainView: { 
+        height: '85%',
         alignItems: 'center', 
         backgroundColor:'#F9F9F9', 
-        justifyContent:'center' 
+        justifyContent:'space-between' 
     }
 })
 
