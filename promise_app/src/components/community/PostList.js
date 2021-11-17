@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {View, Text, StyleSheet, FlatList, TouchableHighlight } from 'react-native';
 import { Divider } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
@@ -28,8 +28,7 @@ const PostList = (props) => {
       dispatch(getMoreCommunityAction(res))
     }
   }
-    
-  const lastPostRef = useRef()
+  
 
   // 커뮤니티디테일에 보기 전 필요한 정보 리덕스에 저장
   const getCommunityDetail = (post) => {
@@ -62,36 +61,30 @@ const PostList = (props) => {
       return (
         isLastPost
         ? 
-        <TouchableHighlight ref={lastPostRef} onPress={()=>navigation.navigate('communitydetail', {post: item, postDate: postDate})} underlayColor="white">
-        <View style={styles.container} key={item.commuId}>
-            <View>
-                <Text style={styles.itemNameText}>이건 마지막</Text>
-                <Text style={styles.itemNameText}>{item.userNickname}</Text>
-                <Text style={styles.itemTitleText}>{item.commuTitle}</Text>
-            </View>
-            <View>
-                <Text style={styles.itemDateText}>
-                {postDate}
-                </Text>
-            </View>
-        </View>
+        <TouchableHighlight onPress={()=>navigation.navigate('communitydetail', {post: item, postDate: postDate})} underlayColor="white">
+          <View style={styles.container} key={item.commuId}>
+              <View style={styles.subContainer}>
+                  <Text style={styles.itemNameText}>{item.userNickname}</Text>
+                  <Text style={styles.itemDateText}>{postDate}</Text>
+              </View>
+              <View>
+                  <Text style={styles.itemTitleText}>{item.commuTitle}</Text>
+              </View>
+          </View>
         </TouchableHighlight>
         :
         <>
-        <TouchableHighlight ref={lastPostRef} onPress={()=>getCommunityDetail(item)} underlayColor="white">
         {/* <TouchableHighlight onPress={()=>getMorePost()}><Text>{pageNum}{hasMore?'true':'false'}</Text></TouchableHighlight> */}
-        {/* <TouchableHighlight onPress={()=>navigation.navigate('communitydetail', {post: item, postDate: postDate})} underlayColor="white"> */}
-        <View style={styles.container} key={item.commuId}>
-            <View>
-                <Text style={styles.itemNameText}>{item.userNickname}</Text>
-                <Text style={styles.itemTitleText}>{item.commuTitle}</Text>
-            </View>
-            <View>
-                <Text style={styles.itemDateText}>
-                {postDate}
-                </Text>
-            </View>
-        </View>
+        <TouchableHighlight onPress={()=>getCommunityDetail(item)} underlayColor="white">
+          <View style={styles.container} key={item.commuId}>
+              <View style={styles.subContainer}>
+                  <Text style={styles.itemNameText}>{item.userNickname}</Text>
+                  <Text style={styles.itemDateText}>{postDate}</Text>
+              </View>
+              <View>
+                  <Text style={styles.itemTitleText}>{item.commuTitle}</Text>
+              </View>
+          </View>
         </TouchableHighlight>
         </>
       )}}
@@ -101,14 +94,14 @@ const PostList = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    // display: 'flex',
+    // flexDirection: 'row',
+    // justifyContent: 'space-between',
     marginTop: 1,
     marginHorizontal: 0,
     paddingVertical: 12,
     paddingHorizontal: 14,
-    height: 120,
+    height:90,
     shadowColor: '#f1f2f3',
     shadowOffset: {
       width: 0,
@@ -122,6 +115,11 @@ const styles = StyleSheet.create({
     borderBottomColor: '#D1D1D1',
     borderBottomWidth: 1,
   },
+  subContainer: {
+    flexDirection:'row', 
+    alignItems:'center', 
+    justifyContent:'space-between'
+  },
   itemNameText: {
     fontSize: 16,
     fontWeight: '600'
@@ -129,10 +127,9 @@ const styles = StyleSheet.create({
   itemTitleText: {
     fontSize: 16,
     fontWeight: '400',
-    paddingVertical: 25,
+    paddingVertical: 15,
   },
   itemDateText: {
-    paddingTop: 6,
     textAlign: 'right',
     fontSize: 12,
     fontWeight: '500',
