@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
     commentContainer: {
         width: '100%',
         flexDirection: 'row',
-        marginTop: "auto",
         backgroundColor: '#F9F9F9',
         justifyContent: "center",
         alignItems: "center",

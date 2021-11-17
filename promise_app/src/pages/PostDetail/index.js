@@ -64,59 +64,34 @@ const PostDetailPage = ({navigation, route}) => {
       {Platform.OS === 'android' ? (
         <View style={{ height: '100%'}}>
           <ScrollView style={{ width: '100%', marginVertical: 10, marginBottom: 55}} contentContainerStyle={{flexDirection:'column', justifyContent:'center'}}>
-            {commentList.length != 0
-                ? 
-                <View style={styles.container}>
-                  <View style={styles.subContainer}>
-                    <Text style={styles.itemTitleText}>{post.commuTitle}</Text>
-                    {userNickname === post.userNickname?
-                    <View style={styles.buttonContainer}>
-                      <SmallBtn value='수정' func={()=>navigation.navigate('communityupdate', {postId:postId, post: post})}/>
-                      <Text style={{color:'black', fontSize:15, fontWeight:'bold'}}>|</Text>
-                      <SmallBtn value='삭제' func={()=>postDelete()}/>
-                    </View>
-                    : null
-                    }
-                  </View>
-                  <View>
-                    <Text style={styles.itemNameText}>{post.userNickname}</Text>
-                    <Text style={styles.itemDateText}>{postDate}</Text>
-                    <Text style={styles.itemContentText}>{post.commuContents}</Text>
-                  </View>
+            <View style={styles.container}>
+              <View style={styles.subContainer}>
+                <Text style={styles.itemTitleText}>{post.commuTitle}</Text>
+                {userNickname === post.userNickname?
+                <View style={styles.buttonContainer}>
+                  <SmallBtn value='수정' func={()=>navigation.navigate('communityupdate', {postId:postId, post: post})}/>
+                  <Text style={{color:'black', fontSize:15, fontWeight:'bold'}}>|</Text>
+                  <SmallBtn value='삭제' func={()=>postDelete()}/>
                 </View>
-                : 
-                <View style={styles.containerInNoComments}>
-                  <View style={styles.subContainer}>
-                    <Text style={styles.itemTitleText}>{post.commuTitle}</Text>
-                    {userNickname === post.userNickname?
-                    <View style={styles.buttonContainer}>
-                      <SmallBtn value='수정' func={()=>navigation.navigate('communityupdate', {postId:postId, post: post})}/>
-                      <Text style={{color:'black', fontSize:15, fontWeight:'bold'}}>|</Text>
-                      <SmallBtn value='삭제' func={()=>postDelete()}/>
-                    </View>
-                    : null
-                    }
-                  </View>
-                  <View>
-                    <Text style={styles.itemNameText}>{post.userNickname}</Text>
-                    <Text style={styles.itemDateText}>{postDate}</Text>
-                    <Text style={styles.itemContentText}>{post.commuContents}</Text>
-                  </View>
-                </View>
-            }
-            {commentList.length != 0
-                ? <View style={{backgroundColor:"#F4F4F4", minHeight:230}}><CommentList postId={postId} commentList={commentList} /></View>
                 : null
+                }
+              </View>
+              <View>
+                <Text style={styles.itemNameText}>{post.userNickname}</Text>
+                <Text style={styles.itemDateText}>{postDate}</Text>
+                <Text style={styles.itemContentText}>{post.commuContents}</Text>
+              </View>
+            </View>
+            {commentList.length != 0
+              ? <View style={{backgroundColor:"#F4F4F4", minHeight:333}}>
+                  <CommentList postId={postId} commentList={commentList} />
+                </View>
+              :
+               <View style={styles.noComments} >
+                <Text style={{color:'#8e8e8f'}}>가장 먼저 댓글을 작성해보세요</Text>
+              </View>
             }
           </ScrollView>
-          {commentList.length != 0
-                ? null
-                : (
-                  <View style={styles.noComments} >
-                    <Text>가장 먼저 댓글을 작성해보세요</Text>
-                  </View>
-                ) 
-          }
           <KeyboardAvoidingView style={{ position: 'absolute', bottom: 0 }}>
             <InputCommentText name="댓글 입력" result={data => onChangeComment(data)} postId={postId} refreshComments={refreshComments}/>
           </KeyboardAvoidingView>
@@ -144,10 +119,14 @@ const PostDetailPage = ({navigation, route}) => {
             </View>
             <InputCommentText name="댓글" result={data => onChangeComment(data)} postId={postId} refreshComments={refreshComments} />  
             {commentList.length != 0
-                ? <CommentList postId={postId} commentList={commentList}/>
+                ? (
+                  <View style={{backgroundColor:"#F4F4F4", minHeight:330}}>
+                   <CommentList postId={postId} commentList={commentList} />
+                  </View>
+                )
                 : (
                   <View style={styles.noComments} >
-                    <Text>가장 먼저 댓글을 작성해보세요</Text>
+                    <Text style={{color:'#8e8e8f'}}>가장 먼저 댓글을 작성해보세요</Text>
                   </View>
                 ) 
             }
@@ -161,24 +140,8 @@ const PostDetailPage = ({navigation, route}) => {
 
 const styles = StyleSheet.create({
   container: {
-    minHeight: 300,
+    minHeight: 200,
     paddingVertical: 10,
-    paddingHorizontal: 14,
-    shadowColor: '#f1f2f3',
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 18.95,
-    elevation: 1,
-    zIndex: 1,
-    backgroundColor: 'white',
-    color: '#333333',
-  },
-  containerInNoComments: {
-    minHeight: 300,
-    paddingVertical: 12,
     paddingHorizontal: 14,
     shadowColor: '#f1f2f3',
     shadowOffset: {
@@ -225,15 +188,11 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   noComments: {
-    height: 100,
+    minHeight:333,
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 1,
-    marginBottom: 55,
-    marginHorizontal: 0,
-    padding: 12,
-    paddingHorizontal: 14,
     backgroundColor: '#F4F4F4',
   },
 });
