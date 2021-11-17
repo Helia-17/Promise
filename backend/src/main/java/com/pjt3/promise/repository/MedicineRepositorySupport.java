@@ -22,9 +22,6 @@ public class MedicineRepositorySupport {
     QMedicine qMedicine = QMedicine.medicine;
     
     public List<MediGetRes> getMediAutoListInfo(String searchKeyword) {
-//        List<String> mediList = query.select(qMedicine.mediName)
-//                .from(qMedicine).where(qMedicine.mediName.contains(searchKeyword))
-//                .fetch();
     	List<MediGetRes> mediList = query.select(Projections.bean(MediGetRes.class, qMedicine.mediSerialNum, qMedicine.mediName))
                 .from(qMedicine).where(qMedicine.mediName.contains(searchKeyword))
                 .fetch();
