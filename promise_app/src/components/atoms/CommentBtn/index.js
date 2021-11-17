@@ -6,10 +6,8 @@ const CommentBtnBackground = styled.TouchableOpacity`
   width: 10%;
   color: black;
   align-items: flex-end;
-  // border-radius: 5px;
   height: 20px;
   justify-content: center;
-  // margin: 5px;
 `;
 
 const CommentBtn = ({ value, func}) => {

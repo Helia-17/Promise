@@ -3,13 +3,12 @@ import styled from 'styled-components/native';
 import { View, Text, TouchableOpacity } from 'react-native';
 
 const SmallBtnBackground = styled.TouchableOpacity`
-  width: 20%;
   color: black;
   align-items: center;
   border-radius: 5px;
   height: 30px;
   justify-content: center;
-  margin-horizontal: 5px;
+  margin-horizontal: 2px;
 `;
 
 const SmallBtn = ({backgroundColor, value, func}) => {
