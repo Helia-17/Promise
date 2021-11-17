@@ -5,47 +5,6 @@ import Accordion from 'react-native-collapsible/Accordion';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getMyPillAPI } from '../../utils/axios';
 
-const SECTIONS = [
-  {
-    title: '에페날정, 록사펜정, 모사무라정',
-    date: '2021.10.18 ~ 2021.10.21 (3일)',
-    contents: [
-      {
-        name: '타이레놀',
-        company: '(주)한국약센'
-      },
-      {
-        name: '타이레놀',
-        company: '(주)한국약센'
-      },
-      {
-        name: '타이레놀',
-        company: '(주)한국약센'
-      },
-    ]
-  },
-  {
-    title: '타이레놀, 록사펜정, 모사무라정',
-    date: '2021.10.18 ~ 2021.10.21 (3일)',
-    contents: [
-      {
-        name: '타이레놀',
-        company: '(주)한국약센'
-      },
-      {
-        name: '타이레놀',
-        company: '(주)한국약센'
-      },
-      {
-        name: '타이레놀',
-        company: '(주)한국약센'
-      },
-    ]
-  },
-];
-
-
-
 const AccordionView = ({navigation}) => {
   const [activeSections, setActiveSections] = useState([]);
   const [myPillList, setMyPillList] = useState([]);
@@ -85,16 +44,27 @@ const AccordionView = ({navigation}) => {
 
   const renderContent = (section) => {
     var alarmMediList = section.alarmMediList;
+
+    const navigateMyPillInfo = (object) => {
+
+      if (object.mediSerialNum) {
+        navigation.navigate('MyPillInfo', { name: `${object.umName}`, serialNumber: `${object.mediSerialNum}` });
+      } else {
+        alert("사용자가 직접 등록한 약은 상세정보가 존재하지 않습니다.");
+      }
+      
+    }
+
     return (
       <View style={styles.contentList}>
-      { alarmMediList.map((object, i) => 
-        <TouchableOpacity key={i} onPress={() => {navigation.navigate('MyPillInfo', { name: `${object.umName}`, serialNumber: `${object.mediSerialNum}`}) }} style={styles.contents}>
-          <View style={styles.contentTextContainer}>
-            <Icon name="pill" color="#5383ad" backgroundColor='white' size={20}/>
-            <Text style={styles.contentText}>{(object.umName).replace(/\(/g, '\n(')}</Text>
-          </View>
-          <Icon name="chevron-right" color="black" backgroundColor='white' size={30}/>
-        </TouchableOpacity>
+        {alarmMediList.map((object, i) =>
+          <TouchableOpacity key={i} onPress={() => { navigateMyPillInfo(object) }} style={styles.contents}>
+            <View style={styles.contentTextContainer}>
+              <Icon name="pill" color="#5383ad" backgroundColor='white' size={20} />
+              <Text style={styles.contentText}>{(object.umName).replace(/\(/g, '\n(')}</Text>
+            </View>
+            <Icon name="chevron-right" color="black" backgroundColor='white' size={30} />
+          </TouchableOpacity>
         )}
         <View style={styles.space}></View>
       </View>
@@ -118,15 +88,21 @@ const AccordionView = ({navigation}) => {
 
   
   return (
-    <View style={{ width:'100%', paddingVertical:10, paddingHorizontal: 15, }} >
-      <Accordion
-        sections={myPillList}
-        underlayColor={'#F9F9F9'}
-        activeSections={activeSections}
-        renderHeader={renderHeader}
-        renderContent={renderContent}
-        onChange={updateSections}
-      />
+    <View style={{ width: '100%', paddingVertical: 10, paddingHorizontal: 15 }} >
+      {myPillList.length > 0 ? (
+        <Accordion
+          sections={myPillList}
+          underlayColor={'#F9F9F9'}
+          activeSections={activeSections}
+          renderHeader={renderHeader}
+          renderContent={renderContent}
+          onChange={updateSections}
+        />
+      ) : (
+        <View style={{ width: '100%', margin: 5, alignItems: 'center', justifyContent: 'center'}}>
+            <Text style={{fontSize:24, color:'#BBBBBB'}}>복용중인 약이 없습니다.</Text>
+        </View>
+      )}
     </View>
   );
 }
