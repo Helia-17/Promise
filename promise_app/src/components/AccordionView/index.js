@@ -1,5 +1,5 @@
 import { useFocusEffect } from '@react-navigation/core';
-import React, { Component, useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Accordion from 'react-native-collapsible/Accordion';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -47,11 +47,9 @@ const SECTIONS = [
 
 
 const AccordionView = ({navigation}) => {
-  // console.log(navigation);
   const [activeSections, setActiveSections] = useState([]);
   const [myPillList, setMyPillList] = useState([]);
   const [headerUmName, setHeaderUmName] = useState('');
-  const [contentUmName, setContentUmName] = useState('');
 
   const renderHeader = (section) => {
     var date = section.alarmDayStart + " ~ " + section.alarmDayEnd;
@@ -82,14 +80,6 @@ const AccordionView = ({navigation}) => {
       setHeaderUmName(name.replace(/\(/g, '\n('));
     } else {
       setHeaderUmName(name);
-    }
-  }
-
-  const replaceContentUmName = (name) => {
-    if (name.includes('(')) {
-      setContentUmName(name.replace(/\(/g, '\n('));
-    } else {
-      setContentUmName(name);
     }
   }
 

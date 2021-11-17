@@ -539,7 +539,7 @@ export const alarmCheckAPI = async (alarmId, thYN) => {
     })
 }
 
-export const getMyPillAPI = async ()=> {
+export const getMyPillAPI = async () => {
   return await request.get(`/mypills`, {
   })
     .then(response => {
@@ -547,4 +547,18 @@ export const getMyPillAPI = async ()=> {
     }).catch(err => {
       return err.response.data;
     });
+}
+
+export const getMyPillHistoryAPI = async pageNum => {
+  return await request.get(`mypills/history`, {
+    params: {
+      pageNum: pageNum,
+    }
+  })
+    .then(response => {
+      return response.data;
+    })
+    .catch(err => {
+      return err.response.data;
+  })
 }

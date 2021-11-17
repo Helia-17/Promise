@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const MyPillHistoryList = ({ item }) => {
+  console.log("HistoryView : ", item);
   return (
     <TouchableOpacity style={styles.alarmHistoryList}>
       <View style={{width: '100%'}}>
