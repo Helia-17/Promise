@@ -3,6 +3,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import { View,Dimensions, Alert } from 'react-native';
 import Carousel from '../../components/Carousel';
 import {myinfo, sharingList, sharingAccept, sharingReject, getAlarmDetail} from '../../utils/axios';
+import Spinner from 'react-native-loading-spinner-overlay';
 import { getMyInfoAction } from '../../modules/user/actions';
 import Notifications from '../../utils/Notifications';
 import Moment from 'moment';
@@ -12,11 +13,12 @@ const screenWidth = Math.round(Dimensions.get('window').width);
 const PAGES = [1];
 
 const HomePage = ({navigation}) => {
-    
+    const [spinVisible, setSpinvisible] = useState();
     const dispatch = useDispatch();
     const [userInfo, setUserInfo] = useState({});
 
     const checkSharing = async()=>{
+        setSpinvisible(true);
         const shareList = await sharingList();
         if(shareList.length>0){
             shareList.map(item=>{
@@ -36,6 +38,7 @@ const HomePage = ({navigation}) => {
                 )
             })
         }
+        setSpinvisible(false);
     }
 
     const acceptSharing = async (id) => {
@@ -119,6 +122,7 @@ const HomePage = ({navigation}) => {
 
     return (
         <View  style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor:'#F9F9F9' }}>
+            <Spinner visible={spinVisible} />
             <Carousel
             gap={0}
             offset={0}

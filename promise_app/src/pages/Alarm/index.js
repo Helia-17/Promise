@@ -3,11 +3,14 @@ import {useFocusEffect} from '@react-navigation/native';
 import { View, ScrollView, Text } from 'react-native';
 import MediInfo from '../../components/atoms/MediInfo';
 import Moment from 'moment';
+import Spinner from 'react-native-loading-spinner-overlay';
 import {getAlarmlist} from '../../utils/axios';
 
 const Alarm = (props) => {
     const [alarmList, setAlarmList] = useState([]);
+    const [spinVisible, setSpinvisible] = useState();
     const gettingList = async()=>{
+        setSpinvisible(true);
         let day = Moment().format('YYYY-MM-DD');
         if(props.route.params){
             day = props.route.params.day;
@@ -15,6 +18,7 @@ const Alarm = (props) => {
             day = Moment().format('YYYY-MM-DD');
         }
         const result = await getAlarmlist(day);
+        setSpinvisible(false);
         setAlarmList(result);
     }
 
@@ -38,6 +42,7 @@ const Alarm = (props) => {
 
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
+            <Spinner visible={spinVisible} />
             {alarmList.length>0?(
                 <ScrollView style={{ width:'100%', margin:10}} contentContainerStyle={{alignItems: 'center'}}>
                     {listInfo()}

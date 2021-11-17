@@ -42,9 +42,6 @@ const SearchList = (props) => {
                     {mediElderlyCare == 1 ? (
                         <ElderlyWarningIcon/>
                     ) : (null)}
-                    {/* <AgeWarningIcon/>
-                    <PregnantWarningIcon/>
-                    <ElderlyWarningIcon/> */}
                 </View>
             </TouchableOpacity>
         </View>

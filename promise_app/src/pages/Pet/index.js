@@ -1,12 +1,6 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {useFocusEffect} from '@react-navigation/native';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import { View, ScrollView, Text, TouchableOpacity, StyleSheet, AppRegistry, processColor, Image } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import RoundBtn from '../../components/atoms/RoundBtn'; 
-import SearchBar from '../../components/community/SearchBar';
-import PostList from '../../components/community/PostList';
-import exampleImg from '../../assets/Promise_Logo.png';
+import { View,  Text, StyleSheet } from 'react-native';
 import FastImage from 'react-native-fast-image'
 import L1Img from '../../assets/L1.gif'
 import L2Img from '../../assets/L2.gif'
@@ -14,7 +8,7 @@ import L3Img from '../../assets/L3.gif'
 import L4Img from '../../assets/L4.gif'
 import L5Img from '../../assets/L5.gif'
 
-const PetPage = ({navigation}) => {
+const PetPage = () => {
 
     const petName =  useSelector((state) => state.user.userInfo.petName)
     const petLevel =  useSelector((state) => state.user.userInfo.petLevel)
@@ -29,8 +23,6 @@ const PetPage = ({navigation}) => {
 
     return (
       <View style={{height: '90%', justifyContent: 'center', paddingHorizontal: 20, paddingTop: 30}}>
-
-        {/* <Text style={styles.titleText}>건강한 나를 위한 '약속'</Text> */}
         <View style={styles.messageContainer}>
             <View style={{width: '80%'}}> 
                 <Text style={styles.messageText}>{userNickname}님의 {petName}(은)는</Text>
@@ -52,15 +44,12 @@ const PetPage = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     marginVertical: 5,
     paddingHorizontal: 10,
     paddingVertical: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: 'white',
     maxHeight: 600,
-    // elevation: 2,
   },
   titleText: {
     fontSize: 24,
@@ -79,7 +68,6 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   petContainer: {
-    // flex: 1,
     marginVertical: 5,
     paddingHorizontal: 10,
     paddingVertical: 10,
@@ -87,15 +75,10 @@ const styles = StyleSheet.create({
     height: 200,
     justifyContent: 'center',
     alignItems: 'center'
-    // borderColor: 'black',
-    // borderWidth: 1
   },
   petImage: {
-
     width: 200,
     height: 200,
-    // borderColor: 'black',
-    // borderWidth: 1
   },
   petNameText: {
     fontSize: 18,

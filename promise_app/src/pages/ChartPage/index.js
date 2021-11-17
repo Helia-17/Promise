@@ -1,6 +1,7 @@
 import React, {useState, useCallback} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
 import { View, Text, StyleSheet, processColor } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 import Swiper from 'react-native-swiper'
 import {PieChart} from 'react-native-charts-wrapper';
 import {getMainAlarm, getVisual} from '../../utils/axios'
@@ -11,9 +12,9 @@ import Moment from 'moment';
 const ChartPage = ({navigation}) => {
 
   const dispatch = useDispatch();
-  const [isVisible, setIsvisible] = useState(false);
   const [alarmList, setAlarmList] = useState('');
   const [visualData, setVisualData] = useState([]);
+  const [spinVisible, setSpinvisible] = useState();
 
   const gettingAlarmList = async()=>{
     const result = await getMainAlarm()
@@ -41,8 +42,10 @@ const ChartPage = ({navigation}) => {
 
   useFocusEffect(
     useCallback(()=>{
+      setSpinvisible(true);
       gettingAlarmList();
       gettingVisual();
+      setSpinvisible(false);
       return () => {
         setVisualData([])
       }
@@ -51,6 +54,7 @@ const ChartPage = ({navigation}) => {
 
     return (
       <View style={{flex: 1, height: '100%', paddingHorizontal: 20, paddingTop: 30}}>
+        <Spinner visible={spinVisible} />
         <Text style={styles.titleText}>건강한 나를 위한 '약속'</Text>
         <Text style={styles.contentText}>오늘의 약속</Text>
         <View style={styles.swiperWrapper}>

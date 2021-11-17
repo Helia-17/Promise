@@ -1,6 +1,7 @@
 import React, {useState, useCallback} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
 import { View, Text, Image, Alert, TextInput, TouchableOpacity, StyleSheet  } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 import {myinfo, modifyNick, changeInfo} from '../../utils/axios';
 import S3Upload from '../../components/S3Upload';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -15,8 +16,10 @@ const ModifyInfo = ({navigation}) => {
     const [isCheck, setIsCheck] = useState(false);
     const [userEmail, setUserEmail] = useState('');
     const [idColor, setIdColor] = useState('#000000');
+    const [spinVisible, setSpinvisible] = useState();
 
     const getMyInfo = async ()=>{
+        setSpinvisible(true);
         const result = await myinfo();
         setUserNickname(result.userNickname);
         setChangeNick(result.userNickname)
@@ -24,6 +27,7 @@ const ModifyInfo = ({navigation}) => {
         setChangePet(result.petName);
         setUserProfile(result.userProfileUrl+ '?' + new Date());
         setUserEmail(result.userEmail);
+        setSpinvisible(false);
     }
 
     useFocusEffect(
@@ -52,10 +56,13 @@ const ModifyInfo = ({navigation}) => {
     }
 
     const changedata = async()=>{
+        setSpinvisible(true);
         await changeInfo(changeNick, changePet)
         .then(()=>{
+            setSpinvisible(false);
             navigation.goBack();
         })
+        setSpinvisible(false);
     }
 
     function saveChange(){
@@ -87,6 +94,7 @@ const ModifyInfo = ({navigation}) => {
 
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
+            <Spinner visible={spinVisible} />
             <View style={{width: 450, height:150, flexDirection: "row", alignItems: 'center', justifyContent: 'center', marginTop:30, marginBottom:30}}>
                 <View style={{width:130, height:130, borderRadius:100, backgroundColor:'#C4C4C4'}}>
                     {userProfile.length>0?
@@ -148,6 +156,7 @@ const style = StyleSheet.create({
     },
     myInfoNicknameCheck: {
         flexDirection: 'row',
+        alignItems: 'center',
         margin: 1,
     }
 })

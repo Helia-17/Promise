@@ -8,7 +8,6 @@ let request = axios.create({
 request.interceptors.request.use(
   async (config)=>{
     if (await AsyncStorage.getItem('token')) {
-      console.log(await AsyncStorage.getItem('token'));
       config.headers['Authorization'] = await AsyncStorage.getItem('token');
     }
     return config;

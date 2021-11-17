@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import DetailList from '../../components/atoms/DetailList';
 import Moment from 'moment';
 import {getAlarmDetail} from '../../utils/axios';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const TimelineDetail = (props) => {
     const [title, onChangeTitle] = useState('');
@@ -16,8 +17,10 @@ const TimelineDetail = (props) => {
     const [selectTime1, setSelectTime1] = useState(null);
     const [selectTime2, setSelectTime2] = useState(null);
     const [selectTime3, setSelectTime3] = useState(null);
+    const [spinVisible, setSpinvisible] = useState();
 
     const getDetail = async(id)=>{
+        setSpinvisible(true);
         const result = await getAlarmDetail(id);
         onChangeTitle(result.alarmTitle);
         setPillList(result.alarmMediList);
@@ -29,6 +32,7 @@ const TimelineDetail = (props) => {
         setSelectTime3(result.alarmTime3);
         if(result.alarmYN===1) setIsOn(true);
         else setIsOn(false);
+        setSpinvisible(false);
     }
 
     useFocusEffect(
@@ -83,6 +87,7 @@ const TimelineDetail = (props) => {
 
     return (
         <View style={{flex: 1, alignItems: 'center', backgroundColor: 'white'}}>
+            <Spinner visible={spinVisible} />
             <View style={{width: '90%', alignItems: 'flex-start', marginTop: 10}}>
             <Icon.Button name="left" color="black" backgroundColor="white" size={25} onPress={() => props.navigation.goBack()} />
             </View>

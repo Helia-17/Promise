@@ -56,6 +56,7 @@ const SECTIONS = [
 // );
 
 const AccordionView = ({navigation}) => {
+  // console.log(navigation);
   const [activeSections, setActiveSections] = useState([]);
 
   const renderHeader = (section) => {
@@ -70,11 +71,11 @@ const AccordionView = ({navigation}) => {
     );
   };
 
-  const renderContent = (section, navigation) => {
+  const renderContent = (section) => {
     return (
       <View style={styles.contentList}>
       { section.contents.map((object, i) => 
-        <TouchableOpacity key={i} onPress={() => {navigation.navigate('Info', { name: `${object.name}`, company: `${object.company}` }) }} style={styles.contents}>
+        <TouchableOpacity key={i} onPress={() => {navigation.push('MyPillInfo', { name: `${object.name}`, company: `${object.company}` }) }} style={styles.contents}>
           <View style={styles.contentTextContainer}>
             <Icon name="pill" color="#5383ad" backgroundColor='white' size={20}/>
             <Text style={styles.contentText}>{object.name}</Text>
