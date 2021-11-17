@@ -9,5 +9,5 @@ public class MyPillGetRes {
 	private int alarmId;
 	private String alarmDayStart;
 	private String alarmDayEnd;
-	private List<MediGetRes> alarmMediList;
+	private List<MediPillGetRes> alarmMediList;
 }
