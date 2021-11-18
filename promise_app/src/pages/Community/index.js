@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
+import { useFocusEffect } from '@react-navigation/core';
 import { View, ScrollView, Text } from 'react-native';
 import { Divider } from 'react-native-paper';
 import { getCommunityAPI } from '../../utils/axios';
@@ -23,9 +24,11 @@ const CommunityPage = ({navigation, route}) => {
         })   
     }
     
-    useEffect(()=>{
-        getCommunity()
-    }, [])
+    useFocusEffect(
+        useCallback(()=>{
+            getCommunity()
+        }, [])
+    );
     
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
@@ -33,16 +36,14 @@ const CommunityPage = ({navigation, route}) => {
             <View style={{width:'100%', margin:10, marginBottom:55 }}>
                 <PostList/>
             </View>
-            <View style={{width:'100%', alignItems:'flex-end', position: 'absolute', left: 0, right: 0, bottom: 0}}>
-                <RoundBtn 
-                    func={()=>navigation.navigate('communitywrite')}
-                    text={<Icon name="plus" 
-                    style={{
-                    color: "white",
-                    fontSize: 30,
-                    }} />}>
-                </RoundBtn>
-            </View>
+            <RoundBtn 
+                func={()=>navigation.navigate('communitywrite')}
+                text={<Icon name="plus" 
+                style={{
+                color: "white",
+                fontSize: 30,
+                }} />}>
+            </RoundBtn>
         </View>
     );
 };

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, Text,  TextInput, TouchableOpacity, KeyboardAvoidingView, StyleSheet, ScrollView, Keyboard  } from 'react-native';
+import { View, Text,  TextInput, TouchableOpacity, KeyboardAvoidingView, StyleSheet, ScrollView, Keyboard, TouchableWithoutFeedback  } from 'react-native';
 import InputScrollView from 'react-native-input-scroll-view';
 import { getCommunityAPI } from '../../utils/axios';
 import { changePostDetailAction } from '../../modules/community/actions';
@@ -21,12 +21,15 @@ const InputCommentText = (props) => {
     }
 
     return(
-        <View style={styles.commentContainer}>
-            <TextInput onChangeText={handleText} maxLength={40} placeholder={props.name} value={text} style={styles.commentInput}/>
-            <TouchableOpacity style={styles.commentInsert} onPress={createComment}>
-                <Text>등록</Text>
-            </TouchableOpacity>
-        </View >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.commentContainer}>
+                <TextInput onChangeText={handleText} multiline placeholder={props.name} value={text} style={styles.commentInput}/>
+                <TouchableOpacity style={styles.commentInsert} onPress={createComment}>
+                    <Text>등록</Text>
+                </TouchableOpacity>
+            </View >
+        </TouchableWithoutFeedback>
+
     );
 };
 
@@ -46,7 +49,6 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 17,
         borderBottomLeftRadius: 17,
         padding: 15,
-        height: 50,
         width: '85%',
         color: 'black',
         backgroundColor: '#E9E9E9',
@@ -55,7 +57,7 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 17,
         borderBottomRightRadius: 17,
         padding: 10,
-        height: 50,
+        height: '100%',
         width: '15%',
         backgroundColor: '#E9E9E9',
         alignItems: 'center',
