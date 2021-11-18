@@ -398,6 +398,7 @@ const AlarmInfo = (props) => {
             }}>
             <TextInput
               placeholder="나만의 태그를 #태그로 입력해주세요."
+              placeholderTextColor = "#626262"
               onChangeText={setTag}
               value={tag}
               style={{
