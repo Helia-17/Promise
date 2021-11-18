@@ -8,7 +8,7 @@ application-db.properties
 application-jwt.properties
 
 # Frontend Auth file
-src/utils/oauth/index.js
+promise_app/src/utils/oauth/index.js
 
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,reactnative,node,androidstudio,windows,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,reactnative,node,androidstudio,windows,macos
