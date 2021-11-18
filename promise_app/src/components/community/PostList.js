@@ -57,7 +57,7 @@ const PostList = (props) => {
       return (
         isLastPost
         ? 
-        <TouchableHighlight onPress={()=>navigation.navigate('communitydetail', {post: item, postDate: postDate})} underlayColor="white">
+        <TouchableHighlight onPress={()=>getCommunityDetail(item)} underlayColor="white">
           <View style={styles.container} key={item.commuId}>
               <View style={styles.subContainer}>
                   <Text style={styles.itemNameText}>{item.userNickname}</Text>
