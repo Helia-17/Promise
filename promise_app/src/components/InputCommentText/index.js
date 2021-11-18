@@ -13,11 +13,15 @@ const InputCommentText = (props) => {
     }
 
     const createComment = () => {
-        getCommunityAPI.commentCreate(props.postId, text).then(res => {
-            onChangeText('')
-            changePostDetailAction()
-            Keyboard.dismiss()
-          }).then(()=>{props.refreshComments()})
+        if (text === '') {
+            alert('댓글을 입력해주세요.');
+        } else {
+            getCommunityAPI.commentCreate(props.postId, text).then(res => {
+                onChangeText('')
+                changePostDetailAction()
+                Keyboard.dismiss()
+              }).then(()=>{props.refreshComments()})
+        }
     }
 
     return(
