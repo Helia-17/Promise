@@ -31,11 +31,11 @@ public class PetServiceImpl implements PetService{
 			pet.setPetExp(incExp);
 			
 			// 경험치 점수에 따른 레벨 변경
-			if(incExp >= 100) {
+			if(100 <= incExp && incExp < 500) {
 				pet.setPetLevel(2);
-			} else if(incExp >= 500) {
+			} else if(500 <= incExp && incExp < 1000) {
 				pet.setPetLevel(3);
-			} else if(incExp >= 1000){
+			} else if(1000 <= incExp && incExp < 10000){
 				pet.setPetLevel(4);
 			} else if(incExp >= 10000) {
 				pet.setPetLevel(5);
