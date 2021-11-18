@@ -66,7 +66,7 @@ const PostDetailPage = ({navigation, route}) => {
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       {Platform.OS === 'android' ? (
         <View style={{ height: '100%'}}>
-          <ScrollView style={{ width: '100%', marginVertical: 10, marginBottom: 55}} contentContainerStyle={{flexDirection:'column', justifyContent:'center'}}>
+          <ScrollView style={{ width: '100%', marginTop: 10, marginBottom: 80}} contentContainerStyle={{flexDirection:'column', justifyContent:'center'}}>
             <View style={styles.container}>
               <View style={styles.subContainer}>
                 <Text style={styles.itemTitleText}>{post.commuTitle}</Text>
