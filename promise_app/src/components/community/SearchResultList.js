@@ -1,6 +1,5 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState } from 'react';
 import {View, Text, StyleSheet, FlatList, TouchableHighlight } from 'react-native';
-import { Divider } from 'react-native-paper';
 import { useNavigation  } from '@react-navigation/native';
 import useCommunityResult from '../../utils/useCommunityResult';
 import { useSelector, useDispatch } from 'react-redux';
@@ -15,7 +14,6 @@ const SearchResultList = (props) => {
 
   const searchKeyword = props.searchKeyword
   
-  // infinite scroll
   const pageNum = useSelector(state => state.community.pageNum)
   const hasMore = useSelector(state => state.community.hasMore)
   const communitySearchList = useSelector(state => state.community.communitySearchList)
@@ -45,14 +43,14 @@ const SearchResultList = (props) => {
       onMomentumScrollBegin = {() => {setOnEndReachedCalledDuringMomentum(false)}}
       onEndReached = {() => {
           if (!onEndReachedCalledDuringMomentum) {
-            getMoreSearch()    // LOAD MORE DATA
+            getMoreSearch()
             setOnEndReachedCalledDuringMomentum(true)
           }
         }
       }
       renderItem={({item, index}) => {
 
-        const subDate = item.commuDate.substr(0, 16)
+        const subDate = item.commuDate;
         const postDate = moment(subDate).tz("Asia/Seoul").format("YYYY.MM.DD HH:mm")
         const isLastPost = (communitySearchList.length === index+1)
 
@@ -72,7 +70,6 @@ const SearchResultList = (props) => {
         </TouchableHighlight>
         :
         <>
-        {/* <TouchableHighlight onPress={()=>getMorePost()}><Text>{pageNum}{hasMore?'true':'false'}</Text></TouchableHighlight> */}
         <TouchableHighlight onPress={()=>getCommunityDetail(item)} underlayColor="white">
           <View style={styles.container} key={item.commuId}>
               <View style={styles.subContainer}>
