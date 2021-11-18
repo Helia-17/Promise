@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
+import { useFocusEffect } from '@react-navigation/core';
 import {
   View,
   ScrollView,
@@ -38,9 +39,11 @@ const PostDetailPage = ({navigation, route}) => {
         })
   }
 
-  useEffect(()=> {
-    setUserNickname(stateUserNickname)
-  }, [])
+  useFocusEffect(
+    useCallback(()=>{
+      setUserNickname(stateUserNickname)
+    }, [])
+);
 
 
   const getCommunityDetail = () => {
