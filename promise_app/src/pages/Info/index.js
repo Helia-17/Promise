@@ -82,10 +82,8 @@ const Info = ({ route }) => {
 };
 const style = StyleSheet.create({
     pillDetailInfo: {
-        // 노말하게 띄우기
         margin: 10,
         marginTop: 0,
-        // 카드형
         borderWidth: 0.3,
         borderColor: '#BBBBBB',
         borderRadius: 5,

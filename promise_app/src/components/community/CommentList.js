@@ -1,24 +1,18 @@
-import React, { useState, forwardRef } from 'react';
-import {View, Text, StyleSheet, FlatList, TouchableHighlight, ScrollView, KeyboardAvoidingView } from 'react-native';
-import { Divider } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
+import React from 'react';
+import {View, Text, StyleSheet, TouchableHighlight, ScrollView } from 'react-native';
 import CommentBtn from '../atoms/CommentBtn';
-// axios, redux
 import { getCommunityAPI } from '../../utils/axios';
 import { getPostDetailAction } from '../../modules/community/actions';
 import { useSelector, useDispatch } from 'react-redux';
-import Moment from 'moment';
+import moment from 'moment-timezone'
 
-const Comments = ((props, ref) => {
+const Comments = ((props) => {
 
   const dispatch = useDispatch();
-  const navigation = useNavigation(); 
-  
   const { userNickname } = useSelector((state) => state.user.userInfo)
   const postId = props.postId
   const {commuCommentDetailList} = useSelector((state) => state.community.communityPostDetail)
 
-  
   const postDelete = (commentId) => {
     getCommunityAPI.commentDelete(commentId).then(res => {
     }).then(()=>{
@@ -32,8 +26,8 @@ const Comments = ((props, ref) => {
     <ScrollView>
       {commuCommentDetailList.map(function(item, i){
 
-        const subDate = item.commentDate.substr(0, 16)
-        const postDate = Moment(subDate).format("YYYY.MM.DD HH:mm")
+        const subDate = item.commentDate;
+        const postDate = moment(subDate).tz('Asia/Seoul').format("YYYY.MM.DD HH:mm")
 
         return (
           <TouchableHighlight key={i} underlayColor="white">

@@ -1,6 +1,5 @@
 import types from './types'
 
-// Action 생성 함수 구현
   export const getCommunityAction = (data) => ({
     type: types.GET_COMMUNITY,
     data,

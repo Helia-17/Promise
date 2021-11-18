@@ -38,7 +38,15 @@ const AlarmAdd = ({navigation}) => {
 
   const addList = data => {
     if (data.mediName && data.mediSerialNum) {
-      setPillList([...pillList, {id: data.mediSerialNum, name: data.mediName}]);
+      let flag = false;
+      for(let i=0;i<pillList.length;i++){
+        if(pillList[i].id===data.mediSerialNum){
+          flag = true;
+          break;
+        }
+      }
+      if(flag === false) setPillList([...pillList, {id: data.mediSerialNum, name: data.mediName}]);
+      else alert('이미 추가한 약입니다.');
     }else if(data.mediName){
       setPillList([...pillList, {id: mediId, name: data.mediName}]);
       setMediId(mediId+1);
@@ -109,7 +117,7 @@ const AlarmAdd = ({navigation}) => {
   };
 
   const addOCRList = data => {
-    if (data) {
+    if (data.length>0) {
       setPillList(pillList.concat(data));
     }
     setIsChange(true);
@@ -339,6 +347,7 @@ const AlarmAdd = ({navigation}) => {
             }}>
             <TextInput
               placeholder="나만의 태그를 #태그로 입력해주세요."
+              placeholderTextColor = "#626262"
               onChangeText={setTag}
               value={tag}
               style={{

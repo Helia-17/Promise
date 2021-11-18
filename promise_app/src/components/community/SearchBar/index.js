@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { getCommunityAPI } from '../../../utils/axios';
 import { getCommunitySearchAction, resetCommunitySearchValueAction } from '../../../modules/community/actions';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 const SearchBar = (props) => {
 

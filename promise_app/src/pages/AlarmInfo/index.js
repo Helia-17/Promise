@@ -39,7 +39,16 @@ const AlarmInfo = (props) => {
 
   const addList = data => {
     if(data.mediName){
-      setPillList([...pillList, data.mediName]);
+      let flag = false;
+      for(let i=0;i<pillList.length;i++){
+        if(pillList[i].name===data.mediName){
+          flag = true;
+          break;
+        }
+      }
+      if(flag === false) setPillList([...pillList, data.mediName]);
+      else alert('이미 추가한 약입니다.');
+      
     }
     setIsChange(true);
   };
@@ -398,6 +407,7 @@ const AlarmInfo = (props) => {
             }}>
             <TextInput
               placeholder="나만의 태그를 #태그로 입력해주세요."
+              placeholderTextColor = "#626262"
               onChangeText={setTag}
               value={tag}
               style={{
