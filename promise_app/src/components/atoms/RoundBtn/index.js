@@ -21,6 +21,9 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         marginRight: 20,
         borderRadius: 35,
+        position: 'absolute',
+        right: 0, 
+        bottom: 0,
 
 
         ...Platform.select({
