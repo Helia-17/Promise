@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, ScrollView, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity, TextInput, StyleSheet, Keyboard } from 'react-native';
 
 import { getCommunityAPI } from '../../utils/axios';
 import { useDispatch } from 'react-redux';
@@ -33,24 +33,25 @@ const PostUpdatePage = ({navigation, route}) => {
     }
 
     return (
-        <View style={styles.container}>
-            <View  style={styles.titleView}>
-                <View style={{width:'90%'}}>
-                    <InputTitleText name='제목' text={route.params.post.commuTitle} result={(data)=>onChangeTitle(data)} />
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.container}>
+                <View  style={styles.titleView}>
+                    <View style={{width:'90%'}}>
+                        <InputTitleText name='제목' text={route.params.post.commuTitle} result={(data)=>onChangeTitle(data)} />
+                    </View>
+                </View>
+                <View  style={styles.mainView}>
+                    <ScrollView style={{ width:'90%' }} contentContainerStyle={{alignItems: 'center', justifyContent: 'flex-start'}}>
+                        <InputLongText name='내용' text={route.params.post.commuContents} result={(data)=>onChangeContent(data)} />
+                    </ScrollView>
+                    <View style={{width:'90%', margin:10, alignItmes:'flex-end'}}>
+                        <TouchableOpacity style={{backgroundColor:'#A3BED7', color:'black', alignItems: 'center', borderRadius: 12, height:50, justifyContent: 'center'}} onPress={()=>postUpdate()}>
+                            <Text style={{color:'black', fontSize:20, fontWeight:'bold'}}>작성</Text >
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
-            <View  style={styles.mainView}>
-                <ScrollView style={{ width:'90%' }} contentContainerStyle={{alignItems: 'center', justifyContent: 'flex-start'}}>
-                    <InputLongText name='내용' text={route.params.post.commuContents} result={(data)=>onChangeContent(data)} />
-                </ScrollView>
-                <View style={{width:'90%', margin:10, alignItmes:'flex-end'}}>
-                    <TouchableOpacity style={{backgroundColor:'#A3BED7', color:'black', alignItems: 'center', borderRadius: 12, height:50, justifyContent: 'center'}} onPress={()=>postUpdate()}>
-                        <Text style={{color:'black', fontSize:20, fontWeight:'bold'}}>작성</Text >
-                    </TouchableOpacity>
-                </View>
-            </View>
-        </View>
-
+        </TouchableWithoutFeedback>
 
     );
 };
