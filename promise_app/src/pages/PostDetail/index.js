@@ -146,8 +146,7 @@ const PostDetailPage = ({navigation, route}) => {
 const styles = StyleSheet.create({
   container: {
     minHeight: 200,
-    paddingTop: 10,
-    paddingBottom: 5,
+    paddingVertical: 10,
     paddingHorizontal: 14,
     shadowColor: '#f1f2f3',
     shadowOffset: {
