@@ -14,13 +14,20 @@ const PostCreatePage = ({navigation}) => {
     const [content, onChangeContent] = useState('');
 
     const postCreate = () => {
-        getCommunityAPI.create(title, content).then(res => {
-            dispatch(resetCommunityListAction())
-        }).then(()=>{
-        getCommunityAPI.list(1).then(res => {
-            dispatch(getCommunityAction(res))
-        }).then(()=>{navigation.goBack()})
-        })
+
+        if (title === '') {
+            alert('제목을 입력해주세요.');
+        } else if (content === '') {
+            alert('내용을 입력해주세요.')
+        } else {
+            getCommunityAPI.create(title, content).then(res => {
+                dispatch(resetCommunityListAction())
+            }).then(()=>{
+            getCommunityAPI.list(1).then(res => {
+                dispatch(getCommunityAction(res))
+            }).then(()=>{navigation.goBack()})
+            })
+        }
     }
     
     return (
