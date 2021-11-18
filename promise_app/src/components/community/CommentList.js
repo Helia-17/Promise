@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 0,
     paddingVertical: 5,
     paddingHorizontal: 14,
-    height: 85,
+    minHeight: 85,
     shadowColor: '#f1f2f3',
     shadowOffset: {
       width: 0,
