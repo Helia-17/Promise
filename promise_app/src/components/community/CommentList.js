@@ -7,7 +7,7 @@ import CommentBtn from '../atoms/CommentBtn';
 import { getCommunityAPI } from '../../utils/axios';
 import { getPostDetailAction } from '../../modules/community/actions';
 import { useSelector, useDispatch } from 'react-redux';
-import Moment from 'moment';
+import moment from 'moment-timezone'
 
 const Comments = ((props, ref) => {
 
@@ -33,7 +33,7 @@ const Comments = ((props, ref) => {
       {commuCommentDetailList.map(function(item, i){
 
         const subDate = item.commentDate.substr(0, 16)
-        const postDate = Moment(subDate).format("YYYY.MM.DD HH:mm")
+        const postDate = moment(subDate).tz("Asia/Seoul").format("YYYY.MM.DD HH:mm")
 
         return (
           <TouchableHighlight key={i} underlayColor="white">
