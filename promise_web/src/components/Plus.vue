@@ -10,6 +10,7 @@
         </div>
         <div class="description">
           <p>알람 이용에 따라 성장하는 캐릭터</p>
+          <p>자유로운 소통공간 커뮤니티</p>
         </div>
       </div>
       <div class="col-4">
@@ -17,8 +18,7 @@
           <img class="phone-img d-block" src=".././assets/iphone-frame.png">
           <div class="phone-back">
             <tiny-slider v-bind="tinySliderOptions" class="tns-visually-hidden">
-              <img class="slide-img" src=".././assets/Alarm1.png" />
-              <img class="slide-img" src=".././assets/Alarm2.png" />
+              <img class="slide-img" src=".././assets/plus.png" />
             </tiny-slider>
             <!-- <img class="d-block " src=".././assets/Alarm1.png"> -->
           </div>

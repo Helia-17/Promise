@@ -12,7 +12,7 @@
         <div class="description">
           <p>약 검색</p>
           <p>주의대상 마크를 통한 손쉬운 확인</p>
-          <p>효능/복용법/보관법 등의 정보 제공</p>
+          <p>복용법/보관법/복용시 주의사항 등의 정보 제공</p>
         </div>
       </div>
       <div class="col-4">
@@ -20,8 +20,8 @@
           <img class="phone-img d-block" src=".././assets/iphone-frame.png">
           <div class="phone-back">
             <tiny-slider v-bind="tinySliderOptions" class="tns-visually-hidden">
-              <img class="slide-img" src=".././assets/Alarm1.png" />
-              <img class="slide-img" src=".././assets/Alarm2.png" />
+              <img class="slide-img" src=".././assets/Search1.png" />
+              <img class="slide-img" src=".././assets/Search2.png" />
             </tiny-slider>
           </div>
           <div class="true-msg">

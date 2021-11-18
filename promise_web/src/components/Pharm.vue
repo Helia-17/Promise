@@ -20,8 +20,7 @@
           <img class="phone-img d-block" src=".././assets/iphone-frame.png">
           <div class="phone-back">
             <tiny-slider v-bind="tinySliderOptions" class="tns-visually-hidden">
-              <img class="slide-img" src=".././assets/Alarm1.png" />
-              <img class="slide-img" src=".././assets/Alarm2.png" />
+              <img class="slide-img" src=".././assets/Map.png" />
             </tiny-slider>
           </div>
           <div class="true-msg">
