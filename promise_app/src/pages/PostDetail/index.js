@@ -65,8 +65,8 @@ const PostDetailPage = ({navigation, route}) => {
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       {Platform.OS === 'android' ? (
-        <View style={{ height: '100%'}}>
-          <ScrollView style={{ width: '100%', marginTop: 10, marginBottom: 80}} contentContainerStyle={{flexDirection:'column', justifyContent:'center'}}>
+        <View style={{ height: '100%',backgroundColor:"#F4F4F4",}}>
+          <ScrollView style={{ width: '100%', marginBottom: 80}} contentContainerStyle={{flexDirection:'column', justifyContent:'center'}}>
             <View style={styles.container}>
               {userNickname === post.userNickname?
                 <View style={styles.buttonContainer}>
@@ -146,6 +146,7 @@ const PostDetailPage = ({navigation, route}) => {
 const styles = StyleSheet.create({
   container: {
     minHeight: 200,
+    paddingTop: 10,
     paddingBottom: 5,
     paddingHorizontal: 14,
     shadowColor: '#f1f2f3',
@@ -196,7 +197,7 @@ const styles = StyleSheet.create({
   },
   commentListContainer: {
     backgroundColor:"#F4F4F4",
-    minHeight:323
+    // minHeight:323
   },
   commentListContainerIOS: {
     backgroundColor:"#F4F4F4",
