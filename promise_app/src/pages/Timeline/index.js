@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     pickerView: {
-        width: '35%',
+        width: '40%',
         justifyContent:'center',
         backgroundColor: 'white',
         borderWidth: 0.2,
