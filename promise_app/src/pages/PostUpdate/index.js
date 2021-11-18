@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, ScrollView, Text, TouchableOpacity, TextInput, StyleSheet, Keyboard } from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity, TextInput, StyleSheet, Keyboard, TouchableWithoutFeedback } from 'react-native';
 
 import { getCommunityAPI } from '../../utils/axios';
 import { useDispatch } from 'react-redux';

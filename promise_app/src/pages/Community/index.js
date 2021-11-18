@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
+import { useFocusEffect } from '@react-navigation/core';
 import { View, ScrollView, Text } from 'react-native';
 import { Divider } from 'react-native-paper';
 import { getCommunityAPI } from '../../utils/axios';
@@ -23,9 +24,11 @@ const CommunityPage = ({navigation, route}) => {
         })   
     }
     
-    useEffect(()=>{
-        getCommunity()
-    }, [])
+    useFocusEffect(
+        useCallback(()=>{
+            getCommunity()
+        }, [])
+    );
     
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
