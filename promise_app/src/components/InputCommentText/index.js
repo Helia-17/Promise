@@ -22,12 +22,14 @@ const InputCommentText = (props) => {
 
     return(
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <ScrollView>
             <View style={styles.commentContainer}>
                 <TextInput onChangeText={handleText} multiline placeholder={props.name} value={text} style={styles.commentInput}/>
                 <TouchableOpacity style={styles.commentInsert} onPress={createComment}>
                     <Text>등록</Text>
                 </TouchableOpacity>
             </View >
+            </ScrollView>
         </TouchableWithoutFeedback>
 
     );
