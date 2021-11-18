@@ -1,83 +1,92 @@
-import React from 'react';
-import { View, ScrollView, StyleSheet, TouchableOpacity, Text } from 'react-native';
-import MyPillHistoryList from '../../components/MyPillHistory/MyPillHistoryList';
+import React, {useCallback, useState} from 'react';
+import { useFocusEffect } from '@react-navigation/core';
+import { View, StyleSheet, FlatList } from 'react-native';
+import MyPillHistoryList from '../../components/MyPillHistory';
+import Moment from 'moment';
+import { getMyPillHistoryAPI } from '../../utils/axios';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const MyPillHistory = ({navigation}) => {
+  const [historyList, setHistoryList] = useState([]);
+  const [totalPageCnt, setTotalPageCnt] = useState();
+  const [pageNum, setPageNum] = useState(1);
+  const [spinVisible, setSpinvisible] = useState();
+  const [loading, setloading] = useState(false);
+    
+    const getMyPillHistoryList = async () => {
+      setloading(true);
+      setSpinvisible(true);
+      const res = await getMyPillHistoryAPI(pageNum);
+      setHistoryList(historyList.concat(res.alarmHistoryList));
+      setPageNum(pageNum + 1);
+      setTotalPageCnt(res.totalPageCnt);
+      setloading(false);
+      setSpinvisible(false);
+    }
+    
+    const getHistoryList = (data) => {
+      let result = [];
+      let cnt = 1;
+      data.map((item) => {
+        item.alarmMediList.map((i)=>{
+          result.push({id:cnt , alarmId:item.alarmId, mediinfo:i, date:Moment(item.thTime).format('YYYY.MM.DD HH:mm'), memo:item.alarmTitle});
+          cnt += 1;
+        });
+      })
+      return result;
+    }
 
-    const list = [
-      { 
-        id: 1,
-        mediinfo : {
-          name: '타이레놀',
-          company: '(주)한국얀센'
-        },
-        date: '2021.10.18 04:34',
-        memo: '삼성병원허리통증약'
-      },
-      { 
-        id: 2,
-        mediinfo : {
-          name: '타이레놀',
-          company: '(주)한국얀센'
-        },
-        date: '2021.10.18 04:34',
-        memo: '삼성병원허리통증약'
-      },
-      { 
-        id: 3,
-        mediinfo : {
-          name: '타이레놀',
-          company: '(주)한국얀센'
-        },
-        date: '2021.10.18 04:34',
-        memo: '삼성병원허리통증약'
-      },
-      { id: 4,
-        mediinfo : {
-          name: '타이레놀',
-          company: '(주)한국얀센'
-        },
-        date: '2021.10.18 04:34',
-        memo: '삼성병원허리통증약'
-      },
-    ]
+    useFocusEffect(
+      useCallback(()=>{
+        getMyPillHistoryList();
+      }, [])
+    );
+  
+    const renderItem = ({ item }) => {
+      return(
+        <MyPillHistoryList item={item} />
+      )
+    };
 
     return (
-        <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
-            <View style={{ width:'100%', margin:10, alignItems: 'center'}}>
-                <View style={{ width:'100%', marginVertical:20, paddingVertical:10, paddingHorizontal: 20, }}>
-                  <MyPillHistoryList list={list}/>
-                </View>
-            </View>
+      <View style={styles.pillHistoryContainer}>
+        <Spinner visible={spinVisible} />
+        <View style={styles.pillHistoryList}>
+          <FlatList 
+            data={getHistoryList(historyList)}
+            renderItem={renderItem}
+            onEndReached={() => {if(loading===false && pageNum<=totalPageCnt) getMyPillHistoryList()}}
+            onEndReachedThreshold={0.4}
+            keyExtractor={item => item.id}
+          />
         </View>
+      </View>
     );
 };
 
 
 const styles = StyleSheet.create({
-  contents: {
-    backgroundColor:'white',
-    borderRadius:3,
-    elevation:0,
-    padding: 20,
+  pillHistoryContainer: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: '#F9F9F9',
     width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderColor: '#e3e3e3',
-    borderBottomWidth: 1,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
+    paddingTop: 20,
+    paddingHorizontal: 20,
   },
-  contentTextContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+  pillHistoryList: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    marginBottom:10
   },
-  contentText: {
-    marginLeft: 10,
-    fontSize: 20,
-    fontWeight: '400'
-  }
+  pillHistoryItem: {
+    borderRadius:5,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    width: '100%',
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundColor: 'red',
+  },
 })
 export default MyPillHistory;

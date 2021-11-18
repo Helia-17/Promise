@@ -15,6 +15,10 @@ const OCR = (props) => {
             '앨범 또는 카메라에서 사진을 넣어주세요.',
             [
                 {
+                    text:'취소',
+                    onPress:()=>{}
+                },
+                {
                     text:'앨범',
                     onPress: ()=> Album()
                 },
@@ -23,8 +27,8 @@ const OCR = (props) => {
                     onPress: ()=> addImg()
                 }
             ],
-            {cancleable:false}
-        )
+            {cancleable:true},
+        );
     }
     const callGoogleVIsionApi = async (base) => {
         await fetch(API_URL + CAMERA_KEY, {

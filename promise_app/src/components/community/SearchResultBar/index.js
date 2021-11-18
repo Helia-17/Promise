@@ -1,36 +1,23 @@
 import React, {useEffect, useState} from 'react';
 import { View, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { useNavigation, useIsFocused } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { getCommunityAPI } from '../../../utils/axios';
-import { getCommunitySearchAction, resetCommunitySearchValueAction } from '../../../modules/community/actions';
+import { getCommunitySearchAction } from '../../../modules/community/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
-const SearchBar = (props) => {
+const SearchResultBar = (props) => {
 
     const dispatch = useDispatch();
     const navigation = useNavigation(); 
-    const isFocused = useIsFocused(); 
-
     const [text, onChangeText] = useState(props.searchKeyword);
 
     const getCommunityResult = () => {
-        if (text) {
-            return getCommunityAPI.search(1, text).then(res => {
-                dispatch(getCommunitySearchAction(res))
-                navigation.navigate('communitysearch')
-            })   
-        }
+        return getCommunityAPI.search(1, text).then(res => {
+            dispatch(getCommunitySearchAction(res))
+            navigation.navigate('communitysearch')
+        })   
     }   
-
-    const resetSearchValue = () => {
-        resetCommunitySearchValueAction()
-        onChangeText('')
-    }
-
-    useEffect(()=>{
-        resetSearchValue()
-      },[isFocused])
 
     return (
         <View style={{width:'90%', height:40, marginTop: 10, alignItems: 'center', justifyContent: 'space-around', backgroundColor: '#EEEEEE', borderRadius: 20}}>
@@ -41,4 +28,4 @@ const SearchBar = (props) => {
         </View>
     );
 };
-export default SearchBar;
+export default SearchResultBar;

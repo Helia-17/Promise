@@ -5,8 +5,10 @@ import MediInfo from '../../components/atoms/MediInfo';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { getPeriod } from '../../utils/axios';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const Timeline = (props) => {
+    const [spinVisible, setSpinvisible] = useState();
     const [value, setValue] = useState('');
     const [platform, setPlatform] = useState();
     const [alarmList, setAlarmList] = useState([]);
@@ -55,6 +57,7 @@ const Timeline = (props) => {
     }
 
     const gettingList = async(value) => {
+        setSpinvisible(true);
         setValue(value);
         let type = 1;
         if (value === 'week'){
@@ -66,6 +69,7 @@ const Timeline = (props) => {
         }
         const result = await getPeriod(type);
         setAlarmList(result);
+        setSpinvisible(false);
     }
 
     useFocusEffect(
@@ -93,6 +97,7 @@ const Timeline = (props) => {
 
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
+            <Spinner visible={spinVisible} />
             <View style={styles.pickerLayout}>
                 {findPlatform()}
             </View>
@@ -116,7 +121,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     pickerView: {
-        width: '35%',
+        width: '40%',
         justifyContent:'center',
         backgroundColor: 'white',
         borderWidth: 0.2,

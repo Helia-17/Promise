@@ -1,5 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import { View, ScrollView } from 'react-native';
+import React, {useState, useEffect, useCallback} from 'react';
+import { useFocusEffect } from '@react-navigation/core';
+import { View, ScrollView, Text } from 'react-native';
+import { Divider } from 'react-native-paper';
 import { getCommunityAPI } from '../../utils/axios';
 import { getCommunityAction } from '../../modules/community/actions';
 import { useSelector, useDispatch } from 'react-redux';
@@ -11,47 +13,37 @@ import PostList from '../../components/community/PostList';
 const CommunityPage = ({navigation, route}) => {
 
     const dispatch = useDispatch();
-    const { communityList, communityPostCreated } = useSelector((state) => state.community);
+    const [ communityList, setCommunityList ] = useState([])
     const [ created, setCreated ] = useState(false)
+    const [ searchKeyword, setSearchKeyword ] = useState('')
 
     const getCommunity = () => {
         return getCommunityAPI.list(1).then(res => {
             dispatch(getCommunityAction(res))
-        })
-        
+            setCommunityList(res.communityDetailList)
+        })   
     }
     
-    useEffect(()=>{
-        if (route.params) {
-            if (route.params.created) {
-                setCreated(true)
-            }
-        } else {
-            setCreated(false)
-        }
-        getCommunity()
-    }, [])
-
-    useEffect(()=> {
-        getCommunity()
-    }, [created])
+    useFocusEffect(
+        useCallback(()=>{
+            getCommunity()
+        }, [])
+    );
     
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>
-            <SearchBar/>
+            <SearchBar searchKeyword={searchKeyword} />
             <View style={{width:'100%', margin:10, marginBottom:55 }}>
                 <PostList/>
             </View>
-            <View style={{width:'100%', alignItems:'flex-end', position: 'absolute', left: 0, right: 0, bottom: 0}}>
-                <RoundBtn 
-                    func={()=>navigation.navigate('communitywrite')}
-                    text={<Icon name="plus" 
-                    style={{
-                    color: "white",
-                    fontSize: 30,
-                    }} />}>
-                </RoundBtn>
-            </View>
+            <RoundBtn 
+                func={()=>navigation.navigate('communitywrite')}
+                text={<Icon name="plus" 
+                style={{
+                color: "white",
+                fontSize: 30,
+                }} />}>
+            </RoundBtn>
         </View>
     );
 };

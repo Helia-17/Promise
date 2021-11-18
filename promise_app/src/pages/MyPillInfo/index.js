@@ -4,14 +4,16 @@ import InfoText from '../../components/atoms/InfoText';
 import InfoWarinings from '../../components/InfoWarinings';
 import PillInfo from '../../components/PillInfo';
 import { getMediDetailAPI } from '../../utils/axios';
+import Icon from 'react-native-vector-icons/AntDesign';
 import Spinner from 'react-native-loading-spinner-overlay';
 
-const Info = ({ route }) => {
-    const [spinVisible, setSpinvisible] = useState();
+const MyPillInfo = (props) => {
     const [mediDetail, setMediDetail] = useState([]);
+    const [spinVisible, setSpinvisible] = useState();
+
     const getMediDetail = async () => {
         setSpinvisible(true);
-        const res = await getMediDetailAPI(route.params.serialNum);
+        const res = await getMediDetailAPI(props.route.params.serialNumber);
         setMediDetail(res);
         setSpinvisible(false);
     }
@@ -23,6 +25,15 @@ const Info = ({ route }) => {
     return (
         <View style={{ flex: 1, backgroundColor: '#F9F9F9' }}>
             <Spinner visible={spinVisible} />
+            <View style={{width: '90%', alignItems: 'flex-start', marginTop: 10}}>
+                <Icon.Button
+                name="left"
+                color="black"
+                backgroundColor="#F9F9F9"
+                size={25}
+                onPress={() => props.navigation.goBack()}
+                />
+            </View>
             <View style={style.pillInfoCard}>
                 <PillInfo
                     name={mediDetail.mediName}
@@ -44,7 +55,7 @@ const Info = ({ route }) => {
                 mediDetail.mediNotWith == '' &&
                 mediDetail.mediAllergy == ''
                 ? (
-                    <View style={{ width: '100%', height:'65%', alignItems: 'center', justifyContent: 'center' }}>
+                    <View style={{ width: '100%', height:'40%', alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={{ fontSize: 20, color: '#BBBBBB' }}>이 약에 대한 상세 정보가 없습니다.</Text>
                         <Text style={{fontSize:20, color:'#BBBBBB'}}>의사 또는 약사와 상의해주세요.</Text>
                     </View>
@@ -92,9 +103,9 @@ const style = StyleSheet.create({
         backgroundColor: 'white'
     },
     pillInfoCard: {
-        margin: 10,
+        margin: 0,
         marginBottom: 0,
     }
 })
-export default Info;
+export default MyPillInfo;
 

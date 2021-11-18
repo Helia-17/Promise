@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
-import {View, Text, Image, Modal, Platform} from 'react-native';
+import React, {useState, useCallback} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
+import {View, Image, Modal, Platform} from 'react-native';
 import Logo from '../../assets/Promise_Logo.png';
 import GoogleLoginBtn from '../../components/GoogleLoginBtn';
 import AppleLoginBtn from '../../components/AppleLoginBtn';
@@ -9,6 +10,8 @@ import PetModal from '../../components/PetModal';
 import LoginBtn from '../../components/atoms/LoginBtn';
 import LoginModal from '../../components/LoginModal';
 import {userAPI} from '../../utils/axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const Login = (props) => {
   const [userModal, setUserModal] = useState(false);
@@ -21,8 +24,21 @@ const Login = (props) => {
   const [nick, setNick] = useState('');
   const [petName, setPetName] = useState('');
   const [type, setType] = useState();
+  const [spinVisible, setSpinvisible] = useState();
+
+  async function checkLogin(){
+    if(await AsyncStorage.getItem('refresh')!==null){
+      props.navigation.replace('appscreen');
+    }
+  }
+  useFocusEffect(
+    useCallback(()=>{
+      checkLogin();
+    },[])
+  );
 
   const SocialSignin = async (data) => {
+    setSpinvisible(true);
     if (data.email){
       setId(data.email);
       if(data.profile){ 
@@ -30,6 +46,7 @@ const Login = (props) => {
       }
       setType(data.type);
       const res = await userAPI.social(data.email, pw, data.type);
+      setSpinvisible(false);
       if (res === 404) {
         setNickModal(true);
       }else if(res===402){
@@ -42,6 +59,7 @@ const Login = (props) => {
         props.navigation.replace('appscreen');
       }
     }
+    setSpinvisible(false);
   };
 
   const handleUser = (user) => {
@@ -52,25 +70,32 @@ const Login = (props) => {
 
   const resultData = async(petName) =>{
     try{
+      setSpinvisible(true);
       await userAPI.join(id, pw, nick, profile, petName, type);
       if(type===0){
         await userAPI.login(id, pw, type)
         .then((res) =>{
+          setSpinvisible(false);
           props.navigation.replace('appscreen');
         });
       }else if(type===1 || type===2){
         await userAPI.social(id, pw, type)
         .then((res) =>{
+          setSpinvisible(false);
           props.navigation.replace('appscreen');
         });
       }
+      setSpinvisible(false);
       
     }catch(e){
+      setSpinvisible(false);
     }
   };
 
   const NomalLogin = async (data) =>{
+    setSpinvisible(true);
     const res = await userAPI.login(data.id, data.pw, 0);
+    setSpinvisible(false);
     if(res===404){
       alert('존재하지 않는 계정입니다.');
     }else if(res===402){
@@ -86,6 +111,7 @@ const Login = (props) => {
 
   return (
     <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
+      <Spinner visible={spinVisible} />
       <View style={{justifyContent: 'center'}}>
         <Image source={Logo} style={{height: '60%'}} resizeMode='contain'/>
       </View>

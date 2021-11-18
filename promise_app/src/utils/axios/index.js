@@ -8,7 +8,6 @@ let request = axios.create({
 request.interceptors.request.use(
   async (config)=>{
     if (await AsyncStorage.getItem('token')) {
-      console.log(await AsyncStorage.getItem('token'));
       config.headers['Authorization'] = await AsyncStorage.getItem('token');
     }
     return config;
@@ -164,11 +163,35 @@ export const modifyAlarm = async(alarmId, alarmTitle, alarmYN, alarmTime1, alarm
 export const sharingList = async()=>{
   return await request.get('/sharings',{
   }).then((response) => {
-    console.log(response.data);
+    return response.data.alarmShareList;
   }).catch((err) => {
-    console.log(err.response.data);
+    return err.response;
   })
 }
+
+export const sharingAccept = async(alarmId)=>{
+  return await request.delete('/sharings/accept',{
+    params:{
+      alarmId: alarmId
+    }
+  }).then((response) => {
+    return response.data.statusCode;
+  }).catch((err) => {
+    return err.response;
+  })
+};
+
+export const sharingReject = async(alarmId)=>{
+  return await request.delete('/sharings/reject',{
+    params:{
+      alarmId: alarmId
+    }
+  }).then((response) => {
+    return response.data.statusCode;
+  }).catch((err) => {
+    return err.response;
+  })
+};
 
 export const getCalendar = async(nowMonth)=>{
   return await request.get('/alarms/calendar', {
@@ -245,34 +268,11 @@ export const changeInfo = async(userNickname, petName)=>{
   });
 }
 
-export const enrollAlarm = async (
-  alarmTitle,
-  alarmYN,
-  alarmTime1,
-  alarmTime2,
-  alarmTime3,
-  alarmDayStart,
-  alarmDayEnd,
-  alarmMediList,
-  tagList,
-  shareEmail,
-) => {
+export const enrollAlarm = async (alarmTitle, alarmYN, alarmTime1, alarmTime2, alarmTime3, alarmDayStart, alarmDayEnd, alarmMediList, tagList, shareEmail) => {
   return await request
-    .post(
-      '/alarms',
-      {
-        alarmTitle,
-        alarmYN,
-        alarmTime1,
-        alarmTime2,
-        alarmTime3,
-        alarmDayStart,
-        alarmDayEnd,
-        alarmMediList,
-        tagList,
-        shareEmail,
-      }
-    )
+    .post( '/alarms', {  
+      alarmTitle, alarmYN, alarmTime1, alarmTime2, alarmTime3, alarmDayStart, alarmDayEnd, alarmMediList, tagList, shareEmail
+    })
     .then(response => {
       return response.data.alarmId;
     })
@@ -385,6 +385,25 @@ export const getCommunityAPI = {
     })
     .then((response) => {
         return response.data;
+    })
+    .catch(err => {
+      return err.response.data;
+    });
+  },
+
+  search: async (pageNum, searchKeyword) => {
+    return await request.post(
+      '/communities/search', 
+      {
+        pageNum,
+        searchKeyword
+      }
+    )
+    .then((response) => {
+      return {
+        ...response.data,
+        searchKeyword: searchKeyword,
+      };
     })
     .catch(err => {
       return err.response.data;
@@ -518,4 +537,28 @@ export const alarmCheckAPI = async (alarmId, thYN) => {
     .catch(err => {
       return err.response.data;
     })
+}
+
+export const getMyPillAPI = async () => {
+  return await request.get(`/mypills`, {
+  })
+    .then(response => {
+      return response.data.alarmList;
+    }).catch(err => {
+      return err.response.data;
+    });
+}
+
+export const getMyPillHistoryAPI = async pageNum => {
+  return await request.get(`mypills/history`, {
+    params: {
+      pageNum: pageNum,
+    }
+  })
+    .then(response => {
+      return response.data;
+    })
+    .catch(err => {
+      return err.response.data;
+  })
 }

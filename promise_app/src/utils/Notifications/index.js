@@ -10,21 +10,21 @@ class Notifications {
         console.log("TOKEN:", token);
       },
       // 리모컨이 수신되거나 열리거나 로컬 알람이 열릴때 호출
-      onNotification: function (notification) {
-        console.log('NOTIFICATION:', notification);
+      onNotification: (notification) => {
+        // console.log('NOTIFICATION:', notification);
         // notification.tag에 alarmId를 넣어놨으니까
         // 여기서 axios로 복용 이력 api 날리면 됨!
         postAlarmCheck(notification.data.alarmId);
         notification.finish(PushNotificationIOS.FetchResult.NoData);
       },
-
+      
       onAction: function (notification) {
         console.log("ACTION:", notification.action);
         console.log("NOTIFICATION:", notification);
       },
 
       popInitialNotification: true,
-      requestPermissions: Platform.OS === 'ios',
+      requestPermissions: Platform.OS === 'ios', 
 
       // IOS ONLY
       permissions: {
@@ -73,7 +73,7 @@ class Notifications {
       playSound: true,
       tag: alarmId,
       date: date,
-      userInfo : {id: id, alarmId: alarmId} // required for ios local notification
+      userInfo : {id: id, alarmId: alarmId}, // required for ios local notification,
     });
   }
   deleteNotifications() {
