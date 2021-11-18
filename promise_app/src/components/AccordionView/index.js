@@ -22,12 +22,10 @@ const AccordionView = ({navigation}) => {
     } else if (section.alarmMediList.length === 1){
       result = section.alarmMediList[0].umName;
     }
-    
-    replaceHeaderUmName(result);
 
     return (
       <View style={styles.header}>
-        <Text style={styles.headerText}>{headerUmName}</Text>
+        <Text style={styles.headerText}>{replaceHeaderUmName(result)}</Text>
         <View style={styles.dateContainer}>
           <Text style={styles.dateText}>{date}</Text>
           <Icon name="chevron-down" color="black" backgroundColor='white' size={35}/>
@@ -38,9 +36,9 @@ const AccordionView = ({navigation}) => {
 
   const replaceHeaderUmName = (name) => {
     if (name.includes('(')) {
-      setHeaderUmName(name.replace(/\(/g, '\n('));
+      return name.replace(/\(/g, '\n(');
     } else {
-      setHeaderUmName(name);
+      return name;
     }
   }
 
