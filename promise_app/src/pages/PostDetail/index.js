@@ -86,7 +86,7 @@ const PostDetailPage = ({navigation, route}) => {
               </View>
             </View>
             {commentList.length != 0
-              ? <View style={{backgroundColor:"#F4F4F4", minHeight:323}}>
+              ? <View style={styles.commentListContainer}>
                   <CommentList postId={postId} commentList={commentList} />
                 </View>
               :
@@ -120,15 +120,17 @@ const PostDetailPage = ({navigation, route}) => {
                 <Text style={styles.itemContentText}>{post.commuContents}</Text>
               </View>
             </View>
-            <InputCommentText name="댓글" result={data => onChangeComment(data)} postId={postId} refreshComments={refreshComments} />  
+            <KeyboardAvoidingView>
+              <InputCommentText name="댓글" result={data => onChangeComment(data)} postId={postId} refreshComments={refreshComments} />  
+            </KeyboardAvoidingView>
             {commentList.length != 0
                 ? (
-                  <View style={{backgroundColor:"#F4F4F4", minHeight:330}}>
+                  <View style={styles.commentListContainerIOS}>
                    <CommentList postId={postId} commentList={commentList} />
                   </View>
                 )
                 : (
-                  <View style={styles.noComments} >
+                  <View style={styles.noCommentsIOS} >
                     <Text style={{color:'#8e8e8f'}}>가장 먼저 댓글을 작성해보세요</Text>
                   </View>
                 ) 
@@ -192,8 +194,25 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '500',
   },
+  commentListContainer: {
+    backgroundColor:"#F4F4F4",
+    minHeight:323
+  },
+  commentListContainerIOS: {
+    backgroundColor:"#F4F4F4",
+    minHeight:329,
+    marginBottom: 6
+  },
   noComments: {
     minHeight:323,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 1,
+    backgroundColor: '#F4F4F4',
+  },
+  noCommentsIOS: {
+    minHeight:330,
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
