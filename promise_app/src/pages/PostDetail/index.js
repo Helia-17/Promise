@@ -68,16 +68,16 @@ const PostDetailPage = ({navigation, route}) => {
         <View style={{ height: '100%'}}>
           <ScrollView style={{ width: '100%', marginTop: 10, marginBottom: 80}} contentContainerStyle={{flexDirection:'column', justifyContent:'center'}}>
             <View style={styles.container}>
-              <View style={styles.subContainer}>
-                <Text style={styles.itemTitleText}>{post.commuTitle}</Text>
-                {userNickname === post.userNickname?
+              {userNickname === post.userNickname?
                 <View style={styles.buttonContainer}>
                   <SmallBtn value='수정' func={()=>navigation.navigate('communityupdate', {postId:postId, post: post})}/>
                   <Text style={{color:'black', fontSize:15, fontWeight:'bold'}}>|</Text>
                   <SmallBtn value='삭제' func={()=>postDelete()}/>
                 </View>
                 : null
-                }
+              }
+              <View style={styles.subContainer}>
+                <Text style={styles.itemTitleText}>{post.commuTitle}</Text>
               </View>
               <View>
                 <Text style={styles.itemNameText}>{post.userNickname}</Text>
@@ -103,16 +103,16 @@ const PostDetailPage = ({navigation, route}) => {
         <View>
           <ScrollView style={{width: '100%', padding: 5}}>
             <View style={styles.container}>
-              <View >
+              {userNickname === post.userNickname?
+              <View style={styles.buttonContainer}>
+                <SmallBtn value='수정' func={()=>navigation.navigate('communityupdate', {postId:postId, post: post})}/>
+                <Text style={{color:'black', fontSize:15, fontWeight:'bold'}}>|</Text>
+                <SmallBtn value='삭제' func={()=>postDelete()}/>
+              </View>
+              : null
+              }
+              <View style={styles.subContainer}>
                   <Text style={styles.itemTitleText}>{post.commuTitle}</Text>
-                {userNickname === post.userNickname?
-                <View style={styles.buttonContainer}>
-                  <SmallBtn value='수정' func={()=>navigation.navigate('communityupdate', {postId:postId, post: post})}/>
-                  <Text style={{color:'black', fontSize:15, fontWeight:'bold'}}>|</Text>
-                  <SmallBtn value='삭제' func={()=>postDelete()}/>
-                </View>
-                : null
-                }
               </View>
               <View>
                 <Text style={styles.itemNameText}>{post.userNickname}</Text>
@@ -159,12 +159,14 @@ const styles = StyleSheet.create({
     color: '#333333',
   },
   subContainer : {
+    marginTop: 5,
+    width: '100%',
     flexDirection:'row', 
     alignItems:'center', 
     justifyContent:'space-between'
   },
   buttonContainer: {
-    marginVertical:5, 
+    width: '100%',
     flexDirection: 'row', 
     justifyContent:'flex-end', 
     alignItems: 'center'
@@ -179,6 +181,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     fontWeight: '700',
     paddingVertical: 5,
+    width: '100%'
   },
   itemContentText: {
     fontSize: 16,
