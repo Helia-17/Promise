@@ -1,19 +1,16 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState } from 'react';
 import {View, Text, StyleSheet, FlatList, TouchableHighlight } from 'react-native';
-import { Divider } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import useCommunity from '../../utils/useCommunity';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCommunityAPI } from '../../utils/axios';
 import { getPostDetailAction, getMoreCommunityAction } from '../../modules/community/actions';
-import Moment from 'moment';
+import moment from 'moment-timezone'
 
-const PostList = (props) => {
+const PostList = () => {
   
   const dispatch = useDispatch()
-  const navigation = useNavigation(); 
-
-  // infinite scroll
+  const navigation = useNavigation();
   const pageNum = useSelector(state => state.community.pageNum)
   const hasMore = useSelector(state => state.community.hasMore)
   const communityList = useSelector(state => state.community.communityList)
@@ -43,15 +40,15 @@ const PostList = (props) => {
       onMomentumScrollBegin = {() => {setOnEndReachedCalledDuringMomentum(false)}}
       onEndReached = {() => {
           if (!onEndReachedCalledDuringMomentum) {
-            getMorePost()    // LOAD MORE DATA
+            getMorePost()
             setOnEndReachedCalledDuringMomentum(true)
           }
         }
       }
       renderItem={({item, index}) => {
 
-        const subDate = item.commuDate.substr(0, 16)
-        const postDate = Moment(subDate).format("YYYY.MM.DD HH:mm")
+        const subDate = item.commuDate;
+        const postDate = moment(subDate).tz("Asia/Seoul").format("YYYY.MM.DD HH:mm")
         const isLastPost = (communityList.length === index+1)
 
       return (
@@ -70,7 +67,6 @@ const PostList = (props) => {
         </TouchableHighlight>
         :
         <>
-        {/* <TouchableHighlight onPress={()=>getMorePost()}><Text>{pageNum}{hasMore?'true':'false'}</Text></TouchableHighlight> */}
         <TouchableHighlight onPress={()=>getCommunityDetail(item)} underlayColor="white">
           <View style={styles.container} key={item.commuId}>
               <View style={styles.subContainer}>

@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import { View, Text,  TextInput, TouchableOpacity, KeyboardAvoidingView, StyleSheet, ScrollView, Keyboard, TouchableWithoutFeedback  } from 'react-native';
-import InputScrollView from 'react-native-input-scroll-view';
+import { View, Text,  TextInput, TouchableOpacity, StyleSheet, ScrollView, Keyboard, TouchableWithoutFeedback  } from 'react-native';
 import { getCommunityAPI } from '../../utils/axios';
 import { changePostDetailAction } from '../../modules/community/actions';
 
@@ -13,21 +12,27 @@ const InputCommentText = (props) => {
     }
 
     const createComment = () => {
-        getCommunityAPI.commentCreate(props.postId, text).then(res => {
-            onChangeText('')
-            changePostDetailAction()
-            Keyboard.dismiss()
-          }).then(()=>{props.refreshComments()})
+        if (text === '') {
+            alert('댓글을 입력해주세요.');
+        } else {
+            getCommunityAPI.commentCreate(props.postId, text).then(res => {
+                onChangeText('')
+                changePostDetailAction()
+                Keyboard.dismiss()
+              }).then(()=>{props.refreshComments()})
+        }
     }
 
     return(
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <ScrollView>
             <View style={styles.commentContainer}>
                 <TextInput onChangeText={handleText} multiline placeholder={props.name} value={text} style={styles.commentInput}/>
                 <TouchableOpacity style={styles.commentInsert} onPress={createComment}>
                     <Text>등록</Text>
                 </TouchableOpacity>
             </View >
+            </ScrollView>
         </TouchableWithoutFeedback>
 
     );

@@ -1,6 +1,3 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useDispatch, useSelector } from 'react-redux';
-import axios from "axios";
 import { getCommunityAPI } from '../axios';
 
 const useCommunityResult = (communitySearchList, askPage, totalPageCnt, searchKeyword) => {
@@ -16,13 +13,13 @@ const useCommunityResult = (communitySearchList, askPage, totalPageCnt, searchKe
         pageNum === res.totalPageCnt
         ? hasMore = false
         : hasMore = true
-      })
+      });
 
-      return {communityDetailList, hasMore, totalPages, pageNum}
+      return {communityDetailList, hasMore, totalPages, pageNum};
 
   }
-  const result = getCommunity(pageNum)
-  return result
+  const result = getCommunity(pageNum);
+  return result;
 
 }
 

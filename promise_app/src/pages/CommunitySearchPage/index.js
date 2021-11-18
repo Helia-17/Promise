@@ -1,18 +1,14 @@
-import React, {useState, useEffect} from 'react';
-import { View, ScrollView, Text } from 'react-native';
-import { getCommunityAPI } from '../../utils/axios';
-import { getCommunityAction } from '../../modules/community/actions';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { View } from 'react-native';
+import { useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RoundBtn from '../../components/atoms/RoundBtn'; 
 import SearchResultBar from '../../components/community/SearchResultBar';
 import SearchResultList from '../../components/community/SearchResultList';
 
-const CommunitySearchPage = ({navigation, route}) => {
+const CommunitySearchPage = ({navigation}) => {
 
-    const dispatch = useDispatch();
-    const searchKeyword = useSelector((state)=>state.community.searchKeyword)
-    const [ created, setCreated ] = useState(false)
+    const searchKeyword = useSelector((state)=>state.community.searchKeyword);
     
     return (
         <View  style={{ flex: 1, alignItems: 'center', backgroundColor:'#F9F9F9' }}>

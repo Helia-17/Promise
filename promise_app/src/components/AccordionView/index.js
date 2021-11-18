@@ -9,7 +9,6 @@ import Spinner from 'react-native-loading-spinner-overlay';
 const AccordionView = ({navigation}) => {
   const [activeSections, setActiveSections] = useState([]);
   const [myPillList, setMyPillList] = useState([]);
-  const [headerUmName, setHeaderUmName] = useState('');
   const [spinVisible, setSpinvisible] = useState();
 
   const renderHeader = (section) => {

@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useCallback} from 'react';
 import { useFocusEffect } from '@react-navigation/core';
 import {
   View,
@@ -16,7 +16,7 @@ import { getCommunityAction, resetCommunityListAction, getPostDetailAction } fro
 import SmallBtn from '../../components/atoms/SmallBtn';
 import CommentList from '../../components/community/CommentList';
 import InputCommentText from '../../components/InputCommentText';
-import Moment from 'moment';
+import moment from 'moment-timezone'
 
 const PostDetailPage = ({navigation, route}) => {
 
@@ -26,7 +26,7 @@ const PostDetailPage = ({navigation, route}) => {
   const [ userNickname, setUserNickname ] = useState(stateUserNickname)
 
   const postId = route.params.post.commuId
-  const postDate = Moment(route.params.postDate).format("YYYY.MM.DD HH:mm")
+  const postDate = moment(route.params.postDate).tz("Asia/Seoul").format("YYYY.MM.DD HH:mm")
   const post = useSelector((state) => state.community.communityPostDetail)
 
   const commentList = useSelector((state) => state.community.communityPostDetail.commuCommentDetailList)
@@ -45,13 +45,6 @@ const PostDetailPage = ({navigation, route}) => {
     }, [])
 );
 
-
-  const getCommunityDetail = () => {
-    getCommunityAPI.detail(postId).then(res => {
-      getPostDetailAction(res)
-    })
-  }
-
   const postDelete = () => {
     getCommunityAPI.delete(postId).then(res => {
       dispatch(resetCommunityListAction())
@@ -65,8 +58,8 @@ const PostDetailPage = ({navigation, route}) => {
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       {Platform.OS === 'android' ? (
-        <View style={{ height: '100%'}}>
-          <ScrollView style={{ width: '100%', marginTop: 10, marginBottom: 80}} contentContainerStyle={{flexDirection:'column', justifyContent:'center'}}>
+        <View style={{ height: '100%',backgroundColor:"#F4F4F4",}}>
+          <ScrollView style={{ width: '100%', marginBottom: 80}} contentContainerStyle={{flexDirection:'column', justifyContent:'center'}}>
             <View style={styles.container}>
               {userNickname === post.userNickname?
                 <View style={styles.buttonContainer}>
@@ -86,7 +79,7 @@ const PostDetailPage = ({navigation, route}) => {
               </View>
             </View>
             {commentList.length != 0
-              ? <View style={{backgroundColor:"#F4F4F4", minHeight:333}}>
+              ? <View style={styles.commentListContainer}>
                   <CommentList postId={postId} commentList={commentList} />
                 </View>
               :
@@ -120,15 +113,17 @@ const PostDetailPage = ({navigation, route}) => {
                 <Text style={styles.itemContentText}>{post.commuContents}</Text>
               </View>
             </View>
-            <InputCommentText name="댓글" result={data => onChangeComment(data)} postId={postId} refreshComments={refreshComments} />  
+            <KeyboardAvoidingView>
+              <InputCommentText name="댓글" result={data => onChangeComment(data)} postId={postId} refreshComments={refreshComments} />  
+            </KeyboardAvoidingView>
             {commentList.length != 0
                 ? (
-                  <View style={{backgroundColor:"#F4F4F4", minHeight:330}}>
+                  <View style={styles.commentListContainerIOS}>
                    <CommentList postId={postId} commentList={commentList} />
                   </View>
                 )
                 : (
-                  <View style={styles.noComments} >
+                  <View style={styles.noCommentsIOS} >
                     <Text style={{color:'#8e8e8f'}}>가장 먼저 댓글을 작성해보세요</Text>
                   </View>
                 ) 
@@ -159,7 +154,6 @@ const styles = StyleSheet.create({
     color: '#333333',
   },
   subContainer : {
-    marginTop: 5,
     width: '100%',
     flexDirection:'row', 
     alignItems:'center', 
@@ -193,8 +187,25 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '500',
   },
+  commentListContainer: {
+    backgroundColor:"#F4F4F4",
+    // minHeight:323
+  },
+  commentListContainerIOS: {
+    backgroundColor:"#F4F4F4",
+    minHeight:329,
+    marginBottom: 6
+  },
   noComments: {
-    minHeight:333,
+    minHeight:323,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 1,
+    backgroundColor: '#F4F4F4',
+  },
+  noCommentsIOS: {
+    minHeight:330,
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',

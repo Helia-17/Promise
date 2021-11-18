@@ -86,13 +86,9 @@ function S3Upload(props) {
 
                     promise_delete.then(
                         function () {
-                            console.log("delete success");
                             RNS3.put(file, options)
                             .then((response)=>{
-                                if(response.status!==201){
-                                    console.log('fail');
-                                }else{
-                                    console.log('success');
+                                if(response.status===201){
                                     sendAPI();
                                 }
                             })
@@ -104,10 +100,7 @@ function S3Upload(props) {
                 }else{
                     RNS3.put(file, options)
                     .then((response)=>{
-                        if(response.status!==201){
-                            console.log('fail');
-                        }else{
-                            console.log('success');
+                        if(response.status===201){
                             sendAPI();
                         }
                     })

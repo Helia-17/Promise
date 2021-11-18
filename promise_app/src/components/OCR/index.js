@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React from 'react';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {Alert, TouchableOpacity } from 'react-native';
