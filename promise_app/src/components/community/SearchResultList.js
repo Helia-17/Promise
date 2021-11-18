@@ -6,7 +6,7 @@ import useCommunityResult from '../../utils/useCommunityResult';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCommunityAPI } from '../../utils/axios';
 import { getPostDetailAction, getMoreCommunitySearchAction } from '../../modules/community/actions';
-import Moment from 'moment';
+import moment from 'moment-timezone'
 
 const SearchResultList = (props) => {
 
@@ -53,7 +53,7 @@ const SearchResultList = (props) => {
       renderItem={({item, index}) => {
 
         const subDate = item.commuDate.substr(0, 16)
-        const postDate = Moment(subDate).format("YYYY.MM.DD HH:mm")
+        const postDate = moment(subDate).tz("Asia/Seoul").format("YYYY.MM.DD HH:mm")
         const isLastPost = (communitySearchList.length === index+1)
 
       return (
