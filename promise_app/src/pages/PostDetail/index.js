@@ -86,7 +86,7 @@ const PostDetailPage = ({navigation, route}) => {
               </View>
             </View>
             {commentList.length != 0
-              ? <View style={{backgroundColor:"#F4F4F4", minHeight:333}}>
+              ? <View style={{backgroundColor:"#F4F4F4", minHeight:323}}>
                   <CommentList postId={postId} commentList={commentList} />
                 </View>
               :
@@ -144,7 +144,7 @@ const PostDetailPage = ({navigation, route}) => {
 const styles = StyleSheet.create({
   container: {
     minHeight: 200,
-    paddingVertical: 10,
+    paddingBottom: 5,
     paddingHorizontal: 14,
     shadowColor: '#f1f2f3',
     shadowOffset: {
@@ -159,7 +159,6 @@ const styles = StyleSheet.create({
     color: '#333333',
   },
   subContainer : {
-    marginTop: 5,
     width: '100%',
     flexDirection:'row', 
     alignItems:'center', 
@@ -194,7 +193,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   noComments: {
-    minHeight:333,
+    minHeight:323,
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
