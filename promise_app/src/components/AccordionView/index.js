@@ -4,11 +4,13 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Accordion from 'react-native-collapsible/Accordion';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getMyPillAPI } from '../../utils/axios';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const AccordionView = ({navigation}) => {
   const [activeSections, setActiveSections] = useState([]);
   const [myPillList, setMyPillList] = useState([]);
   const [headerUmName, setHeaderUmName] = useState('');
+  const [spinVisible, setSpinvisible] = useState();
 
   const renderHeader = (section) => {
     var date = section.alarmDayStart + " ~ " + section.alarmDayEnd;
@@ -72,8 +74,10 @@ const AccordionView = ({navigation}) => {
   };
 
   const getMyPillList = async () => {
+    setSpinvisible(true);
     const res = await getMyPillAPI();
     setMyPillList(res);
+    setSpinvisible(false);
   }
   
   useFocusEffect(
@@ -89,6 +93,7 @@ const AccordionView = ({navigation}) => {
   
   return (
     <View style={{ width: '100%', paddingVertical: 10, paddingHorizontal: 15 }} >
+      <Spinner visible={spinVisible} />
       {myPillList.length > 0 ? (
         <Accordion
           sections={myPillList}

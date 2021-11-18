@@ -1,22 +1,28 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const MyPillHistoryList = ({ item }) => {
-  console.log("HistoryView : ", item);
+const MyPillHistoryList = ({item}) => {
+  const name = () => {
+    if (item.mediinfo.includes('(')) {
+      return item.mediinfo.replace(/\(/g, '\n(');
+    } else {
+      return item.mediinfo;
+    }
+  }
   return (
-    <TouchableOpacity style={styles.alarmHistoryList}>
+    <View style={styles.alarmHistoryList}>
       <View style={{width: '100%'}}>
         <View style={styles.mediInfoTitleContainer}>
-            <Icon name='pill' color='black' size={20}/>
-            <Text style={styles.mediInfoNameText}>{item.mediinfo.name}</Text>
+            <Icon name='pill' color='black' size={20} style={{marginRight:10}}/>
+            <Text style={styles.mediInfoNameText}>{name()}</Text>
         </View>
         <View style={styles.mediInfoContent}>
           <Text style={styles.thTimeText}>{item.date}</Text>
           <Text style={styles.alarmTitleText}>{item.memo}</Text>
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
@@ -44,7 +50,7 @@ const styles = StyleSheet.create({
   },
   mediInfoNameText: {
     marginLeft: 5,
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: '400'
   },
   thTimeText: {

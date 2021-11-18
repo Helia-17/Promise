@@ -5,13 +5,17 @@ import InfoWarinings from '../../components/InfoWarinings';
 import PillInfo from '../../components/PillInfo';
 import { getMediDetailAPI } from '../../utils/axios';
 import Icon from 'react-native-vector-icons/AntDesign';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const MyPillInfo = (props) => {
     const [mediDetail, setMediDetail] = useState([]);
+    const [spinVisible, setSpinvisible] = useState();
 
     const getMediDetail = async () => {
+        setSpinvisible(true);
         const res = await getMediDetailAPI(props.route.params.serialNumber);
         setMediDetail(res);
+        setSpinvisible(false);
     }
 
     useEffect(() => {
@@ -20,6 +24,7 @@ const MyPillInfo = (props) => {
 
     return (
         <View style={{ flex: 1, backgroundColor: '#F9F9F9' }}>
+            <Spinner visible={spinVisible} />
             <View style={{width: '90%', alignItems: 'flex-start', marginTop: 10}}>
                 <Icon.Button
                 name="left"
@@ -50,7 +55,7 @@ const MyPillInfo = (props) => {
                 mediDetail.mediNotWith == '' &&
                 mediDetail.mediAllergy == ''
                 ? (
-                    <View style={{ width: '100%', height:'65%', alignItems: 'center', justifyContent: 'center' }}>
+                    <View style={{ width: '100%', height:'40%', alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={{ fontSize: 20, color: '#BBBBBB' }}>이 약에 대한 상세 정보가 없습니다.</Text>
                         <Text style={{fontSize:20, color:'#BBBBBB'}}>의사 또는 약사와 상의해주세요.</Text>
                     </View>

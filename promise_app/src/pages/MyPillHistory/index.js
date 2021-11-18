@@ -2,81 +2,62 @@ import React, {useCallback, useState} from 'react';
 import { useFocusEffect } from '@react-navigation/core';
 import { View, StyleSheet, FlatList } from 'react-native';
 import MyPillHistoryList from '../../components/MyPillHistory';
+import Moment from 'moment';
 import { getMyPillHistoryAPI } from '../../utils/axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const MyPillHistory = ({navigation}) => {
-
-  const list = [
-    {
-      id: 1,
-      mediinfo: {
-        name: '타이레놀',
-        company: '(주)한국얀센'
-      },
-      date: '2021.10.18 04:34',
-      memo: '삼성병원허리통증약'
-    },
-    {
-      id: 2,
-      mediinfo: {
-        name: '타이레놀',
-        company: '(주)한국얀센'
-      },
-      date: '2021.10.18 04:34',
-      memo: '삼성병원허리통증약'
-    },
-    {
-      id: 3,
-      mediinfo: {
-        name: '타이레놀',
-        company: '(주)한국얀센'
-      },
-      date: '2021.10.18 04:34',
-      memo: '삼성병원허리통증약'
-    },
-    {
-      id: 4,
-      mediinfo: {
-        name: '타이레놀',
-        company: '(주)한국얀센'
-      },
-      date: '2021.10.18 04:34',
-      memo: '삼성병원허리통증약'
-    },
-  ];
   const [historyList, setHistoryList] = useState([]);
   const [totalPageCnt, setTotalPageCnt] = useState();
   const [pageNum, setPageNum] = useState(1);
+  const [spinVisible, setSpinvisible] = useState();
+  const [loading, setloading] = useState(false);
     
     const getMyPillHistoryList = async () => {
+      setloading(true);
+      setSpinvisible(true);
       const res = await getMyPillHistoryAPI(pageNum);
-      console.log("History : ", res);
-      console.log("res type : ", typeof res);
-      setHistoryList(historyList.concat(res));
+      setHistoryList(historyList.concat(res.alarmHistoryList));
       setPageNum(pageNum + 1);
       setTotalPageCnt(res.totalPageCnt);
-      console.log(totalPageCnt);
+      setloading(false);
+      setSpinvisible(false);
     }
     
+    const getHistoryList = (data) => {
+      let result = [];
+      let cnt = 1;
+      data.map((item) => {
+        item.alarmMediList.map((i)=>{
+          result.push({id:cnt , alarmId:item.alarmId, mediinfo:i, date:Moment(item.thTime).format('YYYY.MM.DD HH:mm'), memo:item.alarmTitle});
+          cnt += 1;
+        });
+      })
+      return result;
+    }
+
     useFocusEffect(
       useCallback(()=>{
         getMyPillHistoryList();
       }, [])
     );
   
-    const renderItem = ({ item }) => (
-      <MyPillHistoryList item={item}/>
-    );
+    const renderItem = ({ item }) => {
+      return(
+        <MyPillHistoryList item={item} />
+      )
+    };
 
     return (
       <View style={styles.pillHistoryContainer}>
+        <Spinner visible={spinVisible} />
         <View style={styles.pillHistoryList}>
-          <FlatList
-            data={historyList}
-            // renderItem={renderItem}
-            onEndReached={() => getMyPillHistoryList()}
-            keyExtractor={item => item.alarmId}
+          <FlatList 
+            data={getHistoryList(historyList)}
+            renderItem={renderItem}
+            onEndReached={() => {if(loading===false && pageNum<=totalPageCnt) getMyPillHistoryList()}}
+            onEndReachedThreshold={0.4}
+            keyExtractor={item => item.id}
           />
         </View>
       </View>
@@ -95,7 +76,8 @@ const styles = StyleSheet.create({
   },
   pillHistoryList: {
     flexDirection: 'column',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginBottom:10
   },
   pillHistoryItem: {
     borderRadius:5,
