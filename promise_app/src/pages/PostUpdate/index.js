@@ -1,12 +1,8 @@
-import React, {useState, useEffect} from 'react';
-import { View, ScrollView, Text, TouchableOpacity, TextInput, StyleSheet, Keyboard, TouchableWithoutFeedback } from 'react-native';
-
+import React, {useState} from 'react';
+import { View, ScrollView, Text, TouchableOpacity, StyleSheet, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { getCommunityAPI } from '../../utils/axios';
 import { useDispatch } from 'react-redux';
 import { getCommunityAction, resetCommunityListAction } from '../../modules/community/actions';
-
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; 
-import InputText from '../../components/InputText';
 import InputLongText from '../../components/InputLongText';
 import InputTitleText from '../../components/InputTitleText';
 

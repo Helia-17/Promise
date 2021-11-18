@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { Text } from 'react-native';
 
 const SmallBtnBackground = styled.TouchableOpacity`
   color: black;

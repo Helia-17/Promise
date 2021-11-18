@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import { View, Text,  TextInput, TouchableOpacity, KeyboardAvoidingView, StyleSheet, ScrollView, Keyboard, TouchableWithoutFeedback  } from 'react-native';
-import InputScrollView from 'react-native-input-scroll-view';
+import { View, Text,  TextInput, TouchableOpacity, StyleSheet, ScrollView, Keyboard, TouchableWithoutFeedback  } from 'react-native';
 import { getCommunityAPI } from '../../utils/axios';
 import { changePostDetailAction } from '../../modules/community/actions';
 

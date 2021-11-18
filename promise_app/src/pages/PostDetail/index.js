@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useCallback} from 'react';
 import { useFocusEffect } from '@react-navigation/core';
 import {
   View,
@@ -44,13 +44,6 @@ const PostDetailPage = ({navigation, route}) => {
       setUserNickname(stateUserNickname)
     }, [])
 );
-
-
-  const getCommunityDetail = () => {
-    getCommunityAPI.detail(postId).then(res => {
-      getPostDetailAction(res)
-    })
-  }
 
   const postDelete = () => {
     getCommunityAPI.delete(postId).then(res => {

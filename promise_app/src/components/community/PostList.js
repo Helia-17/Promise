@@ -7,7 +7,7 @@ import { getCommunityAPI } from '../../utils/axios';
 import { getPostDetailAction, getMoreCommunityAction } from '../../modules/community/actions';
 import moment from 'moment-timezone'
 
-const PostList = (props) => {
+const PostList = () => {
   
   const dispatch = useDispatch()
   const navigation = useNavigation();

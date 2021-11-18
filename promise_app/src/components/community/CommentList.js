@@ -1,7 +1,6 @@
-import React, { useState, forwardRef } from 'react';
+import React from 'react';
 import {View, Text, StyleSheet, TouchableHighlight, ScrollView } from 'react-native';
 import CommentBtn from '../atoms/CommentBtn';
-// axios, redux
 import { getCommunityAPI } from '../../utils/axios';
 import { getPostDetailAction } from '../../modules/community/actions';
 import { useSelector, useDispatch } from 'react-redux';

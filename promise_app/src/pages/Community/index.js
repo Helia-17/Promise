@@ -1,28 +1,26 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useCallback} from 'react';
 import { useFocusEffect } from '@react-navigation/core';
-import { View, ScrollView, Text } from 'react-native';
-import { Divider } from 'react-native-paper';
+import { View } from 'react-native';
 import { getCommunityAPI } from '../../utils/axios';
 import { getCommunityAction } from '../../modules/community/actions';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RoundBtn from '../../components/atoms/RoundBtn'; 
 import SearchBar from '../../components/community/SearchBar';
 import PostList from '../../components/community/PostList';
 
-const CommunityPage = ({navigation, route}) => {
+const CommunityPage = ({navigation}) => {
 
     const dispatch = useDispatch();
-    const [ communityList, setCommunityList ] = useState([])
-    const [ created, setCreated ] = useState(false)
-    const [ searchKeyword, setSearchKeyword ] = useState('')
+    const [ communityList, setCommunityList ] = useState([]);
+    const [ searchKeyword, setSearchKeyword ] = useState('');
 
     const getCommunity = () => {
         return getCommunityAPI.list(1).then(res => {
-            dispatch(getCommunityAction(res))
-            setCommunityList(res.communityDetailList)
+            dispatch(getCommunityAction(res));
+            setCommunityList(res.communityDetailList);
         })   
-    }
+    };
     
     useFocusEffect(
         useCallback(()=>{

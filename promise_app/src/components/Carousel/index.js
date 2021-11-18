@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import {FlatList, View, Text, ImageBackground} from 'react-native';
-// import { blueGrey100 } from 'react-native-paper/lib/typescript/styles/colors';
+import {FlatList, View, ImageBackground} from 'react-native';
 import styled from 'styled-components/native';
 import ChartPage from '../../pages/ChartPage';
 import PetPage from '../../pages/Pet';
@@ -20,7 +19,6 @@ const Indicator = styled.View`
 `;
 
 const IndicatorWrapper = styled.View`
-  // position: absolute;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -30,7 +28,7 @@ const IndicatorWrapper = styled.View`
 export default function Carousel({pages, pageWidth, gap, offset}) {
   const [page, setPage] = useState(0);
 
-  function renderItem({item}) {
+  function renderItem() {
     return (
     <>
       <View style={{ width: pageWidth, marginHorizontal: gap / 2}}>
@@ -41,7 +39,6 @@ export default function Carousel({pages, pageWidth, gap, offset}) {
           ))}
         </IndicatorWrapper>
       </View>
-      {/* 여기 백그라운드 컬러 지워버림 */}
       <ImageBackground 
       source={require("../../assets/pet-bg.png")}
       imageStyle={{ opacity: 0.7 }}>
@@ -85,14 +82,6 @@ export default function Carousel({pages, pageWidth, gap, offset}) {
         snapToAlignment="start"
         showsHorizontalScrollIndicator={false}
       />
-      {/* <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', height: '10%'}}>
-        <IndicatorWrapper>
-            {Array.from({length: 2}, (_, i) => i).map((i) => (
-              <Indicator key={`indicator_${i}`} focused={i === page} />
-            ))}
-        </IndicatorWrapper>
-      </View> */}
-
     </Container>
   );
 }

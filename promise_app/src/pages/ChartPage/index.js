@@ -9,7 +9,7 @@ import { getMainAlarmList } from '../../modules/user/actions';
 import { useDispatch } from 'react-redux';
 import Moment from 'moment';
 
-const ChartPage = ({navigation}) => {
+const ChartPage = () => {
 
   const dispatch = useDispatch();
   const [alarmList, setAlarmList] = useState('');
@@ -47,7 +47,7 @@ const ChartPage = ({navigation}) => {
       gettingVisual();
       setSpinvisible(false);
       return () => {
-        setVisualData([])
+        setVisualData([]);
       }
     }, [])
   );
